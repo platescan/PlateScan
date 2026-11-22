@@ -1,13 +1,14 @@
 // Runs every hour on GitHub Actions. Sends a streak reminder to each user who:
 //  - turned reminders on, and it's at or past their chosen hour (in their time zone)
 //  - hasn't logged a meal today, and hasn't already been reminded today
-import admin from 'firebase-admin';
+import { initializeApp, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
 import webpush from 'web-push';
 
 const sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT || '{}');
 if (!sa.project_id) { console.log('FIREBASE_SERVICE_ACCOUNT secret is missing. Skipping.'); process.exit(0); }
-admin.initializeApp({ credential: admin.credential.cert(sa) });
-const db = admin.firestore();
+initializeApp({ credential: cert(sa) });
+const db = getFirestore();
 webpush.setVapidDetails('mailto:' + (process.env.CONTACT_EMAIL || 'reminders@platescan.app'), process.env.VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
 
 function localNow(tz) {
