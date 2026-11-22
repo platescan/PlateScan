@@ -1,23 +1,22 @@
 # PlateScan setup
 
-## 1. Put the app online (GitHub Pages)
-1. In your GitHub repository, click **Add file → Upload files** (or the "uploading an existing file" link on an empty repository).
-2. Drag in all the files from this folder: `index.html`, `config.js`, `manifest.json`, `icon-180.png`, `icon-192.png`, `icon-512.png`. Files with the same name replace the old ones.
-3. Click **Commit changes**.
-4. **Settings → Pages** → Branch: **main**, folder **/ (root)** → **Save**.
-5. Your app is at `https://YOUR-USERNAME.github.io/PlateScan/`. Open it in Safari on iPhone → **Share → Add to Home Screen**.
+Steps 1–3 are already done if your app and accounts work. For this update, start at **Upload the update**, then do steps 4–6.
 
-The app works right away without accounts. Steps 2–3 turn on sign-up.
+## Upload the update
+1. Unzip PlateScan.zip. Inside are `index.html`, `sw.js`, `SETUP.md`, a `reminders` folder and a `.github` folder.
+2. In your repository: **Add file → Upload files**. Drag in **everything** from the unzipped folder, including both folders. Files with the same name replace the old ones.
+3. **Commit changes.**
 
-## 2. Turn on accounts (free Firebase project, about 10 minutes, no credit card)
-1. Go to **console.firebase.google.com** and sign in with a Google account.
-2. **Create a project** → name it `PlateScan` → you can turn Google Analytics off → **Create project**.
-3. Left menu: **Build → Authentication → Get started**.
-   - **Sign-in method** tab → **Email/Password** → turn on the first switch → **Save**.
-   - **Settings** tab → **Authorized domains** → **Add domain** → `YOUR-USERNAME.github.io` → **Add**.
-4. Left menu: **Build → Firestore Database → Create database**.
-   - Pick a location near you (for example `nam5 (United States)`), choose **Start in production mode**, then **Create**.
-   - Open the **Rules** tab, replace everything with the rules below, and click **Publish**:
+`config.js` is not in the zip on purpose. Your copy on GitHub already has your Firebase settings, so leave it alone.
+
+## 1. Put the app online (GitHub Pages), already done
+Settings → Pages → Branch **main**, folder **/ (root)** → Save. Leave Custom domain empty.
+
+## 2–3. Accounts (Firebase), already done
+Email/Password sign-in turned on, your github.io address in Authorized domains, Firestore created, settings pasted into `config.js`.
+
+## 4. Update the database rules (needed for the widget)
+Firebase console → **Databases & Storage → Firestore → Rules**. Replace everything with this and click **Publish**:
 
 ```
 rules_version = '2';
@@ -26,36 +25,58 @@ service cloud.firestore {
     match /users/{uid}/{document=**} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
     }
+    match /widgets/{token} {
+      allow get: if true;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
   }
 }
 ```
 
-   These rules mean each person can only read and write their own data.
+The widget reads a small public summary (streak, level, logged today) stored under a random code that only your widget script knows. Your meals and everything else stay private.
 
-5. Click the gear icon next to **Project Overview → Project settings**. Under **Your apps**, click the **</>** (Web) icon → nickname `PlateScan` → **Register app** (skip Firebase Hosting).
-6. Firebase shows a block of code with `const firebaseConfig = { apiKey: "...", authDomain: "...", ... };`. Copy just the lines **inside** the `{ }`.
+## 5. Turn on streak reminders (free, about 10 minutes)
+Reminders are sent by a free hourly job that runs on GitHub.
 
-## 3. Paste your settings into config.js
-1. On GitHub, open `config.js` → click the **pencil icon (Edit)**.
-2. Paste the lines between the `{` and `}` so it looks like:
+**a. Get a Firebase key for the job**
+1. Firebase console → gear icon → **Project settings → Service accounts** tab.
+2. Click **Generate new private key → Generate key**. A `.json` file downloads.
+3. Open that file in Notepad and copy everything in it.
 
-```js
-export const firebaseConfig = {
-  apiKey: "AIza...",
-  authDomain: "platescan-xxxx.firebaseapp.com",
-  projectId: "platescan-xxxx",
-  storageBucket: "platescan-xxxx.firebasestorage.app",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:abc123"
-};
-```
+**b. Add three secrets on GitHub**
+In your repository: **Settings → Secrets and variables → Actions → New repository secret**. Add each of these:
 
-3. **Commit changes**. Wait a minute, then reload the app. **Create account** now works.
+| Name | Value |
+|---|---|
+| `FIREBASE_SERVICE_ACCOUNT` | everything from the `.json` file |
+| `VAPID_PUBLIC_KEY` | from `reminder-keys.txt` |
+| `VAPID_PRIVATE_KEY` | from `reminder-keys.txt` |
 
-It's safe for these values to be public. They only identify your project, and the rules above protect the data.
+Keep the `.json` file and `reminder-keys.txt` private. Never upload them to the repository.
+
+**c. Check that the job runs**
+1. Open the **Actions** tab. If GitHub asks, click to enable workflows.
+2. Click **Streak reminders → Run workflow**. A green check means it worked. After that it runs by itself every hour.
+
+**d. Turn it on in the app (on your iPhone)**
+1. Open PlateScan **from your Home Screen icon**. Notifications only work there, not in a Safari tab.
+2. Tap your initial (top right) → **Alerts** → turn on **Streak reminder**, choose a time, and tap **Allow**.
+3. Tap **Send a test notification** to check.
+
+If you haven't logged a meal by your chosen time, you'll get a lock screen notification. GitHub's hourly job can run several minutes late. GitHub also pauses scheduled jobs if a repository has no changes for 60 days. If reminders stop, open **Actions** and turn the workflow back on.
+
+## 6. Home & Lock Screen widget
+1. Install **Scriptable** (free) from the App Store.
+2. In PlateScan: your initial → **Alerts** → **Copy widget script**.
+3. Open Scriptable → **+** → paste → name the script `PlateScan`.
+4. **Home Screen:** press and hold an empty spot → Edit → **Add Widget** → Scriptable → pick a size → Add. Tap the widget and set Script to **PlateScan**.
+5. **Lock Screen:** press and hold the Lock Screen → **Customize → Lock Screen** → tap the widget area → Scriptable. Tap the new widget and set Script to **PlateScan**.
+
+The widget refreshes on its own every so often. iOS decides exactly when, usually every 15–30 minutes.
 
 ## Troubleshooting
-- **"Email sign-in isn't switched on"**: redo step 2.3, Sign-in method.
-- **"This web address isn't on Firebase's approved list"**: redo step 2.3, Authorized domains.
-- **"Couldn't load your data: permission-denied"**: check that the rules in step 2.4 were published.
-- **Old version still showing on iPhone**: close the app fully and reopen it, or wait a few minutes for GitHub to update.
+- **Old version still showing:** close the app fully and reopen it, or wait a few minutes.
+- **Reminder switch is grayed out:** open PlateScan from the Home Screen icon and make sure you're signed in.
+- **No notification arrives:** check iPhone **Settings → Notifications → PlateScan**, and the job's latest run in the **Actions** tab.
+- **Widget shows 0 or nothing:** check that the rules from step 4 are published, then open PlateScan once so it saves your latest streak.
