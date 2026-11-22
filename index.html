@@ -292,6 +292,23 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .ctiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;margin:8px 0}
 .ctiles div{background:var(--sunk);border-radius:12px;padding:10px 4px}.ctiles b{display:block;font-size:20px;font-weight:800}.ctiles span{font-size:11px;color:var(--mute)}
 .ctiles em{display:block;font-style:normal;font-size:11px;font-weight:700}
+/* ---------- v7: meal editor + widget builder ---------- */
+.meal[data-meal]{cursor:pointer;transition:background .2s}.meal[data-meal]:active{background:var(--sunk)}
+.item .nm{background:transparent!important;color:var(--ink)!important;padding:0!important;min-height:0!important;font:inherit;text-align:left;display:block;box-shadow:none!important;border-radius:6px}
+.item .nm b::after{content:' ›';color:var(--mute);font-weight:400;display:inline-block;transition:transform .3s var(--spring)}.item.open .nm b::after{transform:rotate(90deg)}
+.idet{grid-column:1/-1;background:var(--sunk);border-radius:12px;padding:10px;margin-top:6px;animation:rise .35s var(--ease) both}
+.idet input{min-height:38px;padding:6px 8px;font-size:16px}
+.editbar{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px}
+.wprev{display:flex;gap:10px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}.wprev::-webkit-scrollbar{display:none}
+.wbox{flex:none;border-radius:22px;padding:13px;color:#fff;background:linear-gradient(135deg,#1d4a37,#2c6d4d);box-shadow:0 6px 18px rgba(0,0,0,.18);display:flex;flex-direction:column;overflow:hidden;animation:rise .4s var(--ease) both}
+.wbox.s{width:150px;height:150px}.wbox.m{width:318px;height:150px}
+.wbox.dark{background:linear-gradient(135deg,#0f1512,#1b2620);color:#eef3ef}.wbox.light{background:linear-gradient(135deg,#ffffff,#eef4ef);color:#14201a;border:1px solid var(--line)}
+.wbox .h{font-size:11px;font-weight:600;opacity:.7}.wbox .big{font-size:32px;font-weight:800;line-height:1;display:flex;gap:6px;align-items:center;margin-top:auto}
+.wbox .lb{font-size:11px;opacity:.85}.wbox .ln{font-size:12px;font-weight:600;display:flex;gap:4px;align-items:center;margin-top:3px;white-space:nowrap;overflow:hidden}
+.wbox .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:auto}.wbox .grid b{font-size:21px;font-weight:800;display:flex;gap:5px;align-items:center;line-height:1.1}
+.wbox svg{flex:none}
+.wlock{flex:none;width:172px;height:76px;border-radius:18px;background:#1c1c1e;color:#fff;padding:10px 12px;font-size:12px;font-weight:600;display:flex;flex-direction:column;justify-content:center;gap:2px;animation:rise .4s var(--ease) both}
+.wlock div{display:flex;gap:5px;align-items:center;white-space:nowrap;overflow:hidden}
 @media(max-width:380px){.ringwrap{grid-template-columns:112px minmax(0,1fr)}.ring{width:112px;height:112px}.ring .big{font-size:24px}.stat b{font-size:20px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}#lvup .box{opacity:1;transform:none}}
 </style>
@@ -381,6 +398,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 <div class="sheet" id="scanSheet" role="dialog" aria-label="Add a meal">
   <div class="sh"><h2 id="scanTitle">New meal</h2><button class="x" data-close="scanSheet" aria-label="Close">×</button></div>
   <div class="sb">
+    <div class="editbar" id="editBar" style="display:none"><label class="f" style="flex:1;margin:0"><span>Time</span><input type="time" id="mealTime"></label><button class="ghost small" id="delMealBtn">Delete meal</button></div>
     <div class="photo">
       <label id="camLbl" for="photo" aria-label="Take or choose a photo"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="4"/></svg><input type="file" id="photo" accept="image/*"></label>
       <img id="preview" alt="Your meal" style="display:none">
@@ -455,7 +473,13 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
       </div>
       <div class="card">
         <b>Home &amp; Lock Screen widget</b>
-        <p class="muted sm" style="margin:2px 0 10px">Shows your streak and whether you've logged today. Uses the free Scriptable app.</p>
+        <p class="muted sm" style="margin:2px 0 10px">Choose what it shows. Tap in the order you want; number 1 is shown biggest.</p>
+        <div class="row" id="wMetrics" style="flex-wrap:wrap;gap:6px"></div>
+        <div class="lbl" style="margin-top:12px">Style</div>
+        <div class="seg" id="wTheme"><button data-wt="green" class="on">Green</button><button data-wt="dark">Dark</button><button data-wt="light">Light</button></div>
+        <div class="lbl">Preview</div>
+        <div class="wprev" id="wPrev"></div>
+        <p class="muted sm" style="margin:0 0 10px">Changes reach your widget within about 15 minutes. No need to copy the script again.</p>
         <button class="small" id="wCopy">Copy widget script</button>
         <div class="muted sm" id="wMsg" style="margin-top:6px"></div>
         <textarea id="wCode" readonly style="display:none;width:100%;height:120px;margin-top:8px;font:12px monospace;border-radius:10px;border:1.5px solid var(--line);background:var(--sunk);color:var(--ink);padding:8px"></textarea>
@@ -463,9 +487,10 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
           <ol class="steps">
             <li>Install <b>Scriptable</b> (free) from the App Store.</li>
             <li>Tap <b>Copy widget script</b> above.</li>
-            <li>Open Scriptable, tap <b>+</b>, paste, and name the script <b>PlateScan</b>.</li>
-            <li><b>Home Screen:</b> press and hold an empty spot → <b>Edit → Add Widget</b> → Scriptable → small or medium → Add. Tap the widget, set Script to <b>PlateScan</b>.</li>
+            <li>Open Scriptable, tap <b>+</b>, paste, and name the script <b>PlateScan</b>. Already have it? Open it, select all, and paste over it once to get the new options.</li>
+            <li><b>Home Screen:</b> press and hold an empty spot → <b>Edit → Add Widget</b> → Scriptable → small, medium or large → Add. Tap the widget, set Script to <b>PlateScan</b>.</li>
             <li><b>Lock Screen:</b> press and hold the Lock Screen → <b>Customize → Lock Screen</b> → tap the widget area → Scriptable. Tap the new widget and set Script to <b>PlateScan</b>.</li>
+            <li><b>Make one widget different:</b> in its settings, type into <b>Parameter</b>, for example <code>quests</code> or <code>kcal,water</code>. Options: streak, quests, kcal, protein, water, level.</li>
           </ol></details>
       </div>
     </div>
@@ -562,11 +587,12 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 <div id="qb" aria-live="polite"><div class="in"><div class="ck" id="qbIc"></div><div><div class="k" id="qbK"></div><b id="qbT"></b></div><div class="xp" id="qbXp"></div></div></div>
 <div id="toast"><span id="toastMsg"></span><button id="toastUndo">Undo</button></div>
 
-<script type="text/plain" id="wTpl">// PlateScan streak widget for Scriptable
-// Works on the Home Screen (small/medium) and Lock Screen (circle, rectangle, inline).
+<script type="text/plain" id="wTpl">// PlateScan widget for Scriptable (scriptable.app)
+// Pick what it shows in PlateScan → You → Alerts → Widget. Changes appear here automatically.
+// To make one widget different, long-press it → Edit Widget → Parameter, e.g.  quests  or  kcal,water
+// Options: streak, quests, kcal, protein, water, level
 const DATA = "https://firestore.googleapis.com/v1/projects/__PID__/databases/(default)/documents/widgets/__TOK__?key=__KEY__";
 const APP = "__APP__";
-const WHITE = Color.white(), LEMON = new Color("#f2c230"), TOMATO = new Color("#ff8a66");
 function ymd(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
 let d = {};
 try {
@@ -575,54 +601,96 @@ try {
     d[k] = v.integerValue !== undefined ? Number(v.integerValue) : v.doubleValue !== undefined ? v.doubleValue : v.stringValue !== undefined ? v.stringValue : v.booleanValue;
 } catch (e) {}
 const now = new Date(), today = ymd(now), yest = ymd(new Date(now.getTime() - 864e5));
+const fresh = d.day === today; // daily numbers are from today
 const logged = d.lastLogDay === today;
 const streak = (logged || d.lastLogDay === yest) ? (d.streak || 0) : 0;
-const status = logged ? "Logged today" : streak ? "Log a meal to keep it" : "Log a meal to start";
+const qNames = String(d.qAll || "Log a meal").split("|");
+const qMask = fresh ? String(d.qMask || "") : "";
+const qLeft = qNames.filter((_, i) => qMask[i] !== "1");
+const qDone = qNames.length - qLeft.length;
+const kcalLeft = fresh ? (d.kcalLeft ?? d.kcalGoal ?? 0) : (d.kcalGoal ?? 0);
+const proLeft = fresh ? (d.proLeft ?? d.proGoal ?? 0) : (d.proGoal ?? 0);
+const water = fresh ? (d.water || 0) : 0, waterGoal = d.waterGoal || 8;
+const param = (args.widgetParameter || "").trim().toLowerCase();
+let keys = (param || d.cfg || "streak,quests,kcal").split(",").map(s => s.trim()).filter(Boolean);
+const ALL = ["streak", "quests", "kcal", "protein", "water", "level"];
+keys = keys.filter(k => ALL.includes(k)); if (!keys.length) keys = ["streak"];
+
+const THEMES = {
+  green: { bg: ["#1d4a37", "#2c6d4d"], text: "#ffffff", sub: "#ffffff", accent: "#f2c230", warn: "#ff8a66" },
+  dark:  { bg: ["#0f1512", "#1b2620"], text: "#eef3ef", sub: "#9aaba0", accent: "#f2c230", warn: "#ff8a66" },
+  light: { bg: ["#ffffff", "#eef4ef"], text: "#14201a", sub: "#5b6a61", accent: "#1d4a37", warn: "#e5432d" }
+};
+const T = THEMES[d.theme] || THEMES.green;
+const C = h => new Color(h);
+const k1 = n => Math.abs(n) >= 10000 ? (n / 1000).toFixed(0) + "k" : Math.abs(n) >= 1000 ? (n / 1000).toFixed(1) + "k" : String(Math.round(n));
+
+function metric(k) {
+  switch (k) {
+    case "streak": return { sym: "flame.fill", val: String(streak), lab: logged ? "day streak" : streak ? "log to keep it" : "day streak", col: logged ? T.accent : T.warn };
+    case "quests": return { sym: "checkmark.seal.fill", val: `${qDone}/${qNames.length}`, lab: "quests", col: T.accent, next: qLeft[0] };
+    case "kcal": return { sym: "fork.knife", val: (fam.startsWith("accessory") ? k1(Math.abs(kcalLeft)) : Math.abs(Math.round(kcalLeft)).toLocaleString()), lab: kcalLeft < 0 ? "kcal over" : "kcal left", col: kcalLeft < 0 ? T.warn : T.accent };
+    case "protein": return { sym: "bolt.fill", val: Math.max(0, Math.round(proLeft)) + "g", lab: proLeft <= 0 ? "protein hit" : "protein left", col: T.accent };
+    case "water": return { sym: "drop.fill", val: `${water}/${waterGoal}`, lab: "glasses", col: "#3aa0e8" };
+    case "level": return { sym: "star.fill", val: "Lv " + (d.level || 1), lab: d.title || "", col: T.accent };
+  }
+}
+function icon(stack, m, size, tint) { const img = stack.addImage(SFSymbol.named(m.sym).image); img.imageSize = new Size(size, size); img.tintColor = C(tint || m.col); return img; }
+function text(stack, s, font, color, op) { const t = stack.addText(s); t.font = font; t.textColor = C(color); if (op) t.textOpacity = op; t.lineLimit = 1; t.minimumScaleFactor = 0.6; return t; }
+
 const fam = config.widgetFamily || "small";
 const w = new ListWidget();
 w.url = APP;
 w.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000);
-const flame = SFSymbol.named("flame.fill").image;
+const ms = keys.map(metric);
 
 if (fam === "accessoryInline") {
-  w.addText((streak ? streak + "-day streak · " : "PlateScan · ") + (logged ? "logged ✓" : "log a meal"));
+  w.addText(ms.slice(0, 2).map(m => m.val + " " + m.lab).join(" · "));
 } else if (fam === "accessoryCircular") {
   w.addAccessoryWidgetBackground = true;
-  const row = w.addStack(); row.addSpacer();
+  const m = ms[0], row = w.addStack(); row.addSpacer();
   const col = row.addStack(); col.layoutVertically(); col.centerAlignContent();
-  const ic = col.addImage(flame); ic.imageSize = new Size(13, 13); ic.tintColor = WHITE;
-  const n = col.addText(String(streak)); n.font = Font.boldRoundedSystemFont(20);
-  const l = col.addText(logged ? "done" : "days"); l.font = Font.semiboldSystemFont(9);
+  const i = col.addImage(SFSymbol.named(m.sym).image); i.imageSize = new Size(12, 12); i.tintColor = Color.white();
+  const v = col.addText(m.val); v.font = Font.boldRoundedSystemFont(m.val.length > 4 ? 13 : 18); v.minimumScaleFactor = 0.5; v.lineLimit = 1;
+  const l = col.addText(m.lab.split(" ")[0]); l.font = Font.semiboldSystemFont(8); l.lineLimit = 1;
   row.addSpacer();
 } else if (fam === "accessoryRectangular") {
-  const top = w.addStack(); top.centerAlignContent();
-  const ic = top.addImage(flame); ic.imageSize = new Size(14, 14); ic.tintColor = WHITE;
-  top.addSpacer(4);
-  const t = top.addText(streak + "-day streak"); t.font = Font.boldSystemFont(15);
-  const s = w.addText(logged ? "✓ Logged today" : status); s.font = Font.systemFont(13);
-  if (d.level) { const lv = w.addText("Level " + d.level + " · " + d.title); lv.font = Font.systemFont(12); lv.textOpacity = 0.7; }
+  for (const m of ms.slice(0, 3)) {
+    const r = w.addStack(); r.centerAlignContent();
+    const i = r.addImage(SFSymbol.named(m.sym).image); i.imageSize = new Size(12, 12); i.tintColor = Color.white();
+    r.addSpacer(4); const t = r.addText(m.val + " " + m.lab); t.font = Font.semiboldSystemFont(13); t.lineLimit = 1; t.minimumScaleFactor = 0.7;
+  }
 } else {
-  const g = new LinearGradient();
-  g.colors = [new Color("#1d4a37"), new Color("#2c6d4d")]; g.locations = [0, 1];
-  g.startPoint = new Point(0, 0); g.endPoint = new Point(1, 1);
+  const g = new LinearGradient(); g.colors = T.bg.map(C); g.locations = [0, 1]; g.startPoint = new Point(0, 0); g.endPoint = new Point(1, 1);
   w.backgroundGradient = g; w.setPadding(14, 14, 14, 14);
-  const h = w.addText("PlateScan"); h.font = Font.semiboldSystemFont(12); h.textColor = WHITE; h.textOpacity = 0.75;
+  text(w, "PlateScan", Font.semiboldSystemFont(12), T.sub, 0.75);
   w.addSpacer();
-  const row = w.addStack(); row.centerAlignContent();
-  const ic = row.addImage(flame); ic.imageSize = new Size(26, 26); ic.tintColor = logged ? LEMON : TOMATO;
-  row.addSpacer(6);
-  const n = row.addText(String(streak)); n.font = Font.boldRoundedSystemFont(38); n.textColor = WHITE;
-  const sl = w.addText("day streak"); sl.font = Font.mediumSystemFont(12); sl.textColor = WHITE; sl.textOpacity = 0.8;
-  w.addSpacer(6);
-  const st = w.addText(logged ? "✓ Logged today" : status); st.font = Font.semiboldSystemFont(12); st.textColor = logged ? LEMON : TOMATO;
-  if (fam !== "small" && d.level) {
-    w.addSpacer(4);
-    const lv = w.addText("Level " + d.level + " · " + d.title + (logged && d.kcalDay === today ? " · " + d.kcalLeft + " kcal left" : ""));
-    lv.font = Font.systemFont(12); lv.textColor = WHITE; lv.textOpacity = 0.75;
+  if (fam === "small") {
+    const m = ms[0], row = w.addStack(); row.centerAlignContent();
+    icon(row, m, 24); row.addSpacer(6); text(row, m.val, Font.boldRoundedSystemFont(34), T.text);
+    text(w, m.lab, Font.mediumSystemFont(12), T.sub, 0.85);
+    for (const s of ms.slice(1, 3)) { w.addSpacer(4); const r = w.addStack(); r.centerAlignContent(); icon(r, s, 12); r.addSpacer(4); text(r, s.val + " " + s.lab, Font.semiboldSystemFont(12), T.text); }
+    if (ms.length === 1 && m.next) { w.addSpacer(4); text(w, "Next: " + m.next, Font.systemFont(11), T.sub, 0.85); }
+  } else {
+    const shown = ms.slice(0, fam === "medium" ? 4 : 6);
+    for (let i = 0; i < shown.length; i += 2) {
+      const row = w.addStack();
+      for (const m of shown.slice(i, i + 2)) {
+        const cell = row.addStack(); cell.layoutVertically();
+        const top = cell.addStack(); top.centerAlignContent(); icon(top, m, 16); top.addSpacer(5); text(top, m.val, Font.boldRoundedSystemFont(fam === "medium" ? 22 : 26), T.text);
+        text(cell, m.lab, Font.mediumSystemFont(11), T.sub, 0.85);
+        row.addSpacer();
+      }
+      w.addSpacer(fam === "medium" ? 6 : 10);
+    }
+    if (keys.includes("quests") && qLeft.length) {
+      if (fam === "medium") text(w, "Next quest: " + qLeft[0], Font.systemFont(11), T.sub, 0.9);
+      else { text(w, "Quests left", Font.semiboldSystemFont(12), T.text); for (const q of qLeft.slice(0, 4)) text(w, "○ " + q, Font.systemFont(12), T.sub, 0.9); }
+    }
   }
 }
 Script.setWidget(w);
-if (!config.runsInWidget) await w.presentSmall();
+if (!config.runsInWidget) await w.presentMedium();
 Script.complete();
 </script>
 <script type="module">
@@ -694,7 +762,43 @@ const FOODS = [
 ['Cinnamon roll','1 roll',420,6,16,62],['Banana bread','1 slice',320,4,14,45],['Breakfast bowl','eggs, potatoes, sausage',650,28,42,38],['Biscuits and gravy','1 plate',650,15,38,60],
 ['Chicken and waffles','1 plate',900,40,40,95],['Avocado toast','1 slice',260,6,14,28],['Overnight oats','1 jar',350,15,10,50],['Iced coffee with cream','16 oz',120,2,7,14],
 ['Blended coffee drink','16 oz',380,5,15,55],['Energy drink','16 oz can',220,0,0,54],['Sports drink','20 oz',140,0,0,34],['Sweet tea','16 oz',180,0,0,45],
-['Chocolate milk','1 cup',200,8,5,30],['Margarita','1 drink',280,0,0,36],['Hard seltzer','12 oz',100,0,0,2],['Light beer','12 oz',100,1,0,6]
+['Chocolate milk','1 cup',200,8,5,30],['Margarita','1 drink',280,0,0,36],['Hard seltzer','12 oz',100,0,0,2],['Light beer','12 oz',100,1,0,6],
+['McDonald\'s Big Mac','1 burger',580,25,34,45],['McDonald\'s Quarter Pounder with Cheese','1 burger',520,30,26,42],['McDonald\'s Double Quarter Pounder with Cheese','1 burger',740,48,42,43],
+['McDonald\'s Cheeseburger','1 burger',300,15,13,32],['McDonald\'s Double Cheeseburger','1 burger',450,25,24,34],['McDonald\'s McDouble','1 burger',400,22,20,33],
+['McDonald\'s McChicken','1 sandwich',400,14,21,39],['McDonald\'s Chicken McNuggets 10 pc','10 pieces',410,23,24,25],['McDonald\'s Chicken McNuggets 6 pc','6 pieces',250,14,15,15],
+['McDonald\'s Filet-O-Fish','1 sandwich',390,16,19,38],['McDonald\'s Fries medium','medium',320,5,15,43],['McDonald\'s Fries large','large',480,7,23,65],
+['McDonald\'s Egg McMuffin','1 sandwich',310,17,13,30],['McDonald\'s Sausage McMuffin with Egg','1 sandwich',480,20,31,30],['McDonald\'s Hash Browns','1 hash brown',140,2,8,16],
+['McDonald\'s Hotcakes','3 with syrup and butter',580,9,15,101],['McDonald\'s Sausage Burrito','1 burrito',310,13,17,25],['McDonald\'s McFlurry with Oreo','regular',510,12,16,80],
+['Chick-fil-A Chicken Sandwich','1 sandwich',420,29,18,41],['Chick-fil-A Spicy Chicken Sandwich','1 sandwich',450,28,19,45],['Chick-fil-A Deluxe Sandwich','1 sandwich',500,32,22,43],
+['Chick-fil-A Grilled Chicken Sandwich','1 sandwich',390,28,11,45],['Chick-fil-A Nuggets 8 ct','8 nuggets',250,27,11,11],['Chick-fil-A Grilled Nuggets 8 ct','8 nuggets',130,25,3,1],
+['Chick-fil-A Chick-n-Strips 3 ct','3 strips',310,29,14,16],['Chick-fil-A Waffle Fries medium','medium',420,5,24,45],['Chick-fil-A Mac and Cheese medium','medium',450,20,27,29],
+['Chick-fil-A Chicken Biscuit','1 biscuit',460,19,22,45],['Chick-fil-A Sauce','1 packet',140,0,13,7],['Chick-fil-A Lemonade medium','medium',260,0,0,65],
+['Chipotle chicken burrito bowl','chicken, white rice, black beans, salsa, cheese',660,50,21,68],['Chipotle chicken burrito','same fillings in a tortilla',980,58,30,118],
+['Chipotle chicken','1 portion',180,32,7,0],['Chipotle steak','1 portion',150,21,6,1],['Chipotle carnitas','1 portion',210,23,12,0],['Chipotle barbacoa','1 portion',170,24,7,2],['Chipotle sofritas','1 portion',150,8,10,9],
+['Chipotle white rice','1 portion',210,4,4,40],['Chipotle brown rice','1 portion',210,4,6,36],['Chipotle black beans','1 portion',130,8,2,22],['Chipotle pinto beans','1 portion',130,8,2,21],
+['Chipotle fajita veggies','1 portion',20,1,0,5],['Chipotle cheese','1 portion',110,6,8,1],['Chipotle sour cream','1 portion',110,2,9,2],['Chipotle guacamole','1 portion',230,2,22,8],
+['Chipotle queso blanco','1 portion',120,5,9,4],['Chipotle fresh tomato salsa','1 portion',25,0,0,4],['Chipotle corn salsa','1 portion',80,3,2,16],['Chipotle flour tortilla','1 burrito tortilla',320,8,9,50],['Chipotle chips','1 bag',540,7,25,73],
+['Taco Bell Crunchy Taco','1 taco',170,8,9,13],['Taco Bell Soft Taco','1 taco',180,9,9,18],['Taco Bell Crunchwrap Supreme','1 crunchwrap',530,16,21,71],['Taco Bell Chicken Quesadilla','1 quesadilla',510,27,26,37],
+['Taco Bell Cheesy Gordita Crunch','1 gordita',500,20,28,41],['Taco Bell Bean Burrito','1 burrito',350,13,9,54],['Taco Bell Burrito Supreme','1 burrito, beef',390,16,14,51],['Taco Bell Nachos BellGrande','1 order',740,16,38,82],
+['Taco Bell Mexican Pizza','1 pizza',540,20,30,47],['Taco Bell Chicken Power Bowl','1 bowl',460,26,20,46],
+['Wendy\'s Dave\'s Single','1 burger',590,30,37,39],['Wendy\'s Baconator','1 burger',960,57,66,37],['Wendy\'s Jr. Bacon Cheeseburger','1 burger',370,19,22,25],['Wendy\'s Spicy Chicken Sandwich','1 sandwich',500,29,22,51],
+['Wendy\'s Nuggets 10 pc','10 pieces',460,23,30,24],['Wendy\'s Fries medium','medium',350,5,16,47],['Wendy\'s Chocolate Frosty small','small',340,9,9,56],['Wendy\'s Chili small','small',250,17,8,24],['Wendy\'s Baked Potato','plain',270,7,0,61],
+['In-N-Out Double-Double','1 burger',610,37,34,41],['In-N-Out Double-Double Protein Style','lettuce wrapped',520,33,39,11],['In-N-Out Cheeseburger','1 burger',430,20,21,39],['In-N-Out Hamburger','1 burger',360,16,15,39],
+['In-N-Out Fries','1 order',360,6,15,49],['In-N-Out Animal Style Fries','1 order',750,19,42,54],
+['Subway Turkey 6-inch','6 inch',280,18,4,46],['Subway Italian B.M.T. 6-inch','6 inch',410,19,19,45],['Subway Chicken Teriyaki 6-inch','6 inch',330,25,5,50],['Subway Spicy Italian 6-inch','6 inch',450,18,24,45],['Subway Meatball Marinara 6-inch','6 inch',460,20,20,51],
+['Panda Express Orange Chicken','1 entree',490,25,23,51],['Panda Express Beijing Beef','1 entree',470,13,26,46],['Panda Express Broccoli Beef','1 entree',150,9,7,13],['Panda Express Grilled Teriyaki Chicken','1 entree',275,33,10,8],
+['Panda Express Kung Pao Chicken','1 entree',320,17,21,15],['Panda Express Honey Walnut Shrimp','1 entree',430,13,29,32],['Panda Express Chow Mein','1 side',510,13,20,80],['Panda Express Fried Rice','1 side',520,11,16,85],['Panda Express Super Greens','1 side',90,6,3,10],
+['Five Guys Cheeseburger','1 burger',840,47,55,40],['Five Guys Fries regular','regular',950,13,41,131],['Popeyes Chicken Sandwich','1 sandwich',700,28,42,50],['KFC Original Recipe chicken breast','1 piece',390,39,21,11],
+['Raising Cane\'s Chicken Fingers','3 fingers',390,39,18,15],['Raising Cane\'s Sauce','1 cup',190,0,19,4],['Arby\'s Classic Roast Beef','1 sandwich',360,23,14,37],['Domino\'s Pepperoni Pizza','1 slice, large hand tossed',300,12,12,35],
+['Coca-Cola','12 oz can',140,0,0,39],['Diet Coke','12 oz can',0,0,0,0],['Coke Zero','12 oz can',0,0,0,0],['Pepsi','12 oz can',150,0,0,41],['Sprite','12 oz can',140,0,0,38],
+['Dr Pepper','12 oz can',150,0,0,40],['Mountain Dew','12 oz can',170,0,0,46],['Red Bull','8.4 oz can',110,1,0,28],['Red Bull Sugarfree','8.4 oz can',5,0,0,1],['Monster Energy','16 oz can',210,0,0,54],
+['Monster Zero Ultra','16 oz can',10,0,0,4],['Celsius','12 oz can',10,0,0,2],['Gatorade','20 oz bottle',140,0,0,36],['Gatorade Zero','20 oz bottle',10,0,0,2],
+['Fairlife Core Power 26g','14 oz bottle',170,26,4.5,6],['Fairlife Core Power Elite 42g','14 oz bottle',230,42,3.5,8],['Fairlife Nutrition Plan','11.5 oz bottle',150,30,2.5,4],['Premier Protein shake','11 oz carton',160,30,3,5],
+['Starbucks Caffe Latte','grande, 2% milk',190,13,7,19],['Starbucks Iced Caffe Latte','grande, 2% milk',130,8,4.5,13],['Starbucks Caramel Macchiato','grande',250,10,7,35],['Starbucks Iced Caramel Macchiato','grande',250,10,7,37],
+['Starbucks Caffe Mocha','grande, whipped cream',370,14,15,43],['Starbucks Caramel Frappuccino','grande',380,4,16,55],['Starbucks Pink Drink','grande',140,1,2.5,27],['Starbucks Vanilla Sweet Cream Cold Brew','grande',110,1,5,14],
+['Starbucks Chai Tea Latte','grande',240,8,4.5,45],['Starbucks Pumpkin Spice Latte','grande',390,14,14,52],['Starbucks Iced Brown Sugar Oatmilk Shaken Espresso','grande',120,2,3,20],['Starbucks Cold Brew','grande, black',5,0,0,0],
+['Starbucks Bacon and Gruyere Egg Bites','2 bites',300,19,20,9],
+['Cheese slice add-on','1 slice',70,4,6,1],['Bacon add-on','2 strips',80,6,6,0],['Ketchup','1 packet',10,0,0,3],['BBQ sauce','1 packet',45,0,0,11],['Mayonnaise','1 tbsp',90,0,10,0],['Sour cream','2 tbsp',60,1,6,1]
 ];
 
 // ================= helpers =================
@@ -713,14 +817,14 @@ $('toastUndo').onclick=()=>{if(undoFn)undoFn();$('toast').style.display='none';u
 // ================= state + storage =================
 // mode: 'guest' keeps data in this browser; 'cloud' keeps it in your Firebase account (with offline cache)
 const GKEY='platescan.v1';
-const blank=()=>({name:'',profile:{act:'1.55'},meals:[],weights:[],reminder:null,widgetToken:null,favs:[],myFoods:[],scans:[],water:{},dayType:{},freeze:{owned:0,spent:0,used:[]}});
+const blank=()=>({name:'',profile:{act:'1.55'},meals:[],weights:[],reminder:null,widgetToken:null,favs:[],myFoods:[],scans:[],water:{},dayType:{},widgetCfg:null,freeze:{owned:0,spent:0,used:[]}});
 const trimMap=m=>{const cut=ymd(dayOffset(180)),o={};for(const k in (m||{}))if(k>=cut)o[k]=m[k];return o};
 let S=blank(),mode='guest',user=null,FB=null;
 function loadGuest(){base=null;S=blank();try{const raw=lsGet(GKEY);if(raw)S=Object.assign(blank(),JSON.parse(raw))}catch(e){}}
 let metaT=null;
 const store={
   saveMeta(){ if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
-    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
+    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
   putMeal(m){ if(mode==='guest')return this.saveMeta();
     FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m).catch(e=>toast('Couldn’t sync meal: '+e.code))},
   delMeal(id){ if(mode==='guest')return this.saveMeta();
@@ -853,7 +957,7 @@ function logAgain(id){const m=S.meals.find(x=>x.id===id);if(!m)return;const n={.
   S.meals.push(n);newId=n.id;setTimeout(()=>{newId=null},2000);store.putMeal(n);toast(`${m.type} logged again for today`);render()}
 document.addEventListener('click',e=>{const f=e.target.closest('[data-fav]');if(f)toggleFav(f.dataset.fav);const a=e.target.closest('[data-again]');if(a)logAgain(a.dataset.again)});
 function mealRow(m,del=true){const s=sumItems(m.items);const time=new Date(m.ts).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  return `<div class="meal${m.id===newId?' new':''}">${m.thumb?`<img class="th" src="${m.thumb}" alt="">`:`<div class="th"></div>`}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span></b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
+  return `<div class="meal${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(m.type)}">${m.thumb?`<img class="th" src="${m.thumb}" alt="">`:`<div class="th"></div>`}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span></b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
 function renderToday(g){
   const todayKey=ymd(Date.now()),t=g.todayT,d=byDay()[todayKey]||{k:0,p:0,f:0,c:0,meals:[]};
   const kind=dayKind(todayKey),dt=$('dtype');dt.style.display=kind?'':'none';if(kind){dt.textContent=kind==='train'?'Training day':'Rest day';dt.classList.toggle('rest',kind==='rest')}
@@ -981,6 +1085,17 @@ let meal=[],thumb=null,scanned=false,busy=false,sugg=[],targetDay=null,mealType=
 function defaultMealType(){const h=new Date().getHours();return h<10.5?'Breakfast':h<15?'Lunch':h<21?'Dinner':'Snack'}
 function setMealType(t){mealType=t;$('mealType').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.textContent===t));segInd($('mealType'));renderQuick()}
 $('mealType').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setMealType(b.textContent)});
+let editId=null;
+const cleanItem=({open,...i})=>({...i});
+function openEdit(id){const m=S.meals.find(x=>x.id===id);if(!m)return;const day=ymd(m.ts);targetDay=day===ymd(Date.now())?null:day;resetScan();
+  editId=id;meal=m.items.map(i=>({...i}));thumb=m.thumb||null;scanned=!!m.scanned;
+  if(thumb){$('preview').src=thumb;$('preview').style.display='block';$('camLbl').style.display='none'}
+  setMealType(m.type);const d=new Date(m.ts);$('mealTime').value=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  $('editBar').style.display='flex';$('logBtn').textContent='Save changes';$('status').textContent='Tap a food to see or change it';$('status2').textContent='Add more with the camera, barcode or search.';
+  $('scanTitle').textContent='Edit '+m.type.toLowerCase()+' · '+d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});renderMeal();openSheet('scanSheet')}
+document.addEventListener('click',e=>{const mr=e.target.closest('[data-meal]');if(mr&&!e.target.closest('button'))openEdit(mr.dataset.meal)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'){const mr=e.target.closest&&e.target.closest('[data-meal]');if(mr&&e.target===mr)openEdit(mr.dataset.meal)}});
+$('delMealBtn').onclick=()=>{const id=editId;closeSheet('scanSheet');resetScan();deleteMeal(id)};
 function openScan(day){targetDay=day&&day!==ymd(Date.now())?day:null;resetScan();setMealType(targetDay?'Lunch':defaultMealType());
   $('scanTitle').textContent=targetDay?'Add to '+new Date(targetDay+'T12:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}):'New meal';openSheet('scanSheet')}
 let quickRecent=[];
@@ -997,16 +1112,26 @@ $('quick').addEventListener('click',e=>{const y=e.target.closest('[data-yest]'),
   if(r){const it=quickRecent[+r.dataset.recent];if(it)addItem(it)}});
 function saveMyFood(food){S.myFoods=S.myFoods||[];if(!S.myFoods.some(f=>f[0]===food[0]&&(f[6]||'')===(food[6]||''))){S.myFoods.unshift(food);S.myFoods=S.myFoods.slice(0,200);store.saveMeta()}}
 $('scanNav').onclick=()=>openScan();$('addToday').onclick=()=>openScan();$('addDay').onclick=()=>openScan(logDay);
-function resetScan(){meal=[];thumb=null;scanned=false;sugg=[];$('photo').value='';$('preview').style.display='none';$('camLbl').style.display='';$('status').textContent='Take a photo or search below';$('status2').textContent='Recognition runs on your phone: free and private.';$('progWrap').style.display='none';$('search').value='';$('results').innerHTML='';renderSugg();renderMeal();renderQuick()}
+function resetScan(){editId=null;$('editBar').style.display='none';$('logBtn').textContent='Log meal';meal=[];thumb=null;scanned=false;sugg=[];$('photo').value='';$('preview').style.display='none';$('camLbl').style.display='';$('status').textContent='Take a photo or search below';$('status2').textContent='Recognition runs on your phone: free and private.';$('progWrap').style.display='none';$('search').value='';$('results').innerHTML='';renderSugg();renderMeal();renderQuick()}
 const toItem=f=>({n:f[0],s:f[1],k:f[2],p:f[3],f:f[4],c:f[5],q:1});
 function addFood(f){if(!f||meal.some(i=>i.n===f[0]))return;meal.push(toItem(f));renderMeal();renderSugg()}
+const macText=i=>`${i.s} · ${fmt(i.k*i.q)} kcal · P ${r0(i.p*i.q)} F ${r0(i.f*i.q)} C ${r0(i.c*i.q)}`;
+function mealTotals(){const s=sumItems(meal);$('mealTot').innerHTML=`<div><b>${fmt(s.k)}</b><span>kcal</span></div><div><b>${r0(s.p)}g</b><span>protein</span></div><div><b>${r0(s.f)}g</b><span>fat</span></div><div><b>${r0(s.c)}g</b><span>carbs</span></div>`}
+const idet=(i,x)=>`<div class="idet"><div class="muted sm" style="margin-bottom:6px">Nutrition per serving. Change it if your order was different, like no cheese or extra sauce.</div>
+  <label class="f"><span>Serving</span><input data-ef="s" data-x="${x}" value="${esc(i.s)}"></label>
+  <div class="g4"><label class="f"><span>kcal</span><input type="number" inputmode="decimal" data-ef="k" data-x="${x}" value="${i.k}"></label><label class="f"><span>Protein</span><input type="number" inputmode="decimal" data-ef="p" data-x="${x}" value="${i.p}"></label><label class="f"><span>Fat</span><input type="number" inputmode="decimal" data-ef="f" data-x="${x}" value="${i.f}"></label><label class="f"><span>Carbs</span><input type="number" inputmode="decimal" data-ef="c" data-x="${x}" value="${i.c}"></label></div>
+  <button class="ghost small" data-savefood="${x}">Save to My foods</button></div>`;
 function renderMeal(){
-  $('items').innerHTML=meal.length?meal.map((i,x)=>`<div class="item"><div><b>${esc(i.n)}</b><div class="mac">${esc(i.s)} · ${fmt(i.k*i.q)} kcal · P ${r0(i.p*i.q)} F ${r0(i.f*i.q)} C ${r0(i.c*i.q)}</div></div>
-    <div class="qty"><button class="ghost" data-dq="${x}" data-d="-0.25" aria-label="Less">−</button><input type="number" step="0.25" min="0.25" inputmode="decimal" value="${i.q}" data-q="${x}" aria-label="Servings"><button class="ghost" data-dq="${x}" data-d="0.25" aria-label="More">+</button><button class="x" data-rm="${x}" aria-label="Remove">×</button></div></div>`).join(''):'<div class="empty">Nothing added yet.</div>';
-  const s=sumItems(meal);
-  $('mealTot').innerHTML=`<div><b>${fmt(s.k)}</b><span>kcal</span></div><div><b>${r0(s.p)}g</b><span>protein</span></div><div><b>${r0(s.f)}g</b><span>fat</span></div><div><b>${r0(s.c)}g</b><span>carbs</span></div>`;
+  $('items').innerHTML=meal.length?meal.map((i,x)=>`<div class="item${i.open?' open':''}"><div><button class="nm" data-tog="${x}" aria-expanded="${!!i.open}"><b>${esc(i.n)}</b></button><div class="mac" id="mac${x}">${esc(macText(i))}</div></div>
+    <div class="qty"><button class="ghost" data-dq="${x}" data-d="-0.25" aria-label="Less">−</button><input type="number" step="0.25" min="0.25" inputmode="decimal" value="${i.q}" data-q="${x}" aria-label="Servings"><button class="ghost" data-dq="${x}" data-d="0.25" aria-label="More">+</button><button class="x" data-rm="${x}" aria-label="Remove">×</button></div>${i.open?idet(i,x):''}</div>`).join(''):'<div class="empty">Nothing added yet.</div>';
+  mealTotals();
   $('logBtn').disabled=!meal.length;
 }
+$('items').addEventListener('input',e=>{const el=e.target.closest('[data-ef]');if(!el)return;const x=+el.dataset.x,f=el.dataset.ef,i=meal[x];if(!i)return;
+  i[f]=f==='s'?el.value:(parseFloat(el.value)||0);$('mac'+x).textContent=macText(i);mealTotals()});
+$('items').addEventListener('click',e=>{const tg=e.target.closest('[data-tog]'),sf=e.target.closest('[data-savefood]');
+  if(tg){const i=meal[+tg.dataset.tog];i.open=!i.open;renderMeal();return}
+  if(sf){const i=meal[+sf.dataset.savefood];saveMyFood([i.n,i.s,i.k,i.p,i.f,i.c]);toast(i.n+' saved to My foods');return}});
 $('items').addEventListener('click',e=>{const rm=e.target.closest('[data-rm]'),dq=e.target.closest('[data-dq]');
   if(rm){meal.splice(+rm.dataset.rm,1);renderMeal();renderSugg()}
   if(dq){const i=meal[+dq.dataset.dq];i.q=Math.max(0.25,Math.round((i.q+ +dq.dataset.d)*100)/100);renderMeal()}});
@@ -1019,8 +1144,11 @@ $('results').addEventListener('click',e=>{const d=e.target.closest('[data-delfoo
   const b=e.target.closest('[data-add]');if(!b)return;const f=(b.dataset.mine?(S.myFoods||[]):FOODS).find(f=>f[0]===b.dataset.add);addFood(f);$('search').value='';$('results').innerHTML=''});
 $('cAdd').onclick=()=>{const n=$('cName').value.trim();const k=parseFloat($('cK').value);if(!n||!(k>=0))return toast('Enter at least a name and calories');const food=[n,'1 serving',k,parseFloat($('cP').value)||0,parseFloat($('cF').value)||0,parseFloat($('cC').value)||0];saveMyFood(food);addFood(food);toast(n+' saved to My foods');['cName','cK','cP','cF','cC'].forEach(i=>$(i).value='');renderMeal()};
 $('logBtn').onclick=()=>{if(!meal.length)return;
+  if(editId){const m=S.meals.find(x=>x.id===editId);if(m){const [hh,mm]=($('mealTime').value||'12:00').split(':').map(Number),d=new Date(m.ts);d.setHours(hh||0,mm||0,0,0);
+    Object.assign(m,{ts:d.getTime(),type:mealType,items:meal.map(cleanItem),thumb,scanned});store.putMeal(m);newId=m.id;setTimeout(()=>{newId=null},2000)}
+    closeSheet('scanSheet');resetScan();render();toast('Meal updated');return}
   let ts=Date.now();if(targetDay){const d=new Date(targetDay+'T12:00');d.setHours({Breakfast:8,Lunch:12,Dinner:18,Snack:15}[mealType]);ts=d.getTime()}
-  const m={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts,type:mealType,items:meal.map(i=>({...i})),thumb,scanned};
+  const m={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts,type:mealType,items:meal.map(cleanItem),thumb,scanned};
   S.meals.push(m);
   if(mode==='guest'){const cut=Date.now()-30*864e5;S.meals.forEach(x=>{if(x.ts<cut)x.thumb=null})} // keep phone storage small
   newId=m.id;setTimeout(()=>{newId=null},2000);
@@ -1120,7 +1248,7 @@ async function uploadAll(meals){for(let i=0;i<meals.length;i+=400){const b=FB.fs
 async function loadCloud(){
   const fs=FB.fs;S=blank();
   const [pd,qs]=await Promise.all([fs.getDoc(fs.doc(FB.db,'users',user.uid)),fs.getDocs(fs.collection(FB.db,'users',user.uid,'meals'))]);
-  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.meals=qs.docs.map(x=>x.data());
+  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.meals=qs.docs.map(x=>x.data());
   if(pendingMigrate){const pm=pendingMigrate;pendingMigrate=null;S.name=pm.name;
     if(pm.data){const ids=new Set(S.meals.map(m=>m.id));const add=pm.data.meals.filter(m=>!ids.has(m.id));S.meals.push(...add);
       if(!d.profile)S.profile=Object.assign({},pm.data.profile);const wd=new Set(S.weights.map(w=>w.d));S.weights.push(...pm.data.weights.filter(w=>!wd.has(w.d)));
@@ -1166,6 +1294,7 @@ function remBlocker(){
   return '';
 }
 function renderRemind(){
+  if(typeof renderWidgetCfg==='function')setTimeout(renderWidgetCfg,0);
   const r=S.reminder||{},b=remBlocker(),granted=pushOK()&&Notification.permission==='granted';
   $('remOn').checked=!!r.on&&granted&&!b;$('remOn').disabled=!!b;$('remHour').value=String(r.hour??19);
   $('remMsg').textContent=b||(r.on&&granted?`On. If you haven’t logged a meal by ${hourLabel(r.hour??19)}, you’ll get a reminder.`:'Off.');
@@ -1198,8 +1327,7 @@ const randTok=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toS
 function syncWidget(g){
   if(mode!=='cloud'||!user||!FB)return;
   if(!S.widgetToken){S.widgetToken=randTok();store.saveMeta()}
-  const today=ymd(Date.now()),td=byDay()[today],goal=g.t?g.t.kcal:2000;
-  const w={uid:user.uid,streak:g.lastStreak||0,lastLogDay:g.lastLogDay||'',level:g.lv.L,title:g.lv.title,xpPct:Math.round(g.lv.into/g.lv.need*100),kcalLeft:Math.round(goal-(td?td.k:0)),kcalDay:today};
+  const w=widgetData(g);
   const j=JSON.stringify(w);if(j===lastWidget)return;lastWidget=j;
   clearTimeout(wT);wT=setTimeout(()=>{
     FB.fs.setDoc(FB.fs.doc(FB.db,'widgets',S.widgetToken),{...w,updated:Date.now()}).catch(e=>console.warn('widget',e.code));
@@ -1435,6 +1563,35 @@ async function recapImage(r){const c=document.createElement('canvas');c.width=10
 $('recapSave').onclick=async()=>{if(!lastRecap)return;const blob=await recapImage(lastRecap),file=new File([blob],'platescan-week.png',{type:'image/png'});
   try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'My PlateScan week'});return}}catch(e){if(e.name==='AbortError')return}
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='platescan-week.png';document.body.appendChild(a);a.click();a.remove();toast('Image saved')};
+
+// ================= widget builder =================
+const WM={streak:'Streak',quests:'Quests',kcal:'Calories left',protein:'Protein left',water:'Water',level:'Level'};
+function wcfg(){const c=S.widgetCfg||{};return {m:(Array.isArray(c.m)&&c.m.length?c.m:['streak','quests','kcal']),theme:c.theme||'green'}}
+function widgetData(g){const today=ymd(Date.now()),td=byDay()[today],t=g.todayT,goal=t?Math.round(t.kcal):2000,pg=t?Math.round(t.pro):150,ql=questList(g),c=wcfg();
+  return {uid:user?user.uid:'',streak:g.lastStreak||0,lastLogDay:g.lastLogDay||'',level:g.lv.L,title:g.lv.title,xpPct:Math.round(g.lv.into/g.lv.need*100),
+    day:today,kcalDay:today,kcalGoal:goal,kcalLeft:Math.round(goal-(td?td.k:0)),proGoal:pg,proLeft:Math.round(pg-(td?td.p:0)),water:(S.water||{})[today]||0,waterGoal:g.wg,
+    qAll:ql.map(q=>q.n).join('|'),qMask:ql.map(q=>q.done?'1':'0').join(''),cfg:c.m.join(','),theme:c.theme}}
+const WIC={streak:'<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z" fill="C"/>',quests:'<circle cx="12" cy="12" r="9" fill="C"/><path d="M8 12.5l3 3 5-6" stroke="#14201a" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+  kcal:'<path d="M7 2v9a2 2 0 0 0 2 2v9M11 2v8M7 2v0M17 2c-2 2-2 6 0 9v11" stroke="C" stroke-width="2.2" fill="none" stroke-linecap="round"/>',protein:'<path d="M13 2L5 14h6l-1 8 8-12h-6z" fill="C"/>',
+  water:'<path d="M12 2C12 2 4 11 4 16a8 8 0 0 0 16 0C20 11 12 2 12 2z" fill="C"/>',level:'<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="C"/>'};
+function wMetric(k,d,theme){const logged=d.lastLogDay===d.day,acc=theme==='light'?'#1d4a37':'#f2c230',warn=theme==='light'?'#e5432d':'#ff8a66',ql=d.qAll.split('|'),left=ql.filter((_,i)=>d.qMask[i]!=='1');
+  const k1=n=>fmt(Math.abs(n));
+  const m={streak:{val:String(d.streak),lab:logged?'day streak':d.streak?'log to keep it':'day streak',col:logged?acc:warn},quests:{val:`${ql.length-left.length}/${ql.length}`,lab:'quests',col:acc,next:left[0]},
+    kcal:{val:k1(d.kcalLeft),lab:d.kcalLeft<0?'kcal over':'kcal left',col:d.kcalLeft<0?warn:acc},protein:{val:Math.max(0,d.proLeft)+'g',lab:d.proLeft<=0?'protein hit':'protein left',col:acc},
+    water:{val:`${d.water}/${d.waterGoal}`,lab:'glasses',col:'#3aa0e8'},level:{val:'Lv '+d.level,lab:d.title,col:acc}}[k];
+  m.ic=s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24">${WIC[k].replace(/C/g,m.col)}</svg>`;return m}
+function renderWidgetCfg(){const c=wcfg();
+  $('wMetrics').innerHTML=Object.keys(WM).map(k=>{const i=c.m.indexOf(k);return `<button class="chip${i>=0?' on':''}" data-wm="${k}">${i>=0?`<b style="margin-right:6px">${i+1}</b>`:''}${WM[k]}</button>`}).join('');
+  $('wTheme').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.wt===c.theme));segInd($('wTheme'));renderWidgetPreview()}
+function renderWidgetPreview(){const g=game(),d=widgetData(g),c=wcfg(),ms=c.m.map(k=>wMetric(k,d,c.theme)),th=c.theme==='green'?'':c.theme,p=ms[0];
+  const small=`<div class="wbox s ${th}"><div class="h">PlateScan</div><div class="big">${p.ic(24)}${esc(p.val)}</div><div class="lb">${esc(p.lab)}</div>${ms.slice(1,3).map(m=>`<div class="ln">${m.ic(12)}${esc(m.val+' '+m.lab)}</div>`).join('')}${ms.length===1&&p.next?`<div class="lb" style="margin-top:4px">Next: ${esc(p.next)}</div>`:''}</div>`;
+  const qm=ms.find(m=>m.next),medium=`<div class="wbox m ${th}"><div class="h">PlateScan</div><div class="grid">${ms.slice(0,4).map(m=>`<div><b>${m.ic(16)}${esc(m.val)}</b><span class="lb">${esc(m.lab)}</span></div>`).join('')}</div>${qm?`<div class="lb" style="margin-top:6px">Next quest: ${esc(qm.next)}</div>`:''}</div>`;
+  const lock=`<div class="wlock">${ms.slice(0,3).map(m=>`<div>${m.ic(12).replace(/fill="[^"]*"/g,'fill="#fff"').replace(/stroke="(?!#14201a)[^"]*"/g,'stroke="#fff"')}${esc(m.val+' '+m.lab)}</div>`).join('')}</div>`;
+  $('wPrev').innerHTML=small+medium+lock}
+$('wMetrics').addEventListener('click',e=>{const b=e.target.closest('[data-wm]');if(!b)return;const c=wcfg(),k=b.dataset.wm,m=c.m.slice(),i=m.indexOf(k);
+  if(i>=0){if(m.length===1)return toast('Pick at least one');m.splice(i,1)}else{if(m.length>=6)return;m.push(k)}
+  S.widgetCfg={m,theme:c.theme};store.saveMeta();renderWidgetCfg();render()});
+$('wTheme').addEventListener('click',e=>{const b=e.target.closest('[data-wt]');if(!b)return;S.widgetCfg={m:wcfg().m,theme:b.dataset.wt};store.saveMeta();renderWidgetCfg();render()});
 
 // ================= start =================
 setMealType(defaultMealType());
