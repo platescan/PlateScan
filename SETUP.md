@@ -228,6 +228,9 @@ People can send ideas, problems and missing foods from **Settings → Help → S
 4. Document ID: paste your user ID. Add a field: name `role`, type string, value `owner`. Click **Save**.
 5. Reopen PlateScan. **Help** now shows a **Suggestions inbox** with everything people send. A red dot on your initial means there's something new. Mark each one **Planned** or **Done** (the sender sees that status) or delete it.
 
+## Daily rewards and tips
+Everyone gets a daily reward the first time they open PlateScan each day: gold that grows over 7 days, with an XP potion on day 7. Missing a single day keeps their progress; missing two starts over. PlateScan also shows at most one friendly tip a day: how to add it to the Home Screen (if they haven't), or to turn on reminders (once it's installed). Tapping **Not now** hides that tip for 3 days.
+
 ## Referral rewards
 When someone creates a new account using a friend's invite link (Friends → Invite), the new person gets 250 gold and 300 XP right away, and the friend who sent the link gets the same the next time they open the app (up to 20 referrals each).
 

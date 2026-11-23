@@ -560,7 +560,7 @@ code{font-size:12px;background:var(--sunk);border-radius:6px;padding:1px 5px;wor
 .exStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}.exStats>div{display:flex;flex-direction:column;align-items:center;background:var(--sunk);border-radius:12px;padding:8px 4px}.exStats .badge2{width:30px;height:35px}
 .evCard{background:linear-gradient(135deg,#2a1640,#4b1fa8);color:#fff;position:relative;overflow:hidden}.evCard .muted{color:rgba(255,255,255,.7)}.evCard .bn{font-size:18px}
 .evCard::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 10%,rgba(255,229,138,.35),transparent 40%);pointer-events:none}
-.evTag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;background:#ffe58a;color:#3d2a00;border-radius:999px;padding:2px 10px;margin-bottom:6px;animation:dotPulse 2s infinite}
+.evTag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;background:#ffe58a;color:#3d2a00;border-radius:999px;padding:2px 10px;margin-bottom:6px;animation:warnBlink 2.4s infinite}
 .styleGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
 .stIt{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--sunk);border-radius:14px;padding:10px 6px;text-align:center;font-size:13px}.stIt button{width:100%}.stIt .buy .coin{width:16px;height:16px}
 .skinSw{width:52px;height:52px;border-radius:16px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.4)}
@@ -590,6 +590,22 @@ html[data-skin] .hero{background:radial-gradient(circle at 90% 0%,rgba(242,194,4
 .dashG>div{background:var(--sunk);border-radius:12px;padding:8px;text-align:center;line-height:1.15}.dashG b{display:block;font-size:20px}.dashG span{font-size:11px;color:var(--mute)}.dashG{margin-top:8px}
 .pseg button{font-size:13.5px}
 .groc .hm{flex:1;min-width:0;display:flex;flex-direction:column}
+
+/* ===== v13: daily reward, sub-tabs, prompts ===== */
+.subseg{margin-bottom:10px}.subIn{animation:viewIn .35s var(--ease) both}
+.pmodal{position:fixed;inset:0;z-index:65;display:grid;place-items:center;padding:20px;background:rgba(8,16,12,.6);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
+.pmodal.on{opacity:1;visibility:visible;transition:opacity .25s}
+.pbox{background:var(--card);border-radius:26px;padding:22px 18px 14px;width:100%;max-width:360px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.35);transform:scale(.85) translateY(20px);transition:transform .45s var(--spring)}.pmodal.on .pbox{transform:none}
+.lgHero{font-size:44px;line-height:1;animation:chestWig 2.4s infinite;display:inline-block}
+.lgDays{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ld{position:relative;background:var(--sunk);border-radius:14px;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;animation:pop .4s calc(var(--i)*.05s) var(--spring) both}
+.ld .dn{font-size:10.5px;font-weight:700;color:var(--mute)}.ld b{font-size:14px}.ld.big{grid-column:span 2;background:linear-gradient(135deg,var(--tLemon),var(--tGreen))}.ld .potion{width:24px;height:28px}
+.ld.now{box-shadow:0 0 0 2.5px #f2c230;background:var(--tLemon);animation:pop .4s calc(var(--i)*.05s) var(--spring) both,nodeGlow 1.6s 1s infinite}
+@keyframes nodeGlow{0%{box-shadow:0 0 0 2.5px #f2c230,0 0 0 0 rgba(242,194,48,.6)}100%{box-shadow:0 0 0 2.5px #f2c230,0 0 0 12px rgba(242,194,48,0)}}
+.ld.done{opacity:.55}.ld .ldc{position:absolute;top:4px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--fat);color:#fff;font-style:normal;font-size:11px;display:grid;place-items:center}
+.ld.pop{animation:bought .6s var(--spring)}
+.prIc{display:grid;place-items:center;min-height:64px}.prBell{font-size:48px;display:inline-block;animation:wiggle 1s .4s 2}
+.pbox .steps{margin:8px 0 0;padding-left:20px}
 </style>
 </head>
 <body>
@@ -697,22 +713,23 @@ html[data-skin] .hero{background:radial-gradient(circle at 90% 0%,rgba(242,194,4
     <div style="opacity:.7;font-size:12px;margin-top:2px" id="lTotal"></div></div></div>
   <div class="wallet card"><div class="gold"><svg class="coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f2c230" stroke="#a8730a" stroke-width="1.6"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#fff3b0" stroke-width="1.4"/><path d="M12 8.2v7.6M9.6 10.2h4.2a1.6 1.6 0 0 1 0 3.2h-3.6" stroke="#a8730a" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><b id="goldN">0</b><span class="muted sm">gold</span></div><div class="pot" id="potState"></div>
     <button class="chestBtn" id="chestBtn"><svg viewBox="0 0 48 40"><rect x="5" y="18" width="38" height="20" rx="3" fill="#a8641f" stroke="#5a3210" stroke-width="2"/><rect x="5" y="24" width="38" height="3.5" fill="#f2c230"/><g class="lid"><path d="M5 18v-4a8 8 0 0 1 8-8h22a8 8 0 0 1 8 8v4z" fill="#c47a2c" stroke="#5a3210" stroke-width="2"/></g><rect x="21" y="21" width="6" height="8" rx="1.5" fill="#f2c230" stroke="#a8730a"/></svg><span id="chestLbl">Daily chest</span></button></div>
-  <div class="card evCard" id="evCard"></div>
-  <div class="card"><div class="row between"><h3 style="margin:0">Boss stages</h3><button class="small ghost" id="dummyBtn">Quick workout</button></div>
+  <div class="seg subseg" id="sub-level" data-view="level"><button data-sv="bosses" class="on">Bosses</button><button data-sv="badges">Badges</button><button data-sv="shop">Shop</button><button data-sv="quests">Quests</button></div>
+  <div class="card evCard" id="evCard" data-sp="bosses"></div>
+  <div class="card" data-sp="bosses"><div class="row between"><h3 style="margin:0">Boss stages</h3><button class="small ghost" id="dummyBtn">Quick workout</button></div>
     <div class="stageMap" id="stageMap"></div>
     <div class="bossCard" id="bossCard"></div>
     <p class="muted sm" id="replayRow" style="display:none;margin:8px 0 0"><span></span>: tap a beaten boss on the map.</p></div>
-  <div class="card"><div class="row between"><h3 style="margin:0">Shop</h3><span class="muted sm">spend gold</span></div><p class="muted sm" style="margin:4px 0 10px">Potions multiply all the XP you earn while they’re active. The strongest one counts, and buying the same potion again adds more days.</p><div class="shop" id="shop"></div>
+  <div class="card" data-sp="shop"><div class="row between"><h3 style="margin:0">Shop</h3><span class="muted sm">spend gold</span></div><p class="muted sm" style="margin:4px 0 10px">Potions multiply all the XP you earn while they’re active. The strongest one counts, and buying the same potion again adds more days.</p><div class="shop" id="shop"></div>
     <div style="display:none"><div class="flakes" id="flakes"></div><span id="wallet"></span><button id="buyFreeze"></button></div></div>
-  <div class="card"><div class="row between"><h3 style="margin:0">Exercise badges</h3><span class="muted sm">tap to show on profile</span></div>
+  <div class="card" data-sp="badges"><div class="row between"><h3 style="margin:0">Exercise badges</h3><span class="muted sm">tap to show on profile</span></div>
     <p class="muted sm" style="margin:4px 0 8px">Earn badges from reps tracked in workouts and boss fights, from Bronze up to a Mythic title. Pick up to 3 to show on your avatar for friends to see.</p>
     <div class="showcase"><span class="muted sm">Your showcase</span><div id="showcasePrev"></div></div><div id="exBadges"></div></div>
-  <div class="card"><div class="row between"><h3 style="margin:0">Style shop</h3><span class="muted sm">friends see your frame</span></div>
+  <div class="card" data-sp="shop"><div class="row between"><h3 style="margin:0">Style shop</h3><span class="muted sm">friends see your frame</span></div>
     <div class="seg" id="styleTabs" style="margin-top:8px"><button data-st="frames" class="on">Avatar frames</button><button data-st="themes">App themes</button></div><div class="styleGrid" id="styleShop"></div></div>
-  <div class="card"><div class="row between"><h3>Today's quests</h3><span class="muted sm" id="qEarned"></span></div><div id="quests"></div></div>
-  <div class="card"><div class="row between"><h3>Achievements</h3><span class="muted sm" id="achCount"></span></div><div class="ach" id="ach"></div></div>
-  <details class="card"><summary>Rank road</summary><div class="rankRoad" id="rankRoad"></div></details>
-  <details class="card"><summary>How XP, bosses and gold work</summary><p class="sm" style="margin:6px 0 0">Every meal logged earns 10 XP (up to 5 a day), plus 5 more when you scan it. Hitting protein is 25, landing within 10% of your calorie target (2+ meals) is 25, a weigh-in is 10, your water goal is 10, and back-to-back days add 2 XP per streak day (up to 20).</p>
+  <div class="card" data-sp="quests"><div class="row between"><h3>Today's quests</h3><span class="muted sm" id="qEarned"></span></div><div id="quests"></div></div>
+  <div class="card" data-sp="badges"><div class="row between"><h3>Achievements</h3><span class="muted sm" id="achCount"></span></div><div class="ach" id="ach"></div></div>
+  <details class="card" data-sp="badges"><summary>Rank road</summary><div class="rankRoad" id="rankRoad"></div></details>
+  <details class="card" data-sp="quests"><summary>How XP, bosses and gold work</summary><p class="sm" style="margin:6px 0 0">Every meal logged earns 10 XP (up to 5 a day), plus 5 more when you scan it. Hitting protein is 25, landing within 10% of your calorie target (2+ meals) is 25, a weigh-in is 10, your water goal is 10, and back-to-back days add 2 XP per streak day (up to 20).</p>
   <p class="sm">A new boss stage opens every 2 levels once you’ve beaten the one before. Damage them with squats, push-ups (×1.5 damage) or pull-ups (×3). Your camera checks each rep, and only full-range reps count. A perfect rep is a critical hit. If you stop repping for too long, the boss attacks and you lose a heart. Each new boss has 12% more HP.</p>
   <p class="sm" style="margin-bottom:0">Bosses drop XP and gold. Harder difficulty pays more (up to ×3.5). Replays pay 40%, once per boss per day. Gold also comes from your daily chest and quick workouts. Spend it on XP potions, shields, gloves and streak freezes.</p></details>
 </section>
@@ -722,14 +739,15 @@ html[data-skin] .hero{background:radial-gradient(circle at 90% 0%,rgba(242,194,4
   <div id="frOff" class="card" style="display:none"><h3>Train with friends</h3><p class="muted sm">Add friends with a link, start group chats, and compete in a fair weekly challenge. You need an account so friends can find you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div></div>
   <div id="frOn">
     <div class="card meCard"><div class="frMe" id="frMe"></div><button class="heroBtn" id="heroBtn" aria-label="Pick your hero"></button></div>
-    <div class="card chCard"><div class="row between"><div><div class="k">Weekly challenge</div><h3 style="margin:0" id="chTheme"></h3></div><div style="text-align:right"><div class="chPts"><b id="chMine">0</b> pts</div><div class="muted sm" id="chEnds"></div></div></div>
+    <div class="seg subseg" id="sub-friends" data-view="friends"><button data-sv="challenge" class="on">Challenge</button><button data-sv="people">Friends</button><button data-sv="groups">Groups</button></div>
+    <div class="card chCard" data-sp="challenge"><div class="row between"><div><div class="k">Weekly challenge</div><h3 style="margin:0" id="chTheme"></h3></div><div style="text-align:right"><div class="chPts"><b id="chMine">0</b> pts</div><div class="muted sm" id="chEnds"></div></div></div>
       <div class="muted sm" id="chThemeD"></div><div class="chDays" id="chDays"></div>
       <details><summary class="sm">How points work (and why it’s fair)</summary><p class="sm" style="margin:6px 0 0">Everyone earns points against <b>their own</b> targets, so size, goal and fitness level don’t matter. Each day: 2+ meals logged (10), protein at 90% of your target (10), calories within 10% of your target (10), your water goal (5), and 10+ good reps in a workout or boss fight (10). That’s 45 a day at most, and one category counts double each week for everyone. Weeks run Monday to Sunday. Friends see your points, level and streak, never your food, calories or weight.</p></details></div>
-    <div class="card"><div class="row between"><h3 style="margin:0">Leaderboard</h3><span class="muted sm">friends</span></div><div id="frBoard" style="margin-top:8px"></div></div>
-    <div class="card refCard"><div class="refGift"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4.5 9 8 12 8zM12 8s2-5 4.5-3.5S15 8 12 8z"/></svg></div><div style="flex:1"><b>Invite a friend, you both win</b><div class="sm">When they create an account with your link, you each get <b>250 gold + 300 XP</b>.</div><div class="sm muted" id="refInfo"></div></div><button class="small" data-invite>Invite</button></div>
-    <div class="card"><div class="row between"><h3 style="margin:0">Friends</h3><button class="small" id="inviteBtn">+ Invite</button></div><div id="frList" style="margin-top:8px"></div></div>
-    <div class="card"><div class="row between"><h3 style="margin:0">Activity</h3><span class="muted sm">high-five your friends</span></div><div id="feed" style="margin-top:8px"></div></div>
-    <div class="card"><div class="row between"><h3 style="margin:0">Groups</h3><button class="small ghost" id="newGroup">+ New group</button></div><div id="grList" style="margin-top:8px"></div></div>
+    <div class="card" data-sp="challenge"><div class="row between"><h3 style="margin:0">Leaderboard</h3><span class="muted sm">friends</span></div><div id="frBoard" style="margin-top:8px"></div></div>
+    <div class="card refCard" data-sp="people"><div class="refGift"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4.5 9 8 12 8zM12 8s2-5 4.5-3.5S15 8 12 8z"/></svg></div><div style="flex:1"><b>Invite a friend, you both win</b><div class="sm">When they create an account with your link, you each get <b>250 gold + 300 XP</b>.</div><div class="sm muted" id="refInfo"></div></div><button class="small" data-invite>Invite</button></div>
+    <div class="card" data-sp="people"><div class="row between"><h3 style="margin:0">Friends</h3><button class="small" id="inviteBtn">+ Invite</button></div><div id="frList" style="margin-top:8px"></div></div>
+    <div class="card" data-sp="people"><div class="row between"><h3 style="margin:0">Activity</h3><span class="muted sm">high-five your friends</span></div><div id="feed" style="margin-top:8px"></div></div>
+    <div class="card" data-sp="groups"><div class="row between"><h3 style="margin:0">Groups</h3><button class="small ghost" id="newGroup">+ New group</button></div><div id="grList" style="margin-top:8px"></div></div>
   </div>
 </section>
 </main>
@@ -989,6 +1007,10 @@ html[data-skin] .hero{background:radial-gradient(circle at 90% 0%,rgba(242,194,4
   <div class="sh"><h2>🛒 Grocery list</h2><button class="x" data-close="grocSheet" aria-label="Close">×</button></div>
   <div class="sb"><p class="muted sm" style="margin-top:0">Everything in this week’s plan. Tap items as you shop.</p><div id="grocList"></div></div>
   <div class="sf row"><button class="ghost wide" id="grocClear">Uncheck all</button><button class="wide red" id="grocShare">Share list</button></div></div>
+<div class="pmodal" id="loginSheet" role="dialog" aria-label="Daily reward"><div class="pbox"><div class="lgHero">🎁</div><h2 style="margin:0">Daily reward</h2><p class="muted sm" id="lgSub" style="margin:4px 0 12px"></p>
+  <div class="lgDays" id="lgDays"></div><button class="wide red" id="lgClaim" style="margin-top:14px">Claim</button><button class="ghost wide small" id="lgLater" style="margin-top:6px;border:0">Close</button></div></div>
+<div class="pmodal" id="promptBox" role="dialog" aria-label="Tip"><div class="pbox"><div id="prIc" class="prIc"></div><h2 id="prT" style="margin:10px 0 4px"></h2><div class="muted sm" id="prB" style="text-align:left"></div>
+  <button class="wide red" id="prYes" style="margin-top:14px"></button><button class="ghost wide small" id="prNo" style="margin-top:6px;border:0"></button></div></div>
 <div id="battle" role="dialog" aria-label="Boss battle"></div>
 <div class="sheet" id="friendSheet" role="dialog" aria-label="Friend" style="z-index:23">
   <div class="sh"><h2>Friend</h2><button class="x" data-close="friendSheet" aria-label="Close">×</button></div><div class="sb" id="fsBody"></div></div>
@@ -1243,7 +1265,7 @@ function loadGuest(){DV++;base=null;chat=[];S=blank();try{const raw=lsGet(GKEY);
 let metaT=null,DV=0;
 const store={
   saveMeta(){ DV++;if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
-    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
+    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,login:S.login||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
   putMeal(m){ DV++;if(mode==='guest')return this.saveMeta();
     FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m).catch(e=>toast('Couldn’t sync meal: '+e.code))},
   delMeal(id){ DV++;if(mode==='guest')return this.saveMeta();
@@ -1746,7 +1768,7 @@ async function uploadAll(meals){for(let i=0;i<meals.length;i+=400){const b=FB.fs
 async function loadCloud(){
   const fs=FB.fs;S=blank();DV++;
   const [pd,qs]=await Promise.all([fs.getDoc(fs.doc(FB.db,'users',user.uid)),fs.getDocs(fs.collection(FB.db,'users',user.uid,'meals'))]);
-  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.gold=d.gold??undefined;S.potions=d.potions||[];S.bonus=d.bonus||[];S.inv=Object.assign({shield:0,gloves:0},d.inv||{});S.boss=d.boss||null;S.reps=d.reps||{};S.hero=d.hero||null;S.chest=d.chest||null;S.invite=d.invite||null;S.ex=d.ex||{};S.showcase=d.showcase||[];S.evWins=d.evWins||{};S.owned=d.owned||[];S.frame=d.frame||null;S.skin=d.skin||null;S.plan=d.plan||{};S.got=d.got||{};S.recipes=d.recipes||{};S.created=d.created||null;S.meals=qs.docs.map(x=>x.data());
+  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.gold=d.gold??undefined;S.potions=d.potions||[];S.bonus=d.bonus||[];S.inv=Object.assign({shield:0,gloves:0},d.inv||{});S.boss=d.boss||null;S.reps=d.reps||{};S.hero=d.hero||null;S.chest=d.chest||null;S.login=d.login||null;S.invite=d.invite||null;S.ex=d.ex||{};S.showcase=d.showcase||[];S.evWins=d.evWins||{};S.owned=d.owned||[];S.frame=d.frame||null;S.skin=d.skin||null;S.plan=d.plan||{};S.got=d.got||{};S.recipes=d.recipes||{};S.created=d.created||null;S.meals=qs.docs.map(x=>x.data());
   if(pendingMigrate){const pm=pendingMigrate;pendingMigrate=null;S.name=pm.name;
     if(pm.data){const ids=new Set(S.meals.map(m=>m.id));const add=pm.data.meals.filter(m=>!ids.has(m.id));S.meals.push(...add);
       if(!d.profile)S.profile=Object.assign({},pm.data.profile);const wd=new Set(S.weights.map(w=>w.d));S.weights.push(...pm.data.weights.filter(w=>!wd.has(w.d)));
@@ -1757,8 +1779,8 @@ async function onUser(u){
   base=null;lastWidget='';
   if(u){user=u;mode='cloud';try{await loadCloud()}catch(e){toast('Couldn’t load your data: '+(e.code||e.message))}closeSheet('auth');closeSheet('setSheet');
     const k='platescan.lvl.'+u.uid;if(!lsGet(k))lsSet(k,String(game().lv.L)); // no level-up popup for existing progress on a new device
-    fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews()}
-  else{socStop();user=null;mode='guest';loadGuest();fillFields();render();suggStart();if(refUnsub){refUnsub();refUnsub=null}maybeNews();if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
+    fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews();setTimeout(maybeLogin,2600)}
+  else{socStop();user=null;mode='guest';loadGuest();fillFields();render();suggStart();if(refUnsub){refUnsub();refUnsub=null}maybeNews();setTimeout(maybeLogin,2600);if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
 }
 function renderAccount(){
   renderInstall();renderHelp();
@@ -2438,7 +2460,6 @@ function buy(k,btn){const it=SHOP[k];if(!it)return;const g=S.gold||0;if(g<it.g){
   render()}
 // daily chest: a little gold every day you open the app
 const seedRand=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return ((h>>>0)%1000)/1000};
-function chestReady(){return S.chest!==ymd(Date.now())}
 function openChest(el){if(!chestReady())return;const d=ymd(Date.now()),g=game(),amt=15+Math.round(seedRand(d+(user?user.uid:'g'))*20)+Math.min(g.curStreak,10)*2;S.chest=d;
   el.classList.add('opening');sfx('chest');setTimeout(()=>{gainGold(amt,el);el.classList.remove('opening');el.classList.add('opened');setTimeout(render,900)},650)}
 
@@ -2481,7 +2502,7 @@ function renderQuest(g){
   $('goldN').textContent=fmt(S.gold||0);
   $('potState').innerHTML=ap?`${potionSVG(SHOP[ap.t]?SHOP[ap.t].col:'#5fd1b0')}<span><b>+${Math.round((ap.mult-1)*100)}% XP</b><span class="muted sm">${(()=>{const n=Math.round((new Date(ap.e+'T23:59')-Date.now())/864e5);return n<1?'ends tonight':n+' more day'+(n>1?'s':'')})()}</span></span>`:`<span class="muted sm">No potion active</span>`;
   const ch=$('chestBtn');ch.classList.toggle('ready',chestReady());ch.classList.toggle('opened',!chestReady());ch.setAttribute('aria-label',chestReady()?'Open your daily chest':'Chest opened. Come back tomorrow');
-  $('chestLbl').textContent=chestReady()?'Daily chest':'Opened';
+  {const ls=loginState();$('chestLbl').textContent=ls.ready?'Daily reward':`Day ${ls.day} ✓`}
   // stage map
   const B=Object.assign(bossBlank(),S.boss),cur=B.beat+1,show=Math.max(cur+3,6),nodes=[];
   for(let s=1;s<=show;s++){const st=stageState(s,L),b=bossFor(s);nodes.push(`<button class="node ${st}${s===cur?' cur':''}" data-stage="${s}" aria-label="Stage ${s}: ${esc(b.n)}${st==='beat'?', defeated':st==='lvl'?', unlocks at level '+stageReq(s):st==='lock'?', locked':''}"><span class="nb">${st==='beat'||s===cur?bossArt(b,'mini'):'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}${st==='beat'?'<i class="ok">✓</i>':''}</span><span class="nl">${s}</span></button>`)}
@@ -2499,7 +2520,7 @@ function renderQuest(g){
   $('achCount').textContent=`${g.ach.filter(a=>a[2]).length} of ${g.ach.length}`;
   $('ach').innerHTML=g.ach.map(([n,d,ok])=>`<div class="${ok?'':'lock'}">${medal}<b>${esc(n)}</b><span class="muted">${esc(d)}</span></div>`).join('');
   $('rankRoad').innerHTML=RANKS.map(([at,t])=>`<div class="rr${L>=at?' got':''}${rankFor(L).at===at?' now':''}">${emblem(at)}<div><b>${esc(t)}</b><span class="muted sm">Level ${at}</span></div>${rankFor(L).at===at?'<span class="pill">You</span>':''}</div>`).join('');
-  stag($('quests'));stag($('ach'));stag($('shop'));renderFreeze(g);renderEvent();renderBadges();renderStyle();
+  stag($('quests'));stag($('ach'));stag($('shop'));renderFreeze(g);renderEvent();renderBadges();renderStyle();applySub('level');
   if(animNext){const curN=$('stageMap').querySelector('.node.cur');if(curN)setTimeout(()=>curN.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'}),250)}
 }
 document.addEventListener('click',e=>{
@@ -2507,7 +2528,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#fightBtn')){openBattle((S.boss?S.boss.beat:0)+1);return}
   const n=e.target.closest('#stageMap .node');if(n){const s=+n.dataset.stage,st=stageState(s,game().lv.L);if(st==='beat'||st==='open')openBattle(s);else{sfx('tap');n.classList.remove('nope');void n.offsetWidth;n.classList.add('nope');toast(st==='lvl'?`Reach level ${stageReq(s)} to fight this boss.`:`Beat stage ${s-1} first.`)}return}
   if(e.target.closest('#dummyBtn')){openBattle('dummy');return}
-  const ch=e.target.closest('#chestBtn');if(ch){if(chestReady())openChest(ch);else toast('Your next chest opens tomorrow.');return}
+  const ch=e.target.closest('#chestBtn');if(ch){openLogin();return}
 });
 
 // ================= boss battles (camera rep tracking) =================
@@ -2666,7 +2687,7 @@ function socStart(){socStop();if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)r
   SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'nudges'),fs.where('to','==',me)),q=>{const seenK='platescan.nudgeSeen.'+me,seen=+(lsGet(seenK)||0);let mx=seen;
     SOC.inbox=q.docs.map(d=>d.data()).sort((a,b)=>b.ts-a.ts).slice(0,10);for(const n of SOC.inbox)if(n.ts>seen){mx=Math.max(mx,n.ts);if(Date.now()-n.ts<3*864e5)enqueue({type:'quest',k:'You got a nudge',name:`${n.fromName||'A friend'} says: time to work out! 💪`,xp:''})}
     lsSet(seenK,String(mx));if(view==='friends')renderFriends()},e=>console.warn('nudges',e.code)));
-  if(lsGet('platescan.goFriends')){lsDel('platescan.goFriends');go('friends')}
+  if(lsGet('platescan.goFriends')){lsDel('platescan.goFriends');goSub('friends','people')}
   processInvites()}
 let profT=0;
 async function loadProfiles(force){if(!SOC.on)return;if(!force&&Date.now()-profT<20000){if(view==='friends')renderFriends();return}profT=Date.now();
@@ -2685,7 +2706,7 @@ async function processInvites(){let p=null;try{p=JSON.parse(lsGet('platescan.pen
       if(ex&&ex.exists()){toast(`You and ${nm} are already friends.`);go('friends');return}
       await fs.setDoc(fs.doc(FB.db,'friendships',fid),{members:[me,p.id].sort(),by:p.id,code:p.code,ts:Date.now()});
       if(justSignedUp){justSignedUp=false;await claimReferral(p.id,p.code)}
-      go('friends');enqueue({type:'ach',k:'New friend',name:`You and ${nm} are now friends!`});sfx('ach')}
+      goSub('friends','people');enqueue({type:'ach',k:'New friend',name:`You and ${nm} are now friends!`});sfx('ach')}
     else{await fs.updateDoc(fs.doc(FB.db,'groups',p.id),{members:fs.arrayUnion(me),joinCode:p.code});go('friends');
       await fs.addDoc(fs.collection(FB.db,'groups',p.id,'messages'),{uid:me,name:S.name||'Friend',t:`${S.name||'A friend'} joined the group 👋`,k:'sys',ts:Date.now()}).catch(()=>{});
       await fs.updateDoc(fs.doc(FB.db,'groups',p.id),{last:{t:`${S.name||'A friend'} joined`,n:'',ts:Date.now()}}).catch(()=>{});
@@ -2748,7 +2769,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
   $('frList').innerHTML=ids.length?SOC.friends.map(f=>{const p=SOC.profiles[f.uid];if(!p)return `<div class="fr"><span class="gav sk"></span><div class="muted sm">Loading…</div></div>`;const left=nudgeLeft(f.uid);
     return `<div class="fr" data-friend="${f.uid}" role="button" tabindex="0"><span class="gav${frameCls(p.frame)}">${avHTML(AV[p.hero]?p.hero:'maya')}</span><div class="fmid"><b>${esc(p.name)} ${badgeRow(p.badges,'sm')}</b><div class="muted sm">${emblem(p.L||1,'tiny')} Lv ${p.L||1} · ${p.streak?`🔥 ${p.streak}`:'no streak'} · ${ago(p.last)}</div></div><button class="small nudge${left?' wait':''}" data-nudge="${f.uid}" ${left?'disabled':''}>${left?`Nudged · ${hrs(left)}`:'Nudge'}</button></div>`}).join(''):`<div class="empty"><p class="muted sm" style="margin:0 0 8px">No friends yet. Send your invite link and they’ll show up here once they tap it.</p></div>`;
   $('grList').innerHTML=SOC.groups.length?SOC.groups.map(gr=>`<div class="fr" data-group="${gr.id}" role="button" tabindex="0"><span class="gico">${esc((gr.name||'G')[0].toUpperCase())}</span><div class="fmid"><b>${esc(gr.name)}</b><div class="muted sm ell">${esc(gr.last&&gr.last.t?(gr.last.n?gr.last.n+': ':'')+gr.last.t:'No messages yet')}</div></div><span class="muted sm">${gr.members.length} 👥</span></div>`).join(''):`<p class="muted sm" style="margin:0">Make a group chat for your gym crew, family or coworkers. Everyone in it shares a leaderboard.</p>`;
-  loadFeed();renderFeed();if(animNext){stag($('frList'));stag($('grList'))}
+  loadFeed();renderFeed();applySub('friends');if(animNext){stag($('frList'));stag($('grList'))}
 }
 function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey(Date.now()),wd=p.wk===wk?p.wd||[]:[0,0,0,0,0,0,0],th=weekTheme(wk),mx=45+PTS[th.k],left=nudgeLeft(uid);
   $('fsBody').innerHTML=`<div class="fsHero">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${avHTML(AV[p.hero]?p.hero:'maya')}</div><h2>${esc(p.name)}</h2><div class="muted">Level ${p.L||1} · ${esc(p.title||rankFor(p.L||1).title)}</div>${badgeRow(p.badges,'lg')}</div>
@@ -2805,7 +2826,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='12';
+const APP_VERSION='13';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -2839,7 +2860,7 @@ async function checkUpdate(){if(!navigator.onLine||location.protocol==='file:')r
 setInterval(checkUpdate,10*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
 $('updBtn').onclick=async()=>{try{const rs=await navigator.serviceWorker?.getRegistrations?.();for(const r of rs||[])await r.update()}catch(e){}location.reload()};
 // what's new
-const NEWS=[['Team boss fights','Fight a boss together with your group. More fighters means more boss HP, and everyone gets a 25% bonus. Scoreboards show everyone’s reps and damage.'],['Exercise badges','Bronze to Mythic badges for squats, push-ups, pull-ups, sit-ups, lunges, jumping jacks and plank time. Show off 3 on your avatar.'],['4 new exercises','Lunges, sit-ups, jumping jacks and plank holds, with rep counting read out loud.'],['Monthly event boss','A new limited boss every month with an exclusive badge.'],['Style shop','Spend gold on avatar frames friends can see, and app color themes.'],['AI portions + recipes','Estimate portions from a photo with your free AI key, and save homemade recipes.'],['Plan, photos, insights','Weekly meal planner with grocery list, private progress photos, personal insights and export.'],['Friends activity','See what friends achieve and send high-fives.'],['New reminders','Meal, water and weekly weigh-in reminders.'],['New app icon','Re-add PlateScan to your Home Screen to see it.']];
+const NEWS=[['Daily rewards','Open PlateScan each day to claim gold. Day 7 adds an XP potion. Miss one day and you keep your progress.'],['Cleaner Quest and Friends tabs','Bosses, badges, shop and quests now have their own tabs, and so do challenge, friends and groups.'],['Team boss fights','Fight a boss together with your group. More fighters means more boss HP, and everyone gets a 25% bonus. Scoreboards show everyone’s reps and damage.'],['Exercise badges','Bronze to Mythic badges for squats, push-ups, pull-ups, sit-ups, lunges, jumping jacks and plank time. Show off 3 on your avatar.'],['4 new exercises','Lunges, sit-ups, jumping jacks and plank holds, with rep counting read out loud.'],['Monthly event boss','A new limited boss every month with an exclusive badge.'],['Style shop','Spend gold on avatar frames friends can see, and app color themes.'],['AI portions + recipes','Estimate portions from a photo with your free AI key, and save homemade recipes.'],['Plan, photos, insights','Weekly meal planner with grocery list, private progress photos, personal insights and export.'],['Friends activity','See what friends achieve and send high-fives.'],['New reminders','Meal, water and weekly weigh-in reminders.'],['New app icon','Re-add PlateScan to your Home Screen to see it.']];
 function showNews(){$('newsList').innerHTML=NEWS.map(([t,d],i)=>`<div class="news" style="--i:${i}"><span class="nb">${i+1}</span><div><b>${esc(t)}</b><div class="muted sm">${esc(d)}</div></div></div>`).join('');openSheet('newsSheet')}
 $('newsOk').onclick=()=>closeSheet('newsSheet');
 function maybeNews(){if(lsGet('platescan.seen')===APP_VERSION)return;const fresh=!lsGet(obKey());lsSet('platescan.seen',APP_VERSION);if(fresh)return;setTimeout(()=>{if(!document.querySelector('.sheet.on')&&!$('tour').classList.contains('on'))showNews()},1800)}
@@ -3131,6 +3152,52 @@ async function loadDash(){const box=$('dash');if(!box||!isAdmin)return;box.inner
     box.innerHTML=`<div class="g3 dashG"><div><b>${ps.length}</b><span>players</span></div><div><b>${act7}</b><span>active this week</span></div><div><b>${new7}</b><span>new this week</span></div><div><b>${act30}</b><span>active this month</span></div><div><b>${avgL.toFixed(1)}</b><span>average level</span></div><div><b>${boss}</b><span>bosses beaten</span></div></div><p class="muted sm" style="margin:6px 0 0">Suggestions: ${Object.entries(cats).map(([k,v])=>`${SCATS[k]||k} ${v}`).join(' · ')||'none yet'}. Counts include people with accounts who opened the app since the friends update.</p>`}
   catch(e){box.innerHTML=`<span class="muted sm">Couldn’t load stats (${esc(e.code||'error')}). Publish the latest rules from SETUP.md.</span>`}}
 document.addEventListener('click',e=>{if(e.target.closest('#dashBtn'))loadDash()});
+
+// ================= daily login rewards =================
+const LOGIN=[{g:20},{g:30},{g:40},{g:50},{g:60},{g:80},{g:150,p:'minor'}];
+function loginState(){const L=Object.assign({last:null,n:0,total:0},S.login),today=ymd(Date.now());if(L.last===today)return {...L,ready:false,day:L.n};
+  const gap=L.last?Math.round((new Date(today+'T12:00')-new Date(L.last+'T12:00'))/864e5):99;return {...L,ready:true,day:gap<=2?(L.n%7)+1:1,reset:!!L.last&&gap>2}}
+function chestReady(){return loginState().ready}
+const coinTile='<svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="10" fill="#f2c230" stroke="#a8730a" stroke-width="1.6"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#fff3b0" stroke-width="1.4"/></svg>';
+function renderLogin(claimed){const st=loginState(),day=st.day;
+  $('lgDays').innerHTML=LOGIN.map((r,i)=>{const d=i+1,done=claimed?d<=day:(st.ready?d<day:d<=day),now=d===day;
+    return `<div class="ld${done?' done':''}${now&&!done?' now':''}${d===7?' big':''}" style="--i:${i}"><span class="dn">Day ${d}</span>${d===7?potionSVG('#5fd1b0'):coinTile}<b>${r.g}</b>${done?'<i class="ldc">✓</i>':''}</div>`}).join('');
+  $('lgSub').textContent=st.ready?(st.reset?'Welcome back! Your login streak starts again.':`Day ${day} of 7. Open PlateScan every day for bigger rewards.`):`Come back tomorrow for day ${day%7+1}.`;
+  const b=$('lgClaim');b.textContent=st.ready?`Claim ${LOGIN[day-1].g} gold${LOGIN[day-1].p?' + XP potion':''}`:'Done';b.classList.toggle('red',st.ready)}
+function openLogin(){renderLogin();$('loginSheet').classList.add('on');sfx('pop')}
+function closeLogin(){$('loginSheet').classList.remove('on');setTimeout(maybePrompt,2500)}
+$('lgClaim').onclick=()=>{const st=loginState();if(!st.ready)return closeLogin();const r=LOGIN[st.day-1],today=ymd(Date.now());
+  S.login={last:today,n:st.day,total:(st.total||0)+1};S.gold=(S.gold||0)+r.g;
+  if(r.p){const it=SHOP[r.p];S.potions=(S.potions||[]).filter(p=>p.e>=addDays(today,-7));const same=S.potions.find(p=>p.t===r.p&&p.e>=today);if(same)same.e=addDays(same.e,it.days);else S.potions.push({t:r.p,mult:it.mult,s:today,e:addDays(today,it.days-1)})}
+  store.saveMeta();renderLogin(true);sfx('chest');const t=$('lgDays').querySelector('.ld:nth-child('+st.day+')');if(t){t.classList.add('pop');burstAt(t,{n:30,speed:6,shape:'circle',colors:['#f2c230','#ffe58a','#a8730a']})}
+  floatText($('lgClaim'),`+${r.g} gold`,'#e0a800');setTimeout(()=>{sfx('coin');render()},500)};
+$('lgLater').onclick=closeLogin;
+let loginTries=0;
+function maybeLogin(){if(!lsGet(obKey())||!loginState().ready)return setTimeout(maybePrompt,20000);
+  if(document.querySelector('.sheet.on')||$('tour').classList.contains('on')||$('lvup').classList.contains('on')){if(loginTries++<8)setTimeout(maybeLogin,2500);return}openLogin()}
+
+// ================= sub-tabs keep busy pages short =================
+const SUBS={level:[['bosses','Bosses'],['badges','Badges'],['shop','Shop'],['quests','Quests']],friends:[['challenge','Challenge'],['people','Friends'],['groups','Groups']]};
+const subOf=v=>lsGet('platescan.sub.'+v)||SUBS[v][0][0];
+function applySub(v){if(!SUBS[v])return;const cur=subOf(v),bar=$('sub-'+v);if(!bar)return;bar.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.sv===cur));segInd(bar);
+  document.querySelectorAll(`#v-${v} [data-sp]`).forEach(el=>{el.style.display=el.dataset.sp.split(' ').includes(cur)?'':'none'})}
+document.addEventListener('click',e=>{const b=e.target.closest('.subseg [data-sv]');if(!b)return;const v=b.closest('.subseg').dataset.view;lsSet('platescan.sub.'+v,b.dataset.sv);sfx('tap');applySub(v);
+  document.querySelectorAll(`#v-${v} [data-sp]`).forEach(el=>{if(el.style.display===''){el.classList.remove('subIn');void el.offsetWidth;el.classList.add('subIn')}});if(scrollY>120)window.scrollTo({top:0,behavior:'smooth'})});
+function goSub(v,sv){lsSet('platescan.sub.'+v,sv);go(v)}
+
+// ================= gentle prompts: install + notifications (max one a day) =================
+const daysSince=k=>{const t=+(lsGet('platescan.pr.'+k)||0);return (Date.now()-t)/864e5};
+function showPrompt(k,o){lsSet('platescan.prompted',ymd(Date.now()));const P=$('promptBox');$('prIc').innerHTML=o.ic;$('prT').textContent=o.t;$('prB').innerHTML=o.b;$('prYes').textContent=o.yes;$('prNo').textContent=o.no||'Not now';
+  $('prYes').onclick=()=>{P.classList.remove('on');o.go()};$('prNo').onclick=()=>{P.classList.remove('on');lsSet('platescan.pr.'+k,String(Date.now()))};P.classList.add('on');sfx('pop')}
+function maybePrompt(){if(lsGet('platescan.prompted')===ymd(Date.now())||!lsGet(obKey()))return;
+  if(document.querySelector('.sheet.on')||$('tour').classList.contains('on')||$('loginSheet').classList.contains('on')||$('battle').classList.contains('on')||$('promptBox').classList.contains('on'))return setTimeout(maybePrompt,15000);
+  if(!standalone()&&S.meals.length>=1&&daysSince('install')>3){const and=/Android/i.test(navigator.userAgent);
+    return showPrompt('install',{ic:'<img src="icon-192.png" alt="" width="64" height="64" style="border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.2)">',t:'Put PlateScan on your Home Screen',
+      b:isIOS?'It opens full screen like a real app, works offline, and can remind you before your streak ends.<ol class="steps sm"><li>Tap <b>Share</b> <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg> in Safari</li><li>Tap <b>Add to Home Screen</b></li><li>Tap <b>Add</b>, then open it from the icon</li></ol>':'It opens full screen like a real app, works offline, and can remind you before your streak ends.',
+      yes:deferredInstall?'Install':isIOS?'Got it':'Show me how',go:async()=>{if(deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null}else if(!isIOS){openSheet('setSheet');setTab('help')}lsSet('platescan.pr.install',String(Date.now()))}})}
+  if(standalone()&&pushOK()&&Notification.permission!=='denied'&&!(S.reminder&&S.reminder.on)&&daysSince('notif')>3){
+    return showPrompt('notif',{ic:'<span class="prBell">🔔</span>',t:'Never lose your streak',b:mode==='cloud'?'Get one quick reminder if you haven’t logged by evening, plus nudges from friends. You can change the time or turn it off anytime.':'Reminders are sent to your account. Create a free account (your current log comes with you), then turn them on.',
+      yes:mode==='cloud'?'Turn on reminders':'Create account',go:()=>{if(mode!=='cloud'){showAuth('signup');return}const r=$('remOn');r.checked=true;r.dispatchEvent(new Event('change'));lsSet('platescan.pr.notif',String(Date.now()))}})}}
 
 // ================= start =================
 setMealType(defaultMealType());
