@@ -77,6 +77,38 @@ for (const doc of snap.docs) {
 }
 console.log(`Meal/water/weigh-in reminders sent: ${extra}`);
 
+// ---- friend workout streak about to end (7 PM local) ----
+let fsSent = 0;
+const dayBefore = d => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() - 1); return x.toISOString().slice(0, 10); };
+for (const doc of snap.docs) {
+  const r = (doc.data().reminder) || {};
+  if (!r.sub || !r.sub.endpoint) continue;
+  const { today, hour } = localNow(r.tz || 'America/Phoenix');
+  const key = `${today}-fstreak`;
+  if (hour !== 19 || (r.sentKeys || []).includes(key)) continue;
+  try {
+    const me = await db.collection('profiles').doc(doc.id).get();
+    const mine = new Set((me.exists && me.data().wo) || []);
+    if (mine.has(today)) continue;
+    const fr = await db.collection('friendships').where('members', 'array-contains', doc.id).get();
+    let best = null;
+    for (const f of fr.docs) {
+      const other = f.data().members.find(x => x !== doc.id), p = await db.collection('profiles').doc(other).get();
+      if (!p.exists) continue;
+      const theirs = new Set(p.data().wo || []);
+      let d = dayBefore(today), n = 0;
+      while (mine.has(d) && theirs.has(d)) { n++; d = dayBefore(d); }
+      if (n >= 2 && (!best || n > best.n)) best = { n, name: p.data().name || 'your friend' };
+    }
+    if (!best) continue;
+    await webpush.sendNotification(r.sub, JSON.stringify({ title: `⏳ Your ${best.n}-day streak with ${best.name} ends tonight`, body: 'Do 10+ good reps in PlateScan to keep it alive.', url: (r.url || './') + '#friends', tag: 'fstreak' }), { TTL: 4 * 3600 });
+    const fresh = ((await doc.ref.get()).data().reminder || {}).sentKeys || [];
+    await doc.ref.update({ 'reminder.sentKeys': [...fresh, key].slice(-12) });
+    fsSent++;
+  } catch (e) { console.error('fstreak', doc.id, e.statusCode, e.body || e.message); }
+}
+console.log(`Friend streak alerts: ${fsSent}`);
+
 // ---- friend nudges ----
 const nudges = await db.collection('nudges').where('sent', '==', false).limit(500).get();
 let nSent = 0;
@@ -117,4 +149,26 @@ for (const side of ['a', 'b']) {
     } catch (e) { console.error('duel', doc.id, e.statusCode, e.body || e.message); }
     await doc.ref.update({ ping: null });
   }
+}
+
+// ---- friend requests ----
+const reqs = await db.collection('friendReqs').where('ping', '==', true).limit(200).get();
+for (const doc of reqs.docs) {
+  const q = doc.data();
+  try {
+    const u = await db.collection('users').doc(q.to).get(), r = (u.exists && u.data().reminder) || {};
+    if (r.on && r.sub && r.sub.endpoint) await webpush.sendNotification(r.sub, JSON.stringify({ title: `${q.fromName || 'Someone'} wants to be friends`, body: q.mutual ? `${q.mutual} mutual friend${q.mutual > 1 ? 's' : ''}. Tap to accept in PlateScan.` : 'Tap to accept in PlateScan.', url: (r.url || './') + '#friends', tag: 'req-' + doc.id }), { TTL: 24 * 3600 });
+  } catch (e) { console.error('req', doc.id, e.statusCode, e.body || e.message); }
+  await doc.ref.update({ ping: false });
+}
+
+// ---- monthly boss party invites ----
+const pinv = await db.collection('mpInv').where('ping', '==', true).limit(200).get();
+for (const doc of pinv.docs) {
+  const q = doc.data();
+  try {
+    const u = await db.collection('users').doc(q.to).get(), r = (u.exists && u.data().reminder) || {};
+    if (r.on && r.sub && r.sub.endpoint) await webpush.sendNotification(r.sub, JSON.stringify({ title: `${q.fromName || 'A friend'} invited you to a boss party 🐲`, body: `Team up against ${q.boss} this month. Open PlateScan to join.`, url: (r.url || './') + '#friends', tag: 'party-' + doc.id }), { TTL: 24 * 3600 });
+  } catch (e) { console.error('party', doc.id, e.statusCode, e.body || e.message); }
+  await doc.ref.update({ ping: false });
 }

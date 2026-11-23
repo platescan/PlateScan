@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (duels, home workouts, contact invites, more foods), do **Upload the update**, then **step 4: publish the new database rules (required for duels)**.
+Steps 1–3 are already done if your app and accounts work. For this update (v16: monthly boss parties, hearts, hero avatars, pets, notification box, friend codes, portions, water sizes), do **Upload the update**, then **step 4: publish the new database rules (required for parties and friend codes)**. Full patch notes are in `CHANGELOG.md` and in the app under Settings → Help → Patch notes. The in-app **Guide** (Settings → Help → Guide) explains every feature.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -177,6 +177,38 @@ service cloud.firestore {
         && request.resource.data.a == resource.data.a && request.resource.data.b == resource.data.b
         && request.resource.data.stake == resource.data.stake;
     }
+
+    // Friend requests (from "People you may know")
+    match /friendReqs/{rid} {
+      allow create: if signedIn() && request.resource.data.from == me()
+        && rid == me() + '_' + request.resource.data.to && request.resource.data.to != me();
+      allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
+      allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
+    }
+
+    // Friend codes
+    match /tags/{tag} {
+      allow get: if signedIn();
+      allow create: if signedIn() && request.resource.data.uid == me();
+      allow delete: if signedIn() && resource.data.uid == me();
+    }
+
+    // Monthly boss parties
+    match /mparty/{pid} {
+      allow read: if signedIn() && (resource == null || me() in resource.data.members);
+      allow create: if signedIn() && request.resource.data.owner == me() && request.resource.data.members == [me()];
+      allow update: if signedIn() && (me() in resource.data.members
+        || (exists(/databases/$(database)/documents/mpInv/$(pid + '_' + me()))
+            && request.resource.data.members.toSet() == resource.data.members.toSet().union([me()].toSet())
+            && request.resource.data.members.size() <= 10));
+    }
+    match /mpInv/{iid} {
+      allow create: if signedIn() && request.resource.data.from == me()
+        && iid == request.resource.data.pid + '_' + request.resource.data.to
+        && me() in get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.members;
+      allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
+      allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
+    }
   }
 }
 ```
@@ -249,6 +281,30 @@ When someone creates a new account using a friend's invite link (Friends → Inv
 
 ## When you publish an update
 GitHub Pages goes live about a minute after you commit. People who open PlateScan afterward get the new version automatically. Anyone who already has it open sees a yellow **"A new version of PlateScan is ready · Refresh"** bar. Data is never lost by updating.
+
+## Friend workout streaks
+A day counts toward your streak with a friend when you **both** do 10+ good tracked reps (any workout, boss fight, duel or circuit). 🔥 shows the streak next to each friend, ⏳ means it ends at midnight. If reminders are on, you get a 7 PM notification when a streak is about to end. Milestones at 3, 7, 14, 30, 50, 100 and 365 days pay gold.
+
+## Mutual friends
+Each friend's profile shows your mutual friends. **Friends → Friends → People you may know** suggests friends of your friends; tap **Add** to send a request, and they accept from **Friend requests**.
+
+## Monthly boss and hearts
+Quest → Bosses → **Monthly boss**. Pick a difficulty for the month: Easy 5, Normal 10, Hard 15 or Legend 20 reps a day. The boss has a whole month of health. Each day you do fewer reps than that, it attacks overnight and you lose a heart; if you stop repping during a fight it attacks too.
+
+**Charge attacks (all bosses):** bosses also strike on a timer even while you're repping: every 60 s on Easy, 45 s on Normal, 35 s on Hard, 28 s on Legend. When the boss glows and the ⚡ bar appears, do 3 quick reps within 6 seconds (or keep holding a plank or wall sit) to block. Miss it and you take a hit. The training dummy and duels don't charge. Tap **+ Invite friends** to make a party: each friend adds 80% HP and everyone earns +50% rewards (gold, XP, an exclusive badge and an Elixir of Legends).
+Hearts: up to 5. You get one back every 45 minutes, one for each daily quest you finish, or buy them in the Shop.
+
+## Your hero, pet and profile
+Tap the hero card on Today. **Avatar**: skin, hair, hair color, facial hair, outfits, gear and backgrounds; expensive items shimmer. Your hero gets more muscular as you log reps and leaner as you approach your weight goal. **Pet**: adopt one; it's happy when you log meals, hit protein, drink water, finish quests and work out. Treats, toys and a cozy bed (gold) keep it happy. **Profile**: motto, title, favorite exercise and banner. Friends see all of this.
+
+## Notification box and friend codes
+Tap the bell at the top. Friend requests, duel challenges and party invites all land here. Your friend code (like MIKE-4821) is at the top; type someone else's code to send them a request. When you send requests, duels or invites you can turn the push notification off and it will only go to their notification box.
+
+## Logging, water and the scanner
+Each food has S/M/L/XL buttons and an exact amount in g, oz, cups or tbsp. With your free AI key the scanner estimates portions automatically. Search finds millions more foods online. Water: pick your bottle size under the water bar; Settings → Goal sets a recommended goal and oz/ml.
+
+## Workouts and the camera
+Every move has an **animated demo** on the fight setup screen showing the movement, where the phone goes and how far back to stand. It also says whether the camera needs to see you from the **side** or the **front**, plus step-by-step directions. Prop the phone 6–8 feet away in good light so your whole body is visible.
 
 ## Duels
 Tap a friend (Friends → Friends) → **Duel for gold**. Pick an exercise and a stake (25–250 gold). You do 60 seconds of reps first, then your friend has 48 hours to beat your score. The winner gets the whole pot. A tie, a decline or no answer returns the gold. Duel alerts arrive with the same 15-minute job as nudges.
