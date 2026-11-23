@@ -99,3 +99,22 @@ for (const doc of nudges.docs) {
   await doc.ref.update({ sent: true });
 }
 console.log(`Nudges delivered: ${nSent} of ${nudges.size}`);
+
+// ---- duel alerts ----
+for (const side of ['a', 'b']) {
+  const q = await db.collection('duels').where('ping', '==', side).limit(200).get();
+  for (const doc of q.docs) {
+    const d = doc.data(), to = side === 'a' ? d.a : d.b;
+    try {
+      const u = await db.collection('users').doc(to).get(), r = (u.exists && u.data().reminder) || {};
+      if (r.on && r.sub && r.sub.endpoint) {
+        const msg = side === 'b'
+          ? { title: `⚔️ ${d.aName} challenged you to a duel`, body: `${d.stake * 2} gold pot. Beat ${d.aScore} reps in 60 seconds!` }
+          : d.status === 'declined' ? { title: 'Duel declined', body: `${d.bName} passed. Your ${d.stake} gold is back.` }
+          : { title: d.bScore > d.aScore ? `${d.bName} won the duel` : d.bScore === d.aScore ? 'Duel tied!' : `You won the duel! 🏆`, body: `Final score: you ${d.aScore}, ${d.bName} ${d.bScore}.` };
+        await webpush.sendNotification(r.sub, JSON.stringify({ ...msg, url: (r.url || './') + '#friends', tag: 'duel-' + doc.id }), { TTL: 6 * 3600 });
+      }
+    } catch (e) { console.error('duel', doc.id, e.statusCode, e.body || e.message); }
+    await doc.ref.update({ ping: null });
+  }
+}

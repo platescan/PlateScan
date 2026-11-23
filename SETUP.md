@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (team boss fights, exercise badges, event bosses, style shop, AI portions, recipes, meal planner, progress photos, activity feed, more reminders and a new icon), do **Upload the update**, then **step 4: publish the new database rules (required)**. Team fights, high-fives and the owner dashboard won't work until you do.
+Steps 1–3 are already done if your app and accounts work. For this update (duels, home workouts, contact invites, more foods), do **Upload the update**, then **step 4: publish the new database rules (required for duels)**.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -127,13 +127,13 @@ service cloud.firestore {
       }
     }
 
-    // Nudges: one per friend per day
+    // Nudges: one per friend per hour
     match /nudges/{nid} {
       allow create: if signedIn()
         && request.resource.data.from == me()
         && request.resource.data.sent == false
-        && request.resource.data.day == math.floor(request.time.toMillis() / 86400000)
-        && nid == me() + '_' + request.resource.data.to + '_' + string(request.resource.data.day)
+        && request.resource.data.hr == math.floor(request.time.toMillis() / 3600000)
+        && nid == me() + '_' + request.resource.data.to + '_' + string(request.resource.data.hr)
         && (exists(/databases/$(database)/documents/friendships/$(me() + '_' + request.resource.data.to))
             || exists(/databases/$(database)/documents/friendships/$(request.resource.data.to + '_' + me())));
       allow get: if signedIn() && (resource == null || resource.data.from == me() || resource.data.to == me());
@@ -164,6 +164,19 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['claimed'])
         && request.resource.data.claimed == true;
     }
+
+    // Duels: 60-second rep battles between friends for gold
+    match /duels/{did} {
+      allow create: if signedIn() && request.resource.data.a == me()
+        && request.resource.data.status == 'open'
+        && request.resource.data.stake is int && request.resource.data.stake >= 10 && request.resource.data.stake <= 500
+        && (exists(/databases/$(database)/documents/friendships/$(me() + '_' + request.resource.data.b))
+            || exists(/databases/$(database)/documents/friendships/$(request.resource.data.b + '_' + me())));
+      allow read: if signedIn() && (resource.data.a == me() || resource.data.b == me());
+      allow update: if signedIn() && (resource.data.a == me() || resource.data.b == me())
+        && request.resource.data.a == resource.data.a && request.resource.data.b == resource.data.b
+        && request.resource.data.stake == resource.data.stake;
+    }
   }
 }
 ```
@@ -172,7 +185,7 @@ What these rules allow:
 - Your meals, weight and settings stay private to you.
 - Friends can see only your game card: name, hero, level, rank, streak, weekly challenge points and boss stage. Never your food, calories or weight.
 - A friendship is created only when someone opens **your** invite link. Group chats can be read only by their members, and people join only with the group's invite link.
-- Each person can nudge each friend once per day.
+- Each person can nudge each friend once per hour.
 - Anyone signed in can send a suggestion. Only accounts listed under `admins` (you, after step 7) can read all of them.
 - A referral reward is recorded once per new account, and only with a real invite link.
 - Team boss fights can only be seen and joined by members of that group.
@@ -236,6 +249,12 @@ When someone creates a new account using a friend's invite link (Friends → Inv
 
 ## When you publish an update
 GitHub Pages goes live about a minute after you commit. People who open PlateScan afterward get the new version automatically. Anyone who already has it open sees a yellow **"A new version of PlateScan is ready · Refresh"** bar. Data is never lost by updating.
+
+## Duels
+Tap a friend (Friends → Friends) → **Duel for gold**. Pick an exercise and a stake (25–250 gold). You do 60 seconds of reps first, then your friend has 48 hours to beat your score. The winner gets the whole pot. A tie, a decline or no answer returns the gold. Duel alerts arrive with the same 15-minute job as nudges.
+
+## Home workouts
+Quest → Bosses → **Home workouts**: 5 guided no-equipment circuits (Quick 7, legs, core, upper body, cardio). The camera counts each move, with 10 seconds of rest between moves. Finishing a circuit pays 30 gold and 50 XP once a day.
 
 ## Team boss fights
 1. Make a group in **Friends → Groups** and invite people with the group link.
