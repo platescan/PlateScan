@@ -4,6 +4,7 @@ The same notes are in the app under Settings → Help → Patch notes.
 
 ## v16: Monthly boss, heroes and pets (Nov 23, 2026)
 - Bosses now fight back on a timer, even while you rep. When it starts charging (the boss glows and a ⚡ bar appears), do 3 quick reps in 6 seconds, or hold your plank or wall sit, to block. Miss it and you take a hit. Easy every 60s, Normal 45s, Hard 35s, Legend 28s.
+- Fixed: your hero now fills its circle on wider screens (computers and iPads) instead of showing up small in the corner.
 - Animated demo for every exercise: watch the move and see exactly where to put your phone (side or front, 6–8 ft / 2 m back).
 - Monthly boss with a whole month of health: pick 5, 10, 15 or 20 reps a day. Miss your reps and it attacks, costing a heart. Invite friends to a party for more HP and +50% rewards.
 - Hearts: 5 max. Get them back every 45 minutes, by finishing quests, or in the Shop.
