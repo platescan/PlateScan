@@ -1,9 +1,29 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update, start at **Upload the update**, then do steps 4–6.
+Steps 1–3 are already done if your app and accounts work. For this update (boss battles, gold, friends and groups), do **Upload the update**, then **step 4 (new database rules, required)**. If you already set up reminders in step 5, nothing else is needed: the job now also delivers friend nudges.
+
+## Install PlateScan as an app on your phone
+PlateScan is a web app, so you install it from the browser instead of the App Store. Once installed it opens full screen from its own icon, works offline, and can send reminders and nudges.
+
+**iPhone or iPad**
+1. Open your PlateScan address (for example `https://platescan.github.io/PlateScan/`) in **Safari**.
+2. Tap the **Share** button (the square with an arrow pointing up) at the bottom of the screen. On iPad it's at the top right.
+3. Scroll down and tap **Add to Home Screen**. If it isn't listed, tap **Edit Actions** at the bottom and add it.
+4. Make sure **Open as Web App** is on (newer iOS versions show this switch), then tap **Add**.
+5. Close Safari and open PlateScan from the new icon on your Home Screen. Sign in once. From now on, always open it from the icon.
+
+**Android**
+1. Open the PlateScan address in **Chrome**.
+2. Tap **⋮** (top right) → **Add to Home screen** or **Install app** → **Install**.
+
+**Windows or Mac computer**
+1. Open the PlateScan address in **Chrome** or **Edge**.
+2. Click the install icon at the right end of the address bar (a screen with a down arrow), or open the browser menu → **Install PlateScan** (Edge: **Apps → Install this site as an app**).
+
+These same steps are in the app under your initial (top right) → **Account → Install PlateScan as an app**. Once it's installed, that card shows **Installed as an app**.
 
 ## Upload the update
-1. Unzip PlateScan.zip. Inside are `index.html`, `sw.js`, `SETUP.md`, a `reminders` folder and a `.github` folder.
+1. Unzip PlateScan.zip. Inside are `index.html`, `sw.js`, `SETUP.md`, `manifest.json`, the icons, a `reminders` folder and a `.github` folder.
 2. In your repository: **Add file → Upload files**. Drag in **everything** from the unzipped folder, including both folders. Files with the same name replace the old ones.
 3. **Commit changes.**
 
@@ -15,29 +35,109 @@ Settings → Pages → Branch **main**, folder **/ (root)** → Save. Leave Cust
 ## 2–3. Accounts (Firebase), already done
 Email/Password sign-in turned on, your github.io address in Authorized domains, Firestore created, settings pasted into `config.js`.
 
-## 4. Update the database rules (needed for the widget)
-Firebase console → **Databases & Storage → Firestore → Rules**. Replace everything with this and click **Publish**:
+## 4. Update the database rules (required for this update)
+Firebase console → **Databases & Storage → Firestore → Rules**. Select everything in the box, delete it, paste this in, and click **Publish**:
 
 ```
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+
+    // Your own data: only you
     match /users/{uid}/{document=**} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if signedIn() && me() == uid;
     }
+
+    // Widget summary, read by your widget script with a secret code
     match /widgets/{token} {
       allow get: if true;
-      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
-      allow update, delete: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow create: if signedIn() && request.resource.data.uid == me();
+      allow update, delete: if signedIn() && resource.data.uid == me();
+    }
+
+    // Public game card (name, level, streak, weekly points). No food, calories or weight.
+    match /profiles/{uid} {
+      allow get: if signedIn();
+      allow write: if signedIn() && me() == uid;
+    }
+
+    // Friendships are made by opening a friend's invite link
+    match /friendships/{fid} {
+      allow get: if signedIn() && (resource == null || me() in resource.data.members);
+      allow list: if signedIn() && me() in resource.data.members;
+      allow create: if signedIn()
+        && request.resource.data.members is list
+        && request.resource.data.members.size() == 2
+        && me() in request.resource.data.members
+        && request.resource.data.by in request.resource.data.members
+        && request.resource.data.by != me()
+        && request.resource.data.members[0] < request.resource.data.members[1]
+        && fid == request.resource.data.members[0] + '_' + request.resource.data.members[1]
+        && get(/databases/$(database)/documents/profiles/$(request.resource.data.by)).data.invite == request.resource.data.code;
+      allow delete: if signedIn() && me() in resource.data.members;
+    }
+
+    // Group chats (up to 25 people)
+    match /groups/{gid} {
+      allow get: if signedIn() && (resource == null || me() in resource.data.members);
+      allow list: if signedIn() && me() in resource.data.members;
+      allow create: if signedIn() && request.resource.data.owner == me()
+        && request.resource.data.members == [me()]
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40;
+      allow update: if signedIn() && (
+        // members post the latest message preview or rename the group
+        (me() in resource.data.members
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['last', 'name'])
+          && request.resource.data.name.size() <= 40)
+        // joining with the invite code
+        || (!(me() in resource.data.members)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members', 'joinCode'])
+          && request.resource.data.joinCode == resource.data.code
+          && request.resource.data.members.toSet() == resource.data.members.toSet().union([me()].toSet())
+          && request.resource.data.members.size() <= 25)
+        // leaving
+        || (me() in resource.data.members
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members'])
+          && request.resource.data.members.toSet() == resource.data.members.toSet().difference([me()].toSet()))
+      );
+      allow delete: if signedIn() && resource.data.owner == me();
+
+      match /messages/{mid} {
+        allow read: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members;
+        allow create: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members
+          && request.resource.data.uid == me()
+          && request.resource.data.t is string && request.resource.data.t.size() <= 500;
+      }
+    }
+
+    // Nudges: one per friend per day
+    match /nudges/{nid} {
+      allow create: if signedIn()
+        && request.resource.data.from == me()
+        && request.resource.data.sent == false
+        && request.resource.data.day == math.floor(request.time.toMillis() / 86400000)
+        && nid == me() + '_' + request.resource.data.to + '_' + string(request.resource.data.day)
+        && (exists(/databases/$(database)/documents/friendships/$(me() + '_' + request.resource.data.to))
+            || exists(/databases/$(database)/documents/friendships/$(request.resource.data.to + '_' + me())));
+      allow get: if signedIn() && (resource == null || resource.data.from == me() || resource.data.to == me());
+      allow list: if signedIn() && resource.data.to == me();
     }
   }
 }
 ```
 
-The widget reads a small public summary (streak, level, logged today) stored under a random code that only your widget script knows. Your meals and everything else stay private.
+What these rules allow:
+- Your meals, weight and settings stay private to you.
+- Friends can see only your game card: name, hero, level, rank, streak, weekly challenge points and boss stage. Never your food, calories or weight.
+- A friendship is created only when someone opens **your** invite link. Group chats can be read only by their members, and people join only with the group's invite link.
+- Each person can nudge each friend once per day.
+
+If friends or groups show an error after the update, the rules probably weren't published. Check that the box shows the new rules and click **Publish** again.
 
 ## 5. Turn on streak reminders (free, about 10 minutes)
-Reminders are sent by a free hourly job that runs on GitHub.
+Reminders and friend nudges are sent by a free job that runs on GitHub every 15 minutes.
 
 **a. Get a Firebase key for the job**
 1. Firebase console → gear icon → **Project settings → Service accounts** tab.
@@ -57,14 +157,14 @@ Keep the `.json` file and `reminder-keys.txt` private. Never upload them to the 
 
 **c. Check that the job runs**
 1. Open the **Actions** tab. If GitHub asks, click to enable workflows.
-2. Click **Streak reminders → Run workflow**. A green check means it worked. After that it runs by itself every hour.
+2. Click **Streak reminders and nudges → Run workflow**. A green check means it worked. After that it runs by itself every 15 minutes.
 
 **d. Turn it on in the app (on your iPhone)**
 1. Open PlateScan **from your Home Screen icon**. Notifications only work there, not in a Safari tab.
 2. Tap your initial (top right) → **Alerts** → turn on **Streak reminder**, choose a time, and tap **Allow**.
 3. Tap **Send a test notification** to check.
 
-If you haven't logged a meal by your chosen time, you'll get a lock screen notification. GitHub's hourly job can run several minutes late. GitHub also pauses scheduled jobs if a repository has no changes for 60 days. If reminders stop, open **Actions** and turn the workflow back on.
+If you haven't logged a meal by your chosen time, you'll get a lock screen notification. When a friend nudges you, you get a notification within about 15 minutes (GitHub can run it a little late). Friends who haven't turned on reminders see the nudge the next time they open PlateScan. GitHub also pauses scheduled jobs if a repository has no changes for 60 days. If reminders stop, open **Actions** and turn the workflow back on.
 
 ## 6. Home & Lock Screen widget
 1. Install **Scriptable** (free) from the App Store.
@@ -75,7 +175,16 @@ If you haven't logged a meal by your chosen time, you'll get a lock screen notif
 
 The widget refreshes on its own every so often. iOS decides exactly when, usually every 15–30 minutes.
 
+## Boss battles: camera tips
+- Fights need camera access. The first time, tap **Allow**. If you said no: iPhone **Settings → Apps → Safari → Camera → Allow** (or for the installed app, delete and re-add it to get the prompt again).
+- The rep tracker downloads once (about 6 MB) and then works offline.
+- **Squats:** stand side-on, 6–8 feet from the phone, with hips, knees and ankles in view.
+- **Push-ups:** put the phone on the floor beside you, side-on, with your whole body in view.
+- **Pull-ups:** face the camera from a few feet back so your hands on the bar and your head are visible.
+- Video never leaves your phone. Nothing is recorded or uploaded.
+
 ## Troubleshooting
+- **Friends, groups or nudges say "Couldn't…" or stay empty:** publish the rules from step 4 again.
 - **Old version still showing:** close the app fully and reopen it, or wait a few minutes.
 - **Reminder switch is grayed out:** open PlateScan from the Home Screen icon and make sure you're signed in.
 - **No notification arrives:** check iPhone **Settings → Notifications → PlateScan**, and the job's latest run in the **Actions** tab.

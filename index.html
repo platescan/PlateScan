@@ -341,6 +341,138 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 .track i{position:relative;overflow:hidden}.track i.shine::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transform:translateX(-100%);animation:shine 1.1s .35s var(--ease)}@keyframes shine{to{transform:translateX(100%)}}
 @media(max-width:380px){.ringwrap{grid-template-columns:112px minmax(0,1fr)}.ring{width:112px;height:112px}.ring .big{font-size:24px}.stat b{font-size:20px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}#lvup .box{opacity:1;transform:none}}
+/* ===== v9: ranks, bosses, shop, friends ===== */
+.ndot{position:absolute;top:6px;right:calc(50% - 18px);width:8px;height:8px;border-radius:50%;background:var(--tomato);box-shadow:0 0 0 2px var(--card);display:none}.ndot.on{display:block;animation:dotPulse 1.6s infinite}
+@keyframes dotPulse{50%{transform:scale(1.35)}}
+.pseg{margin-bottom:10px}
+.emblem{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 3px 6px rgba(0,0,0,.22))}
+.emblem .shine{animation:emShine 3.6s 1s infinite}@keyframes emShine{0%{transform:skewX(-20deg) translateX(0)}35%,100%{transform:skewX(-20deg) translateX(130px)}}
+.emblem.float{animation:emFloat 3.2s ease-in-out infinite}@keyframes emFloat{50%{transform:translateY(-4px) rotate(-1.5deg)}}
+.emblem.t-mythic .wing,.emblem.t-diamond .wing{animation:wing 2s ease-in-out infinite;transform-origin:32px 34px}@keyframes wing{50%{transform:scaleX(1.06)}}
+.emblem.tiny{display:inline-block;width:14px;vertical-align:-3px;filter:none}
+.xpstrip .badge.em{background:none;box-shadow:none;width:44px;height:50px;border-radius:0}
+.qhero{grid-template-columns:96px minmax(0,1fr)}.qhero .emWrap{width:96px}.qhero .lv{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffe58a}
+.wallet{display:flex;align-items:center;gap:12px;padding:10px 12px}
+.wallet .gold{display:flex;align-items:center;gap:6px}.wallet .gold b{font-size:22px}.coin{width:26px;height:26px;flex:none}.wallet .gold .coin{animation:coinSpin 4s ease-in-out infinite}
+@keyframes coinSpin{0%,80%{transform:rotateY(0)}90%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
+.wallet .pot{flex:1;display:flex;align-items:center;gap:6px;min-width:0;line-height:1.15}.wallet .pot>span{display:flex;flex-direction:column}
+.potion{width:26px;height:32px;flex:none;overflow:visible}.potion.big{width:40px;height:48px}.potion .bub{animation:bub 2.2s ease-in infinite}.potion .b2{animation-delay:1.1s}
+@keyframes bub{0%{transform:translateY(0);opacity:0}20%{opacity:.9}100%{transform:translateY(-22px);opacity:0}}.potion .liq{animation:slosh 3s ease-in-out infinite;transform-origin:20px 36px}@keyframes slosh{50%{transform:skewX(4deg)}}
+.chestBtn{flex-direction:column;background:var(--tLemon)!important;color:var(--ink)!important;min-height:0;padding:6px 8px;gap:0;font-size:11px;border-radius:14px;width:74px}
+.chestBtn svg{width:42px;height:36px;overflow:visible}.chestBtn .lid{transform-origin:5px 18px;transition:transform .5s var(--spring)}
+.chestBtn.ready{box-shadow:0 0 0 2px #f2c230;animation:chestWig 2.4s infinite}.chestBtn.ready svg{filter:drop-shadow(0 0 6px rgba(242,194,48,.8))}
+@keyframes chestWig{0%,70%,100%{transform:none}75%{transform:rotate(-6deg)}80%{transform:rotate(6deg)}85%{transform:rotate(-4deg)}90%{transform:rotate(3deg)}}
+.chestBtn.opening{animation:chestShake .6s}.chestBtn.opening .lid,.chestBtn.opened .lid{transform:rotate(-35deg) translate(-2px,-4px)}.chestBtn.opened{opacity:.6;background:var(--sunk)!important}
+@keyframes chestShake{20%,60%{transform:translateX(-3px) rotate(-4deg)}40%,80%{transform:translateX(3px) rotate(4deg)}}
+.stageMap{display:flex;align-items:center;overflow-x:auto;padding:14px 4px 6px;margin:0 -4px;scrollbar-width:none;scroll-snap-type:x proximity}.stageMap::-webkit-scrollbar{display:none}
+.stageMap .link{flex:none;width:22px;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,var(--line) 0 5px,transparent 5px 9px)}
+.node{flex:none;flex-direction:column;gap:3px;background:transparent!important;color:var(--mute)!important;padding:0;min-height:0;scroll-snap-align:center}
+.node .nb{position:relative;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--sunk);border:3px solid var(--line);overflow:visible}
+.node .nb .bossSvg{width:46px;height:46px}.node .nl{font-size:12px;font-weight:800}
+.node.beat .nb{border-color:#f2c230;background:var(--tLemon)}.node.beat .bossSvg{filter:grayscale(.6);opacity:.75}
+.node .ok{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;background:#2f8a5e;color:#fff;font-style:normal;font-size:12px;display:grid;place-items:center;border:2px solid var(--card)}
+.node.cur .nb{width:64px;height:64px;border-color:var(--tomato);background:var(--tTomato);animation:nodePulse 1.8s infinite}.node.cur .bossSvg{width:58px;height:58px}.node.cur .nl{color:var(--tomato)}
+.node.lvl.cur .nb{border-color:var(--mute);background:var(--sunk);animation:none}
+@keyframes nodePulse{0%{box-shadow:0 0 0 0 rgba(229,67,45,.45)}100%{box-shadow:0 0 0 14px rgba(229,67,45,0)}}
+.node.nope .nb{animation:nope .4s}@keyframes nope{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bossCard{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,var(--tTomato),var(--card) 75%);border-radius:16px;padding:10px 12px;margin-top:8px}
+.bossCard .k,.btTop .k,.chCard .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--tomato)}
+.bossCard .bn{font-size:18px;line-height:1.15;display:block}.bossPic{width:96px;flex:none}.bossPic .bossSvg{width:96px;height:96px}
+.bossSvg{overflow:visible}.bossSvg.idle{animation:bossIdle 2.6s ease-in-out infinite;transform-origin:50% 95%}
+@keyframes bossIdle{50%{transform:translateY(-6px) scaleY(1.03)}}
+.bossSvg .bEye{animation:blink 4.2s infinite;transform-box:fill-box;transform-origin:center}@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.bossSvg .zz{animation:zz 2.4s infinite}.bossSvg .z2{animation-delay:.8s}@keyframes zz{0%{opacity:0;transform:translate(0,6px)}50%{opacity:1}100%{opacity:0;transform:translate(8px,-10px)}}
+.bossSvg .hand{animation:spin 6s linear infinite;transform-origin:100px 104px}.bossSvg .hand2{animation:spin 30s linear infinite;transform-origin:100px 104px}@keyframes spin{to{transform:rotate(360deg)}}
+.bossSvg .tongue{animation:tongue 1.4s infinite}@keyframes tongue{0%,60%,100%{transform:scaleY(1)}70%{transform:scaleY(.2)}}
+.bossSvg .wisp{animation:wisp 2.4s ease-in-out infinite;transform-origin:center}@keyframes wisp{50%{transform:skewX(3deg)}}
+.bossSvg .crack{animation:crack 1.8s ease-in-out infinite}@keyframes crack{50%{opacity:.35}}
+.hpmini{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,#e5432d,#ff8a66);margin-top:6px;max-width:160px}.hpmini span{position:absolute;right:0;top:12px;font-size:11px;font-weight:800;color:var(--mute)}
+.lockMsg{margin-top:12px;color:var(--mute);font-weight:600}
+.shop{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.shopIt{position:relative;background:var(--sunk);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:2px;font-size:12px;line-height:1.25}
+.shopIt .ico{width:40px;height:44px;display:grid;place-items:center;margin-bottom:2px}.shopIt .ico svg{width:34px;height:34px}.shopIt .ico .potion{width:30px;height:38px}
+.shopIt b{font-size:13px}.shopIt em{font-style:normal;font-weight:800;color:var(--kale2)}
+.shopIt .buy{margin-top:auto;align-self:stretch;margin-top:8px;background:linear-gradient(135deg,#f2c230,#ffd95e);color:#3d2a00;box-shadow:0 2px 8px rgba(242,194,48,.35)}.shopIt .buy .coin{width:18px;height:18px}
+.shopIt.bought{animation:bought .6s var(--spring)}@keyframes bought{40%{transform:scale(1.06)}}
+.rankRoad{display:flex;flex-direction:column;gap:8px;margin-top:10px}.rr{display:flex;align-items:center;gap:10px;opacity:.45}.rr .emblem{width:38px;flex:none}.rr>div{flex:1;line-height:1.2}.rr b{display:block}
+.rr.got{opacity:1}.rr.now{background:var(--tLemon);border-radius:12px;padding:6px 8px;margin:0 -8px}.pill{background:var(--tomato);color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:2px 8px}
+/* battle */
+#battle{position:fixed;inset:0;z-index:70;background:radial-gradient(circle at 50% 0%,#3a2050,#120c18 70%);color:#fff;display:flex;flex-direction:column;transform:translateY(100%);visibility:hidden;transition:transform .45s var(--ease),visibility 0s .45s}
+#battle.on{transform:none;visibility:visible;transition:transform .5s var(--ease)}
+#battle .muted{color:rgba(255,255,255,.65)}#battle .lbl{color:rgba(255,255,255,.7)}
+#battle .seg{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}#battle .seg button{color:rgba(255,255,255,.7)}#battle .seg button.on{color:#14201a}#battle .seg .si{background:#ffe58a}
+#battle .seg small{font-weight:800;color:#f2674a}#battle .seg button.on small{color:#b8321f}
+.btTop{display:flex;align-items:center;gap:8px;padding:calc(8px + env(safe-area-inset-top)) 14px 8px 8px}.btTop .x{color:#fff;background:rgba(255,255,255,.12)!important}.btTop b{font-size:17px}
+.btSb{flex:1;overflow-y:auto;padding:0 16px 16px;max-width:560px;width:100%;margin:0 auto}
+.btFoot{padding:10px 16px calc(12px + env(safe-area-inset-bottom));max-width:560px;width:100%;margin:0 auto}button.big{min-height:56px;font-size:19px;font-weight:800;letter-spacing:.02em}
+.bossStage{position:relative;display:flex;flex-direction:column;align-items:center}.bossStage .bossSvg{width:170px;height:170px}
+.bossStage.intro .bossSvg{animation:bossEnter .8s var(--spring) both,bossIdle 2.6s .8s ease-in-out infinite}@keyframes bossEnter{0%{transform:translateY(40px) scale(.3);opacity:0}100%{transform:none;opacity:1}}
+.taunt{background:#fff;color:#14201a;font-weight:700;font-size:14px;border-radius:14px;padding:6px 12px;position:relative;margin-top:-4px;animation:pop .5s .5s var(--spring) both}.taunt::before{content:'';position:absolute;top:-6px;left:50%;margin-left:-6px;border:6px solid transparent;border-top:0;border-bottom-color:#fff}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:none;opacity:1}}
+.hpbar{position:relative;height:14px;border-radius:7px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:4px}.hpbar.big{height:20px;border-radius:10px;margin:12px 0}
+.hpbar i{position:absolute;inset:0 auto 0 0;width:100%;background:linear-gradient(90deg,#e5432d,#ff8a66);border-radius:inherit;transition:width .25s var(--ease)}.hpbar i.ghost{background:#ffe58a;transition:width .6s .1s var(--ease)}
+.hpbar span{position:absolute;inset:0;text-align:center;font-size:11px;font-weight:800;line-height:14px;text-shadow:0 1px 2px rgba(0,0,0,.5)}.hpbar.big span{line-height:20px;font-size:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.btInfo{margin:8px 0}.btInfo>div{background:rgba(127,127,127,.12);border-radius:12px;padding:8px;text-align:center;line-height:1.15}.btInfo b{display:block;font-size:18px}.btInfo span{font-size:11px;opacity:.75}
+.itemTog{flex:1;background:rgba(255,255,255,.08)!important;border:2px solid rgba(255,255,255,.12)!important;justify-content:flex-start;font-size:13px;text-align:left;line-height:1.15}.itemTog svg{width:26px;height:26px;flex:none}.itemTog small{display:block;font-weight:400;opacity:.7}
+.itemTog.on{border-color:#ffe58a!important;background:rgba(255,229,138,.15)!important;animation:chipPop .35s var(--spring)}
+.rewardBox{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 12px;margin-top:12px}
+.rw{font-weight:800;font-size:17px;display:inline-flex;align-items:center;gap:4px}.rw.xp{color:#ffe58a}.rw.gd{color:#f2c230}.rw .coin{width:20px;height:20px}.rw.big{font-size:30px}.rw.big .coin{width:32px;height:32px}
+.arena{position:relative;flex:1;overflow:hidden;background:#000}
+.arena video,.arena canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.arena .mir{transform:scaleX(-1)}
+.arena .hud{position:absolute;inset:0;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(10,6,16,.75),transparent 38%,transparent 60%,rgba(10,6,16,.8))}
+.vign{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 120px 40px rgba(229,30,30,.85);opacity:0}.vign.on{animation:vign .7s ease-out}@keyframes vign{0%{opacity:1}100%{opacity:0}}
+.hearts{display:flex;gap:3px}.ht{width:24px;height:24px;fill:#ff4d5e;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));transition:transform .3s}.ht.sh{fill:#f2c230}.ht.lost{fill:rgba(255,255,255,.18)}.ht.lose{animation:heartLose .45s forwards}
+@keyframes heartLose{40%{transform:scale(1.5)}100%{transform:scale(0);opacity:0}}
+.bossStage.fight{margin-top:4px}.bossStage.fight .bossSvg{width:150px;height:150px}
+#bossWrap.hit{animation:hitShake .35s}#bossWrap.hit .bossSvg,#bossWrap.crit .bossSvg{animation:hitFlash .3s}
+#bossWrap.crit{animation:critShake .5s}@keyframes hitShake{20%{transform:translateX(-8px) rotate(-3deg)}60%{transform:translateX(6px) rotate(2deg)}}
+@keyframes critShake{15%{transform:scale(.9) rotate(-6deg)}40%{transform:scale(1.08) rotate(5deg)}70%{transform:translateX(-6px)}}
+@keyframes hitFlash{0%{filter:brightness(3) saturate(0)}100%{filter:none}}
+#bossWrap.lunge{animation:lunge .6s var(--ease)}@keyframes lunge{30%{transform:translateY(-10px) scale(.95)}55%{transform:translateY(60px) scale(1.6)}100%{transform:none}}
+#bossWrap.die{animation:die 1.2s forwards}@keyframes die{20%{transform:scale(1.1) rotate(-4deg);filter:brightness(2)}60%{transform:scale(1.25) rotate(6deg);filter:brightness(3) blur(1px);opacity:.8}100%{transform:scale(.1) rotate(40deg);opacity:0;filter:brightness(4) blur(6px)}}
+#dmgL{position:absolute;inset:0;pointer-events:none}.dmg{position:absolute;top:30%;font-size:28px;font-weight:900;color:#fff;-webkit-text-stroke:1.5px #b8321f;text-shadow:0 3px 0 #b8321f;animation:dmgUp 1.05s var(--ease) forwards}
+.dmg.crit{font-size:36px;color:#ffe58a;-webkit-text-stroke:1.5px #a8730a;text-shadow:0 3px 0 #a8730a}@keyframes dmgUp{0%{transform:translate(-50%,10px) scale(.4);opacity:0}20%{transform:translate(-50%,-10px) scale(1.25);opacity:1}100%{transform:translate(-50%,-80px) scale(1);opacity:0}}
+.atk{margin:6px 18px 0;height:6px;border-radius:3px;background:rgba(255,255,255,.15);overflow:hidden}.atk i{display:block;height:100%;width:100%;background:#7fd6a4;border-radius:inherit;transition:width .1s linear}.atk i.warn{background:#ff4d5e;animation:warnBlink .5s infinite}@keyframes warnBlink{50%{opacity:.4}}
+.repBox{margin-top:auto;text-align:center;padding-bottom:4px}.repN{font-size:64px;font-weight:900;line-height:1;text-shadow:0 4px 18px rgba(0,0,0,.6)}.repN.bump{animation:bump .35s var(--spring)}@keyframes bump{40%{transform:scale(1.35);color:#ffe58a}}
+.repL{font-size:13px;font-weight:700;opacity:.8;text-transform:uppercase;letter-spacing:.1em}
+.cue{margin:6px 16px calc(14px + env(safe-area-inset-bottom));align-self:center;background:rgba(0,0,0,.55);border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px;text-align:center;max-width:92%;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .3s}
+.cue.good{background:rgba(47,138,94,.85)}.cue.bad{animation:cueBad .5s}@keyframes cueBad{0%{background:rgba(229,67,45,.95)}30%{transform:translateX(-5px)}60%{transform:translateX(5px)}}
+.cdn{position:absolute;left:0;right:0;top:40%;text-align:center;font-size:96px;font-weight:900;color:#ffe58a;-webkit-text-stroke:3px #a8730a;pointer-events:none}.cdn.pop{animation:cdPop .85s var(--ease) forwards}@keyframes cdPop{0%{transform:scale(2.2);opacity:0}25%{transform:scale(1);opacity:1}80%{opacity:1}100%{transform:scale(.7);opacity:0}}
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:calc(20px + env(safe-area-inset-top))}
+.vic{font-size:46px;font-weight:900;color:#ffe58a;-webkit-text-stroke:2px #a8730a;letter-spacing:.04em;animation:vic .8s var(--spring) both}@keyframes vic{0%{transform:scale(3);opacity:0}100%{transform:none;opacity:1}}
+h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size:32px;margin:6px 0;animation:vic .6s var(--spring) both}
+.bossSvg.gloat{animation:gloat .9s ease-in-out infinite}@keyframes gloat{50%{transform:translateY(-10px) rotate(3deg)}}
+.chest.big{width:170px;height:140px;margin:34px auto 4px}.chest.big svg{width:100%;height:100%;overflow:visible}.chest .lid{transform-origin:18px 48px;transition:transform .55s var(--spring)}.chest .rays{opacity:0;transform-origin:60px 50px}
+.chest.big{animation:chestIn .6s var(--spring) both,chestShake .5s .2s}@keyframes chestIn{0%{transform:scale(.2) translateY(40px);opacity:0}}
+.chest.open .lid{transform:rotate(-22deg) translate(-4px,-6px)}.chest.open .rays{opacity:1;animation:rays 3s linear infinite}@keyframes rays{to{transform:rotate(360deg)}}
+.loot{display:flex;gap:20px;justify-content:center;align-items:center;flex-wrap:wrap;margin:6px 0 10px;animation:pop .5s 1.2s var(--spring) both}
+.result .row{width:100%}
+/* friends */
+.meCard{display:flex;align-items:center;gap:12px}.frMe{flex:1;display:flex;align-items:center;gap:10px}.frMe .emblem{width:40px;flex:none}
+.heroBtn{width:56px;height:56px;padding:0;border-radius:50%;background:transparent!important;flex:none;position:relative}.heroBtn .cav{width:56px;height:56px}.heroBtn::after{content:'✎';position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:var(--kale);color:#fff;font-size:11px;display:grid;place-items:center;border:2px solid var(--card)}
+.chCard{background:linear-gradient(140deg,var(--tLemon),var(--card) 65%)}.chPts{font-size:15px}.chPts b{font-size:30px;line-height:1}
+.chDays{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;height:82px;margin:10px 0 4px;align-items:end}.chDays .cd{position:static;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;justify-content:flex-end;font-size:11px;font-weight:700;color:var(--mute);-webkit-text-stroke:0}
+.chDays .cd i{width:100%;max-width:26px;height:var(--h);min-height:4px;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,#f2c230,#f2b51f);animation:grow .7s var(--spring) both}.chDays .cd.today span{color:var(--tomato)}.chDays .cd.today i{box-shadow:0 0 0 2px var(--tomato)}
+@keyframes grow{from{height:4px}}
+.board{display:flex;flex-direction:column;gap:6px}.br{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:12px;cursor:pointer}.br.me{background:var(--tGreen);cursor:default}
+.pos{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;background:var(--sunk);flex:none}.pos.p1{background:linear-gradient(135deg,#ffe58a,#f2c230);color:#3d2a00}.pos.p2{background:linear-gradient(135deg,#fff,#b9c3cf);color:#333}.pos.p3{background:linear-gradient(135deg,#f3c29a,#b0662f);color:#fff}
+.bmid{flex:1;min-width:0}.bbar{height:8px;border-radius:4px;background:var(--sunk);overflow:hidden;margin-top:3px}.bbar i{display:block;height:100%;width:var(--w);border-radius:inherit;background:linear-gradient(90deg,#2f8a5e,#7fd6a4);animation:barW .9s var(--spring) both}@keyframes barW{from{width:0}}
+.pts{font-variant-numeric:tabular-nums}
+.gav{width:40px;height:40px;flex:none;display:block}.gav .cav{width:40px;height:40px}.gav.lg,.gav.lg .cav{width:76px;height:76px}.gav.sk{border-radius:50%;background:var(--sunk);animation:warnBlink 1.2s infinite}
+.fr{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);cursor:pointer}.fr:first-child{border-top:0}.fmid{flex:1;min-width:0;line-height:1.25}.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gico{width:40px;height:40px;border-radius:12px;flex:none;display:grid;place-items:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#7d5bb0,#c063ff)}
+.nudge{background:linear-gradient(135deg,#e5432d,#f2674a)}.nudge.wait,button.wait{background:var(--sunk)!important;color:var(--mute)!important;box-shadow:none!important;opacity:1}.nudge.sent{animation:wiggle .5s}@keyframes wiggle{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.plane{position:fixed;z-index:95;width:26px;height:26px;pointer-events:none;animation:plane 1.2s var(--ease) forwards}@keyframes plane{0%{transform:translate(0,0) scale(.5);opacity:0}20%{opacity:1}100%{transform:translate(160px,-260px) scale(1.2) rotate(-15deg);opacity:0}}
+.champ{display:flex;align-items:center;gap:10px;background:var(--tLemon);border-radius:12px;padding:8px 10px;margin-bottom:8px;font-size:14px}.champ svg{animation:emFloat 2.6s ease-in-out infinite;flex:none}
+.fsHero{text-align:center;position:relative;display:flex;flex-direction:column;align-items:center}.fsHero .emblem.big{position:absolute;width:44px;right:calc(50% - 64px);top:44px;z-index:1}.fsHero h2{margin:6px 0 0}
+#gChat{display:flex;flex-direction:column;gap:4px;padding-bottom:6px}.gm{display:flex;gap:8px;align-items:flex-end;max-width:85%}.gm .gav,.gm .gav .cav{width:30px;height:30px}.gm.me{align-self:flex-end;flex-direction:row-reverse}.gm.me .gav{display:none}
+.gm .bub{background:var(--card);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:7px 11px;font-size:15px;white-space:pre-wrap;word-break:break-word}.gm.me .bub{background:linear-gradient(135deg,#1d4a37,#2a6849);color:#fff;border:0;border-radius:16px 16px 4px 16px}
+.gm:not(.cont){margin-top:6px}.gn{font-size:11px;font-weight:700;color:var(--mute);margin:0 0 2px 4px}.gm.pop,.gsys.pop{animation:pop .4s var(--spring)}
+.gsys{align-self:center;font-size:12px;font-weight:600;color:var(--mute);background:var(--sunk);border-radius:999px;padding:4px 12px;margin:6px 0;text-align:center}
+.okDot{width:32px;height:32px;border-radius:50%;background:#2f8a5e;color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+
+.luEm{width:104px;margin:0 auto 6px;position:relative;z-index:1}.luEm .emblem{animation:luEm .9s var(--spring) both,emFloat 3.2s 1s ease-in-out infinite}@keyframes luEm{0%{transform:scale(.2) rotate(-30deg);opacity:0}100%{transform:none;opacity:1}}
+.newRank{display:none;position:relative;z-index:1;margin:0 auto 4px;width:max-content;background:linear-gradient(135deg,#e5432d,#f2674a);color:#fff;font-weight:800;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 12px;animation:pop .5s .6s var(--spring) both}.newRank.on{display:block}
 </style>
 </head>
 <body>
@@ -362,8 +494,8 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
   </div>
   <div class="card risk" id="riskCard" style="display:none"><div class="fl"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z"/></svg></div><div style="flex:1"><b id="riskT"></b><div class="muted sm">Log a meal to keep it going.</div></div><button class="small red" id="riskBtn">Log</button></div>
   <div class="card xpstrip" data-go="level" role="button" tabindex="0">
-    <div class="badge" id="tBadge">1</div>
-    <div><div class="row between"><b id="tTitle">Rookie</b><span class="muted sm" id="tXp"></span></div>
+    <div class="badge em" id="tBadge"></div>
+    <div><div class="row between"><b id="tTitle">Couch Recruit</b><span class="muted sm" id="tXp"></span></div>
       <div class="track"><i id="tXpBar" style="background:var(--lemon)"></i></div>
       <div class="row between"><div class="qdots" id="tQ"></div><span class="muted sm" id="tQl"></span></div></div>
   </div>
@@ -376,6 +508,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 
 <!-- LOG -->
 <section id="v-log">
+  <div class="seg pseg"><button data-go="log" class="on">Food log</button><button data-go="stats">Stats</button></div>
   <div class="days" id="days"></div>
   <div class="card">
     <div class="row between" style="margin-bottom:8px"><h2 style="margin:0" id="logTitle">Today</h2><button class="small" id="addDay">+ Add meal</button></div>
@@ -386,6 +519,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
 
 <!-- STATS -->
 <section id="v-stats">
+  <div class="seg pseg"><button data-go="log">Food log</button><button data-go="stats" class="on">Stats</button></div>
   <div class="seg" id="range"><button data-r="7" class="on">7 days</button><button data-r="30">30 days</button><button data-r="90">90 days</button></div>
   <div class="g2" style="margin-bottom:10px" id="statTiles"></div>
   <div class="card"><div class="row between"><h3>Calories per day</h3><span class="muted sm">line = target</span></div><div class="fig" id="calFig"><svg id="calSvg"></svg></div></div>
@@ -402,27 +536,51 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
   <button class="ghost wide" id="recapStats" style="margin-bottom:10px">See your weekly recap</button>
 </section>
 
-<!-- LEVEL -->
+<!-- QUEST -->
 <section id="v-level">
-  <div class="hero"><div class="badge" id="lBadge">1</div>
-    <div><div style="font-size:22px;font-weight:800;line-height:1.1" id="lTitle">Rookie</div>
-    <div style="opacity:.85;font-size:14px;margin:2px 0 8px" id="lNext"></div>
-    <div class="track"><i id="lBar" style="background:var(--lemon)"></i></div>
-    <div style="opacity:.85;font-size:13px;margin-top:6px" id="lTotal"></div></div></div>
-  <div class="card"><div class="row between"><h3>Streak freezes</h3><span class="muted sm" id="wallet"></span></div><p class="muted sm" style="margin:2px 0 10px">A freeze saves your streak on a day you miss logging. It's used automatically. Hold up to 2. Buying one doesn't lower your level.</p><div class="row between"><div class="flakes" id="flakes"></div><button class="small" id="buyFreeze">Buy · 150 XP</button></div></div>
+  <div class="hero qhero"><div class="emWrap" id="lBadge"></div>
+    <div><div class="lv" id="lLv">Level 1</div><div style="font-size:22px;font-weight:800;line-height:1.1" id="lTitle">Couch Recruit</div>
+    <div class="track" style="margin-top:8px"><i id="lBar" style="background:var(--lemon)"></i></div>
+    <div style="opacity:.85;font-size:13px;margin-top:6px" id="lNext"></div>
+    <div style="opacity:.7;font-size:12px;margin-top:2px" id="lTotal"></div></div></div>
+  <div class="wallet card"><div class="gold"><svg class="coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f2c230" stroke="#a8730a" stroke-width="1.6"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#fff3b0" stroke-width="1.4"/><path d="M12 8.2v7.6M9.6 10.2h4.2a1.6 1.6 0 0 1 0 3.2h-3.6" stroke="#a8730a" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg><b id="goldN">0</b><span class="muted sm">gold</span></div><div class="pot" id="potState"></div>
+    <button class="chestBtn" id="chestBtn"><svg viewBox="0 0 48 40"><rect x="5" y="18" width="38" height="20" rx="3" fill="#a8641f" stroke="#5a3210" stroke-width="2"/><rect x="5" y="24" width="38" height="3.5" fill="#f2c230"/><g class="lid"><path d="M5 18v-4a8 8 0 0 1 8-8h22a8 8 0 0 1 8 8v4z" fill="#c47a2c" stroke="#5a3210" stroke-width="2"/></g><rect x="21" y="21" width="6" height="8" rx="1.5" fill="#f2c230" stroke="#a8730a"/></svg><span id="chestLbl">Daily chest</span></button></div>
+  <div class="card"><div class="row between"><h3 style="margin:0">Boss stages</h3><button class="small ghost" id="dummyBtn">Quick workout</button></div>
+    <div class="stageMap" id="stageMap"></div>
+    <div class="bossCard" id="bossCard"></div>
+    <p class="muted sm" id="replayRow" style="display:none;margin:8px 0 0"><span></span>: tap a beaten boss on the map.</p></div>
+  <div class="card"><div class="row between"><h3 style="margin:0">Shop</h3><span class="muted sm">spend gold</span></div><p class="muted sm" style="margin:4px 0 10px">Potions multiply all the XP you earn while they’re active. The strongest one counts, and buying the same potion again adds more days.</p><div class="shop" id="shop"></div>
+    <div style="display:none"><div class="flakes" id="flakes"></div><span id="wallet"></span><button id="buyFreeze"></button></div></div>
   <div class="card"><div class="row between"><h3>Today's quests</h3><span class="muted sm" id="qEarned"></span></div><div id="quests"></div></div>
   <div class="card"><div class="row between"><h3>Achievements</h3><span class="muted sm" id="achCount"></span></div><div class="ach" id="ach"></div></div>
-  <details class="card"><summary>How XP works</summary><p class="sm" style="margin:6px 0 0">Every meal logged earns 10 XP (up to 5 a day), plus 5 more when you scan it with the camera. Hitting your protein target is worth 25, landing within 10% of your calorie target (with 2+ meals logged) is worth 25, and a weigh-in is worth 10. Logging on back-to-back days adds a streak bonus of 2 XP per streak day, up to 20. Each level needs 50 more XP than the one before.</p></details>
+  <details class="card"><summary>Rank road</summary><div class="rankRoad" id="rankRoad"></div></details>
+  <details class="card"><summary>How XP, bosses and gold work</summary><p class="sm" style="margin:6px 0 0">Every meal logged earns 10 XP (up to 5 a day), plus 5 more when you scan it. Hitting protein is 25, landing within 10% of your calorie target (2+ meals) is 25, a weigh-in is 10, your water goal is 10, and back-to-back days add 2 XP per streak day (up to 20).</p>
+  <p class="sm">A new boss stage opens every 2 levels once you’ve beaten the one before. Damage them with squats, push-ups (×1.5 damage) or pull-ups (×3). Your camera checks each rep, and only full-range reps count. A perfect rep is a critical hit. If you stop repping for too long, the boss attacks and you lose a heart. Each new boss has 12% more HP.</p>
+  <p class="sm" style="margin-bottom:0">Bosses drop XP and gold. Harder difficulty pays more (up to ×3.5). Replays pay 40%, once per boss per day. Gold also comes from your daily chest and quick workouts. Spend it on XP potions, shields, gloves and streak freezes.</p></details>
+</section>
+
+<!-- FRIENDS -->
+<section id="v-friends">
+  <div id="frOff" class="card" style="display:none"><h3>Train with friends</h3><p class="muted sm">Add friends with a link, start group chats, and compete in a fair weekly challenge. You need an account so friends can find you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div></div>
+  <div id="frOn">
+    <div class="card meCard"><div class="frMe" id="frMe"></div><button class="heroBtn" id="heroBtn" aria-label="Pick your hero"></button></div>
+    <div class="card chCard"><div class="row between"><div><div class="k">Weekly challenge</div><h3 style="margin:0" id="chTheme"></h3></div><div style="text-align:right"><div class="chPts"><b id="chMine">0</b> pts</div><div class="muted sm" id="chEnds"></div></div></div>
+      <div class="muted sm" id="chThemeD"></div><div class="chDays" id="chDays"></div>
+      <details><summary class="sm">How points work (and why it’s fair)</summary><p class="sm" style="margin:6px 0 0">Everyone earns points against <b>their own</b> targets, so size, goal and fitness level don’t matter. Each day: 2+ meals logged (10), protein at 90% of your target (10), calories within 10% of your target (10), your water goal (5), and 10+ good reps in a workout or boss fight (10). That’s 45 a day at most, and one category counts double each week for everyone. Weeks run Monday to Sunday. Friends see your points, level and streak, never your food, calories or weight.</p></details></div>
+    <div class="card"><div class="row between"><h3 style="margin:0">Leaderboard</h3><span class="muted sm">friends</span></div><div id="frBoard" style="margin-top:8px"></div></div>
+    <div class="card"><div class="row between"><h3 style="margin:0">Friends</h3><button class="small" id="inviteBtn">+ Invite</button></div><div id="frList" style="margin-top:8px"></div></div>
+    <div class="card"><div class="row between"><h3 style="margin:0">Groups</h3><button class="small ghost" id="newGroup">+ New group</button></div><div id="grList" style="margin-top:8px"></div></div>
+  </div>
 </section>
 </main>
 
 <nav>
   <span class="ind" id="navInd"><i></i></span>
   <button data-go="today" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8h-8z" fill="currentColor"/></svg>Today</button>
-  <button data-go="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Log</button>
+  <button data-go="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7"/><path d="M3 20h18"/><path d="M19 4l2 2-2 2" stroke-width="1.8"/></svg>Progress</button>
   <button class="scanbtn" id="scanNav"><span class="c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>Scan</button>
-  <button data-go="stats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Stats</button>
-  <button data-go="level"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg>Level</button>
+  <button data-go="level"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5h6v6L10 20l-6-6z"/><path d="M5 13l6 6M3 21l3-3"/></svg>Quest<i class="ndot" id="questDot"></i></button>
+  <button data-go="friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.2a5 5 0 0 1 5.5 5.3"/></svg>Friends</button>
 </nav>
 
 <!-- SCAN SHEET -->
@@ -532,6 +690,7 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
     <div data-pane="account" style="display:none">
       <h3>Appearance</h3>
       <div class="seg" id="themeSeg"><button data-th="auto">Auto</button><button data-th="light">Light</button><button data-th="dark">Dark</button></div>
+      <div class="card" id="installBox"></div>
       <div class="card" id="acctBox"></div>
       <button class="ghost small" id="replayTour" style="margin-bottom:14px">Replay the app tour</button>
       <h3>Backup</h3>
@@ -640,7 +799,18 @@ input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;bac
     <button class="ghost small" id="chClear">Clear chat history</button>
   </div>
 </div>
-<div id="lvup" role="dialog" aria-label="Level up"><div class="box"><div class="rays"></div><div id="cfWrap"></div><div class="badge" id="luBadge">2</div><h3>Level up!</h3><p class="muted" id="luTitle" style="margin:6px 0 12px"></p><div class="track"><i id="luBar" style="width:0;background:linear-gradient(90deg,#f2b51f,#ffe58a)"></i></div><button class="wide red" id="luOk">Keep going</button></div></div>
+<div id="battle" role="dialog" aria-label="Boss battle"></div>
+<div class="sheet" id="friendSheet" role="dialog" aria-label="Friend" style="z-index:23">
+  <div class="sh"><h2>Friend</h2><button class="x" data-close="friendSheet" aria-label="Close">×</button></div><div class="sb" id="fsBody"></div></div>
+<div class="sheet" id="heroSheet" role="dialog" aria-label="Pick your hero" style="z-index:23">
+  <div class="sh"><h2>Pick your hero</h2><button class="x" data-close="heroSheet" aria-label="Close">×</button></div><div class="sb"><p class="muted sm" style="margin-top:0">This is how friends see you on leaderboards and in chats.</p><div class="avgrid" id="heroGrid"></div></div></div>
+<div class="sheet" id="groupSheet" role="dialog" aria-label="Group" style="z-index:22">
+  <div class="sh"><span class="gico" id="gIco">G</span><div style="flex:1;min-width:0"><h2 id="gName" style="margin:0">Group</h2><div class="muted sm" id="gSub"></div></div><button class="x" id="gClose" aria-label="Close">×</button></div>
+  <div style="padding:8px 14px 0;max-width:640px;width:100%;margin:0 auto"><div class="seg" id="gTabs" style="margin:0"><button data-gt="chat" class="on">Chat</button><button data-gt="board">Challenge</button></div></div>
+  <div class="sb" id="gBody"><div id="gChat"></div><div id="gBoard" style="display:none"></div></div>
+  <div class="sf" id="gFoot"><form id="gForm" class="row" autocomplete="off"><input id="gIn" placeholder="Message" maxlength="500" enterkeyhint="send"><button aria-label="Send" style="flex:none;width:48px;padding:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form></div>
+</div>
+<div id="lvup" role="dialog" aria-label="Level up"><div class="box"><div class="rays"></div><div id="cfWrap"></div><div class="luEm" id="luBadge"></div><div class="newRank" id="luRank">New rank!</div><h3>Level up!</h3><p class="muted" id="luTitle" style="margin:6px 0 12px"></p><div class="track"><i id="luBar" style="width:0;background:linear-gradient(90deg,#f2b51f,#ffe58a)"></i></div><button class="wide red" id="luOk">Keep going</button></div></div>
 <div id="qb" aria-live="polite"><div class="in"><div class="ck" id="qbIc"></div><div><div class="k" id="qbK"></div><b id="qbT"></b></div><div class="xp" id="qbXp"></div></div></div>
 <button class="fab" id="coachFab" aria-label="Open your coach"><span id="fabAv"></span></button>
 <div id="toast"><span id="toastMsg"></span><button id="toastUndo">Undo</button></div>
@@ -875,17 +1045,17 @@ $('toastUndo').onclick=()=>{if(undoFn)undoFn();$('toast').style.display='none';u
 // ================= state + storage =================
 // mode: 'guest' keeps data in this browser; 'cloud' keeps it in your Firebase account (with offline cache)
 const GKEY='platescan.v1';
-const blank=()=>({name:'',profile:{act:'1.55'},meals:[],weights:[],reminder:null,widgetToken:null,favs:[],myFoods:[],scans:[],water:{},dayType:{},widgetCfg:null,coach:null,freeze:{owned:0,spent:0,used:[]}});
+const blank=()=>({name:'',profile:{act:'1.55'},meals:[],weights:[],reminder:null,widgetToken:null,favs:[],myFoods:[],scans:[],water:{},dayType:{},widgetCfg:null,coach:null,freeze:{owned:0,spent:0,used:[]},potions:[],bonus:[],inv:{shield:0,gloves:0},boss:null,reps:{},hero:null,chest:null,invite:null});
 const trimMap=m=>{const cut=ymd(dayOffset(180)),o={};for(const k in (m||{}))if(k>=cut)o[k]=m[k];return o};
 let S=blank(),mode='guest',user=null,FB=null;
-function loadGuest(){base=null;chat=[];S=blank();try{const raw=lsGet(GKEY);if(raw)S=Object.assign(blank(),JSON.parse(raw))}catch(e){}}
-let metaT=null;
+function loadGuest(){DV++;base=null;chat=[];S=blank();try{const raw=lsGet(GKEY);if(raw)S=Object.assign(blank(),JSON.parse(raw))}catch(e){}}
+let metaT=null,DV=0;
 const store={
-  saveMeta(){ if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
-    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
-  putMeal(m){ if(mode==='guest')return this.saveMeta();
+  saveMeta(){ DV++;if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
+    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,invite:S.invite||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
+  putMeal(m){ DV++;if(mode==='guest')return this.saveMeta();
     FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m).catch(e=>toast('Couldn’t sync meal: '+e.code))},
-  delMeal(id){ if(mode==='guest')return this.saveMeta();
+  delMeal(id){ DV++;if(mode==='guest')return this.saveMeta();
     FB.fs.deleteDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',id)).catch(e=>toast('Couldn’t sync: '+e.code))}
 };
 
@@ -901,11 +1071,30 @@ function calc(p=S.profile){
   return {lbm,bmr,tdee,daily,kcal,pro,fat,carbs,rate:daily*7/3500,floored,w};
 }
 const sumItems=items=>items.reduce((a,i)=>{a.k+=i.k*i.q;a.p+=i.p*i.q;a.f+=i.f*i.q;a.c+=i.c*i.q;return a},{k:0,p:0,f:0,c:0});
-function byDay(){const m={};for(const meal of S.meals){const d=ymd(meal.ts);const s=m[d]||(m[d]={k:0,p:0,f:0,c:0,n:0,scans:0,meals:[]});const t=sumItems(meal.items);s.k+=t.k;s.p+=t.p;s.f+=t.f;s.c+=t.c;s.n++;if(meal.scanned)s.scans++;s.meals.push(meal)}return m}
+let _bd=null,_bdk='';function byDay(){const k=DV+'|'+S.meals.length;if(_bd&&_bdk===k)return _bd;_bdk=k;return _bd=byDay0()}
+function byDay0(){const m={};for(const meal of S.meals){const d=ymd(meal.ts);const s=m[d]||(m[d]={k:0,p:0,f:0,c:0,n:0,scans:0,meals:[]});const t=sumItems(meal.items);s.k+=t.k;s.p+=t.p;s.f+=t.f;s.c+=t.c;s.n++;if(meal.scanned)s.scans++;s.meals.push(meal)}return m}
 
 // ================= XP + levels =================
-const TITLES=[[1,'Rookie'],[3,'Prep Cook'],[5,'Line Cook'],[7,'Sous Chef'],[10,'Macro Mechanic'],[13,'Protein Pro'],[16,'Meal Prep Master'],[20,'Nutrition Ninja'],[25,'Iron Chef'],[30,'Legend']];
-const titleFor=L=>TITLES.filter(t=>L>=t[0]).at(-1)[1];
+// ================= ranks + emblems =================
+const TIERS={bronze:['#f3c29a','#b0662f','#6e3a15'],silver:['#ffffff','#b9c3cf','#6b7785'],gold:['#fff1a8','#f2c230','#a8730a'],platinum:['#e2fff6','#5fd1b0','#1f7a63'],diamond:['#d9f1ff','#5aa8ff','#2a3fb8'],mythic:['#ffd1f5','#c063ff','#4b1fa8']};
+const RANKS=[[1,'Couch Recruit','sneaker','bronze'],[3,'Warm-Up Squire','rope','bronze'],[5,'Rep Ranger','dumbbell','silver'],[7,'Iron Apprentice','kettlebell','silver'],[10,'Macro Knight','shield','gold'],[13,'Protein Paladin','sword','gold'],[16,'Cardio Crusader','heart','platinum'],[20,'Barbell Baron','barbell','platinum'],[25,'Titan of Gains','bolt','diamond'],[30,'Mythic Champion','crown','diamond'],[40,'Olympian Legend','laurel','mythic']];
+const ICONS={sneaker:'<path d="M2 17.5h15.5a4 4 0 0 1 4 3H2z"/><path d="M3 17.5 4.5 9l4 2 2-3 5 6.5"/><path d="M8 13l1.5-1M10.5 14.5l1.5-1.2"/>',rope:'<path d="M5 3v6M19 3v6"/><path d="M5 9c0 13 14 13 14 0"/>',dumbbell:'<path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/>',
+ kettlebell:'<path d="M8.5 9.5V8a3.5 3.5 0 0 1 7 0v1.5"/><circle cx="12" cy="15" r="6"/>',shield:'<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/>',sword:'<path d="M14.5 3.5h6v6L10 20l-6-6z"/><path d="M5 13l6 6M3 21l3-3"/>',
+ heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/><path d="M6.5 12.5h3l1.5-2.5 2 5 1.5-2.5h3"/>',barbell:'<path d="M2 12h20M5 7.5v9M8 5.5v13M16 5.5v13M19 7.5v9"/>',bolt:'<path d="M13 2 4.5 13.5h6.5L10 22l9-12h-7z"/>',
+ crown:'<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/><path d="M5 19h14"/>',laurel:'<path d="M7 20C3 16 3 9 7 5M17 20c4-4 4-11 0-15"/><path d="M5.2 9 3 8M4.6 13H2.4M5.2 17 3 18M18.8 9 21 8M19.4 13h2.2M18.8 17l2.2 1"/><path d="M12 8.5l1.2 2.4 2.7.4-2 1.9.5 2.6-2.4-1.3-2.4 1.3.5-2.6-2-1.9 2.7-.4z"/>'};
+const rankFor=L=>{const r=RANKS.filter(t=>L>=t[0]).at(-1);return {at:r[0],title:r[1],icon:r[2],tier:r[3]}};
+const nextRank=L=>{const r=RANKS.find(t=>t[0]>L);return r?{at:r[0],title:r[1],icon:r[2],tier:r[3]}:null};
+let emN=0;
+function emblem(L,cls=''){const r=rankFor(L),c=TIERS[r.tier],id='em'+(++emN);
+  return `<svg class="emblem ${cls} t-${r.tier}" viewBox="0 0 64 72" aria-label="${esc(r.title)} emblem"><defs><linearGradient id="${id}" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset=".55" stop-color="${c[1]}"/><stop offset="1" stop-color="${c[2]}"/></linearGradient><linearGradient id="${id}s" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><clipPath id="${id}c"><path d="M32 3 58 12v22c0 18-12 29-26 35C18 63 6 52 6 34V12z"/></clipPath></defs>
+  ${r.tier==='diamond'||r.tier==='mythic'?`<path class="wing" d="M8 20C-2 22-2 40 8 46M56 20c10 2 10 20 0 26" fill="none" stroke="${c[1]}" stroke-width="3" stroke-linecap="round"/>`:''}
+  <path d="M32 3 58 12v22c0 18-12 29-26 35C18 63 6 52 6 34V12z" fill="url(#${id})" stroke="${c[2]}" stroke-width="2"/>
+  <path d="M32 9 52 16v18c0 14-9 23-20 28-11-5-20-14-20-28V16z" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="1.5"/>
+  <g clip-path="url(#${id}c)"><rect class="shine" x="-40" y="0" width="30" height="72" fill="url(#${id}s)" transform="skewX(-20)"/></g>
+  <g transform="translate(18 14) scale(1.17)" fill="none" stroke="${r.tier==='silver'||r.tier==='platinum'?c[2]:'#fff'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[r.icon]}</g>
+  <path d="M14 52h36l-3 6 3 6H14l3-6z" fill="${c[2]}"/><text x="32" y="61.5" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="Figtree,system-ui">${L}</text></svg>`}
+
+const titleFor=L=>rankFor(L).title;
 const need=L=>100+50*(L-1); // XP to go from L to L+1
 function levelInfo(xp){let L=1,base=0;while(xp>=base+need(L)){base+=need(L);L++}return {L,into:xp-base,need:need(L),title:titleFor(L)}}
 function trainDays(){return String(S.profile.trainDays??'1,3,5').split(',').filter(x=>x!=='').map(Number)}
@@ -917,17 +1106,20 @@ function dayXP(s,t,weighed,streak,water){
     weigh:weighed?10:0,streak:s&&s.n?Math.min(streak,10)*2:0,water:water?10:0};
   q.total=q.meals+q.scan+q.protein+q.target+q.weigh+q.streak+q.water;return q;
 }
-function game(){
+let _g=null,_gk='';function game(){const k=DV+'|'+ymd(Date.now())+'|'+S.meals.length;if(_g&&_gk===k)return _g;_gk=k;return _g=game0()}
+function game0(){
   const t=calc(),days=byDay(),wset=new Set(S.weights.map(w=>w.d)),frozen=new Set((S.freeze&&S.freeze.used)||[]),wg=+S.profile.waterGoal||8,wat=S.water||{};
   const all=[...new Set([...Object.keys(days),...wset,...frozen,...Object.keys(wat)])].sort();
   let xp=0,streak=0,best=0,prev=null,pDays=0,tDays=0,hDays=0,today=null;const todayKey=ymd(Date.now()),dayXp={};
   for(const d of all){
     const s=days[d],cont=!!prev&&(new Date(d+'T12:00')-new Date(prev+'T12:00'))<=864e5*1.01;
     if(s&&s.n){streak=cont?streak+1:1;prev=d;best=Math.max(best,streak)}else if(frozen.has(d)&&cont){prev=d}
-    const q=dayXP(s,dayT(t,d),wset.has(d),streak,(wat[d]||0)>=wg);xp+=q.total;dayXp[d]=q.total;if(q.protein)pDays++;if(q.target)tDays++;if(q.water)hDays++;
+    const q=dayXP(s,dayT(t,d),wset.has(d),streak,(wat[d]||0)>=wg);const pm=potionMult(d);q.base=q.total;q.total=Math.round(q.total*pm);q.pm=pm;xp+=q.total;dayXp[d]=q.total;if(q.protein)pDays++;if(q.target)tDays++;if(q.water)hDays++;
     if(d===todayKey)today=q;
   }
   // current streak only counts if the last logged day is today or yesterday
+  let tb=0;for(const b of (S.bonus||[])){xp+=b.xp||0;dayXp[b.d]=(dayXp[b.d]||0)+(b.xp||0);if(b.d===todayKey)tb+=b.xp||0}
+  if(!today)today=dayXP(null,dayT(t,todayKey),false,0,false);today.bonus=tb;today.total+=tb;
   const curStreak=prev&&(prev===todayKey||prev===ymd(dayOffset(1)))?streak:0;
   const lv=levelInfo(xp);
   const ach=[
@@ -936,7 +1128,8 @@ function game(){
     ['Fifty plates','Log 50 meals',S.meals.length>=50],['Two hundred club','Log 200 meals',S.meals.length>=200],
     ['Protein week','Hit protein on 7 days',pDays>=7],['Bullseye week','On calorie target 7 days',tDays>=7],
     ['Scale regular','10 weigh-ins',S.weights.length>=10],['Level 5','Reach level 5',lv.L>=5],['Level 10','Reach level 10',lv.L>=10],
-    ['Body check','Log a body scan',(S.scans||[]).length>=1],['Hydrated week','Hit your water goal 7 days',hDays>=7],['Saved by ice','Use a streak freeze',frozen.size>=1]];
+    ['Body check','Log a body scan',(S.scans||[]).length>=1],['Hydrated week','Hit your water goal 7 days',hDays>=7],['Saved by ice','Use a streak freeze',frozen.size>=1],
+    ['Boss slayer','Defeat your first boss',(S.boss||{}).n>=1],['Giant killer','Beat 5 boss stages',(S.boss||{}).beat>=5],['Legendary','Win a fight on Legend',(S.boss||{}).legend>=1],['Iron will','100 tracked good reps',(S.boss||{}).reps>=100],['Potion master','Buy an XP potion',(S.potions||[]).length>=1]];
   return {xp,lv,curStreak,best,today:today||dayXP(null,dayT(t,todayKey),false,0,false),ach,t,todayT:dayT(t,todayKey),lastLogDay:prev,lastStreak:prev?streak:0,dayXp,wallet:xp-((S.freeze&&S.freeze.spent)||0),wg};
 }
 // ---- celebrations: quest banners, achievement banners, level-up ----
@@ -947,7 +1140,7 @@ const CHECK='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke=
 const MEDAL='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#14201a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14" r="6"/><path d="M8.5 3.5 10.5 8.5M15.5 3.5 13.5 8.5"/><path class="d" d="M9.7 14.2l1.6 1.6 3-3.2"/></svg>';
 function showBanner(ev){const qb=$('qb');$('qbIc').innerHTML=ev.type==='ach'?MEDAL:CHECK;$('qbK').textContent=ev.k||(ev.type==='ach'?'Achievement unlocked':'Quest complete');$('qbT').textContent=ev.name;$('qbXp').textContent=ev.xp||'';
   qb.classList.remove('on');void qb.offsetWidth;qb.classList.add('on');sfx(ev.type==='ach'?'ach':/freeze/i.test(ev.k||'')?'freeze':'quest');setTimeout(()=>burstAt($('qbIc'),{n:18,speed:3.5,shape:'star',colors:['#f2c230','#ffe58a','#ffffff'],g:.05}),350);if(/freeze/i.test(ev.k||''))snow();setTimeout(()=>{qb.classList.remove('on');setTimeout(nextEv,500)},2400)}
-function showLevel(ev){$('luBadge').textContent=ev.L;$('luTitle').textContent=`You're now Level ${ev.L} · ${ev.title}`;$('luBar').style.width='0';
+function showLevel(ev){$('luBadge').innerHTML=emblem(ev.L);const nr=rankFor(ev.L).at>(ev.from||ev.L-1);$('luRank').classList.toggle('on',nr);$('luTitle').textContent=nr?`You're now Level ${ev.L} and earned the rank ${ev.title}!`:`You're now Level ${ev.L} · ${ev.title}`;$('luBar').style.width='0';
   const cols=['#e5432d','#f2c230','#4f9d74','#ff8a66','#7fd6a4','#ffe58a'];let h='';
   for(let i=0;i<40;i++){const a=Math.random()*Math.PI*2,dist=110+Math.random()*130;h+=`<span class="cf" style="background:${cols[i%cols.length]};--x:${(Math.cos(a)*dist).toFixed(0)}px;--y:${(Math.sin(a)*dist+60).toFixed(0)}px;--r:${(Math.random()*720-360).toFixed(0)}deg;--d:${(0.15+Math.random()*0.25).toFixed(2)}s"></span>`}
   $('cfWrap').innerHTML=h;const lv=$('lvup');lv.classList.remove('on');void lv.offsetWidth;lv.classList.add('on');sfx('level');setTimeout(()=>burst(innerWidth/2,innerHeight*.38,{n:70,speed:9}),300);
@@ -962,15 +1155,15 @@ function celebrate(g){
   if(base.day!==day){base.day=day;base.quests=qs.map(()=>false)}
   qs.forEach((d,i)=>{if(d&&!base.quests[i])enqueue({type:'quest',name:ql[i].n,xp:QXP[i]})});
   g.ach.forEach(([n,d,ok])=>{if(ok&&!base.ach.has(n))enqueue({type:'ach',name:n+' · '+d})});
-  if(g.lv.L>base.L)enqueue({type:'level',L:g.lv.L,title:g.lv.title,pct:g.lv.into/g.lv.need*100});
+  if(g.lv.L>base.L)enqueue({type:'level',from:base.L,L:g.lv.L,title:g.lv.title,pct:g.lv.into/g.lv.need*100});
   base.quests=qs;base.ach=new Set(ach);base.L=g.lv.L;lsSet(lvKey,String(g.lv.L));lsSet(achKey,JSON.stringify(ach));
 }
 
 // ================= navigation + sheets =================
 let view='today';
-const NAVI={today:0,log:1,stats:3,level:4};let animNext=true;
+const NAVI={today:0,log:1,stats:1,level:3,friends:4};let animNext=true;
 function moveInd(){$('navInd').style.transform=`translateX(${(NAVI[view]||0)*100}%)`}
-function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===v));window.scrollTo(0,0);render()}
+function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v==='log'&&view==='stats');view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,0);render()}
 function openSheet(id){$(id).classList.add('on');document.body.classList.add('lock');requestAnimationFrame(segAll)}
 function segInd(seg){let si=seg.querySelector(':scope>.si');if(!si){si=document.createElement('span');si.className='si';seg.prepend(si)}const b=seg.querySelector('button.on');if(!b||!b.offsetWidth){si.style.opacity=0;return}si.style.opacity=1;si.style.width=b.offsetWidth+'px';si.style.transform=`translateX(${b.offsetLeft}px)`}
 function segAll(){document.querySelectorAll('.seg').forEach(segInd)}
@@ -1015,7 +1208,7 @@ function logAgain(id){const m=S.meals.find(x=>x.id===id);if(!m)return;const n={.
   S.meals.push(n);newId=n.id;setTimeout(()=>{newId=null},2000);store.putMeal(n);toast(`${m.type} logged again for today`);render()}
 document.addEventListener('click',e=>{const f=e.target.closest('[data-fav]');if(f)toggleFav(f.dataset.fav);const a=e.target.closest('[data-again]');if(a)logAgain(a.dataset.again)});
 function mealRow(m,del=true){const s=sumItems(m.items);const time=new Date(m.ts).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  return `<div class="meal${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(m.type)}">${m.thumb?`<img class="th" src="${m.thumb}" alt="">`:`<div class="th"></div>`}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span></b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
+  return `<div class="meal${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(m.type)}">${m.thumb?`<img class="th" loading="lazy" decoding="async" src="${m.thumb}" alt="">`:`<div class="th"></div>`}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span></b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
 function renderToday(g){
   const todayKey=ymd(Date.now()),t=g.todayT,d=byDay()[todayKey]||{k:0,p:0,f:0,c:0,meals:[]};
   const kind=dayKind(todayKey),dt=$('dtype');dt.style.display=kind?'':'none';if(kind){dt.textContent=kind==='train'?'Training day':'Rest day';dt.classList.toggle('rest',kind==='rest')}
@@ -1029,7 +1222,7 @@ function renderToday(g){
   const bars=[['Protein',d.p,t?t.pro:150,'var(--gP)'],['Carbs',d.c,t?t.carbs:225,'var(--gC)'],['Fat',d.f,t?t.fat:65,'var(--gF)']];
   const mb=$('macroBars');if(!mb.children.length)mb.innerHTML=bars.map(([n,v,gl,c])=>`<div class="bar"><div class="lab"><span>${n}</span><b></b></div><div class="track"><i style="width:0;background:${c}"></i></div></div>`).join('');
   bars.forEach(([n,v,gl],i)=>{const row=mb.children[i];row.querySelector('b').textContent=`${r0(v)} / ${r0(gl)}g`;setBar(row.querySelector('i'),Math.min(100,v/gl*100))});
-  $('tBadge').textContent=g.lv.L;$('tTitle').textContent=g.lv.title;$('tXp').textContent=`${g.lv.into} / ${g.lv.need} XP`;$('tXpBar').style.background='linear-gradient(90deg,#f2b51f,#ffd95e)';setBar($('tXpBar'),g.lv.into/g.lv.need*100);
+  if($('tBadge')._L!==g.lv.L){$('tBadge')._L=g.lv.L;$('tBadge').innerHTML=emblem(g.lv.L)}$('tTitle').textContent=g.lv.title;$('tXp').textContent=`${g.lv.into} / ${g.lv.need} XP`;$('tXpBar').style.background='linear-gradient(90deg,#f2b51f,#ffd95e)';setBar($('tXpBar'),g.lv.into/g.lv.need*100);
   const qs=questList(g);$('tQ').innerHTML=qs.map(q=>`<i class="${q.done?'on':''}"></i>`).join('');$('tQl').textContent=`${qs.filter(q=>q.done).length}/${qs.length} quests · ${g.curStreak}d streak`;
   $('mealList').innerHTML=d.meals.length?d.meals.slice().sort((a,b)=>a.ts-b.ts).map(m=>mealRow(m)).join(''):'<div class="empty">Nothing logged yet today. Tap the camera to scan your first meal.</div>';
   stag($('mealList'));
@@ -1129,13 +1322,15 @@ function renderLevel(g){
 }
 
 function render(){
-  applyFreezes();const g=game();
+  DV++;applyFreezes();const g=game();
   $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
   $('lvPill').textContent='Lv '+g.lv.L;
   const nm=(S.name||(user&&user.email)||'').trim();$('avatarBtn').textContent=nm?nm[0].toUpperCase():'?';
-  if(view==='today')renderToday(g);if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='level')renderLevel(g);
+  if(view==='today')renderToday(g);if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='level')renderQuest(g);if(view==='friends'){renderFriends();loadProfiles()}
   animNext=false;moveInd();segAll();
-  celebrate(g);updateBadge(g);syncWidget(g);
+  celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);
+  if(S.gold==null&&lsGet(obKey())){S.gold=100;store.saveMeta();enqueue({type:'ach',k:'Boss mode unlocked',name:'Here’s 100 gold to get you started. Check the Quest tab!'})}
+  $('questDot').classList.toggle('on',chestReady()||stageState(((S.boss||{}).beat||0)+1,g.lv.L)==='open');
 }
 
 // ================= scan sheet =================
@@ -1304,9 +1499,9 @@ $('aForm').addEventListener('submit',async e=>{e.preventDefault();if(!FB)return;
   finally{$('aSubmit').disabled=!CLOUD_OK}});
 async function uploadAll(meals){for(let i=0;i<meals.length;i+=400){const b=FB.fs.writeBatch(FB.db);for(const m of meals.slice(i,i+400))b.set(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m);await b.commit()}}
 async function loadCloud(){
-  const fs=FB.fs;S=blank();
+  const fs=FB.fs;S=blank();DV++;
   const [pd,qs]=await Promise.all([fs.getDoc(fs.doc(FB.db,'users',user.uid)),fs.getDocs(fs.collection(FB.db,'users',user.uid,'meals'))]);
-  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.meals=qs.docs.map(x=>x.data());
+  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.gold=d.gold??undefined;S.potions=d.potions||[];S.bonus=d.bonus||[];S.inv=Object.assign({shield:0,gloves:0},d.inv||{});S.boss=d.boss||null;S.reps=d.reps||{};S.hero=d.hero||null;S.chest=d.chest||null;S.invite=d.invite||null;S.meals=qs.docs.map(x=>x.data());
   if(pendingMigrate){const pm=pendingMigrate;pendingMigrate=null;S.name=pm.name;
     if(pm.data){const ids=new Set(S.meals.map(m=>m.id));const add=pm.data.meals.filter(m=>!ids.has(m.id));S.meals.push(...add);
       if(!d.profile)S.profile=Object.assign({},pm.data.profile);const wd=new Set(S.weights.map(w=>w.d));S.weights.push(...pm.data.weights.filter(w=>!wd.has(w.d)));
@@ -1317,10 +1512,11 @@ async function onUser(u){
   base=null;lastWidget='';
   if(u){user=u;mode='cloud';try{await loadCloud()}catch(e){toast('Couldn’t load your data: '+(e.code||e.message))}closeSheet('auth');closeSheet('setSheet');
     const k='platescan.lvl.'+u.uid;if(!lsGet(k))lsSet(k,String(game().lv.L)); // no level-up popup for existing progress on a new device
-    fillFields();render();maybeOnboard()}
-  else{user=null;mode='guest';loadGuest();fillFields();render();if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
+    fillFields();render();maybeOnboard();socStart()}
+  else{socStop();user=null;mode='guest';loadGuest();fillFields();render();if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
 }
 function renderAccount(){
+  renderInstall();
   const box=$('acctBox');
   if(mode==='cloud'&&user)box.innerHTML=`<div class="row"><div class="badge" style="background:var(--kale);color:#fff">${esc((S.name||user.email)[0].toUpperCase())}</div><div style="flex:1"><b>${esc(S.name||'Your account')}</b><div class="muted sm">${esc(user.email)}</div></div></div><p class="muted sm">Signed in. Your meals, weight and level sync across devices.</p><label class="f"><span>Display name</span><input id="nameIn" value="${esc(S.name)}"></label><button class="ghost small" id="outBtn">Sign out</button>`;
   else box.innerHTML=`<b>Using PlateScan without an account</b><p class="muted sm">Your data lives only on this phone. Create an account to back it up and sync to other devices. Your current log comes with you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div>`;
@@ -1410,8 +1606,9 @@ const TOUR=[
   {t:()=>`<span class="wave">👋</span> Welcome${first()?', '+esc(first()):''}!`,b:'Here’s a quick tour of PlateScan. It takes about 30 seconds, then we’ll set up your goals.'},
   {t:'Your daily fuel gauge',b:'The ring counts down the calories you have left today. The bars track protein, carbs and fat.',el:()=>document.querySelector('#v-today .card')},
   {t:'Snap a meal',b:'Tap the camera to photograph your plate. PlateScan suggests what’s on it, and you confirm and adjust servings.',el:()=>document.querySelector('#scanNav .c')},
-  {t:'Your food log',b:'Every day you’ve logged, with totals. Tap a day to review it or add a meal you forgot.',el:()=>document.querySelector('nav [data-go=log]')},
-  {t:'Stats and trends',b:'Averages, a calorie chart, your weight trend and your most-logged foods.',el:()=>document.querySelector('nav [data-go=stats]')},
+  {t:'Your progress',b:'Your food log and stats live here: every day you’ve logged, your calorie chart, weight trend and most-logged foods.',el:()=>document.querySelector('nav [data-go=log]')},
+  {t:'Quests and bosses',b:'Level up, earn new ranks, and fight bosses with squats, push-ups or pull-ups. Your camera counts the good reps. Spend the gold you win on XP potions.',el:()=>document.querySelector('nav [data-go=level]')},
+  {t:'Friends',b:'Add friends with a link, chat in groups, nudge each other to work out, and compete in a fair weekly challenge.',el:()=>document.querySelector('nav [data-go=friends]')},
   {t:'Level up as you go',b:'Earn XP for logging, hitting your targets and keeping streaks. Daily quests unlock badges.',el:()=>document.querySelector('#v-today .xpstrip')},
   {t:'Meet your coach',b:'Tap me anytime. I’ll answer questions about your meals and goals, suggest what to eat, and cheer you on. You can pick a different coach in my settings.',el:()=>$('coachFab')},
   {t:'Your settings',b:'Change goals, turn on streak reminders, and add a home screen widget here anytime.',el:()=>$('avatarBtn')}];
@@ -1631,15 +1828,15 @@ function widgetData(g){const today=ymd(Date.now()),td=byDay()[today],t=g.todayT,
   return {uid:user?user.uid:'',streak:g.lastStreak||0,lastLogDay:g.lastLogDay||'',level:g.lv.L,title:g.lv.title,xpPct:Math.round(g.lv.into/g.lv.need*100),
     day:today,kcalDay:today,kcalGoal:goal,kcalLeft:Math.round(goal-(td?td.k:0)),proGoal:pg,proLeft:Math.round(pg-(td?td.p:0)),water:(S.water||{})[today]||0,waterGoal:g.wg,
     qAll:ql.map(q=>q.n).join('|'),qMask:ql.map(q=>q.done?'1':'0').join(''),cfg:c.m.join(','),theme:c.theme}}
-const WIC={streak:'<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z" fill="C"/>',quests:'<circle cx="12" cy="12" r="9" fill="C"/><path d="M8 12.5l3 3 5-6" stroke="#14201a" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
-  kcal:'<path d="M7 2v9a2 2 0 0 0 2 2v9M11 2v8M7 2v0M17 2c-2 2-2 6 0 9v11" stroke="C" stroke-width="2.2" fill="none" stroke-linecap="round"/>',protein:'<path d="M13 2L5 14h6l-1 8 8-12h-6z" fill="C"/>',
-  water:'<path d="M12 2C12 2 4 11 4 16a8 8 0 0 0 16 0C20 11 12 2 12 2z" fill="C"/>',level:'<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="C"/>'};
+const WIC={streak:'<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z" fill="@COL"/>',quests:'<circle cx="12" cy="12" r="9" fill="@COL"/><path d="M8 12.5l3 3 5-6" stroke="#14201a" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+  kcal:'<path d="M7 2v9a2 2 0 0 0 2 2v9M11 2v8M7 2v0M17 2c-2 2-2 6 0 9v11" stroke="@COL" stroke-width="2.2" fill="none" stroke-linecap="round"/>',protein:'<path d="M13 2L5 14h6l-1 8 8-12h-6z" fill="@COL"/>',
+  water:'<path d="M12 2C12 2 4 11 4 16a8 8 0 0 0 16 0C20 11 12 2 12 2z" fill="@COL"/>',level:'<path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="@COL"/>'};
 function wMetric(k,d,theme){const logged=d.lastLogDay===d.day,acc=theme==='light'?'#1d4a37':'#f2c230',warn=theme==='light'?'#e5432d':'#ff8a66',ql=d.qAll.split('|'),left=ql.filter((_,i)=>d.qMask[i]!=='1');
   const k1=n=>fmt(Math.abs(n));
   const m={streak:{val:String(d.streak),lab:logged?'day streak':d.streak?'log to keep it':'day streak',col:logged?acc:warn},quests:{val:`${ql.length-left.length}/${ql.length}`,lab:'quests',col:acc,next:left[0]},
     kcal:{val:k1(d.kcalLeft),lab:d.kcalLeft<0?'kcal over':'kcal left',col:d.kcalLeft<0?warn:acc},protein:{val:Math.max(0,d.proLeft)+'g',lab:d.proLeft<=0?'protein hit':'protein left',col:acc},
     water:{val:`${d.water}/${d.waterGoal}`,lab:'glasses',col:'#3aa0e8'},level:{val:'Lv '+d.level,lab:d.title,col:acc}}[k];
-  m.ic=s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24">${WIC[k].replace(/C/g,m.col)}</svg>`;return m}
+  m.ic=s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24">${WIC[k].replaceAll('@COL',m.col)}</svg>`;return m}
 function renderWidgetCfg(){const c=wcfg();
   $('wMetrics').innerHTML=Object.keys(WM).map(k=>{const i=c.m.indexOf(k);return `<button class="chip${i>=0?' on':''}" data-wm="${k}">${i>=0?`<b style="margin-right:6px">${i+1}</b>`:''}${WM[k]}</button>`}).join('');
   $('wTheme').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.wt===c.theme));segInd($('wTheme'));renderWidgetPreview()}
@@ -1672,7 +1869,19 @@ const SFX={
   freeze:()=>{for(let i=0;i<7;i++)tone(1800+Math.random()*1800,i*.05,.28,{gain:.025})},
   send:()=>tone(600,0,.12,{f2:1150,gain:.05}),
   coach:()=>{tone(880,0,.08,{gain:.06});tone(1320,.07,.13,{gain:.05})},
-  swoosh:()=>tone(520,0,.2,{f2:110,gain:.05,type:'sawtooth'})};
+  swoosh:()=>tone(520,0,.2,{f2:110,gain:.05,type:'sawtooth'}),
+  hit:()=>{tone(180,0,.12,{f2:60,type:'square',gain:.12});tone(900,0,.05,{type:'triangle',gain:.05})},
+  crit:()=>{tone(220,0,.18,{f2:50,type:'square',gain:.14});[1047,1568,2093].forEach((f,i)=>tone(f,.03+i*.04,.2,{type:'triangle',gain:.07}))},
+  miss:()=>tone(300,0,.18,{f2:180,type:'triangle',gain:.06}),
+  bossAtk:()=>{tone(120,0,.45,{f2:40,type:'sawtooth',gain:.16});tone(70,.05,.5,{type:'square',gain:.1})},
+  count:()=>tone(660,0,.12,{type:'square',gain:.06}),
+  go:()=>{tone(880,0,.35,{type:'square',gain:.07});tone(1320,0,.35,{type:'triangle',gain:.06})},
+  explode:()=>{for(let i=0;i<6;i++)tone(90+Math.random()*120,i*.05,.4,{f2:30,type:'sawtooth',gain:.07})},
+  victory:()=>{[523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,i*.11,.32,{type:'square',gain:.05}));tone(1568,.8,.9,{type:'triangle',gain:.08})},
+  defeat:()=>[392,349,311,262].forEach((f,i)=>tone(f,i*.18,.4,{type:'triangle',gain:.08})),
+  coin:()=>{tone(1319,0,.08,{type:'square',gain:.05});tone(1976,.07,.25,{type:'square',gain:.05})},
+  chest:()=>{tone(200,0,.25,{f2:600,type:'triangle',gain:.07});[1047,1319,1568,2093].forEach((f,i)=>tone(f,.25+i*.06,.4,{gain:.06}))},
+  potion:()=>{for(let i=0;i<5;i++)tone(500+i*180,i*.06,.12,{f2:900+i*200,gain:.05})}};
 function sfx(n){if(!sndOn())return;try{SFX[n]&&SFX[n]()}catch(e){}}
 
 // ================= visual effects =================
@@ -1857,6 +2066,441 @@ $('chClear').onclick=()=>{chat=[];saveChat();toast('Chat cleared');closeSheet('c
 function renderFxSwitches(){$('sndOn').checked=sndOn();$('fxOn').checked=lsGet('platescan.fx')!=='0'}
 $('sndOn').addEventListener('change',e=>{lsSet('platescan.sound',e.target.checked?'1':'0');if(e.target.checked){ac();sfx('quest')}});
 $('fxOn').addEventListener('change',e=>{lsSet('platescan.fx',e.target.checked?'1':'0');if(e.target.checked)burstAt(e.target.closest('.switch'),{n:20,speed:4})});
+
+/*REPS_START*/
+// Rep counter: turns pose landmarks (MediaPipe, 33 points, x/y normalized 0-1) into verified reps.
+// Each exercise is a small state machine with smoothing, a minimum time per rep and form checks.
+const LM={nose:0,ls:11,rs:12,le:13,re:14,lw:15,rw:16,lh:23,rh:24,lk:25,rk:26,la:27,ra:28};
+function angAt(a,b,c,asp){const ax=(a.x-b.x)*asp,ay=a.y-b.y,cx=(c.x-b.x)*asp,cy=c.y-b.y;const d=Math.hypot(ax,ay)*Math.hypot(cx,cy)||1;return Math.acos(Math.max(-1,Math.min(1,(ax*cx+ay*cy)/d)))*180/Math.PI}
+const visOf=(lm,ids)=>ids.reduce((s,i)=>s+((lm[i]&&lm[i].visibility)??1),0)/ids.length;
+function side(lm,L,R){return visOf(lm,L)>=visOf(lm,R)?L:R}
+const EX={
+  squat:{name:'Squats',one:'squat',mult:1,tip:'Stand side-on to the camera, about 6 to 8 feet back, so your hips, knees and ankles are in view.',
+    pts:[[LM.lh,LM.lk,LM.la],[LM.rh,LM.rk,LM.ra]]},
+  pushup:{name:'Push-ups',one:'push-up',mult:1.5,tip:'Put your phone on the floor beside you, side-on, so your whole body from head to feet is in view.',
+    pts:[[LM.ls,LM.le,LM.lw,LM.lh,LM.la],[LM.rs,LM.re,LM.rw,LM.rh,LM.ra]]},
+  pullup:{name:'Pull-ups',one:'pull-up',mult:3,tip:'Face the camera from a few feet back so your hands on the bar and your head are both in view.',
+    pts:[[LM.nose,LM.ls,LM.le,LM.lw,LM.rs,LM.re,LM.rw]]}
+};
+function makeCounter(ex,opt={}){
+  const minGap=opt.minGap??600;let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
+  const sm=v=>ema=ema==null?v:ema*0.5+v*0.5;
+  function vis(lm,ids){return ids.every(i=>lm[i]&&(lm[i].visibility??1)>=0.5)}
+  function frame(lm,t,asp=0.75){
+    if(!lm||!lm.length){cue='Step into view';return null}
+    let ev=null;
+    if(ex==='squat'){
+      const [h,k,a]=side(lm,EX.squat.pts[0],EX.squat.pts[1]);
+      if(!vis(lm,[h,k,a])){lostAt??=t;cue='Step back so your legs are in view';return null}lostAt=null;
+      const ang=sm(angAt(lm[h],lm[k],lm[a],asp));
+      if(state==='up'){if(ang<100){state='down';ext=ang;cue='Now drive up!'}else if(ang<140){dropped=true;ext=Math.min(ext??999,ang);cue='Lower… thighs to parallel'}
+        else if(ang>160&&dropped){dropped=false;ext=null;cue='Go deeper for it to count';ev={type:'partial'}}
+        else if(ang>160)cue=reps?'Great. Again!':'Squat down until your thighs are level'}
+      else{ext=Math.min(ext,ang);if(ang>160){state='up';dropped=false;
+        if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<85,depth:ext};cue=ext<85?'Perfect depth!':'Good rep!'}else{cue='Slow down, control the rep';ev={type:'fast'}}ext=null}}
+    }else if(ex==='pushup'){
+      const [s,e,w,h,a]=side(lm,EX.pushup.pts[0],EX.pushup.pts[1]);
+      if(!vis(lm,[s,e,w,h])){lostAt??=t;cue='Get your whole body in view';return null}lostAt=null;
+      const elb=sm(angAt(lm[s],lm[e],lm[w],asp));
+      const ankleOk=lm[a]&&(lm[a].visibility??1)>=0.4,line=ankleOk?angAt(lm[s],lm[h],lm[a],asp):170;
+      const tilt=Math.abs(Math.atan2(lm[h].y-lm[s].y,(lm[h].x-lm[s].x)*asp))*180/Math.PI,flat=Math.min(tilt,180-tilt)<50;
+      if(!flat){cue='Get into a plank: body level with the floor';if(state==='down'){state='up';ext=null}return null}
+      if(state==='up'){if(elb<95){if(line<150){cue='Keep your body straight';dropped=true;ext=Math.min(ext??999,elb)}else{state='down';ext=elb;cue='Push!'}}
+        else if(elb<130){dropped=true;ext=Math.min(ext??999,elb);cue='Lower your chest'}
+        else if(elb>155&&dropped){dropped=false;ext=null;cue='Go lower for it to count';ev={type:'partial'}}
+        else if(elb>155)cue=reps?'Nice. Keep going!':'Lower until your elbows bend past 90°'}
+      else{ext=Math.min(ext,elb);if(elb>155){state='up';dropped=false;
+        if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<80,depth:ext};cue=ext<80?'Perfect push-up!':'Good rep!'}else{cue='Slow down, control the rep';ev={type:'fast'}}ext=null}}
+    }else{
+      const N=lm[LM.nose],ls=lm[LM.ls],rs=lm[LM.rs],lw=lm[LM.lw],rw=lm[LM.rw];
+      if(!vis(lm,[LM.nose,LM.ls,LM.rs,LM.lw,LM.rw])){lostAt??=t;cue='Get your hands and head in view';return null}lostAt=null;
+      const wy=(lw.y+rw.y)/2,sy=sm((ls.y+rs.y)/2);
+      const elb=Math.max(angAt(ls,lm[LM.le],lw,asp),angAt(rs,lm[LM.re],rw,asp));
+      if(wy>Math.min(ls.y,rs.y)){cue='Grab the bar with your hands overhead';state='up';botY=null;dropped=false;return null}
+      if(state==='up'){ // hanging, waiting for a pull
+        if(elb>150){if(dropped&&botY!=null&&N.y>=wy){dropped=false;ev={type:'partial'};cue='Pull higher: chin over the bar'}botY=Math.max(botY??0,sy);if(!dropped&&!ev)cue=reps?'Pull again!':'Pull until your chin clears the bar'}
+        if(botY!=null&&botY-sy>0.05)dropped=true;
+        if(botY!=null&&N.y<wy&&botY-sy>0.06){state='down';ext=elb;dropped=false;cue='Now lower all the way down'}
+        else if(dropped&&!ev)cue='Higher… chin over the bar'}
+      else{ext=Math.min(ext,elb);if(elb>150){state='up';botY=sy;
+        if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<60,depth:ext};cue=ext<60?'Perfect pull-up!':'Good rep!'}else{ev={type:'fast'};cue='Control the way down'}ext=null}}
+    }
+    return ev;
+  }
+  return {frame,get cue(){return cue},get reps(){return reps},get state(){return state},lostFor:t=>lostAt==null?0:t-lostAt};
+}
+/*REPS_END*/
+
+// ================= gold, potions, items =================
+const SHOP={
+  minor:{n:'Minor XP Potion',d:'+25% XP for 3 days',g:120,kind:'potion',mult:1.25,days:3,col:'#5fd1b0'},
+  greater:{n:'Greater XP Potion',d:'+50% XP for 3 days',g:280,kind:'potion',mult:1.5,days:3,col:'#5aa8ff'},
+  elixir:{n:'Elixir of Legends',d:'+100% XP for 2 days',g:450,kind:'potion',mult:2,days:2,col:'#c063ff'},
+  shield:{n:'Guardian Shield',d:'+1 heart in your next boss fight',g:60,kind:'item',col:'#f2c230'},
+  gloves:{n:'Power Gloves',d:'+20% damage in your next boss fight',g:90,kind:'item',col:'#e5432d'},
+  freeze:{n:'Streak Freeze',d:'Saves your streak on a missed day (hold 2)',g:150,kind:'freeze',col:'#7cc8ff'}};
+const potionSVG=(col,big)=>`<svg viewBox="0 0 40 48" class="potion${big?' big':''}"><path d="M15 4h10v10l9 14a10 10 0 0 1-8.5 16h-11A10 10 0 0 1 6 28l9-14z" fill="${col}" fill-opacity=".25" stroke="${col}" stroke-width="2.5" stroke-linejoin="round"/><path class="liq" d="M8.5 30c4-3 8 2 11.5 0s7.5-3 11.5 0a8 8 0 0 1-7 12h-11a8 8 0 0 1-5-12z" fill="${col}"/><circle class="bub" cx="16" cy="36" r="1.8" fill="#fff" opacity=".8"/><circle class="bub b2" cx="23" cy="38" r="1.3" fill="#fff" opacity=".8"/><rect x="13" y="2" width="14" height="5" rx="2" fill="#8a5a2b"/></svg>`;
+const ITEMSVG={shield:'<svg viewBox="0 0 24 24" fill="#f2c230" stroke="#a8730a" stroke-width="1.6" stroke-linejoin="round"><path d="M12 2.5l8 3v6c0 5.5-3.5 8.8-8 10.5-4.5-1.7-8-5-8-10.5v-6z"/><path d="M12 6v12M7 11h10" stroke="#fff" stroke-width="1.8"/></svg>',
+  gloves:'<svg viewBox="0 0 24 24" fill="#e5432d" stroke="#9e2414" stroke-width="1.5" stroke-linejoin="round"><path d="M6 10a5 5 0 0 1 5-5h3a4 4 0 0 1 4 4v4a6 6 0 0 1-6 6H9a3 3 0 0 1-3-3z"/><path d="M8 19v3h8v-3" fill="#b8321f"/><path d="M6 12H4.5a2 2 0 0 1 0-4H7" fill="#f2674a"/></svg>',
+  freeze:'<svg viewBox="0 0 24 24" fill="none" stroke="#2f8ad8" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M4.9 6.5l14.2 11M4.9 17.5l14.2-11M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/></svg>'};
+const COIN='<svg class="coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f2c230" stroke="#a8730a" stroke-width="1.6"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#fff3b0" stroke-width="1.4"/><path d="M12 8.2v7.6M9.6 10.2h4.2a1.6 1.6 0 0 1 0 3.2h-3.6" stroke="#a8730a" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>';
+function potionMult(day){let m=1;for(const p of (S.potions||[]))if(day>=p.s&&day<=p.e)m=Math.max(m,p.mult);return m}
+function activePotion(){const d=ymd(Date.now());let best=null;for(const p of (S.potions||[]))if(d>=p.s&&d<=p.e&&(!best||p.mult>best.mult))best=p;return best}
+const addDays=(key,n)=>{const d=new Date(key+'T12:00');d.setDate(d.getDate()+n);return ymd(d)};
+function gainGold(n,el,why){if(!(n>0))return;S.gold=(S.gold||0)+Math.round(n);store.saveMeta();sfx('coin');if(el){floatText(el,`+${Math.round(n)} gold`,'#e0a800');burstAt(el,{n:14,speed:4,shape:'circle',colors:['#f2c230','#ffe58a','#a8730a']})}if(why)toast(`+${Math.round(n)} gold · ${why}`)}
+function buy(k,btn){const it=SHOP[k];if(!it)return;const g=S.gold||0;if(g<it.g){toast(`You need ${it.g-g} more gold. Beat a boss or open your daily chest.`);return}
+  if(it.kind==='freeze'&&(S.freeze.owned||0)>=FREEZE_MAX){toast('You already hold 2 streak freezes.');return}
+  S.gold=g-it.g;const today=ymd(Date.now());
+  if(it.kind==='potion'){S.potions=(S.potions||[]).filter(p=>p.e>=addDays(today,-7));const same=S.potions.find(p=>p.t===k&&p.e>=today);
+    if(same)same.e=addDays(same.e,it.days);else S.potions.push({t:k,mult:it.mult,s:today,e:addDays(today,it.days-1)});
+    toast(`${it.n} active. ${it.d.replace(/^\+/, '+')}!`)}
+  else if(it.kind==='item'){S.inv=Object.assign({shield:0,gloves:0},S.inv);S.inv[k]++;toast(`${it.n} added to your bag`)}
+  else{S.freeze.owned=(S.freeze.owned||0)+1;snow();toast('Streak freeze ready')}
+  S.boss=Object.assign(bossBlank(),S.boss);S.boss.spent=(S.boss.spent||0)+it.g;
+  store.saveMeta();sfx(it.kind==='potion'?'potion':'coin');if(btn){const card=btn.closest('.shopIt');if(card){card.classList.remove('bought');void card.offsetWidth;card.classList.add('bought');burstAt(card.querySelector('.ico'),{n:22,speed:4.5,colors:[it.col,'#ffffff','#f2c230'],shape:'star',g:.05})}}
+  render()}
+// daily chest: a little gold every day you open the app
+const seedRand=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return ((h>>>0)%1000)/1000};
+function chestReady(){return S.chest!==ymd(Date.now())}
+function openChest(el){if(!chestReady())return;const d=ymd(Date.now()),g=game(),amt=15+Math.round(seedRand(d+(user?user.uid:'g'))*20)+Math.min(g.curStreak,10)*2;S.chest=d;
+  el.classList.add('opening');sfx('chest');setTimeout(()=>{gainGold(amt,el);el.classList.remove('opening');el.classList.add('opened');setTimeout(render,900)},650)}
+
+// ================= bosses =================
+const bossBlank=()=>({beat:0,wins:{},n:0,legend:0,reps:0,spent:0,dg:null});
+const EYES=(x1,x2,y,c='#fff',p='#1a1020',r=9)=>`<g class="bEye"><circle cx="${x1}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x2}" cy="${y}" r="${r}" fill="${c}"/><circle cx="${x1+2}" cy="${y+1}" r="${r*.45}" fill="${p}"/><circle cx="${x2-2}" cy="${y+1}" r="${r*.45}" fill="${p}"/></g>`;
+const BROWS=(x1,x2,y,c='#1a1020')=>`<path d="M${x1-11} ${y-6}l18 6M${x2+11} ${y-6}l-18 6" stroke="${c}" stroke-width="5" stroke-linecap="round"/>`;
+const BOSSES=[
+ {n:'Sir Snooze-a-Lot',t:'Five more minutes… forever.',c:'#8a6fd1',svg:`<ellipse cx="100" cy="122" rx="70" ry="60" fill="#8a6fd1"/><ellipse cx="100" cy="140" rx="44" ry="32" fill="#b7a3f0"/><path d="M45 85Q85 18 150 58q12 8-8 22z" fill="#3b5bdb"/><path d="M47 86q50-14 95-6" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="158" cy="56" r="11" fill="#fff"/><g class="bEye"><path d="M66 112q11 9 22 0M112 112q11 9 22 0" stroke="#2b1d4d" stroke-width="5" fill="none" stroke-linecap="round"/></g><ellipse cx="100" cy="140" rx="11" ry="14" fill="#3a1f3f"/><text class="zz" x="150" y="40" font-size="22" font-weight="800" fill="#fff">z</text><text class="zz z2" x="164" y="24" font-size="16" font-weight="800" fill="#fff">z</text>`},
+ {n:'Sugar Gremlin',t:'One more cookie can’t hurt… right?',c:'#ff6fb1',svg:`<path d="M62 68l-14-40 10-2 14 38M138 68l14-40-10-2-14 38" stroke="#e5432d" stroke-width="9" stroke-linecap="round"/><path d="M58 30l8-3M54 40l8-3M146 27l-8-3M150 37l-8-3" stroke="#fff" stroke-width="4"/><path d="M40 92l-26-10 20 26M160 92l26-10-20 26" fill="#ff6fb1"/><circle cx="100" cy="118" r="62" fill="#ff6fb1"/><circle cx="100" cy="132" r="40" fill="#ffb3d6"/>${EYES(78,122,104,'#fff','#1a1020',12)}${BROWS(78,122,90)}<path d="M70 140q30 26 60 0z" fill="#5a0f33"/><path d="M76 141l6 8 6-8 6 8 6-8 6 8 6-8 6 8 6-8" fill="#fff"/><circle cx="60" cy="150" r="3" fill="#f2c230"/><circle cx="140" cy="155" r="3" fill="#5fd1b0"/><circle cx="130" cy="78" r="3" fill="#5aa8ff"/><circle cx="72" cy="74" r="3" fill="#fff"/>`},
+ {n:'Count Carbula',t:'I vant to suck your gains!',c:'#c98a3a',svg:`<path d="M30 190L52 92h96l22 98z" fill="#2a1030"/><path d="M52 92 30 70l40 14M148 92l22-22-40 14" fill="#8e1b2e"/><rect x="52" y="44" width="96" height="96" rx="40" fill="#e9b36b"/><path d="M60 64q40-34 80 0" stroke="#a86a24" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M68 54l8 8M100 46v10M132 54l-8 8" stroke="#a86a24" stroke-width="4" stroke-linecap="round"/>${EYES(80,120,92,'#fff','#c4001d',10)}${BROWS(80,120,80,'#5a3510')}<path d="M78 116q22 14 44 0" stroke="#5a3510" stroke-width="4" fill="none"/><path d="M86 118l4 12 4-11M106 119l4 11 4-12" fill="#fff"/>`},
+ {n:'Lord Lazybones',t:'Why stand when you can recline?',c:'#d9d4c7',svg:`<rect x="24" y="130" width="152" height="46" rx="16" fill="#7a4c9a"/><rect x="16" y="112" width="28" height="64" rx="12" fill="#6a3d88"/><rect x="156" y="112" width="28" height="64" rx="12" fill="#6a3d88"/><path d="M58 22l12 18 14-20 16 20 16-20 14 20 12-18v30H58z" fill="#f2c230"/><circle cx="100" cy="86" r="46" fill="#ece8dc"/><rect x="74" y="118" width="52" height="26" rx="8" fill="#ece8dc"/><g class="bEye"><circle cx="82" cy="84" r="13" fill="#2a2433"/><circle cx="118" cy="84" r="13" fill="#2a2433"/><circle cx="84" cy="86" r="4" fill="#ff5a3c"/><circle cx="116" cy="86" r="4" fill="#ff5a3c"/></g><path d="M96 102l4 8 4-8z" fill="#2a2433"/><path d="M82 126v14M92 126v14M100 126v14M108 126v14M118 126v14" stroke="#9b9384" stroke-width="2.5"/>`},
+ {n:'Burger Golem',t:'Supersize your defeat!',c:'#d9822b',svg:`<path d="M40 86q60-80 120 0z" fill="#e8a046"/><ellipse cx="80" cy="56" rx="4" ry="2.5" fill="#fff3d6"/><ellipse cx="104" cy="46" rx="4" ry="2.5" fill="#fff3d6"/><ellipse cx="124" cy="60" rx="4" ry="2.5" fill="#fff3d6"/><path d="M34 92q10-10 22 0t22 0 22 0 22 0 22 0 22 0" fill="#5fbf4a" stroke="#3e9a32" stroke-width="5"/><path d="M38 96h124l-10 18-10-10-12 14-14-10-14 12-14-10-14 12-12-12-10 10z" fill="#f2c230"/><rect x="36" y="104" width="128" height="32" rx="14" fill="#6b3a1e"/><path d="M40 140q60 18 120 0v14q0 18-20 18H60q-20 0-20-18z" fill="#e8a046"/>${EYES(78,122,120,'#fff','#1a1020',9)}${BROWS(78,122,110,'#2b140a')}<path d="M18 118l18-6M182 118l-18-6" stroke="#6b3a1e" stroke-width="9" stroke-linecap="round"/>`},
+ {n:'The Procrastinator',t:'Let’s do the workout… tomorrow.',c:'#ef7d3c',svg:`<path d="M70 168l-8 18M130 168l8 18" stroke="#3b2a1a" stroke-width="9" stroke-linecap="round"/><circle cx="100" cy="104" r="70" fill="#ef7d3c"/><circle cx="100" cy="104" r="56" fill="#fff8ec"/><path d="M100 54v8M100 146v8M50 104h8M142 104h8" stroke="#c45b1f" stroke-width="5" stroke-linecap="round"/><path class="hand" d="M100 104V66" stroke="#2b1d14" stroke-width="5" stroke-linecap="round"/><path class="hand2" d="M100 104h26" stroke="#2b1d14" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="104" r="6" fill="#2b1d14"/><g class="bEye"><path d="M66 94q10 8 20 0M114 94q10 8 20 0" stroke="#2b1d14" stroke-width="5" fill="none" stroke-linecap="round"/></g><path d="M84 128q16 -8 32 0" stroke="#2b1d14" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="62" cy="40" r="12" fill="#ef7d3c"/><circle cx="138" cy="40" r="12" fill="#ef7d3c"/>`},
+ {n:'Soda Serpent',t:'Sssip the sssugar…',c:'#e23a3a',svg:`<path d="M40 176c-30-30 20-50 60-40s80-10 60-40-60-20-50-50" stroke="#e23a3a" stroke-width="34" fill="none" stroke-linecap="round"/><path d="M40 176c-30-30 20-50 60-40s80-10 60-40-60-20-50-50" stroke="#fff" stroke-width="5" stroke-dasharray="4 22" fill="none" stroke-linecap="round"/><ellipse cx="112" cy="46" rx="38" ry="30" fill="#e23a3a"/><rect x="88" y="16" width="48" height="10" rx="5" fill="#c9ced6"/><circle cx="126" cy="20" r="4" fill="#9aa1ab"/>${EYES(98,128,44,'#ffe58a','#1a1020',8)}<path d="M84 60q28 14 56 0" stroke="#7a0f12" stroke-width="5" fill="none"/><path d="M96 62l4 10 4-9M120 63l4 9 4-10" fill="#fff"/><path class="tongue" d="M112 70v14l-5 6M112 84l5 6" stroke="#ff7aa8" stroke-width="3" fill="none" stroke-linecap="round"/>`},
+ {n:'Iron Ogre',t:'You lift? I lift YOU.',c:'#6f8a5c',svg:`<path d="M60 52 40 18l30 22M140 52l20-34-30 22" fill="#d9d4c7" stroke="#9b9384" stroke-width="3"/><path d="M30 190q0-70 70-70t70 70z" fill="#5d7a4c"/><circle cx="100" cy="88" r="54" fill="#6f8a5c"/><path d="M48 72h104v14H48z" fill="#7d8794"/><circle cx="60" cy="79" r="3" fill="#c9ced6"/><circle cx="140" cy="79" r="3" fill="#c9ced6"/>${EYES(80,120,100,'#fff6cc','#1a1020',9)}${BROWS(80,120,92,'#2b3322')}<path d="M74 122q26 10 52 0" stroke="#2b3322" stroke-width="5" fill="none"/><path d="M78 122l6-16 6 15M110 121l6-15 6 16" fill="#fff8e0" stroke="#9b9384" stroke-width="1.5"/><rect x="10" y="136" width="44" height="12" rx="4" fill="#3b3f46"/><rect x="2" y="128" width="12" height="28" rx="3" fill="#2a2d33"/><rect x="50" y="128" width="12" height="28" rx="3" fill="#2a2d33"/>`},
+ {n:'Doubt Wraith',t:'You can’t do this… can you?',c:'#7c7aa8',svg:`<path class="wisp" d="M40 180V92a60 60 0 0 1 120 0v88l-15-14-15 14-15-14-15 14-15-14-15 14-15-14z" fill="#7c7aa8" fill-opacity=".85"/><path d="M60 96a40 40 0 0 1 80 0" stroke="#b9b7e6" stroke-width="5" fill="none" opacity=".6"/><g class="bEye"><ellipse cx="80" cy="102" rx="11" ry="15" fill="#13112a"/><ellipse cx="120" cy="102" rx="11" ry="15" fill="#13112a"/><circle cx="80" cy="104" r="4" fill="#9ef0ff"/><circle cx="120" cy="104" r="4" fill="#9ef0ff"/></g><ellipse cx="100" cy="138" rx="12" ry="8" fill="#13112a"/><path d="M28 120q-14 10-6 26M172 120q14 10 6 26" stroke="#7c7aa8" stroke-width="10" fill="none" stroke-linecap="round" opacity=".7"/>`},
+ {n:'Plateau Titan',t:'Progress ends here. Forever flat.',c:'#8c6a4f',svg:`<path d="M26 190l14-64h120l14 64z" fill="#6e523c"/><path d="M36 60h128l10 76H26z" fill="#8c6a4f"/><rect x="30" y="50" width="140" height="16" rx="3" fill="#a3825f"/><path d="M60 140l10-20 14 6M140 70l-12 18 10 10M50 88l14 8" stroke="#ffb347" stroke-width="3" fill="none" class="crack"/><g class="bEye"><rect x="70" y="88" width="22" height="12" rx="3" fill="#ffb347"/><rect x="108" y="88" width="22" height="12" rx="3" fill="#ffb347"/></g><path d="M80 118h40" stroke="#3e2c1f" stroke-width="6" stroke-linecap="round"/><path d="M6 110q10-20 30-14M194 110q-10-20-30-14" stroke="#6e523c" stroke-width="18" stroke-linecap="round" fill="none"/>`}];
+const DUMMY={n:'Training Dummy',t:'Practice reps. No hits back.',c:'#c9a46a',svg:`<rect x="94" y="140" width="12" height="46" fill="#7a5532"/><rect x="70" y="182" width="60" height="8" rx="4" fill="#5a3d22"/><ellipse cx="100" cy="104" rx="44" ry="52" fill="#d9b77e"/><path d="M60 100h80M66 76h68M66 128h68" stroke="#a8844c" stroke-width="2.5" stroke-dasharray="5 4"/><circle cx="100" cy="112" r="22" fill="#fff" stroke="#e5432d" stroke-width="6"/><circle cx="100" cy="112" r="9" fill="#e5432d"/><circle cx="100" cy="50" r="22" fill="#d9b77e"/><path d="M90 46l6 6M96 46l-6 6M104 46l6 6M110 46l-6 6" stroke="#5a3d22" stroke-width="3" stroke-linecap="round"/><path d="M56 92l-26-14M144 92l26-14" stroke="#d9b77e" stroke-width="14" stroke-linecap="round"/>`};
+function bossFor(s){if(s==='dummy')return Object.assign({stage:0,hp:Infinity,dummy:true,asc:0},DUMMY);const i=(s-1)%10,asc=Math.floor((s-1)/10),b=BOSSES[i];
+  return Object.assign({},b,{stage:s,asc,n:(asc?['','Ascended ','Mythic ','Eternal '][Math.min(asc,3)]:'')+b.n,hp:Math.round(100*Math.pow(1.12,s-1)),hue:asc*70})}
+const bossArt=(b,cls='')=>`<svg class="bossSvg ${cls}" viewBox="0 0 200 200" style="${b.hue?`filter:hue-rotate(${b.hue}deg) saturate(1.2)`:''}"><ellipse class="shadow" cx="100" cy="190" rx="60" ry="8" fill="#000" opacity=".18"/>${b.svg}</svg>`;
+const DIFF={easy:{n:'Easy',dmg:10,mult:1,atk:30},normal:{n:'Normal',dmg:7,mult:1.6,atk:25},hard:{n:'Hard',dmg:5,mult:2.4,atk:20},legend:{n:'Legend',dmg:3.5,mult:3.5,atk:16}};
+const stageReq=s=>1+(s-1)*2;
+function stageState(s,L){const B=S.boss||bossBlank();if(s<=B.beat)return 'beat';if(s===B.beat+1)return L>=stageReq(s)?'open':'lvl';return 'lock'}
+function rewardFor(s,diff){const B=S.boss||bossBlank(),today=ymd(Date.now()),d=DIFF[diff];let xp=(100+40*s)*d.mult,gold=(40+20*s)*d.mult,note='';
+  if(B.wins&&B.wins[s]===today)return {xp:0,gold:0,note:'Already rewarded today. Practice only.'};
+  if(s<=B.beat){xp*=.4;gold*=.4;note='Replay: 40% rewards'}
+  const pm=potionMult(today);if(pm>1)note=(note?note+' · ':'')+`Potion: ×${pm} XP`;
+  return {xp:Math.round(xp*pm),gold:Math.round(gold),note}}
+
+// ================= quest view =================
+function renderQuest(g){
+  const L=g.lv.L,r=rankFor(L),nx=nextRank(L);
+  $('lBadge').innerHTML=emblem(L,'float');$('lTitle').textContent=r.title;$('lLv').textContent=`Level ${L}`;
+  $('lBar').style.background='linear-gradient(90deg,#f2b51f,#ffe58a)';setBar($('lBar'),g.lv.into/g.lv.need*100);
+  $('lNext').textContent=`${g.lv.need-g.lv.into} XP to level ${L+1}`+(nx?` · next rank ${nx.title} at Lv ${nx.at}`:'');$('lTotal').textContent=`${fmt(g.xp)} XP total · best streak ${g.best} days`;
+  // wallet strip
+  const ap=activePotion(),today=ymd(Date.now());
+  $('goldN').textContent=fmt(S.gold||0);
+  $('potState').innerHTML=ap?`${potionSVG(SHOP[ap.t]?SHOP[ap.t].col:'#5fd1b0')}<span><b>+${Math.round((ap.mult-1)*100)}% XP</b><span class="muted sm">${(()=>{const n=Math.round((new Date(ap.e+'T23:59')-Date.now())/864e5);return n<1?'ends tonight':n+' more day'+(n>1?'s':'')})()}</span></span>`:`<span class="muted sm">No potion active</span>`;
+  const ch=$('chestBtn');ch.classList.toggle('ready',chestReady());ch.classList.toggle('opened',!chestReady());ch.setAttribute('aria-label',chestReady()?'Open your daily chest':'Chest opened. Come back tomorrow');
+  $('chestLbl').textContent=chestReady()?'Daily chest':'Opened';
+  // stage map
+  const B=Object.assign(bossBlank(),S.boss),cur=B.beat+1,show=Math.max(cur+3,6),nodes=[];
+  for(let s=1;s<=show;s++){const st=stageState(s,L),b=bossFor(s);nodes.push(`<button class="node ${st}${s===cur?' cur':''}" data-stage="${s}" aria-label="Stage ${s}: ${esc(b.n)}${st==='beat'?', defeated':st==='lvl'?', unlocks at level '+stageReq(s):st==='lock'?', locked':''}"><span class="nb">${st==='beat'||s===cur?bossArt(b,'mini'):'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}${st==='beat'?'<i class="ok">✓</i>':''}</span><span class="nl">${s}</span></button>`)}
+  $('stageMap').innerHTML=nodes.join('<i class="link"></i>');
+  const cb=bossFor(cur),cs=stageState(cur,L);
+  $('bossCard').innerHTML=`<div class="bossPic">${bossArt(cb,'idle')}</div><div style="flex:1;min-width:0"><div class="k">Stage ${cur}${cb.asc?' · Ascension '+cb.asc:''}</div><b class="bn">${esc(cb.n)}</b><div class="muted sm">“${esc(cb.t)}”</div><div class="hpmini"><i></i><span>${cb.hp} HP</span></div>
+    ${cs==='open'?`<button class="red small" id="fightBtn" style="margin-top:8px">Fight boss</button>`:`<div class="lockMsg sm">Reach level ${stageReq(cur)} to unlock · ${stageReq(cur)-L} to go</div>`}</div>`;
+  if(B.beat){const last=Math.max(1,B.beat);$('replayRow').style.display='';$('replayRow').querySelector('span').textContent=`Replay any beaten boss (40% rewards)`}else $('replayRow').style.display='none';
+  // shop
+  $('shop').innerHTML=Object.entries(SHOP).map(([k,it])=>{const own=it.kind==='item'?((S.inv||{})[k]||0):it.kind==='freeze'?(S.freeze.owned||0):0;
+    return `<div class="shopIt"><div class="ico">${it.kind==='potion'?potionSVG(it.col):ITEMSVG[k]}</div><b>${esc(it.n)}</b><span class="muted">${esc(it.d)}</span>${own?`<em>Owned: ${own}</em>`:''}<button class="small buy" data-buy="${k}" ${(S.gold||0)<it.g||(it.kind==='freeze'&&own>=FREEZE_MAX)?'disabled':''}>${COIN}${it.g}</button></div>`}).join('');
+  // quests + achievements (unchanged look)
+  $('quests').innerHTML=questList(g).map(q=>`<div class="quest${q.done?' done':''}"><span class="ck">${q.done?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14201a" stroke-width="3.5" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>':''}</span><span>${esc(q.n)}</span><span class="xp">${q.xp}</span></div>`).join('')+(g.today.streak?`<div class="quest done"><span class="ck">★</span><span>Streak bonus</span><span class="xp">${g.today.streak} XP</span></div>`:'')+(g.today.bonus?`<div class="quest done"><span class="ck">⚔</span><span>Boss rewards</span><span class="xp">${g.today.bonus} XP</span></div>`:'');
+  $('qEarned').textContent=`+${g.today.total} XP today`+(ap?` (×${ap.mult})`:'');
+  $('achCount').textContent=`${g.ach.filter(a=>a[2]).length} of ${g.ach.length}`;
+  $('ach').innerHTML=g.ach.map(([n,d,ok])=>`<div class="${ok?'':'lock'}">${medal}<b>${esc(n)}</b><span class="muted">${esc(d)}</span></div>`).join('');
+  $('rankRoad').innerHTML=RANKS.map(([at,t])=>`<div class="rr${L>=at?' got':''}${rankFor(L).at===at?' now':''}">${emblem(at)}<div><b>${esc(t)}</b><span class="muted sm">Level ${at}</span></div>${rankFor(L).at===at?'<span class="pill">You</span>':''}</div>`).join('');
+  stag($('quests'));stag($('ach'));stag($('shop'));renderFreeze(g);
+  if(animNext){const curN=$('stageMap').querySelector('.node.cur');if(curN)setTimeout(()=>curN.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'}),250)}
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-buy]');if(b){buy(b.dataset.buy,b);return}
+  if(e.target.closest('#fightBtn')){openBattle((S.boss?S.boss.beat:0)+1);return}
+  const n=e.target.closest('#stageMap .node');if(n){const s=+n.dataset.stage,st=stageState(s,game().lv.L);if(st==='beat'||st==='open')openBattle(s);else{sfx('tap');n.classList.remove('nope');void n.offsetWidth;n.classList.add('nope');toast(st==='lvl'?`Reach level ${stageReq(s)} to fight this boss.`:`Beat stage ${s-1} first.`)}return}
+  if(e.target.closest('#dummyBtn')){openBattle('dummy');return}
+  const ch=e.target.closest('#chestBtn');if(ch){if(chestReady())openChest(ch);else toast('Your next chest opens tomorrow.');return}
+});
+
+// ================= boss battles (camera rep tracking) =================
+const MPV='1.2.0',MPB=`https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MPV}`,POSE_MODEL='https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task';
+let poseP=null;
+function loadPose(){return poseP||(poseP=(async()=>{const V=await import(MPB+'/vision_bundle.mjs');const fsr=await V.FilesetResolver.forVisionTasks(MPB+'/wasm');
+  const mk=d=>V.PoseLandmarker.createFromOptions(fsr,{baseOptions:{modelAssetPath:POSE_MODEL,delegate:d},runningMode:'VIDEO',numPoses:1,minPoseDetectionConfidence:.5,minPosePresenceConfidence:.5,minTrackingConfidence:.5});
+  try{return await mk('GPU')}catch(e){return await mk('CPU')}})().catch(e=>{poseP=null;throw e}))}
+let BT=null;
+const BONES=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28]];
+function btEl(h){$('battle').innerHTML=h}
+function openBattle(s){
+  if(BT&&BT.raf)return;const b=bossFor(s),B=Object.assign(bossBlank(),S.boss);S.inv=Object.assign({shield:0,gloves:0},S.inv);
+  BT={s,b,ex:lsGet('platescan.ex')||'squat',diff:lsGet('platescan.diff')||'normal',cam:lsGet('platescan.cam')||'user',useShield:false,useGloves:false,phase:'setup'};
+  document.body.classList.add('lock');$('battle').classList.add('on');sfx('swoosh');renderSetup();
+}
+function renderSetup(){const {b,s}=BT,dummy=b.dummy,inv=S.inv,rw=dummy?null:rewardFor(s,BT.diff),dd=DIFF[BT.diff],ex=EX[BT.ex];
+  const dmgPer=+(dd.dmg*ex.mult*(BT.useGloves?1.2:1)).toFixed(1),reps=dummy?0:Math.ceil(b.hp/dmgPer);
+  btEl(`<div class="btTop"><button class="x" id="btClose" aria-label="Close">×</button><div style="flex:1"><div class="k">${dummy?'Practice':'Stage '+s}</div><b>${esc(b.n)}</b></div></div>
+  <div class="btSb"><div class="bossStage intro">${bossArt(b,'idle')}<div class="taunt">“${esc(b.t)}”</div></div>
+  ${dummy?'':`<div class="hpbar big"><i style="width:100%"></i><span>${b.hp} HP</span></div>`}
+  <div class="lbl">Exercise</div><div class="seg" id="exSeg">${Object.entries(EX).map(([k,v])=>`<button data-ex="${k}" class="${k===BT.ex?'on':''}">${v.name}${v.mult>1?` <small>×${v.mult}</small>`:''}</button>`).join('')}</div>
+  <p class="muted sm" style="margin:-4px 0 10px">${esc(ex.tip)}</p>
+  ${dummy?'':`<div class="lbl">Difficulty</div><div class="seg" id="dfSeg">${Object.entries(DIFF).map(([k,v])=>`<button data-df="${k}" class="${k===BT.diff?'on':''}">${v.n}</button>`).join('')}</div>
+  <div class="g3 btInfo"><div><b>${dmgPer}</b><span>damage per rep</span></div><div><b>~${reps}</b><span>good reps to win</span></div><div><b>${dd.atk}s</b><span>before it attacks</span></div></div>
+  <div class="lbl">Bag</div><div class="row" style="gap:8px;flex-wrap:wrap">
+   <button class="itemTog${BT.useShield?' on':''}" id="tgShield" ${inv.shield?'':'disabled'}>${ITEMSVG.shield}<span>Shield <small>+1 heart · ${inv.shield} owned</small></span></button>
+   <button class="itemTog${BT.useGloves?' on':''}" id="tgGloves" ${inv.gloves?'':'disabled'}>${ITEMSVG.gloves}<span>Gloves <small>+20% dmg · ${inv.gloves} owned</small></span></button></div>
+  <div class="rewardBox"><div class="lbl" style="margin:0 0 6px">Rewards</div>${rw.xp?`<div class="row" style="gap:16px"><span class="rw xp">+${fmt(rw.xp)} XP</span><span class="rw gd">${COIN}+${fmt(rw.gold)}</span></div>`:''}${rw.note?`<div class="muted sm">${esc(rw.note)}</div>`:''}<div class="muted sm">Harder difficulty means less damage per rep and bigger rewards. A perfect rep is a critical hit (×1.5).</div></div>`}
+  ${dummy?`<div class="rewardBox"><div class="muted sm">Every good rep counts toward your weekly challenge. Earn 1 gold per 5 reps (up to 20 a day).</div></div>`:''}
+  <div class="seg" id="camSeg" style="margin-top:10px"><button data-cam="user" class="${BT.cam==='user'?'on':''}">Front camera</button><button data-cam="environment" class="${BT.cam!=='user'?'on':''}">Back camera</button></div>
+  <p class="muted sm">Video stays on your phone. Rep tracking runs on-device and nothing is recorded or uploaded.</p></div>
+  <div class="btFoot"><button class="wide red big" id="btGo">${dummy?'Start workout':'Fight!'}</button></div>`);
+  requestAnimationFrame(segAll)}
+$('battle').addEventListener('click',e=>{const t=e.target;if(!BT)return;
+  const ex=t.closest('[data-ex]');if(ex){BT.ex=ex.dataset.ex;lsSet('platescan.ex',BT.ex);sfx('tap');renderSetup();return}
+  const df=t.closest('[data-df]');if(df){BT.diff=df.dataset.df;lsSet('platescan.diff',BT.diff);sfx('tap');renderSetup();return}
+  const cm=t.closest('[data-cam]');if(cm){BT.cam=cm.dataset.cam;lsSet('platescan.cam',BT.cam);renderSetup();return}
+  if(t.closest('#tgShield')){BT.useShield=!BT.useShield;sfx('pop');renderSetup();return}
+  if(t.closest('#tgGloves')){BT.useGloves=!BT.useGloves;sfx('pop');renderSetup();return}
+  if(t.closest('#btGo')){startFight();return}
+  if(t.closest('#btClose')||t.closest('#btDone')){closeBattle();return}
+  if(t.closest('#btQuit')){if(BT.b.dummy)finishDummy();else{BT.hearts=0;endFight(false,'You retreated.')}return}
+  if(t.closest('#btAgain')){const s=BT.s;closeBattle(true);openBattle(s);return}
+});
+function stopCam(){if(BT&&BT.stream){BT.stream.getTracks().forEach(t=>t.stop());BT.stream=null}if(BT&&BT.raf){cancelAnimationFrame(BT.raf);BT.raf=0}}
+function closeBattle(keep){stopCam();clearInterval(BT&&BT.cdT);BT=null;$('battle').classList.remove('on');if(!document.querySelector('.sheet.on'))document.body.classList.remove('lock');if(!keep)render()}
+document.addEventListener('visibilitychange',()=>{if(!BT||BT.phase!=='fight')return;if(document.hidden)BT.pausedAt=performance.now();else if(BT.pausedAt){BT.atkAt+=performance.now()-BT.pausedAt;BT.pausedAt=0}});
+async function startFight(){const {b}=BT;BT.phase='load';
+  btEl(`<div class="arena"><video id="btV" playsinline muted autoplay class="${BT.cam==='user'?'mir':''}"></video><canvas id="btC" class="${BT.cam==='user'?'mir':''}"></canvas><div class="vign" id="btVig"></div>
+   <div class="hud"><div class="btTop dark"><button class="x" id="btQuit" aria-label="Stop">×</button><div style="flex:1"><b>${esc(b.n)}</b>${b.dummy?'':`<div class="hpbar"><i class="ghost" id="hpG"></i><i id="hpI"></i><span id="hpT"></span></div>`}</div>${b.dummy?'':`<div class="hearts" id="hearts"></div>`}</div>
+   <div class="bossStage fight"><div id="bossWrap">${bossArt(b,'idle')}</div><div id="dmgL"></div></div>
+   ${b.dummy?'':`<div class="atk"><i id="atkI"></i></div>`}
+   <div class="repBox"><div class="repN" id="repN">0</div><div class="repL">${esc(EX[BT.ex].name.toLowerCase())}</div></div>
+   <div class="cue" id="cue">Starting camera…</div><div class="cdn" id="cd"></div></div></div>`);
+  try{
+    const vP=navigator.mediaDevices.getUserMedia({video:{facingMode:BT.cam,width:{ideal:640},height:{ideal:480}},audio:false});
+    $('cue').textContent='Loading the rep tracker (first time takes a moment)…';
+    const [stream,lmk]=await Promise.all([vP,loadPose()]);if(!BT){stream.getTracks().forEach(t=>t.stop());return}
+    BT.stream=stream;BT.lmk=lmk;const v=$('btV');v.srcObject=stream;await v.play().catch(()=>{});
+    await new Promise(r=>v.readyState>=2?r():v.onloadeddata=r);
+  }catch(e){console.warn(e);btEl(`<div class="btTop"><button class="x" id="btClose" aria-label="Close">×</button><b style="flex:1">Camera needed</b></div><div class="btSb"><div class="bossStage">${bossArt(b,'idle')}</div><h3>${e&&e.name==='NotAllowedError'?'Camera access is off':'Couldn’t start the rep tracker'}</h3><p class="muted">${e&&e.name==='NotAllowedError'?'Boss fights use your camera to count good reps. Allow camera access for PlateScan (iPhone: Settings → Safari → Camera, or tap “aA” → Website Settings), then try again.':'Check your connection and try again. The tracker downloads once (about 6 MB), then works faster.'}</p><button class="wide red" id="btAgain">Try again</button></div>`);BT.phase='err';return}
+  BT.counter=makeCounter(BT.ex);BT.phase='cal';BT.okFrames=0;BT.reps=0;BT.crits=0;BT.partials=0;BT.lastTs=0;
+  BT.max=b.hp;BT.hp=b.hp;BT.hearts=3+(BT.useShield?1:0);paintHud();loop();
+}
+function paintHud(){if(BT.b.dummy)return;const p=Math.max(0,BT.hp/BT.max*100);$('hpI').style.width=p+'%';setTimeout(()=>{const g=$('hpG');if(g)g.style.width=p+'%'},450);$('hpT').textContent=`${Math.max(0,Math.ceil(BT.hp))} / ${BT.max}`;
+  $('hearts').innerHTML=Array.from({length:Math.max(BT.hearts,3+(BT.useShield?1:0))},(_,i)=>`<svg class="ht${i<BT.hearts?'':' lost'}${i>=3?' sh':''}" viewBox="0 0 24 24"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg>`).join('')}
+function drawPose(lm){const c=$('btC'),v=$('btV');if(!c||!v)return;const W=c.width=v.videoWidth,H=c.height=v.videoHeight,x=c.getContext('2d');x.clearRect(0,0,W,H);if(!lm)return;
+  x.lineWidth=Math.max(3,W/120);x.lineCap='round';const ok=BT.flash&&performance.now()-BT.flash<300;x.strokeStyle=ok?'#f2c230':'rgba(127,214,164,.95)';
+  for(const [a,b] of BONES){const p=lm[a],q=lm[b];if((p.visibility??1)<.4||(q.visibility??1)<.4)continue;x.beginPath();x.moveTo(p.x*W,p.y*H);x.lineTo(q.x*W,q.y*H);x.stroke()}
+  x.fillStyle='#fff';for(const i of [0,11,12,13,14,15,16,23,24,25,26,27,28]){const p=lm[i];if((p.visibility??1)<.4)continue;x.beginPath();x.arc(p.x*W,p.y*H,W/90,0,7);x.fill()}}
+function loop(){if(!BT||!BT.lmk)return;BT.raf=requestAnimationFrame(loop);const v=$('btV');if(!v||v.readyState<2)return;const now=performance.now();if(now-BT.lastTs<33)return;BT.lastTs=now;
+  let lm=null;try{const r=BT.lmk.detectForVideo(v,now);lm=r&&r.landmarks&&r.landmarks[0]||null}catch(e){}
+  drawPose(lm);const asp=(v.videoWidth||4)/(v.videoHeight||3);
+  if(BT.phase==='cal'){const ids=BT.ex==='squat'?[23,25,27]:BT.ex==='pushup'?[11,13,15,23]:[0,11,12,15,16];const sideIds=BT.ex==='pullup'?[ids]:[ids,ids.map(i=>i+1)];
+    const seen=lm&&sideIds.some(set=>set.every(i=>(lm[i].visibility??1)>=.55));BT.okFrames=seen?BT.okFrames+1:0;
+    $('cue').textContent=seen?'Hold still…':(lm?EX[BT.ex].tip:'Step into view of the camera');$('cue').classList.toggle('good',!!seen);
+    if(BT.okFrames>=20){BT.phase='cd';countdown()}return}
+  if(BT.phase!=='fight')return;
+  const ev=BT.counter.frame(lm,now,asp);$('cue').textContent=BT.counter.cue;$('cue').classList.remove('good');
+  if(ev&&ev.type==='rep')onRep(ev);else if(ev&&(ev.type==='partial'||ev.type==='fast')){BT.partials++;sfx('miss');const c=$('cue');c.classList.remove('bad');void c.offsetWidth;c.classList.add('bad')}
+  if(!BT.b.dummy&&BT.phase==='fight'&&!BT.pausedAt){const left=BT.atkAt-now,tot=DIFF[BT.diff].atk*1000;const a=$('atkI');if(a){a.style.width=Math.max(0,left/tot*100)+'%';a.classList.toggle('warn',left<5000)}if(left<=0)bossAttack()}}
+function countdown(){let n=3;const cd=$('cd');const tick=()=>{cd.textContent=n||'FIGHT!';cd.classList.remove('pop');void cd.offsetWidth;cd.classList.add('pop');sfx(n?'count':'go');
+  if(!n){clearInterval(BT.cdT);setTimeout(()=>{if(!BT)return;cd.textContent='';BT.phase='fight';BT.atkAt=performance.now()+DIFF[BT.diff].atk*1000;BT.t0=Date.now();
+    if(!BT.b.dummy){const inv=S.inv;if(BT.useShield&&inv.shield>0)inv.shield--;if(BT.useGloves&&inv.gloves>0)inv.gloves--;store.saveMeta()}},700)}n--};tick();BT.cdT=setInterval(tick,900)}
+function onRep(ev){BT.reps++;BT.flash=performance.now();const rn=$('repN');rn.textContent=BT.reps;rn.classList.remove('bump');void rn.offsetWidth;rn.classList.add('bump');
+  if(BT.b.dummy){sfx('hit');const w=$('bossWrap');w.classList.remove('hit');void w.offsetWidth;w.classList.add('hit');dmgNum(ev.perfect?'PERFECT':'+1',ev.perfect);if(ev.perfect)BT.crits++;return}
+  const dd=DIFF[BT.diff],crit=!!ev.perfect,dmg=dd.dmg*EX[BT.ex].mult*(BT.useGloves?1.2:1)*(crit?1.5:1);if(crit)BT.crits++;
+  BT.hp-=dmg;BT.atkAt=performance.now()+dd.atk*1000;sfx(crit?'crit':'hit');
+  const w=$('bossWrap');w.classList.remove('hit','crit');void w.offsetWidth;w.classList.add(crit?'crit':'hit');dmgNum((crit?'CRIT ':'-')+Math.round(dmg),crit);
+  const r=w.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height*.45,{n:crit?26:12,speed:crit?7:4.5,colors:crit?['#f2c230','#fff','#ff8a66']:['#ffffff','#ffe58a'],shape:crit?'star':'circle'});
+  paintHud();if(BT.hp<=0)endFight(true)}
+function dmgNum(t,crit){const d=document.createElement('div');d.className='dmg'+(crit?' crit':'');d.textContent=t;d.style.left=(35+Math.random()*30)+'%';$('dmgL').appendChild(d);setTimeout(()=>d.remove(),1100)}
+function bossAttack(){BT.hearts--;BT.atkAt=performance.now()+DIFF[BT.diff].atk*1000;sfx('bossAtk');const w=$('bossWrap');w.classList.remove('lunge');void w.offsetWidth;w.classList.add('lunge');
+  const vg=$('btVig');vg.classList.remove('on');void vg.offsetWidth;vg.classList.add('on');if(navigator.vibrate)navigator.vibrate(200);
+  const hs=$('hearts').querySelectorAll('.ht:not(.lost)');const last=hs[hs.length-1];if(last){last.classList.add('lose')}setTimeout(paintHud,450);
+  $('cue').textContent=BT.hearts>0?'Ouch! Keep repping or it attacks again.':'';if(BT.hearts<=0)setTimeout(()=>BT&&endFight(false,'Its attacks wore you down.'),600)}
+function logReps(n){if(!(n>0))return;const d=ymd(Date.now());S.reps=Object.assign({},S.reps);S.reps[d]=(S.reps[d]||0)+n;S.boss=Object.assign(bossBlank(),S.boss);S.boss.reps=(S.boss.reps||0)+n}
+function finishDummy(){const n=BT.reps,d=ymd(Date.now());stopCam();BT.phase='done';logReps(n);
+  const B=S.boss,dg=B.dg&&B.dg.d===d?B.dg:{d,g:0},earn=Math.max(0,Math.min(20-dg.g,Math.floor(n/5)));dg.g+=earn;B.dg=dg;if(earn)S.gold=(S.gold||0)+earn;store.saveMeta();
+  btEl(`<div class="btTop"><b style="flex:1;padding-left:6px">Workout done</b></div><div class="btSb result"><div class="bossStage">${bossArt(BT.b,'idle')}</div><h2 class="win">${n} good rep${n===1?'':'s'}!</h2><p class="muted">${BT.crits} perfect · ${BT.partials} didn’t count</p>
+   <div class="loot"><div class="rw gd big">${COIN}+<span data-count="${earn}">0</span></div></div><p class="muted sm">${n>=10?'This counts as a workout day in your weekly challenge.':'Do 10+ good reps in a day to earn workout points in the weekly challenge.'}</p><button class="wide red" id="btDone">Done</button></div>`);
+  countUps();if(earn)sfx('coin');postGroups(n>=10?`💪 ${first()||'A friend'} just did ${n} ${EX[BT.ex].name.toLowerCase()}!`:null)}
+function endFight(win,why){if(!BT||BT.phase==='done')return;BT.phase='done';stopCam();const {s,b}=BT,secs=Math.round((Date.now()-(BT.t0||Date.now()))/1000);logReps(BT.reps);
+  const B=S.boss=Object.assign(bossBlank(),S.boss);let rw={xp:0,gold:0};
+  if(win){rw=rewardFor(s,BT.diff);const today=ymd(Date.now());if(rw.xp){S.bonus=(S.bonus||[]).concat([{d:today,xp:rw.xp,src:'boss'}]).slice(-400);S.gold=(S.gold||0)+rw.gold}
+    B.wins=Object.assign({},B.wins,{[s]:today});B.beat=Math.max(B.beat,s);B.n++;if(BT.diff==='legend')B.legend++;
+    postGroups(`⚔️ ${first()||'A friend'} defeated ${b.n} on ${DIFF[BT.diff].n} with ${BT.reps} ${EX[BT.ex].name.toLowerCase()}!`)}
+  else{const g=Math.min(10,Math.floor(BT.reps/5));if(g){S.gold=(S.gold||0)+g;rw.gold=g}}
+  store.saveMeta();
+  const w=$('bossWrap');if(win&&w){w.classList.add('die');sfx('explode');const r=w.getBoundingClientRect();for(let i=0;i<3;i++)setTimeout(()=>burst(r.left+r.width/2+(Math.random()-.5)*80,r.top+r.height/2+(Math.random()-.5)*60,{n:40,speed:8,colors:[b.c,'#f2c230','#fff','#e5432d']}),i*220)}
+  setTimeout(()=>{if(!BT)return;
+    btEl(win?`<div class="btSb result"><div class="vic">VICTORY!</div><p class="muted" style="margin:0">${esc(b.n)} is defeated · ${BT.reps} reps · ${BT.crits} crits · ${Math.floor(secs/60)}:${String(secs%60).padStart(2,'0')}</p>
+      <div class="chest big" id="vChest"><svg viewBox="0 0 120 100"><defs><linearGradient id="chg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c47a2c"/><stop offset="1" stop-color="#7a4416"/></linearGradient></defs><g class="rays"><path d="M60 50 129 41 129 59z" fill="#fff3b0" opacity=".5"/><path d="M60 50 125 77 116 93z" fill="#fff3b0" opacity=".5"/><path d="M60 50 103 106 87 115z" fill="#fff3b0" opacity=".5"/><path d="M60 50 69 119 51 119z" fill="#fff3b0" opacity=".5"/><path d="M60 50 33 115 17 106z" fill="#fff3b0" opacity=".5"/><path d="M60 50 4 93 -5 77z" fill="#fff3b0" opacity=".5"/><path d="M60 50 -9 59 -9 41z" fill="#fff3b0" opacity=".5"/><path d="M60 50 -5 23 4 7z" fill="#fff3b0" opacity=".5"/><path d="M60 50 17 -6 33 -15z" fill="#fff3b0" opacity=".5"/><path d="M60 50 51 -19 69 -19z" fill="#fff3b0" opacity=".5"/><path d="M60 50 87 -15 103 -6z" fill="#fff3b0" opacity=".5"/><path d="M60 50 116 7 125 23z" fill="#fff3b0" opacity=".5"/></g><rect x="18" y="48" width="84" height="44" rx="6" fill="url(#chg)" stroke="#4a2a0e" stroke-width="3"/><rect x="18" y="62" width="84" height="7" fill="#f2c230"/><g class="lid"><path d="M18 48V38a20 20 0 0 1 20-20h44a20 20 0 0 1 20 20v10z" fill="url(#chg)" stroke="#4a2a0e" stroke-width="3"/><rect x="18" y="40" width="84" height="7" fill="#f2c230"/></g><rect x="54" y="56" width="12" height="16" rx="3" fill="#f2c230" stroke="#a8730a" stroke-width="2"/></svg></div>
+      <div class="loot">${rw.xp?`<div class="rw xp big">+<span data-count="${rw.xp}">0</span> XP</div><div class="rw gd big">${COIN}+<span data-count="${rw.gold}">0</span></div>`:`<div class="muted">${esc(rw.note||'Practice round, no rewards today.')}</div>`}</div>
+      ${s===B.beat?`<p class="sm" style="text-align:center">${game().lv.L>=stageReq(s+1)?`Stage ${s+1} is ready when you are.`:`Stage ${s+1} unlocks at level ${stageReq(s+1)}.`}</p>`:''}<button class="wide red" id="btDone">Collect</button>`
+     :`<div class="btSb result"><div class="bossStage">${bossArt(b,'idle gloat')}</div><h2 class="lose">Defeated</h2><p class="muted">${esc(why||'')} You landed ${BT.reps} good rep${BT.reps===1?'':'s'}${BT.hp>0&&isFinite(BT.hp)?` and left it at ${Math.ceil(BT.hp)} HP`:''}.</p>${rw.gold?`<div class="loot"><div class="rw gd">${COIN}+<span data-count="${rw.gold}">0</span> for effort</div></div>`:''}<p class="muted sm">Your reps still count toward your weekly challenge. Try an easier difficulty, or grab a Guardian Shield from the shop.</p><div class="row"><button class="ghost wide" id="btDone">Leave</button><button class="red wide" id="btAgain">Rematch</button></div></div>`);
+    if(win){sfx('victory');const ch=$('vChest');setTimeout(()=>{ch.classList.add('open');sfx('chest');burstAt(ch,{n:50,speed:7,shape:'star',colors:['#f2c230','#ffe58a','#fff'],g:.08});setTimeout(()=>{countUps();sfx('coin')},500)},700)}else{sfx('defeat');countUps()}
+  },win?1300:500)}
+function countUps(){document.querySelectorAll('#battle [data-count]').forEach(el=>countTo(el,+el.dataset.count,true))}
+
+// ================= friends, groups, weekly challenge =================
+// Fair weekly challenge: points come from each person's OWN targets and are capped per day,
+// so body size, goal or activity level gives no one an edge.
+const THEMES=[{k:'protein',n:'Protein Week',d:'Protein points count double'},{k:'cal',n:'Bullseye Week',d:'Calorie-target points count double'},{k:'move',n:'Iron Week',d:'Workout points count double'},{k:'water',n:'Hydration Week',d:'Water points count double'},{k:'meals',n:'Consistency Week',d:'Meal-logging points count double'}];
+const PTS={meals:10,protein:10,cal:10,water:5,move:10};
+const monday=t=>{const d=new Date(t);d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return d};
+const weekKey=t=>ymd(monday(t));
+const weekTheme=wk=>THEMES[Math.floor(new Date(wk+'T12:00Z').getTime()/6048e5)%THEMES.length];
+function dayPts(d,days,t,theme){const s=days[d],tt=dayT(t,d),wg=+S.profile.waterGoal||8,r={meals:0,protein:0,cal:0,water:0,move:0};
+  if(s&&s.n>=2)r.meals=PTS.meals;if(s&&tt&&s.p>=tt.pro*.9)r.protein=PTS.protein;if(s&&tt&&s.n>=2&&Math.abs(s.k-tt.kcal)<=tt.kcal*.1)r.cal=PTS.cal;
+  if(((S.water||{})[d]||0)>=wg)r.water=PTS.water;if(((S.reps||{})[d]||0)>=10)r.move=PTS.move;if(theme)r[theme.k]*=2;
+  r.total=r.meals+r.protein+r.cal+r.water+r.move;return r}
+function weekPts(wk){const days=byDay(),t=calc(),th=weekTheme(wk),out=[];for(let i=0;i<7;i++){const d=addDays(wk,i);out.push(d>ymd(Date.now())?0:dayPts(d,days,t,th).total)}return out}
+const SOC={on:false,friends:[],groups:[],profiles:{},nudged:{},unsubs:[],msgUnsub:null,gid:null,lastProf:'',inbox:[]};
+const myInvite=()=>{if(!S.invite){S.invite=randTok().slice(0,10);store.saveMeta()}return S.invite};
+const appURL=()=>location.origin+location.pathname;
+const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
+const dayNo=()=>Math.floor(Date.now()/864e5);
+function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
+function syncProfile(g){if(mode!=='cloud'||!user||!FB)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite()};
+  SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
+  clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
+function socStop(){SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null})}
+function socStart(){socStop();if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return;const fs=FB.fs,me=user.uid;SOC.on=true;
+  SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'friendships'),fs.where('members','array-contains',me)),q=>{SOC.friends=q.docs.map(d=>({id:d.id,...d.data(),uid:d.data().members.find(x=>x!==me)}));loadProfiles(true)},e=>console.warn('friends',e.code)));
+  SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'groups'),fs.where('members','array-contains',me)),q=>{SOC.groups=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.last&&b.last.ts)||b.ts||0)-((a.last&&a.last.ts)||a.ts||0));loadProfiles(true);if(SOC.gid)renderGroup()},e=>console.warn('groups',e.code)));
+  SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'nudges'),fs.where('to','==',me)),q=>{const seenK='platescan.nudgeSeen.'+me,seen=+(lsGet(seenK)||0);let mx=seen;
+    SOC.inbox=q.docs.map(d=>d.data()).sort((a,b)=>b.ts-a.ts).slice(0,10);for(const n of SOC.inbox)if(n.ts>seen){mx=Math.max(mx,n.ts);if(Date.now()-n.ts<3*864e5)enqueue({type:'quest',k:'You got a nudge',name:`${n.fromName||'A friend'} says: time to work out! 💪`,xp:''})}
+    lsSet(seenK,String(mx));if(view==='friends')renderFriends()},e=>console.warn('nudges',e.code)));
+  if(lsGet('platescan.goFriends')){lsDel('platescan.goFriends');go('friends')}
+  processInvites()}
+let profT=0;
+async function loadProfiles(force){if(!SOC.on)return;if(!force&&Date.now()-profT<20000){if(view==='friends')renderFriends();return}profT=Date.now();
+  const ids=new Set(SOC.friends.map(f=>f.uid));for(const g of SOC.groups)for(const m of g.members)ids.add(m);ids.delete(user.uid);
+  await Promise.all([...ids].map(id=>FB.fs.getDoc(FB.fs.doc(FB.db,'profiles',id)).then(d=>{if(d.exists())SOC.profiles[id]=d.data()}).catch(()=>{})));
+  if(view==='friends')renderFriends();if(SOC.gid)renderGroup()}
+// ---- invite links ----
+function readHash(){if(location.hash==='#friends'){lsSet('platescan.goFriends','1');history.replaceState(null,'',location.pathname+location.search)}const m=location.hash.match(/^#(add|join)=([A-Za-z0-9_-]+)\.([A-Za-z0-9]+)$/);if(m){lsSet('platescan.pending',JSON.stringify({k:m[1],id:m[2],code:m[3]}));history.replaceState(null,'',location.pathname+location.search)}}
+readHash();addEventListener('hashchange',()=>{readHash();if(SOC.on)processInvites()});
+async function processInvites(){let p=null;try{p=JSON.parse(lsGet('platescan.pending')||'null')}catch(e){}if(!p)return;
+  if(mode!=='cloud'||!user){toast(p.k==='add'?'Sign in or create an account to add your friend.':'Sign in or create an account to join the group.');return}
+  lsDel('platescan.pending');const fs=FB.fs,me=user.uid;
+  try{
+    if(p.k==='add'){if(p.id===me){toast('That’s your own invite link. Send it to a friend!');return}const fid=fidOf(me,p.id),ex=await fs.getDoc(fs.doc(FB.db,'friendships',fid)).catch(()=>null);
+      const prof=await fs.getDoc(fs.doc(FB.db,'profiles',p.id)).catch(()=>null),nm=prof&&prof.exists()?prof.data().name:'your friend';
+      if(ex&&ex.exists()){toast(`You and ${nm} are already friends.`);go('friends');return}
+      await fs.setDoc(fs.doc(FB.db,'friendships',fid),{members:[me,p.id].sort(),by:p.id,code:p.code,ts:Date.now()});
+      go('friends');enqueue({type:'ach',k:'New friend',name:`You and ${nm} are now friends!`});sfx('ach')}
+    else{await fs.updateDoc(fs.doc(FB.db,'groups',p.id),{members:fs.arrayUnion(me),joinCode:p.code});go('friends');
+      await fs.addDoc(fs.collection(FB.db,'groups',p.id,'messages'),{uid:me,name:S.name||'Friend',t:`${S.name||'A friend'} joined the group 👋`,k:'sys',ts:Date.now()}).catch(()=>{});
+      await fs.updateDoc(fs.doc(FB.db,'groups',p.id),{last:{t:`${S.name||'A friend'} joined`,n:'',ts:Date.now()}}).catch(()=>{});
+      enqueue({type:'ach',k:'Group joined',name:'You’re in! Say hi in the chat.'});setTimeout(()=>openGroup(p.id),900)}
+  }catch(e){console.warn(e);toast(p.k==='add'?'That invite link didn’t work. It may be old. Ask your friend for a new one.':'Couldn’t join. The link may be old or the group is full.')}}
+async function shareLink(url,title,text){try{if(navigator.share){await navigator.share({title,text,url});return}}catch(e){if(e.name==='AbortError')return}
+  try{await navigator.clipboard.writeText(url);toast('Link copied. Paste it in a message to your friend.')}catch(e){prompt('Copy this link:',url)}}
+// ---- nudges ----
+const nudgeKey=uid=>'platescan.nudge.'+user.uid+'.'+uid;
+function nudgeLeft(uid){const t=+(lsGet(nudgeKey(uid))||0);return Math.max(0,t+864e5-Date.now())}
+const hrs=ms=>{const h=Math.ceil(ms/36e5);return h>1?h+'h':'<1h'};
+async function nudge(uid,btn){if(nudgeLeft(uid)>0)return;const fs=FB.fs,d=dayNo(),id=`${user.uid}_${uid}_${d}`;btn&&(btn.disabled=true);
+  try{await fs.setDoc(fs.doc(FB.db,'nudges',id),{from:user.uid,to:uid,fromName:(S.name||'A friend').slice(0,30),day:d,ts:Date.now(),sent:false});
+    lsSet(nudgeKey(uid),String(Date.now()));sfx('send');if(btn){btn.classList.add('sent');const r=btn.getBoundingClientRect();const pl=document.createElement('div');pl.className='plane';pl.innerHTML='<svg viewBox="0 0 24 24" fill="#1d4a37"><path d="M2 11 22 3l-8 18-3-7z"/></svg>';pl.style.left=r.left+'px';pl.style.top=r.top+'px';document.body.appendChild(pl);setTimeout(()=>pl.remove(),1200)}
+    toast(`Nudge sent to ${(SOC.profiles[uid]||{}).name||'your friend'}`)}
+  catch(e){lsSet(nudgeKey(uid),String(Date.now()));toast('You already nudged them today. Try again tomorrow.')}
+  setTimeout(()=>{if(view==='friends')renderFriends();if($('friendSheet').classList.contains('on'))openFriend(uid)},600)}
+async function removeFriend(uid){const p=SOC.profiles[uid]||{};if(!confirm(`Remove ${p.name||'this friend'}?`))return;try{await FB.fs.deleteDoc(FB.fs.doc(FB.db,'friendships',fidOf(user.uid,uid)));closeSheet('friendSheet');toast('Friend removed')}catch(e){toast('Couldn’t remove: '+e.code)}}
+// ---- groups + chat ----
+async function newGroup(){const name=(prompt('Name your group','Gym crew')||'').trim().slice(0,40);if(!name)return;const fs=FB.fs;
+  try{const ref=await fs.addDoc(fs.collection(FB.db,'groups'),{name,owner:user.uid,members:[user.uid],code:randTok().slice(0,10),ts:Date.now(),last:{t:'Group created',n:'',ts:Date.now()}});sfx('ach');openGroup(ref.id)}catch(e){toast('Couldn’t create the group: '+e.code)}}
+function postGroups(t){if(!t||!SOC.on||!SOC.groups.length)return;const fs=FB.fs;for(const g of SOC.groups){fs.addDoc(fs.collection(FB.db,'groups',g.id,'messages'),{uid:user.uid,name:S.name||'Friend',t,k:'sys',ts:Date.now()}).catch(()=>{});fs.updateDoc(fs.doc(FB.db,'groups',g.id),{last:{t,n:'',ts:Date.now()}}).catch(()=>{})}}
+let gMsgs=[],gTab='chat';
+function openGroup(gid){SOC.gid=gid;gTab='chat';gMsgs=[];if(SOC.msgUnsub)SOC.msgUnsub();const fs=FB.fs;
+  SOC.msgUnsub=fs.onSnapshot(fs.query(fs.collection(FB.db,'groups',gid,'messages'),fs.orderBy('ts'),fs.limitToLast(100)),q=>{const had=gMsgs.length;gMsgs=q.docs.map(d=>({id:d.id,...d.data()}));renderChat2(had>0&&gMsgs.length>had)},e=>console.warn('chat',e.code));
+  openSheet('groupSheet');renderGroup()}
+function closeGroup(){if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}SOC.gid=null;closeSheet('groupSheet')}
+function renderGroup(){const g=SOC.groups.find(x=>x.id===SOC.gid);if(!g){$('gName').textContent='Group';return}
+  $('gName').textContent=g.name;$('gIco').textContent=(g.name||'G')[0].toUpperCase();$('gSub').textContent=`${g.members.length} member${g.members.length>1?'s':''} · ${weekTheme(weekKey(Date.now())).n}`;
+  $('gTabs').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.gt===gTab));segInd($('gTabs'));
+  $('gChat').style.display=gTab==='chat'?'':'none';$('gBoard').style.display=gTab==='board'?'':'none';$('gFoot').style.display=gTab==='chat'?'':'none';
+  if(gTab==='board')$('gBoard').innerHTML=boardHTML(g.members)+`<div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="small" id="gInvite">Invite to group</button><button class="small ghost" id="gLeave">Leave group</button></div>`;
+  else renderChat2()}
+function renderChat2(ping){if(!SOC.gid)return;const me=user.uid,box=$('gChat');
+  box.innerHTML=gMsgs.length?gMsgs.map((m,i)=>{const p=SOC.profiles[m.uid]||{},mine=m.uid===me,prev=gMsgs[i-1],cont=prev&&prev.uid===m.uid&&prev.k!=='sys'&&m.ts-prev.ts<3e5;
+    if(m.k==='sys')return `<div class="gsys">${esc(m.t)}</div>`;
+    return `<div class="gm${mine?' me':''}${cont?' cont':''}">${mine||cont?'<span class="gav"></span>':`<span class="gav">${avHTML(AV[p.hero]?p.hero:'maya')}</span>`}<div>${mine||cont?'':`<div class="gn">${esc(m.name||p.name||'Friend')}</div>`}<div class="bub">${esc(m.t)}</div></div></div>`}).join(''):`<div class="empty sm muted" style="text-align:center;padding:30px 10px">No messages yet. Say hi, or invite friends with the button above.</div>`;
+  const last=box.lastElementChild;if(last&&ping){last.classList.add('pop');sfx('coach')}requestAnimationFrame(()=>{const b=$('gBody');b.scrollTop=b.scrollHeight})}
+async function sendMsg(){const inp=$('gIn'),t=inp.value.trim().slice(0,500);if(!t||!SOC.gid)return;inp.value='';const fs=FB.fs,gid=SOC.gid;sfx('send');
+  try{await fs.addDoc(fs.collection(FB.db,'groups',gid,'messages'),{uid:user.uid,name:S.name||'Friend',t,ts:Date.now()});fs.updateDoc(fs.doc(FB.db,'groups',gid),{last:{t:t.slice(0,80),n:S.name||'',ts:Date.now()}}).catch(()=>{})}catch(e){toast('Message didn’t send: '+e.code);inp.value=t}}
+async function leaveGroup(){const g=SOC.groups.find(x=>x.id===SOC.gid);if(!g||!confirm(`Leave ${g.name}?`))return;const fs=FB.fs;
+  try{if(g.members.length===1&&g.owner===user.uid)await fs.deleteDoc(fs.doc(FB.db,'groups',g.id));else{await fs.addDoc(fs.collection(FB.db,'groups',g.id,'messages'),{uid:user.uid,name:S.name||'',t:`${S.name||'A member'} left the group`,k:'sys',ts:Date.now()}).catch(()=>{});await fs.updateDoc(fs.doc(FB.db,'groups',g.id),{members:fs.arrayRemove(user.uid)})}closeGroup();toast('You left the group')}catch(e){toast('Couldn’t leave: '+e.code)}}
+// ---- leaderboard + friends UI ----
+function standings(ids){const wk=weekKey(Date.now()),me=user?user.uid:'me';const rows=[...new Set(ids)].map(id=>{const p=id===me?(SOC.me||SOC.profiles[me]):SOC.profiles[id];if(!p)return null;return {id,p,pts:p.wk===wk?p.wp||0:0,wd:p.wk===wk?p.wd||[]:[],me:id===me}}).filter(Boolean);rows.sort((a,b)=>b.pts-a.pts||(b.p.streak||0)-(a.p.streak||0));return rows}
+function lastWinner(ids){const lwk=addDays(weekKey(Date.now()),-7);let best=null,n=0;for(const id of new Set(ids)){const p=SOC.profiles[id];if(!p)continue;const v=p.lwk===lwk?p.lwp||0:p.wk===lwk?p.wp||0:0;if(v>0)n++;if(v>0&&(!best||v>best.v))best={id,p,v}}return n>=2?best:null}
+function boardHTML(ids){const rows=standings([user.uid,...ids]),mx=Math.max(1,...rows.map(r=>r.pts)),w=lastWinner([user.uid,...ids]);
+  return (w?`<div class="champ"><svg viewBox="0 0 24 24" width="26" height="26" fill="#f2c230" stroke="#a8730a" stroke-width="1.4" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8l-1-4H9z"/></svg><div><b>${esc(w.id===user.uid?'You':w.p.name)}</b> won last week with ${w.v} points</div></div>`:'')+
+  `<div class="board">${rows.map((r,i)=>`<div class="br${r.me?' me':''}" data-friend="${r.me?'':r.id}"><span class="pos p${i+1}">${i+1}</span><span class="gav">${avHTML(AV[r.p.hero]?r.p.hero:'maya')}</span><div class="bmid"><div class="row between"><b>${esc(r.me?'You':r.p.name)}</b><b class="pts">${r.pts}</b></div><div class="bbar"><i style="--w:${(r.pts/mx*100).toFixed(1)}%"></i></div></div></div>`).join('')}</div>`}
+function ago(d){if(!d)return 'no logs yet';const n=Math.round((new Date(ymd(Date.now())+'T12:00')-new Date(d+'T12:00'))/864e5);return n<=0?'active today':n===1?'active yesterday':`active ${n} days ago`}
+function renderFriends(){const v=$('v-friends');if(!v)return;
+  if(mode!=='cloud'||!user){$('frOff').style.display='';$('frOn').style.display='none';return}
+  $('frOff').style.display='none';$('frOn').style.display='';const g=game();syncProfile(g);
+  const wk=weekKey(Date.now()),th=weekTheme(wk),mine=weekPts(wk),total=mine.reduce((a,b)=>a+b,0),end=new Date(addDays(wk,7)+'T00:00'),ms=end-Date.now(),dl=Math.floor(ms/864e5),hl=Math.floor(ms%864e5/36e5);
+  $('chTheme').textContent=th.n;$('chThemeD').textContent=th.d;$('chEnds').textContent=`Ends in ${dl?dl+'d ':''}${hl}h`;$('chMine').textContent=total;
+  const todayI=(new Date().getDay()+6)%7,mx=45+PTS[th.k];
+  $('chDays').innerHTML=mine.map((p,i)=>`<div class="cd${i===todayI?' today':''}"><i style="--h:${(p/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('');
+  const ids=SOC.friends.map(f=>f.uid);$('frBoard').innerHTML=ids.length?boardHTML(ids):`<p class="muted sm" style="margin:0">Add friends to see who’s leading this week.</p>`;
+  $('heroBtn').innerHTML=avHTML(heroId());$('frMe').innerHTML=`${emblem(g.lv.L)}<div><b>${esc(S.name||'You')}</b><div class="muted sm">Lv ${g.lv.L} · ${esc(rankFor(g.lv.L).title)}</div></div>`;
+  $('frList').innerHTML=ids.length?SOC.friends.map(f=>{const p=SOC.profiles[f.uid];if(!p)return `<div class="fr"><span class="gav sk"></span><div class="muted sm">Loading…</div></div>`;const left=nudgeLeft(f.uid);
+    return `<div class="fr" data-friend="${f.uid}" role="button" tabindex="0"><span class="gav">${avHTML(AV[p.hero]?p.hero:'maya')}</span><div class="fmid"><b>${esc(p.name)}</b><div class="muted sm">${emblem(p.L||1,'tiny')} Lv ${p.L||1} · ${p.streak?`🔥 ${p.streak}`:'no streak'} · ${ago(p.last)}</div></div><button class="small nudge${left?' wait':''}" data-nudge="${f.uid}" ${left?'disabled':''}>${left?`Nudged · ${hrs(left)}`:'Nudge'}</button></div>`}).join(''):`<div class="empty"><p class="muted sm" style="margin:0 0 8px">No friends yet. Send your invite link and they’ll show up here once they tap it.</p></div>`;
+  $('grList').innerHTML=SOC.groups.length?SOC.groups.map(gr=>`<div class="fr" data-group="${gr.id}" role="button" tabindex="0"><span class="gico">${esc((gr.name||'G')[0].toUpperCase())}</span><div class="fmid"><b>${esc(gr.name)}</b><div class="muted sm ell">${esc(gr.last&&gr.last.t?(gr.last.n?gr.last.n+': ':'')+gr.last.t:'No messages yet')}</div></div><span class="muted sm">${gr.members.length} 👥</span></div>`).join(''):`<p class="muted sm" style="margin:0">Make a group chat for your gym crew, family or coworkers. Everyone in it shares a leaderboard.</p>`;
+  if(animNext){stag($('frList'));stag($('grList'))}
+}
+function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey(Date.now()),wd=p.wk===wk?p.wd||[]:[0,0,0,0,0,0,0],th=weekTheme(wk),mx=45+PTS[th.k],left=nudgeLeft(uid);
+  $('fsBody').innerHTML=`<div class="fsHero">${emblem(p.L||1,'float big')}<div class="gav lg">${avHTML(AV[p.hero]?p.hero:'maya')}</div><h2>${esc(p.name)}</h2><div class="muted">Level ${p.L||1} · ${esc(p.title||rankFor(p.L||1).title)}</div></div>
+   <div class="g3 btInfo"><div><b>🔥 ${p.streak||0}</b><span>day streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
+   <div class="card"><div class="row between"><h3 style="margin:0">This week</h3><b>${p.wk===wk?p.wp||0:0} pts</b></div><div class="chDays">${wd.map((v,i)=>`<div class="cd"><i style="--h:${(v/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('')}</div><p class="muted sm" style="margin:6px 0 0">${esc(ago(p.last))} · boss stage ${(p.stage||0)+1}</p></div>
+   <button class="wide red${left?' wait':''}" data-nudge="${uid}" ${left?'disabled':''}>${left?`Nudged · ready again in ${hrs(left)}`:'👊 Nudge to work out'}</button>
+   <p class="muted sm" style="text-align:center">They get a notification if they’ve turned on reminders, otherwise they’ll see it when they open PlateScan. One nudge per friend per day.</p>
+   <button class="ghost small" data-unfriend="${uid}">Remove friend</button>`;openSheet('friendSheet')}
+function renderHeroPick(){$('heroGrid').innerHTML=Object.keys(AV).map(k=>`<button class="avopt${k===heroId()?' on':''}" data-hero="${k}">${avHTML(k)}<span>${esc(AV[k].name)}</span></button>`).join('')}
+document.addEventListener('click',e=>{const t=e.target;
+  const nb=t.closest('[data-nudge]');if(nb){e.stopPropagation();nudge(nb.dataset.nudge,nb);return}
+  const uf=t.closest('[data-unfriend]');if(uf){removeFriend(uf.dataset.unfriend);return}
+  const fr=t.closest('[data-friend]');if(fr&&fr.dataset.friend){openFriend(fr.dataset.friend);return}
+  const gr=t.closest('[data-group]');if(gr){openGroup(gr.dataset.group);return}
+  const hr=t.closest('[data-hero]');if(hr){S.hero=hr.dataset.hero;store.saveMeta();sfx('pop');renderHeroPick();renderFriends();return}
+  if(t.closest('#inviteBtn')){shareLink(`${appURL()}#add=${user.uid}.${myInvite()}`,'Add me on PlateScan',`${S.name||'I'} wants to be friends on PlateScan. Tap to add me and join the weekly challenge:`);return}
+  if(t.closest('#gInvite')){const g=SOC.groups.find(x=>x.id===SOC.gid);if(g)shareLink(`${appURL()}#join=${g.id}.${g.code}`,`Join ${g.name} on PlateScan`,`Join my group “${g.name}” on PlateScan:`);return}
+  if(t.closest('#gLeave')){leaveGroup();return}
+  if(t.closest('#newGroup')){newGroup();return}
+  if(t.closest('#heroBtn')){renderHeroPick();openSheet('heroSheet');return}
+  if(t.closest('#gClose')){closeGroup();return}
+  const gt=t.closest('#gTabs [data-gt]');if(gt){gTab=gt.dataset.gt;if(gTab==='board')loadProfiles();renderGroup();return}
+});
+$('gForm').addEventListener('submit',e=>{e.preventDefault();sendMsg()});
+
+// ================= install as an app =================
+function renderInstall(){const box=$('installBox');if(!box)return;const inst=standalone();const isAndroid=/Android/i.test(navigator.userAgent);
+  box.innerHTML=inst?`<div class="row"><span class="okDot">✓</span><div><b>Installed as an app</b><div class="muted sm">You’re using PlateScan from your Home Screen. Notifications, the app badge and full-screen mode are all available.</div></div></div>`
+  :`<b>Install PlateScan as an app</b><p class="muted sm" style="margin:4px 0 8px">It opens full screen from your Home Screen like a normal app, works offline, and can send streak reminders and nudges. It’s free and takes 10 seconds.</p>
+  <div class="seg" id="instSeg"><button data-os="ios" class="${!isAndroid?'on':''}">iPhone</button><button data-os="android" class="${isAndroid?'on':''}">Android</button><button data-os="pc">Computer</button></div><div id="instSteps"></div>`;
+  if(!inst)instSteps(isAndroid?'android':'ios')}
+function instSteps(os){const S2={ios:['Open PlateScan in <b>Safari</b> (other browsers on iPhone also work on iOS 16.4+, but Safari is easiest).','Tap the <b>Share</b> button <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-3px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg> at the bottom (or top right on iPad).','Scroll down and tap <b>Add to Home Screen</b>. If you don’t see it, tap <b>Edit Actions</b> and add it.','Make sure <b>Open as Web App</b> is on, then tap <b>Add</b>.','Open PlateScan from the new icon on your Home Screen. Sign in once and you’re set.'],
+  android:['Open PlateScan in <b>Chrome</b>.','Tap the <b>⋮</b> menu at the top right.','Tap <b>Add to Home screen</b> (or <b>Install app</b>), then <b>Install</b>.','Open PlateScan from the new icon.'],
+  pc:['Open PlateScan in <b>Chrome</b> or <b>Edge</b>.','Click the install icon in the address bar (a screen with a down arrow), or open the menu and choose <b>Install PlateScan</b> (Edge: <b>Apps → Install this site as an app</b>).','Click <b>Install</b>. PlateScan opens in its own window and appears in your Start menu or Dock.']}[os];
+  $('instSteps').innerHTML=`<ol class="steps">${S2.map(s=>`<li>${s}</li>`).join('')}</ol>${os!=='ios'&&deferredInstall?'<button class="small red" id="instNow">Install now</button>':''}`;
+  $('instSeg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.os===os));segInd($('instSeg'))}
+let deferredInstall=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e});
+document.addEventListener('click',async e=>{const o=e.target.closest('#instSeg [data-os]');if(o){instSteps(o.dataset.os);return}if(e.target.closest('#instNow')&&deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null;renderInstall()}});
 
 // ================= start =================
 setMealType(defaultMealType());

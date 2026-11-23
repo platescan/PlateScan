@@ -1,4 +1,6 @@
-// Runs every hour on GitHub Actions. Sends a streak reminder to each user who:
+// Runs every 15 minutes on GitHub Actions.
+// 1) Delivers friend nudges (a push to the friend who was nudged).
+// 2) Sends a streak reminder to each user who:
 //  - turned reminders on, and it's at or past their chosen hour (in their time zone)
 //  - hasn't logged a meal today, and hasn't already been reminded today
 import { initializeApp, cert } from 'firebase-admin/app';
@@ -43,3 +45,26 @@ for (const doc of snap.docs) {
   }
 }
 console.log(`Reminders sent: ${sent}, skipped: ${skipped}`);
+
+// ---- friend nudges ----
+const nudges = await db.collection('nudges').where('sent', '==', false).limit(500).get();
+let nSent = 0;
+for (const doc of nudges.docs) {
+  const n = doc.data();
+  try {
+    const to = await db.collection('users').doc(n.to).get();
+    const r = (to.exists && to.data().reminder) || {};
+    if (r.on && r.sub && r.sub.endpoint && Date.now() - (n.ts || 0) < 864e5) {
+      await webpush.sendNotification(r.sub, JSON.stringify({
+        title: `${(n.fromName || 'A friend').slice(0, 30)} nudged you 👊`,
+        body: 'Time to get a workout in! Fight a boss or log your meals in PlateScan.',
+        url: (r.url || './') + '#friends', tag: 'nudge'
+      }), { TTL: 6 * 3600 });
+      nSent++;
+    }
+  } catch (e) {
+    console.error('nudge', doc.id, e.statusCode, e.body || e.message);
+  }
+  await doc.ref.update({ sent: true });
+}
+console.log(`Nudges delivered: ${nSent} of ${nudges.size}`);
