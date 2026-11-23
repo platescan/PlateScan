@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (boss battles, gold, friends and groups), do **Upload the update**, then **step 4 (new database rules, required)**. If you already set up reminders in step 5, nothing else is needed: the job now also delivers friend nudges.
+Steps 1–3 are already done if your app and accounts work. For this update (cleaner navigation, suggestion box, referrals, new foods), do **Upload the update**, then **step 4 (publish the new database rules, required)**, then **step 7 (make yourself the suggestion-box admin)**.
 
 ## Install PlateScan as an app on your phone
 PlateScan is a web app, so you install it from the browser instead of the App Store. Once installed it opens full screen from its own icon, works offline, and can send reminders and nudges.
@@ -124,6 +124,31 @@ service cloud.firestore {
       allow get: if signedIn() && (resource == null || resource.data.from == me() || resource.data.to == me());
       allow list: if signedIn() && resource.data.to == me();
     }
+
+    // Suggestion box: anyone signed in can send; only you (the admin) can read them all
+    match /admins/{uid} {
+      allow get: if signedIn() && me() == uid;
+    }
+    match /suggestions/{sid} {
+      allow create: if signedIn() && request.resource.data.uid == me()
+        && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1000
+        && request.resource.data.status == 'new';
+      allow read: if signedIn() && (resource.data.uid == me() || exists(/databases/$(database)/documents/admins/$(me())));
+      allow update, delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+
+    // Referrals: a new account records who invited it (once); the inviter marks it claimed
+    match /referrals/{rid} {
+      allow create: if signedIn() && rid == me()
+        && request.resource.data.by != me()
+        && request.resource.data.claimed == false
+        && get(/databases/$(database)/documents/profiles/$(request.resource.data.by)).data.invite == request.resource.data.code;
+      allow get: if signedIn() && (resource == null || rid == me() || resource.data.by == me());
+      allow list: if signedIn() && resource.data.by == me();
+      allow update: if signedIn() && resource.data.by == me()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['claimed'])
+        && request.resource.data.claimed == true;
+    }
   }
 }
 ```
@@ -133,6 +158,8 @@ What these rules allow:
 - Friends can see only your game card: name, hero, level, rank, streak, weekly challenge points and boss stage. Never your food, calories or weight.
 - A friendship is created only when someone opens **your** invite link. Group chats can be read only by their members, and people join only with the group's invite link.
 - Each person can nudge each friend once per day.
+- Anyone signed in can send a suggestion. Only accounts listed under `admins` (you, after step 7) can read all of them.
+- A referral reward is recorded once per new account, and only with a real invite link.
 
 If friends or groups show an error after the update, the rules probably weren't published. Check that the box shows the new rules and click **Publish** again.
 
@@ -174,6 +201,20 @@ If you haven't logged a meal by your chosen time, you'll get a lock screen notif
 5. **Lock Screen:** press and hold the Lock Screen → **Customize → Lock Screen** → tap the widget area → Scriptable. Tap the new widget and set Script to **PlateScan**.
 
 The widget refreshes on its own every so often. iOS decides exactly when, usually every 15–30 minutes.
+
+## 7. See suggestions from your users (suggestion box)
+People can send ideas, problems and missing foods from **Settings → Help → Suggestion box**. To make yourself the only person who can read them:
+1. In PlateScan, sign in, then tap your initial → **Help**. At the bottom it says **Your user ID**. Tap **Copy**.
+2. Firebase console → **Firestore → Data** → **+ Start collection**.
+3. Collection ID: `admins` → **Next**.
+4. Document ID: paste your user ID. Add a field: name `role`, type string, value `owner`. Click **Save**.
+5. Reopen PlateScan. **Help** now shows a **Suggestions inbox** with everything people send. A red dot on your initial means there's something new. Mark each one **Planned** or **Done** (the sender sees that status) or delete it.
+
+## Referral rewards
+When someone creates a new account using a friend's invite link (Friends → Invite), the new person gets 250 gold and 300 XP right away, and the friend who sent the link gets the same the next time they open the app (up to 20 referrals each).
+
+## When you publish an update
+GitHub Pages goes live about a minute after you commit. People who open PlateScan afterward get the new version automatically. Anyone who already has it open sees a yellow **"A new version of PlateScan is ready · Refresh"** bar. Data is never lost by updating.
 
 ## Boss battles: camera tips
 - Fights need camera access. The first time, tap **Allow**. If you said no: iPhone **Settings → Apps → Safari → Camera → Allow** (or for the installed app, delete and re-add it to get the prompt again).

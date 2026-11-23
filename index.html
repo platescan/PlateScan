@@ -513,14 +513,41 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
 .seg.mini{width:max-content;margin:8px 0 0;padding:2px}.seg.mini button{min-height:30px;padding:2px 12px;font-size:13px;flex:none}
 .wNow{display:flex;align-items:baseline;gap:4px;flex-wrap:wrap;margin-top:4px}.wNow b{font-size:32px;font-weight:800;line-height:1}.wNow>span{font-weight:700;color:var(--mute)}.wNow .muted{width:100%}
 .wdelta{font-weight:800;font-size:14px;border-radius:999px;padding:2px 10px;background:var(--sunk)}.wdelta:empty{display:none}.wdelta.good{background:var(--tGreen);color:var(--kale2)}.wdelta.bad{background:var(--tTomato);color:var(--tomato)}
+/* ===== v11: navigation + quality of life ===== */
+main{padding-bottom:84px}
+.goldpill{background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:4px 10px 4px 6px;font-weight:800;font-size:13px;min-height:30px;gap:4px}
+.avatar.dot{position:relative}.avatar.dot::after{content:'';position:absolute;top:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:var(--tomato);border:2px solid #1d4a37}
+#netBar,#updBar{position:sticky;top:calc(56px + env(safe-area-inset-top));z-index:3;display:none;align-items:center;justify-content:center;gap:10px;font-size:13px;font-weight:700;padding:6px 14px;text-align:center}
+#netBar{background:#3b3f46;color:#fff}#updBar{background:var(--lemon);color:#14201a}#updBar button{min-height:30px;padding:4px 12px}
+#netBar.on,#updBar.on{display:flex;animation:pop .4s var(--spring)}
+.qa5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-bottom:10px}
+.qa5 button{flex-direction:column;gap:5px;background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--edge);box-shadow:0 1px 2px var(--sh),0 4px 14px var(--sh);border-radius:16px;padding:10px 2px 8px;font-size:11.5px;font-weight:700;min-height:0;line-height:1.1}
+.qa5 span{width:38px;height:38px;border-radius:12px;display:grid;place-items:center}.qa5 svg{width:21px;height:21px}
+.copyDay{width:100%;justify-content:flex-start;gap:8px;background:var(--tGreen)!important;color:var(--kale2)!important;border-radius:14px;margin:8px 0;font-size:14px;text-align:left;flex-wrap:wrap}.copyDay .muted{margin-left:auto;font-weight:600}
+#logMeals>.copyDay{margin-top:0}
+#lgSearch{margin-bottom:10px}
+.hit{width:100%;display:flex;align-items:center;gap:10px;background:transparent!important;color:var(--ink)!important;justify-content:flex-start;padding:8px 4px;border-top:1px solid var(--line);border-radius:0;text-align:left;min-height:0}
+.hit .hd{width:40px;flex:none;display:flex;flex-direction:column;align-items:center;line-height:1.05;font-size:11px;color:var(--mute);font-weight:700}.hit .hd b{font-size:18px;color:var(--kale2)}.hit .hm{flex:1;min-width:0;display:flex;flex-direction:column}
+.nav2.on{background:var(--tGreen)!important;color:var(--kale2)!important}
+#setTabs button{font-size:13px;padding:4px 2px}
+.sugCard textarea{width:100%;font:inherit;border:1.5px solid var(--line);border-radius:12px;padding:10px;background:var(--sunk);color:var(--ink);resize:vertical}
+.sg{border-top:1px solid var(--line);padding:8px 0;font-size:14px}.sg.unread{background:var(--tLemon);border-radius:10px;padding:8px;margin:4px -8px;border:0}
+.stag{display:inline-block;font-size:11px;font-weight:800;border-radius:999px;padding:1px 8px;background:var(--sunk);color:var(--mute);margin-right:6px}.stag.planned{background:var(--tLemon);color:#a8730a}.stag.done{background:var(--tGreen);color:var(--kale2)}.stag.new{background:var(--tTomato);color:var(--tomato)}
+code{font-size:12px;background:var(--sunk);border-radius:6px;padding:1px 5px;word-break:break-all}
+.refCard{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,var(--tLemon),var(--card) 70%)}.refGift{width:50px;height:50px;border-radius:15px;flex:none;display:grid;place-items:center;background:linear-gradient(135deg,#e5432d,#f2c230);animation:chestWig 3s infinite}
+.newsHero{width:72px;height:72px;border-radius:22px;background:var(--tLemon);display:grid;place-items:center;margin:4px auto 12px;animation:pop .5s var(--spring) both}
+.news{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);animation:pop .45s calc(var(--i)*.07s + .15s) var(--spring) both}.news .nb{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:13px;background:var(--tGreen);color:var(--kale2)}
 </style>
 </head>
 <body>
 <header>
   <div class="t"><h1>PlateScan</h1><p id="sub"></p></div>
+  <button class="goldpill" data-go="level" id="goldPill" aria-label="Gold"><svg viewBox="0 0 24 24" width="16" height="16"><circle cx="12" cy="12" r="10" fill="#f2c230" stroke="#a8730a" stroke-width="2"/><path d="M12 7.5v9" stroke="#a8730a" stroke-width="2" stroke-linecap="round"/></svg><span id="goldTxt">0</span></button>
   <button class="lvpill" data-go="level" id="lvPill">Lv 1</button>
   <button class="avatar" id="avatarBtn" aria-label="Profile and settings">?</button>
 </header>
+<div id="netBar" role="status">You’re offline. Changes save on this phone and sync when you’re back.</div>
+<div id="updBar" role="status"><span>A new version of PlateScan is ready.</span><button class="small" id="updBtn">Refresh</button></div>
 <main>
 
 <!-- TODAY -->
@@ -533,6 +560,14 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
     </div>
   </div>
   <div class="card risk" id="riskCard" style="display:none"><div class="fl"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z"/></svg></div><div style="flex:1"><b id="riskT"></b><div class="muted sm">Log a meal to keep it going.</div></div><button class="small red" id="riskBtn">Log</button></div>
+  <div class="qa5">
+    <button data-qa="scan"><span style="background:var(--tTomato);color:var(--tomato)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>Snap meal</button>
+    <button data-qa="barcode"><span style="background:var(--tLemon);color:#b8860b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 8v8M10 8v8M13 8v8M16 8v8"/></svg></span>Barcode</button>
+    <button data-qa="water"><span style="background:#e3f1fc;color:#2f8ad8"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3s-7 8-7 12a7 7 0 0 0 14 0c0-4-7-12-7-12z"/></svg></span>+ Water</button>
+    <button data-qa="weigh"><span style="background:var(--tGreen);color:var(--kale2)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 10a4 4 0 0 1 6 0M12 10l1.5-2"/></svg></span>Weigh in</button>
+    <button data-qa="workout"><span style="background:#efe6fb;color:#7d5bb0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>Workout</button>
+  </div>
+  <div class="card"><div class="row between"><h2 style="margin:0">Today's meals</h2><button class="small" id="addToday">+ Add</button></div><div id="mealList"></div><div id="todayCopy"></div></div>
   <div class="card xpstrip" data-go="level" role="button" tabindex="0">
     <div class="badge em" id="tBadge"></div>
     <div><div class="row between"><b id="tTitle">Couch Recruit</b><span class="muted sm" id="tXp"></span></div>
@@ -542,7 +577,6 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
   <div class="card coachCard" id="coachCard" role="button" tabindex="0"><span id="ccAv"></span><div style="flex:1"><b id="ccName">Coach</b><div class="sm" id="ccTxt"></div></div><button class="small ghost" id="ccAsk">Ask</button></div>
   <div class="card"><div class="row between"><h3 style="margin:0">Water</h3><span class="muted sm" id="waterTxt"></span></div><div class="water" id="water"></div></div>
   <div class="card recapCard" id="recapCard" style="display:none"><div style="width:40px;height:40px;flex:none;border-radius:12px;background:linear-gradient(160deg,#ffe58a,#f2c230);display:grid;place-items:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14201a" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></div><div style="flex:1"><b>Your week in review</b><div class="muted sm" id="recapSub"></div></div><button class="small" id="recapOpen">View</button><button class="x" id="recapX" aria-label="Dismiss">×</button></div>
-  <div class="card"><div class="row between"><h2 style="margin:0">Today's meals</h2><button class="small" id="addToday">+ Add</button></div><div id="mealList"></div></div>
   <div id="noProfile" class="card" style="display:none"><b>Set your goal to get targets</b><p class="muted" style="margin:2px 0 8px">Add height, weight, body fat and your goal.</p><button class="small" id="setupBtn">Set up</button></div>
 </section>
 
@@ -551,7 +585,9 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
   <div class="seg pseg"><button data-go="log" class="on">Food log</button><button data-go="stats">Trends</button><button data-go="body">Body</button></div>
   <div class="lgHead"><button class="nav2" id="wkPrev" aria-label="Previous week"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="monthBtn" id="calBtn"><span id="lgMonth"></span><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></button>
+    <button class="nav2" id="lgSearchBtn" aria-label="Search meals"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg></button>
     <button class="nav2" id="wkNext" aria-label="Next week"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button></div>
+  <div id="lgSearchWrap" style="display:none"><input id="lgSearch" type="search" placeholder="Search meals and foods, like “salmon”" autocomplete="off" enterkeyhint="search"><div class="card" id="lgResults" style="display:none;margin-top:8px"></div></div>
   <div class="wk" id="days"></div>
   <div class="card dayCard" id="dayCard">
     <div class="row between"><div><h2 style="margin:0" id="logTitle">Today</h2><span class="dchip" id="dChip"></span></div><button class="small" id="addDay">+ Add meal</button></div>
@@ -618,6 +654,7 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
       <div class="muted sm" id="chThemeD"></div><div class="chDays" id="chDays"></div>
       <details><summary class="sm">How points work (and why it’s fair)</summary><p class="sm" style="margin:6px 0 0">Everyone earns points against <b>their own</b> targets, so size, goal and fitness level don’t matter. Each day: 2+ meals logged (10), protein at 90% of your target (10), calories within 10% of your target (10), your water goal (5), and 10+ good reps in a workout or boss fight (10). That’s 45 a day at most, and one category counts double each week for everyone. Weeks run Monday to Sunday. Friends see your points, level and streak, never your food, calories or weight.</p></details></div>
     <div class="card"><div class="row between"><h3 style="margin:0">Leaderboard</h3><span class="muted sm">friends</span></div><div id="frBoard" style="margin-top:8px"></div></div>
+    <div class="card refCard"><div class="refGift"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13M12 8S10 3 7.5 4.5 9 8 12 8zM12 8s2-5 4.5-3.5S15 8 12 8z"/></svg></div><div style="flex:1"><b>Invite a friend, you both win</b><div class="sm">When they create an account with your link, you each get <b>250 gold + 300 XP</b>.</div><div class="sm muted" id="refInfo"></div></div><button class="small" data-invite>Invite</button></div>
     <div class="card"><div class="row between"><h3 style="margin:0">Friends</h3><button class="small" id="inviteBtn">+ Invite</button></div><div id="frList" style="margin-top:8px"></div></div>
     <div class="card"><div class="row between"><h3 style="margin:0">Groups</h3><button class="small ghost" id="newGroup">+ New group</button></div><div id="grList" style="margin-top:8px"></div></div>
   </div>
@@ -669,7 +706,7 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
 <div class="sheet" id="setSheet" role="dialog" aria-label="Profile and settings">
   <div class="sh"><h2>You</h2><button class="x" data-close="setSheet" aria-label="Close">×</button></div>
   <div class="sb">
-    <div class="seg" id="setTabs"><button data-t="body" class="on">Body</button><button data-t="goal">Goal</button><button data-t="remind">Alerts</button><button data-t="account">Account</button></div>
+    <div class="seg" id="setTabs"><button data-t="body" class="on">Body</button><button data-t="goal">Goal</button><button data-t="remind">Alerts</button><button data-t="account">Account</button><button data-t="help">Help</button></div>
     <div data-pane="body">
       <div class="g2">
         <label class="f"><span>Height (ft)</span><input id="pFt" type="text" autocomplete="off" inputmode="numeric" placeholder="5"></label>
@@ -740,13 +777,21 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
     <div data-pane="account" style="display:none">
       <h3>Appearance</h3>
       <div class="seg" id="themeSeg"><button data-th="auto">Auto</button><button data-th="light">Light</button><button data-th="dark">Dark</button></div>
-      <div class="card" id="installBox"></div>
       <div class="card" id="acctBox"></div>
-      <button class="ghost small" id="replayTour" style="margin-bottom:14px">Replay the app tour</button>
       <h3>Backup</h3>
       <p class="muted sm" style="margin-top:0">Save a copy of all your data as a file, or restore one.</p>
       <div class="row" style="flex-wrap:wrap"><button class="ghost small" id="exp">Save backup</button><label class="btn small" style="background:transparent;color:var(--kale2);border:1.5px solid var(--line);min-height:36px;padding:6px 12px;font-size:14px">Restore backup<input type="file" id="imp" accept="application/json,.json" style="display:none"></label></div>
+    </div>    <div data-pane="help" style="display:none" id="helpBox">
+      <div class="card sugCard"><h3 style="margin-bottom:2px">Suggestion box</h3><p class="muted sm" style="margin:0 0 10px">Have an idea, found a problem, or missing a food? Tell us. Every suggestion is read.</p>
+        <div id="suggOff" class="muted sm">Sign in to send a suggestion. <a href="#" data-auth="signin">Sign in</a></div>
+        <div id="suggForm"><div class="row" id="suggCats" style="flex-wrap:wrap;gap:6px;margin-bottom:8px"></div><textarea id="suggText" rows="3" maxlength="1000" placeholder="I wish PlateScan could…"></textarea><button class="wide red" id="suggSend" style="margin-top:8px">Send suggestion</button></div>
+        <div id="mySugg"></div></div>
+      <div class="card" id="adminBox" style="display:none"><div class="row between"><h3 style="margin:0">Suggestions inbox</h3><span class="pill" id="inboxN"></span></div><p class="muted sm" style="margin:4px 0 8px">Only you can see this. Mark ideas as planned or done and the sender sees the status.</p><div id="inbox"></div></div>
+      <div class="card" id="installBox"></div>
+      <div class="row" style="flex-wrap:wrap;margin-bottom:10px"><button class="ghost small" id="newsBtn">What’s new</button><button class="ghost small" id="replayTour">Replay the app tour</button></div>
+      <p class="muted sm" id="uidLine"></p>
     </div>
+
   </div>
 </div>
 
@@ -855,6 +900,10 @@ h2.win{color:#ffe58a;font-size:30px;margin:4px 0}h2.lose{color:#ff8a8a;font-size
     <div class="legend" style="justify-content:center;margin-top:14px"><span><i style="background:var(--fat)"></i>On target</span><span><i style="background:var(--lemon)"></i>Under</span><span><i style="background:var(--tomato)"></i>Over</span><span><i style="background:var(--line)"></i>Not logged</span></div>
     <div class="g2" id="calStats" style="margin-top:14px"></div>
     <button class="ghost wide" id="calToday" style="margin-top:12px">Jump to today</button></div></div>
+<div class="sheet" id="newsSheet" role="dialog" aria-label="What's new" style="z-index:26">
+  <div class="sh"><h2>What’s new in PlateScan</h2><button class="x" data-close="newsSheet" aria-label="Close">×</button></div>
+  <div class="sb"><div class="newsHero"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#c99510" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></div><div id="newsList"></div></div>
+  <div class="sf"><button class="wide red" id="newsOk">Let’s go</button></div></div>
 <div id="battle" role="dialog" aria-label="Boss battle"></div>
 <div class="sheet" id="friendSheet" role="dialog" aria-label="Friend" style="z-index:23">
   <div class="sh"><h2>Friend</h2><button class="x" data-close="friendSheet" aria-label="Close">×</button></div><div class="sb" id="fsBody"></div></div>
@@ -1082,7 +1131,8 @@ const FOODS = [
 ['Starbucks Caffe Mocha','grande, whipped cream',370,14,15,43],['Starbucks Caramel Frappuccino','grande',380,4,16,55],['Starbucks Pink Drink','grande',140,1,2.5,27],['Starbucks Vanilla Sweet Cream Cold Brew','grande',110,1,5,14],
 ['Starbucks Chai Tea Latte','grande',240,8,4.5,45],['Starbucks Pumpkin Spice Latte','grande',390,14,14,52],['Starbucks Iced Brown Sugar Oatmilk Shaken Espresso','grande',120,2,3,20],['Starbucks Cold Brew','grande, black',5,0,0,0],
 ['Starbucks Bacon and Gruyere Egg Bites','2 bites',300,19,20,9],
-['Cheese slice add-on','1 slice',70,4,6,1],['Bacon add-on','2 strips',80,6,6,0],['Ketchup','1 packet',10,0,0,3],['BBQ sauce','1 packet',45,0,0,11],['Mayonnaise','1 tbsp',90,0,10,0],['Sour cream','2 tbsp',60,1,6,1]
+['Cheese slice add-on','1 slice',70,4,6,1],['Bacon add-on','2 strips',80,6,6,0],['Ketchup','1 packet',10,0,0,3],['BBQ sauce','1 packet',45,0,0,11],['Mayonnaise','1 tbsp',90,0,10,0],['Sour cream','2 tbsp',60,1,6,1],
+['Mixed berries','1 cup',70,1,0.5,17],['Frozen mixed berries','1 cup',80,1,0.5,19],['Blackberries','1 cup',62,2,0.7,14],['Dried cranberries','1/4 cup',123,0,0.5,33],['Raisins','1.5 oz box',129,1,0,34],['Medjool dates','2 dates',133,1,0,36],['Plum','1 medium',30,0.5,0,8],['Nectarine','1 medium',62,1.5,0.5,15],['Grapefruit','1/2 fruit',52,1,0,13],['Clementines','2 fruits',70,1,0,18],['Pomegranate seeds','1/2 cup',72,1.5,1,16],['Papaya','1 cup',62,0.7,0.4,16],['Honeydew melon','1 cup',64,1,0.2,16],['Fruit cup','1 cup',90,1,0,23],['Applesauce','1 cup unsweetened',100,0.5,0,27],['Apple with peanut butter','1 apple + 2 tbsp',285,8,16,32],['Banana with peanut butter','1 banana + 2 tbsp',295,8,16,34],['Fruit salad','1 cup',95,1,0.3,24],['Peas','1 cup cooked',117,8,0.6,21],['Corn','1 cup kernels',130,5,2,29],['Mushrooms','1 cup cooked',44,3,0.7,8],['Sauteed onions','1/2 cup',60,1,4,6],['Roasted vegetables','1 cup',120,3,7,14],['Side salad with dressing','1 bowl',150,2,12,8],['Sweet potato fries','medium order',380,4,18,50],['Pickles','2 spears',10,0,0,2],['Cabbage','1 cup cooked',34,2,0,8],['Celery with peanut butter','2 stalks + 2 tbsp',200,8,16,9],['Baby carrots with ranch','10 carrots + 2 tbsp',165,1,14,10],['Turkey burger patty','1 patty',200,22,11,0],['Chicken sausage','2 links',180,16,11,4],['Tilapia','6 oz cooked',218,44,4,0],['Cod','6 oz cooked',180,39,1.5,0],['Lean ground beef 93%','4 oz cooked',200,28,9,0],['Pork tenderloin','4 oz cooked',160,30,4,0],['Lamb chops','2 chops',360,30,26,0],['Tempeh','1/2 cup',160,17,9,8],['Lentils','1 cup cooked',230,18,1,40],['Chickpeas','1/2 cup',135,7,2,22],['Pinto beans','1/2 cup',122,8,0.5,22],['Smoked salmon','3 oz',100,16,4,0],['Tuna steak','6 oz cooked',220,50,2,0],['Mozzarella cheese','1 oz',85,6,6,1],['Parmesan cheese','2 tbsp',42,4,3,0],['Cream cheese','2 tbsp',100,2,10,1],['Butter','1 tbsp',102,0,12,0],['Olive oil','1 tbsp',119,0,14,0],['Half and half','2 tbsp',40,1,3.5,1],['Almond milk','1 cup unsweetened',30,1,2.5,1],['Oat milk','1 cup',120,3,5,16],['Whole milk','1 cup',149,8,8,12],['Skim milk','1 cup',83,8,0,12],['Fairlife 2% milk','1 cup',120,13,4.5,6],['Cream of wheat','1 cup',130,4,0.5,27],['Grits','1 cup',150,3,1,32],['Honey Nut Cheerios','1 cup + milk',260,11,7,41],['Frosted Flakes','1 cup + milk',270,9,5,47],['Protein pancakes','3 pancakes',320,25,8,36],['Protein oatmeal','1 bowl',320,25,7,40],['Sourdough bread','1 slice',120,4,1,23],['Rye bread','1 slice',83,3,1,15],['Couscous','1 cup cooked',176,6,0,36],['Wild rice','1 cup cooked',166,7,0.6,35],['Egg noodles','1 cup cooked',221,7,3,40],['Soba noodles','1 cup cooked',113,6,0,24],['Beef stick','1 stick',100,6,8,1],['Pistachios','1 oz',159,6,13,8],['Walnuts','1 oz',185,4,18,4],['Sunflower seeds','1 oz',165,6,14,7],['Dark chocolate','1 oz',170,2,12,13],['Gummy bears','17 pieces',140,3,0,33],['Fruit snacks','1 pouch',80,0,0,19],['Rice Krispies Treat','1 bar',90,1,2,17],['Pop-Tart','1 pastry',200,2,5,37],['Oreo cookies','3 cookies',160,1,7,25],['Cheez-It crackers','27 crackers',150,3,8,17],['Goldfish crackers','55 pieces',140,3,5,20],['Doritos','1 oz',150,2,8,18],['Hummus and veggies','1/4 cup + veggies',140,5,9,12],['Peanut butter crackers','6 crackers',200,5,10,23],['Quest protein bar','1 bar',190,21,8,22],['RXBAR','1 bar',210,12,9,23],['Clif Bar','1 bar',250,10,6,41],['Nature Valley bar','2 bars',190,4,7,29],['Kind bar','1 bar',200,6,15,16],['Protein chips','1 bag',140,19,4.5,5],['Protein cookie','1 cookie',220,16,9,24],['Apple juice','1 cup',114,0,0,28],['Lemonade','12 oz',150,0,0,40],['Kombucha','16 oz',60,0,0,14],['Coconut water','11 oz',60,0,0,15],['Unsweetened iced tea','16 oz',2,0,0,0],['Hot chocolate','12 oz',230,8,6,36],['Americano','16 oz',15,1,0,2],['Cappuccino','12 oz',130,7,5,12],['BodyArmor','16 oz',120,0,0,30],['Prime Hydration','16.9 oz',25,0,0,6],['Liquid I.V.','1 stick in water',45,0,0,11],['Muscle Milk','14 oz',160,25,4.5,9],['Protein smoothie','16 oz',350,30,6,45],['Vodka soda','1 drink',100,0,0,0],['IPA beer','12 oz',200,2,0,18],['Salmon rice bowl','1 bowl',650,40,22,65],['Steak and potatoes','1 plate',750,50,35,50],['Chicken and rice bowl','1 bowl',600,45,14,70],['Turkey chili','1 cup',230,22,7,20],['Beef stew','1 cup',250,20,10,20],['Shrimp fried rice','1 plate',600,22,18,85],['Cheese quesadilla','1/2 quesadilla',300,13,17,23],['Chicken salad','1/2 cup',250,15,20,3],['Tuna poke','1 cup',220,26,8,6],['Shrimp and grits','1 bowl',550,30,25,48]
 ];
 
 // ================= helpers =================
@@ -1151,7 +1201,7 @@ function emblem(L,cls=''){const r=rankFor(L),c=TIERS[r.tier],id='em'+(++emN);
   <path d="M14 52h36l-3 6 3 6H14l3-6z" fill="${c[2]}"/><text x="32" y="61.5" text-anchor="middle" font-size="10" font-weight="800" fill="#fff" font-family="Figtree,system-ui">${L}</text></svg>`}
 
 const titleFor=L=>rankFor(L).title;
-const need=L=>100+50*(L-1); // XP to go from L to L+1
+const need=L=>150+100*(L-1)+5*(L-1)**2; // XP to go from L to L+1 (rebalanced in v11: levels take more XP)
 function levelInfo(xp){let L=1,base=0;while(xp>=base+need(L)){base+=need(L);L++}return {L,into:xp-base,need:need(L),title:titleFor(L)}}
 function trainDays(){return String(S.profile.trainDays??'1,3,5').split(',').filter(x=>x!=='').map(Number)}
 function dayKind(key){if(S.profile.trainOn!=='1')return null;if(S.dayType&&S.dayType[key])return S.dayType[key];return trainDays().includes(new Date(key+'T12:00').getDay())?'train':'rest'}
@@ -1219,7 +1269,7 @@ function celebrate(g){
 let view='today';
 const NAVI={today:0,log:1,stats:1,body:1,level:3,friends:4};const PORD={log:0,stats:1,body:2};let animNext=true;
 function moveInd(){$('navInd').style.transform=`translateX(${(NAVI[view]||0)*100}%)`}
-function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v in PORD&&view in PORD&&PORD[v]<PORD[view]);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,0);render()}
+function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v in PORD&&view in PORD&&PORD[v]<PORD[view]);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,scrollMem[v]||0);render()}
 function openSheet(id){$(id).classList.add('on');document.body.classList.add('lock');requestAnimationFrame(segAll)}
 function segInd(seg){let si=seg.querySelector(':scope>.si');if(!si){si=document.createElement('span');si.className='si';seg.prepend(si)}const b=seg.querySelector('button.on');if(!b||!b.offsetWidth){si.style.opacity=0;return}si.style.opacity=1;si.style.width=b.offsetWidth+'px';si.style.transform=`translateX(${b.offsetLeft}px)`}
 function segAll(){document.querySelectorAll('.seg').forEach(segInd)}
@@ -1324,7 +1374,7 @@ function renderLog(g){
   $('dMini').innerHTML=`<span title="Water"><svg viewBox="0 0 24 24"><path d="M12 3s-7 8-7 12a7 7 0 0 0 14 0c0-4-7-12-7-12z" fill="#3aa0e8"/></svg>${wat}/${+S.profile.waterGoal||8}</span><span title="Weight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 10a4 4 0 0 1 6 0M12 10l1.5-2"/></svg>${wt?(+wt.lb).toFixed(1)+' lb':'—'}</span>${reps?`<span title="Reps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg>${reps} reps</span>`:''}<span title="XP earned"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="#f2c230"/></svg>+${fmt(xp)} XP</span>`;
   const dc=$('dayCard');if(logDir){dc.classList.remove('sl','sr');void dc.offsetWidth;dc.classList.add(logDir<0?'sl':'sr');logDir=0}
   const past=logDay!==today,groups={};for(const m of s.meals){const ty=MTYPES.includes(m.type)?m.type:'Snack';(groups[ty]=groups[ty]||[]).push(m)}
-  $('logMeals').innerHTML=MTYPES.map(ty=>{const ms=(groups[ty]||[]).sort((a,b)=>a.ts-b.ts),tot=ms.reduce((a,m)=>a+sumItems(m.items).k,0);
+  $('logMeals').innerHTML=(s.n?'':copyBtn(logDay))+MTYPES.map(ty=>{const ms=(groups[ty]||[]).sort((a,b)=>a.ts-b.ts),tot=ms.reduce((a,m)=>a+sumItems(m.items).k,0);
     if(!ms.length)return `<button class="addType" data-addtype="${ty}"><span class="mico">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+MICON[ty]+'</svg>'}</span>Add ${ty.toLowerCase()}<b>+</b></button>`;
     return `<div class="card mgroup"><div class="mgh"><span class="mico on">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+MICON[ty]+'</svg>'}</span><b>${ty}</b><span class="muted sm">${fmt(tot)} kcal</span><button class="x addMini" data-addtype="${ty}" aria-label="Add to ${ty}">+</button></div>`+
       ms.map(m=>{const x=sumItems(m.items),time=new Date(m.ts).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
@@ -1434,9 +1484,9 @@ function renderLevel(g){
 function render(){
   DV++;applyFreezes();const g=game();
   $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
-  $('lvPill').textContent='Lv '+g.lv.L;
+  $('lvPill').textContent='Lv '+g.lv.L;$('goldTxt').textContent=fmt(S.gold||0);
   const nm=(S.name||(user&&user.email)||'').trim();$('avatarBtn').textContent=nm?nm[0].toUpperCase():'?';
-  if(view==='today')renderToday(g);if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='level')renderQuest(g);if(view==='friends'){renderFriends();loadProfiles()}
+  if(view==='today'){renderToday(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='level')renderQuest(g);if(view==='friends'){renderFriends();loadProfiles()}
   animNext=false;moveInd();segAll();
   celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);
   if(S.gold==null&&lsGet(obKey())){S.gold=100;store.saveMeta();enqueue({type:'ach',k:'Boss mode unlocked',name:'Here’s 100 gold to get you started. Check the Quest tab!'})}
@@ -1600,7 +1650,7 @@ $('authClose').onclick=()=>closeSheet('auth');
 $('guestBtn').onclick=e=>{e.preventDefault();lsSet('platescan.guest','1');closeSheet('auth');render();maybeOnboard()};
 $('aForm').addEventListener('submit',async e=>{e.preventDefault();if(!FB)return;const email=$('aEmail').value.replace(/\s+/g,'').toLowerCase(),pw=$('aPass').value;$('aEmail').value=email;$('aErr').textContent='';$('aSubmit').disabled=true;
   try{
-    if(authMode==='signup'){const name=$('aName').value.trim();const nm0=name||email.split('@')[0];
+    if(authMode==='signup'){justSignedUp=true;const name=$('aName').value.trim();const nm0=name||email.split('@')[0];
       pendingMigrate={name:nm0,data:$('aMig').checked&&mode==='guest'?JSON.parse(JSON.stringify(S)):null};
       const cred=await FB.au.createUserWithEmailAndPassword(FB.auth,email,pw);FB.au.updateProfile(cred.user,{displayName:nm0}).catch(()=>{})}
     else if(authMode==='signin'){await FB.au.signInWithEmailAndPassword(FB.auth,email,pw)}
@@ -1622,11 +1672,11 @@ async function onUser(u){
   base=null;lastWidget='';
   if(u){user=u;mode='cloud';try{await loadCloud()}catch(e){toast('Couldn’t load your data: '+(e.code||e.message))}closeSheet('auth');closeSheet('setSheet');
     const k='platescan.lvl.'+u.uid;if(!lsGet(k))lsSet(k,String(game().lv.L)); // no level-up popup for existing progress on a new device
-    fillFields();render();maybeOnboard();socStart()}
-  else{socStop();user=null;mode='guest';loadGuest();fillFields();render();if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
+    fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews()}
+  else{socStop();user=null;mode='guest';loadGuest();fillFields();render();suggStart();if(refUnsub){refUnsub();refUnsub=null}maybeNews();if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
 }
 function renderAccount(){
-  renderInstall();
+  renderInstall();renderHelp();
   const box=$('acctBox');
   if(mode==='cloud'&&user)box.innerHTML=`<div class="row"><div class="badge" style="background:var(--kale);color:#fff">${esc((S.name||user.email)[0].toUpperCase())}</div><div style="flex:1"><b>${esc(S.name||'Your account')}</b><div class="muted sm">${esc(user.email)}</div></div></div><p class="muted sm">Signed in. Your meals, weight and level sync across devices.</p><label class="f"><span>Display name</span><input id="nameIn" value="${esc(S.name)}"></label><button class="ghost small" id="outBtn">Sign out</button>`;
   else box.innerHTML=`<b>Using PlateScan without an account</b><p class="muted sm">Your data lives only on this phone. Create an account to back it up and sync to other devices. Your current log comes with you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div>`;
@@ -2509,6 +2559,7 @@ async function processInvites(){let p=null;try{p=JSON.parse(lsGet('platescan.pen
       const prof=await fs.getDoc(fs.doc(FB.db,'profiles',p.id)).catch(()=>null),nm=prof&&prof.exists()?prof.data().name:'your friend';
       if(ex&&ex.exists()){toast(`You and ${nm} are already friends.`);go('friends');return}
       await fs.setDoc(fs.doc(FB.db,'friendships',fid),{members:[me,p.id].sort(),by:p.id,code:p.code,ts:Date.now()});
+      if(justSignedUp){justSignedUp=false;await claimReferral(p.id,p.code)}
       go('friends');enqueue({type:'ach',k:'New friend',name:`You and ${nm} are now friends!`});sfx('ach')}
     else{await fs.updateDoc(fs.doc(FB.db,'groups',p.id),{members:fs.arrayUnion(me),joinCode:p.code});go('friends');
       await fs.addDoc(fs.collection(FB.db,'groups',p.id,'messages'),{uid:me,name:S.name||'Friend',t:`${S.name||'A friend'} joined the group 👋`,k:'sys',ts:Date.now()}).catch(()=>{});
@@ -2567,6 +2618,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
   const todayI=(new Date().getDay()+6)%7,mx=45+PTS[th.k];
   $('chDays').innerHTML=mine.map((p,i)=>`<div class="cd${i===todayI?' today':''}"><i style="--h:${(p/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('');
   const ids=SOC.friends.map(f=>f.uid);$('frBoard').innerHTML=ids.length?boardHTML(ids):`<p class="muted sm" style="margin:0">Add friends to see who’s leading this week.</p>`;
+  const rc=(SOC.refs||[]).filter(r=>r.claimed).length;$('refInfo').textContent=rc?`${rc} friend${rc>1?'s':''} joined with your link so far`:'';
   $('heroBtn').innerHTML=avHTML(heroId());$('frMe').innerHTML=`${emblem(g.lv.L)}<div><b>${esc(S.name||'You')}</b><div class="muted sm">Lv ${g.lv.L} · ${esc(rankFor(g.lv.L).title)}</div></div>`;
   $('frList').innerHTML=ids.length?SOC.friends.map(f=>{const p=SOC.profiles[f.uid];if(!p)return `<div class="fr"><span class="gav sk"></span><div class="muted sm">Loading…</div></div>`;const left=nudgeLeft(f.uid);
     return `<div class="fr" data-friend="${f.uid}" role="button" tabindex="0"><span class="gav">${avHTML(AV[p.hero]?p.hero:'maya')}</span><div class="fmid"><b>${esc(p.name)}</b><div class="muted sm">${emblem(p.L||1,'tiny')} Lv ${p.L||1} · ${p.streak?`🔥 ${p.streak}`:'no streak'} · ${ago(p.last)}</div></div><button class="small nudge${left?' wait':''}" data-nudge="${f.uid}" ${left?'disabled':''}>${left?`Nudged · ${hrs(left)}`:'Nudge'}</button></div>`}).join(''):`<div class="empty"><p class="muted sm" style="margin:0 0 8px">No friends yet. Send your invite link and they’ll show up here once they tap it.</p></div>`;
@@ -2587,7 +2639,7 @@ document.addEventListener('click',e=>{const t=e.target;
   const fr=t.closest('[data-friend]');if(fr&&fr.dataset.friend){openFriend(fr.dataset.friend);return}
   const gr=t.closest('[data-group]');if(gr){openGroup(gr.dataset.group);return}
   const hr=t.closest('[data-hero]');if(hr){S.hero=hr.dataset.hero;store.saveMeta();sfx('pop');renderHeroPick();renderFriends();return}
-  if(t.closest('#inviteBtn')){shareLink(`${appURL()}#add=${user.uid}.${myInvite()}`,'Add me on PlateScan',`${S.name||'I'} wants to be friends on PlateScan. Tap to add me and join the weekly challenge:`);return}
+  if(t.closest('#inviteBtn')||t.closest('[data-invite]')){shareLink(`${appURL()}#add=${user.uid}.${myInvite()}`,'Add me on PlateScan',`${S.name||'I'} invited you to PlateScan, the free food scanner with boss battles. Join with my link and we both get 250 gold and 300 XP:`);return}
   if(t.closest('#gInvite')){const g=SOC.groups.find(x=>x.id===SOC.gid);if(g)shareLink(`${appURL()}#join=${g.id}.${g.code}`,`Join ${g.name} on PlateScan`,`Join my group “${g.name}” on PlateScan:`);return}
   if(t.closest('#gLeave')){leaveGroup();return}
   if(t.closest('#newGroup')){newGroup();return}
@@ -2625,6 +2677,82 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
   el.dispatchEvent(new Event('input',{bubbles:true}));inn.dispatchEvent(new Event('input',{bubbles:true}));toast(`Got it: ${el.value} ft ${inn.value} in`)},true);
 // inches of 12 or more roll over into feet
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
+
+// ================= quality of life =================
+const APP_VERSION='11';
+// quick actions on Today
+document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
+  if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
+  else if(k==='water'){const d=ymd(Date.now());S.water=Object.assign({},S.water);S.water[d]=(S.water[d]||0)+1;store.saveMeta();sfx('water');floatText(q,'+1 glass','#3aa0e8');render()}
+  else if(k==='weigh'){go('body');setTimeout(()=>{const w=$('wIn');w.scrollIntoView({block:'center',behavior:'smooth'});w.focus()},450)}
+  else if(k==='workout')openBattle('dummy');
+  else if(k==='friends')go('friends')});
+// copy a previous day's meals
+function copyDay(from,to){const src=(byDay()[from]||{meals:[]}).meals;if(!src.length)return;const base=new Date(to+'T12:00');const added=[];
+  for(const m of src){const t=new Date(m.ts),d=new Date(base);d.setHours(t.getHours(),t.getMinutes(),0,0);if(to===ymd(Date.now())&&d>Date.now())d.setTime(Date.now()-60000);
+    const n={...m,id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),ts:d.getTime(),scanned:false,items:m.items.map(i=>({...i}))};S.meals.push(n);store.putMeal(n);added.push(n.id)}
+  if(mode==='guest')store.saveMeta();sfx('log');render();toast(`Copied ${added.length} meal${added.length>1?'s':''}`,()=>{for(const id of added){const i=S.meals.findIndex(m=>m.id===id);if(i>=0){S.meals.splice(i,1);store.delMeal(id)}}render()})}
+document.addEventListener('click',e=>{const c=e.target.closest('[data-copyday]');if(c)copyDay(c.dataset.copyday,c.dataset.to)});
+function copyBtn(to){const days=byDay();for(let i=1;i<=7;i++){const k=addDays(to,-i);if(days[k]&&days[k].n){const lbl=i===1?(to===ymd(Date.now())?'yesterday':'the day before'):new Date(k+'T12:00').toLocaleDateString(undefined,{weekday:'long'});
+  return `<button class="copyDay" data-copyday="${k}" data-to="${to}"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copy ${days[k].n} meal${days[k].n>1?'s':''} from ${lbl} <span class="muted">${fmt(days[k].k)} kcal</span></button>`}}return ''}
+// search the food log
+let lgQ='';
+function renderSearch(){const box=$('lgResults'),q=lgQ.trim().toLowerCase();if(!q){box.innerHTML='';box.style.display='none';return}box.style.display='';
+  const hits=S.meals.filter(m=>m.type.toLowerCase().includes(q)||m.items.some(i=>i.n.toLowerCase().includes(q))).sort((a,b)=>b.ts-a.ts).slice(0,30);
+  box.innerHTML=hits.length?`<div class="muted sm" style="margin-bottom:4px">${hits.length>=30?'30+':hits.length} meal${hits.length>1?'s':''} found</div>`+hits.map(m=>{const x=sumItems(m.items),d=new Date(m.ts);return `<button class="hit" data-goday="${ymd(m.ts)}"><span class="hd"><b>${d.getDate()}</b>${d.toLocaleDateString(undefined,{month:'short'})}</span><span class="hm"><b>${esc(m.type)}</b><span class="muted sm ell">${esc(m.items.map(i=>i.n).join(', '))}</span></span><b>${fmt(x.k)}</b></button>`}).join(''):'<div class="empty">No meals match that.</div>'}
+$('lgSearch').addEventListener('input',e=>{lgQ=e.target.value;renderSearch()});
+$('lgSearchBtn').onclick=()=>{const w=$('lgSearchWrap'),open=w.style.display==='none';w.style.display=open?'':'none';$('lgSearchBtn').classList.toggle('on',open);if(open)$('lgSearch').focus();else{lgQ='';$('lgSearch').value='';renderSearch()}};
+document.addEventListener('click',e=>{const h=e.target.closest('[data-goday]');if(h){logDay=h.dataset.goday;lgQ='';$('lgSearch').value='';$('lgSearchWrap').style.display='none';$('lgSearchBtn').classList.remove('on');renderSearch();animNext=true;render();window.scrollTo({top:0,behavior:'smooth'})}});
+// remember scroll per tab; tap the current tab again to jump to the top
+const scrollMem={};let curTab='today';
+document.addEventListener('click',e=>{const b=e.target.closest('nav button[data-go]');if(!b)return;const v=b.dataset.go;if(NAVI[v]===NAVI[view]&&(v===view||v==='log')){e.stopImmediatePropagation();e.preventDefault();if(scrollY>10)window.scrollTo({top:0,behavior:'smooth'})}},true);
+addEventListener('scroll',()=>{scrollMem[view]=scrollY},{passive:true});
+// offline + new-version banners
+function netBanner(){$('netBar').classList.toggle('on',!navigator.onLine)}addEventListener('online',()=>{netBanner();toast('Back online. Syncing…')});addEventListener('offline',netBanner);netBanner();
+async function checkUpdate(){if(!navigator.onLine||location.protocol==='file:')return;try{const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/const APP_VERSION='([^']+)'/);if(m&&m[1]!==APP_VERSION)$('updBar').classList.add('on')}catch(e){}}
+setInterval(checkUpdate,10*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
+$('updBtn').onclick=async()=>{try{const rs=await navigator.serviceWorker?.getRegistrations?.();for(const r of rs||[])await r.update()}catch(e){}location.reload()};
+// what's new
+const NEWS=[['Cleaner navigation','Quick actions on Today, a simpler settings menu with a Help tab, and tap a tab again to jump to the top.'],['Smarter food log','Search every meal you’ve logged, and copy yesterday’s meals in one tap.'],['100+ new foods','Mixed berries, more fruit, protein snacks, drinks and easy meals.'],['Refer a friend','When a friend joins with your link, you both get 250 gold and 300 XP.'],['Suggestion box','Tell us what to build next from Settings → Help.'],['Levels rebalanced','Each level now takes more XP, so ranks mean more. Your XP is safe.']];
+function showNews(){$('newsList').innerHTML=NEWS.map(([t,d],i)=>`<div class="news" style="--i:${i}"><span class="nb">${i+1}</span><div><b>${esc(t)}</b><div class="muted sm">${esc(d)}</div></div></div>`).join('');openSheet('newsSheet')}
+$('newsOk').onclick=()=>closeSheet('newsSheet');
+function maybeNews(){if(lsGet('platescan.seen')===APP_VERSION)return;const fresh=!lsGet(obKey());lsSet('platescan.seen',APP_VERSION);if(fresh)return;setTimeout(()=>{if(!document.querySelector('.sheet.on')&&!$('tour').classList.contains('on'))showNews()},1800)}
+document.addEventListener('click',e=>{if(e.target.closest('#newsBtn'))showNews()});
+
+// ================= suggestions box =================
+let isAdmin=false,mySugg=[],allSugg=[],suggUnsub=null,suggCat='idea';
+const SCATS={idea:'Idea',bug:'Problem',food:'Missing food',other:'Other'};
+async function suggStart(){isAdmin=false;mySugg=[];allSugg=[];if(suggUnsub){suggUnsub();suggUnsub=null}if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return renderHelp();const fs=FB.fs;
+  try{const a=await fs.getDoc(fs.doc(FB.db,'admins',user.uid));isAdmin=a.exists()}catch(e){isAdmin=false}
+  const q=isAdmin?fs.query(fs.collection(FB.db,'suggestions')):fs.query(fs.collection(FB.db,'suggestions'),fs.where('uid','==',user.uid));
+  suggUnsub=fs.onSnapshot(q,s=>{const list=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts);if(isAdmin){allSugg=list;mySugg=list.filter(x=>x.uid===user.uid)}else mySugg=list;renderHelp()},e=>console.warn('sugg',e.code))}
+function renderHelp(){if(!$('helpBox'))return;const cloud=mode==='cloud'&&user;
+  $('suggForm').style.display=cloud?'':'none';$('suggOff').style.display=cloud?'none':'';
+  $('suggCats').innerHTML=Object.entries(SCATS).map(([k,v])=>`<button class="chip${k===suggCat?' on':''}" data-scat="${k}">${v}</button>`).join('');
+  $('mySugg').innerHTML=mySugg.length&&!isAdmin?`<div class="lbl">Your suggestions</div>`+mySugg.map(sg=>`<div class="sg"><span class="stag ${sg.status}">${sg.status==='done'?'Done':sg.status==='planned'?'Planned':'Sent'}</span><div>${esc(sg.text)}</div></div>`).join(''):'';
+  const nNew=allSugg.filter(x=>x.status==='new').length;$('adminBox').style.display=isAdmin?'':'none';$('avatarBtn').classList.toggle('dot',isAdmin&&nNew>0);
+  if(isAdmin){$('inboxN').textContent=nNew?`${nNew} new`:'all read';
+    $('inbox').innerHTML=allSugg.length?allSugg.map(sg=>`<div class="sg${sg.status==='new'?' unread':''}"><div class="row between"><span class="stag ${sg.status}">${SCATS[sg.cat]||'Idea'}</span><span class="muted sm">${esc(sg.name||'Someone')} · ${new Date(sg.ts).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span></div><div style="margin:4px 0 6px">${esc(sg.text)}</div>
+      <div class="row" style="gap:6px;flex-wrap:wrap">${['new','planned','done'].map(st=>`<button class="chip${sg.status===st?' on':''}" data-sst="${st}" data-sid="${sg.id}">${st==='new'?'New':st==='planned'?'Planned':'Done'}</button>`).join('')}<button class="chip" data-sdel="${sg.id}">Delete</button></div></div>`).join(''):'<div class="empty">No suggestions yet. Share the app and they’ll show up here.</div>'}
+  $('uidLine').innerHTML=cloud?`Your user ID: <code>${esc(user.uid)}</code> <button class="chip" id="uidCopy">Copy</button>`:''}
+document.addEventListener('click',async e=>{const t=e.target;const c=t.closest('[data-scat]');if(c){suggCat=c.dataset.scat;renderHelp();return}
+  const st=t.closest('[data-sst]');if(st){FB.fs.updateDoc(FB.fs.doc(FB.db,'suggestions',st.dataset.sid),{status:st.dataset.sst}).catch(er=>toast('Couldn’t update: '+er.code));return}
+  const dl=t.closest('[data-sdel]');if(dl){if(confirm('Delete this suggestion?'))FB.fs.deleteDoc(FB.fs.doc(FB.db,'suggestions',dl.dataset.sdel)).catch(er=>toast('Couldn’t delete: '+er.code));return}
+  if(t.closest('#uidCopy')){try{await navigator.clipboard.writeText(user.uid);toast('User ID copied')}catch(er){prompt('Your user ID:',user.uid)}}});
+$('suggSend').onclick=async()=>{const txt=$('suggText').value.trim().slice(0,1000);if(txt.length<3)return toast('Write a few words first');const b=$('suggSend');b.disabled=true;
+  try{await FB.fs.addDoc(FB.fs.collection(FB.db,'suggestions'),{uid:user.uid,name:(S.name||'').slice(0,40),email:user.email||'',text:txt,cat:suggCat,status:'new',ts:Date.now(),v:APP_VERSION});$('suggText').value='';sfx('send');burstAt(b,{n:20,speed:4,shape:'star'});toast('Thanks! Your suggestion was sent.')}
+  catch(er){toast('Couldn’t send it ('+er.code+'). Check your connection and try again.')}finally{b.disabled=false}};
+
+// ================= referrals =================
+const REF_GOLD=250,REF_XP=300,REF_MAX=20;
+let justSignedUp=false;
+function grantRef(why){const d=ymd(Date.now());S.gold=(S.gold||0)+REF_GOLD;S.bonus=(S.bonus||[]).concat([{d,xp:REF_XP,src:'referral'}]);store.saveMeta();sfx('chest');enqueue({type:'ach',k:'Referral reward',name:`${why} +${REF_GOLD} gold and +${REF_XP} XP!`});render()}
+async function claimReferral(inviter,code){const fs=FB.fs;try{await fs.setDoc(fs.doc(FB.db,'referrals',user.uid),{by:inviter,code,claimed:false,name:(S.name||'').slice(0,30),ts:Date.now()});grantRef('Welcome bonus for joining with a friend’s link:')}catch(e){console.warn('referral',e.code)}}
+let refUnsub=null;
+function refStart(){if(refUnsub){refUnsub();refUnsub=null}if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return;const fs=FB.fs;
+  refUnsub=fs.onSnapshot(fs.query(fs.collection(FB.db,'referrals'),fs.where('by','==',user.uid)),async q=>{SOC.refs=q.docs.map(d=>({id:d.id,...d.data()}));const done=SOC.refs.filter(r=>r.claimed).length;
+    for(const r of SOC.refs.filter(r=>!r.claimed)){if(done>=REF_MAX)break;try{await fs.updateDoc(fs.doc(FB.db,'referrals',r.id),{claimed:true});grantRef(`${r.name||'Your friend'} joined with your link:`)}catch(e){}}
+    if(view==='friends')renderFriends()},e=>console.warn('refs',e.code))}
 
 // ================= start =================
 setMealType(defaultMealType());

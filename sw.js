@@ -1,5 +1,5 @@
 // PlateScan service worker: offline caching, streak reminders, friend nudges and the app icon badge.
-const V = 'platescan-v10';
+const V = 'platescan-v11';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-180.png'];
 // Libraries and models with a version in their URL never change, so they're served from cache after the first download.
 const IMMUTABLE = [/^https:\/\/cdn\.jsdelivr\.net\/npm\/[^/]+@\d/, /^https:\/\/www\.gstatic\.com\/firebasejs\/\d/, /^https:\/\/storage\.googleapis\.com\/mediapipe-models\//, /^https:\/\/fonts\.(googleapis|gstatic)\.com\//];
@@ -18,7 +18,7 @@ self.addEventListener('fetch', e => {
   const url = req.url;
   // Your own pages: network first so updates show up right away, cache as a fallback for offline.
   if (url.startsWith(self.location.origin)) {
-    if (url.includes('/config.js') || url.includes('sw.js')) return;
+    if (url.includes('/config.js') || url.includes('sw.js') || url.includes('?v=')) return;
     e.respondWith(fetch(req).then(res => {
       if (res.ok) { const copy = res.clone(); caches.open(V).then(c => c.put(req, copy)); }
       return res;
