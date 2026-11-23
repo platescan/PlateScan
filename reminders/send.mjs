@@ -46,6 +46,37 @@ for (const doc of snap.docs) {
 }
 console.log(`Reminders sent: ${sent}, skipped: ${skipped}`);
 
+// ---- meal, water and weigh-in reminders ----
+let extra = 0;
+for (const doc of snap.docs) {
+  const u = doc.data(), r = u.reminder || {}, m = r.more;
+  if (!m || !r.sub || !r.sub.endpoint) continue;
+  const { today, hour } = localNow(r.tz || 'America/Phoenix');
+  const dow = new Date(today + 'T12:00:00Z').getUTCDay();
+  const st = u.status || {}, isToday = st.day === today, sentKeys = r.sentKeys || [];
+  let msg = null, key = null;
+  if (m.meals && m.meals.on) {
+    for (const [type, h] of [['Breakfast', m.meals.b ?? 8], ['Lunch', m.meals.l ?? 12], ['Dinner', m.meals.d ?? 18]]) {
+      if (hour === h && !(isToday && (st.types || []).includes(type))) { key = `${today}-${type}`; msg = { title: `${type} time 🍽️`, body: `Snap your ${type.toLowerCase()} in PlateScan to stay on track.` }; break; }
+    }
+  }
+  if (!msg && m.water && m.water.on && [11, 14, 17].includes(hour)) {
+    const goal = st.waterGoal || 8, had = isToday ? (st.water || 0) : 0, expected = Math.round(goal * (hour - 8) / 12);
+    if (had < expected) { key = `${today}-water-${hour}`; msg = { title: 'Water check 💧', body: `You've had ${had} of ${goal} glasses today. Grab a glass and tap + Water.` }; }
+  }
+  if (!msg && m.weigh && m.weigh.on && dow === (m.weigh.dow ?? 1) && hour === 8) {
+    const last = st.lastWeigh ? new Date(st.lastWeigh + 'T12:00:00Z') : null, days = last ? (new Date(today + 'T12:00:00Z') - last) / 864e5 : 99;
+    if (days >= 6) { key = `${today}-weigh`; msg = { title: 'Weekly weigh-in ⚖️', body: 'Step on the scale and log it in PlateScan to keep your trend accurate.' }; }
+  }
+  if (!msg || sentKeys.includes(key)) continue;
+  try {
+    await webpush.sendNotification(r.sub, JSON.stringify({ ...msg, url: r.url || './', tag: key }), { TTL: 3600 });
+    await doc.ref.update({ 'reminder.sentKeys': [...sentKeys, key].slice(-12) });
+    extra++;
+  } catch (e) { console.error('extra', doc.id, e.statusCode, e.body || e.message); }
+}
+console.log(`Meal/water/weigh-in reminders sent: ${extra}`);
+
 // ---- friend nudges ----
 const nudges = await db.collection('nudges').where('sent', '==', false).limit(500).get();
 let nSent = 0;

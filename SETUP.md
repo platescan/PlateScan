@@ -1,6 +1,8 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (cleaner navigation, suggestion box, referrals, new foods), do **Upload the update**, then **step 4 (publish the new database rules, required)**, then **step 7 (make yourself the suggestion-box admin)**.
+Steps 1–3 are already done if your app and accounts work. For this update (team boss fights, exercise badges, event bosses, style shop, AI portions, recipes, meal planner, progress photos, activity feed, more reminders and a new icon), do **Upload the update**, then **step 4: publish the new database rules (required)**. Team fights, high-fives and the owner dashboard won't work until you do.
+
+**New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
 ## Install PlateScan as an app on your phone
 PlateScan is a web app, so you install it from the browser instead of the App Store. Once installed it opens full screen from its own icon, works offline, and can send reminders and nudges.
@@ -60,7 +62,16 @@ service cloud.firestore {
     // Public game card (name, level, streak, weekly points). No food, calories or weight.
     match /profiles/{uid} {
       allow get: if signedIn();
+      allow list: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
       allow write: if signedIn() && me() == uid;
+      // Activity feed: friends can read and send high-fives
+      match /events/{eid} {
+        allow read: if signedIn();
+        allow create, delete: if signedIn() && me() == uid;
+        allow update: if signedIn() && (me() == uid
+          || (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fives'])
+              && request.resource.data.fives.toSet().difference(resource.data.fives.toSet()) == [me()].toSet()));
+      }
     }
 
     // Friendships are made by opening a friend's invite link
@@ -104,6 +115,10 @@ service cloud.firestore {
       );
       allow delete: if signedIn() && resource.data.owner == me();
 
+      // Team boss fights
+      match /raids/{rid} {
+        allow read, create, update: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members;
+      }
       match /messages/{mid} {
         allow read: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members;
         allow create: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members
@@ -160,6 +175,9 @@ What these rules allow:
 - Each person can nudge each friend once per day.
 - Anyone signed in can send a suggestion. Only accounts listed under `admins` (you, after step 7) can read all of them.
 - A referral reward is recorded once per new account, and only with a real invite link.
+- Team boss fights can only be seen and joined by members of that group.
+- Activity posts (badges, boss wins, streaks) are visible to signed-in friends, who can only add their own high-five.
+- Only you (the admin) can load the owner dashboard's player counts.
 
 If friends or groups show an error after the update, the rules probably weren't published. Check that the box shows the new rules and click **Publish** again.
 
@@ -216,9 +234,20 @@ When someone creates a new account using a friend's invite link (Friends → Inv
 ## When you publish an update
 GitHub Pages goes live about a minute after you commit. People who open PlateScan afterward get the new version automatically. Anyone who already has it open sees a yellow **"A new version of PlateScan is ready · Refresh"** bar. Data is never lost by updating.
 
+## Team boss fights
+1. Make a group in **Friends → Groups** and invite people with the group link.
+2. In **Quest**, tap **Fight boss**, choose **Team (group)**, pick the group, then **Open team lobby**. A **Join fight** button appears in the group chat.
+3. When everyone is in, the host taps **Start fight**. Each person fights from their own phone. Every extra fighter adds 75% boss HP, and everyone gets 25% bonus rewards.
+
+## AI portion estimates
+Add your free Google AI key once (coach ⚙ → Smart answers). Then after you take a meal photo, tap **✨ Estimate portions with AI**. Photos are sent to Google's Gemini only when you tap that button.
+
 ## Boss battles: camera tips
 - Fights need camera access. The first time, tap **Allow**. If you said no: iPhone **Settings → Apps → Safari → Camera → Allow** (or for the installed app, delete and re-add it to get the prompt again).
 - The rep tracker downloads once (about 6 MB) and then works offline.
+- **Lunges and sit-ups:** side-on to the camera.
+- **Jumping jacks:** face the camera from 6–8 feet back.
+- **Plank:** phone on the floor beside you, side-on. Every 2 seconds of a straight plank is one hit.
 - **Squats:** stand side-on, 6–8 feet from the phone, with hips, knees and ankles in view.
 - **Push-ups:** put the phone on the floor beside you, side-on, with your whole body in view.
 - **Pull-ups:** face the camera from a few feet back so your hands on the bar and your head are visible.
