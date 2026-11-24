@@ -2,6 +2,17 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v19: Pet eggs and 36 pets (Nov 23, 2026)
+- Pet eggs! Hatch Basic, Gym and Golden eggs in Locker → Pet → Eggs, with a hatching animation and odds shown on every egg.
+- 36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.
+- The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.
+- Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.
+- Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.
+- Collection book with silhouettes of pets you haven’t found yet.
+- Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.
+- More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.
+- Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.
+
 ## v18: Holiday bosses, live leaderboard and Fill your bars (Nov 23, 2026)
 - Monthly bosses are now themed on each month’s biggest holiday (Halloween, Thanksgiving, Christmas and more).
 - Monthly boss health is one big total. Beat it however you like; the daily reps are just a recommended pace. A pace bar shows if you’re ahead or behind.

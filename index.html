@@ -785,9 +785,59 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
 .fillAIOut .aiBox{margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--sunk);font-size:14px}
 .aiBox ul{margin:4px 0;padding-left:18px}.aiBox p{margin:4px 0}
 #toast{bottom:calc(118px + env(safe-area-inset-bottom))}
+.ptabs{margin:2px 0 10px}.ptabs button{font-size:12px;padding-left:2px;padding-right:2px}
+.petStage{position:relative;border-radius:20px;padding:14px 0 6px;overflow:hidden;box-shadow:inset 0 -20px 30px rgba(0,0,0,.12)}
+.petStage .petBig{width:170px}
+.rTag{position:absolute;top:10px;right:10px;color:#fff;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.hcPet{border-radius:50%}
+.eggGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.eggCard{background:var(--sunk);border-radius:16px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;border:2px solid transparent}
+.eggCard.gold{border-color:#f2c230;box-shadow:0 0 16px rgba(242,194,48,.25)}
+.eggCard b{font-size:13px}
+.eggPic{position:relative;width:64px}
+.eggSvg{width:100%;display:block}
+.eggSvg.idle{animation:eggIdle 3s ease-in-out infinite;transform-origin:50% 90%}
+@keyframes eggIdle{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-6deg)}90%{transform:rotate(6deg)}95%{transform:rotate(-3deg)}}
+.eggN{position:absolute;top:-4px;right:-8px;background:#e5432d;color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:1px 6px}
+.odds{display:flex;flex-direction:column;font-size:10.5px;font-weight:700;line-height:1.3}
+.eggCard button{width:100%;margin-top:auto}
+.eggCard button.gold{background:linear-gradient(135deg,#f2c230,#a8730a)!important;color:#fff!important}
+.eggWays{margin:6px 0;padding-left:18px}
+.dexGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.dexIt{flex-direction:column;gap:2px;padding:6px 2px;border-radius:12px;background:var(--sunk)!important;color:var(--ink)!important;border:2px solid transparent!important;min-height:0;font-size:10.5px;text-align:center;display:flex;align-items:center}
+.dexIt span{width:52px;display:block}.dexIt span svg{width:100%}
+.dexIt b{line-height:1.15}
+.dexIt em{font-style:normal;color:var(--rc);font-size:10px;font-weight:800}
+.dexIt.on{border-color:var(--rc)!important;box-shadow:0 0 12px color-mix(in srgb,var(--rc) 50%,transparent)}
+.dexIt.lock .sil svg{filter:brightness(0) opacity(.35)}
+.dexIt.lock b{color:var(--mute)}
+.habSw{width:100%;height:34px;border-radius:8px;display:block}
+.pAura{animation:pAura 2.4s ease-in-out infinite;transform-origin:60px 62px}
+@keyframes pAura{50%{opacity:.4;transform:scale(1.06)}}
+.pAuraM{animation:spin 8s linear infinite;transform-origin:60px 62px}
+.flm{animation:flm .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flm{to{transform:scaleY(1.08) scaleX(.95)}}
+#hatchOv{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--rc,#fff) 30%,#0b0f17),#05070b 70%);display:none;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:20px}
+#hatchOv.on{display:flex}
+#hatchOv .hEgg{width:170px}
+#hatchOv .eggSvg.wob{animation:wob .35s ease-in-out infinite;transform-origin:50% 90%}
+#hatchOv.crack .eggSvg{animation:crackS .6s ease-in forwards}
+@keyframes wob{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes crackS{to{transform:scale(1.35);filter:brightness(3);opacity:0}}
+.hTxt{font-weight:800;letter-spacing:.1em;opacity:.8}
+.hRays{position:absolute;width:520px;height:520px;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--rc) 40%,transparent) 0 10deg,transparent 10deg 20deg);border-radius:50%;animation:spin 14s linear infinite;opacity:.6;pointer-events:none;mask:radial-gradient(circle,#000 30%,transparent 70%);-webkit-mask:radial-gradient(circle,#000 30%,transparent 70%)}
+#hatchOv.mythic .hRays{background:repeating-conic-gradient(from 0deg,#ff5fd255 0 8deg,#5fe0ff55 8deg 16deg,#ffe58a55 16deg 24deg,transparent 24deg 32deg)}
+.hPet{position:relative;width:210px;animation:popIn .6s var(--spring)}
+@keyframes popIn{from{transform:scale(.2);opacity:0}to{transform:none;opacity:1}}
+.hRar{position:relative;margin-top:6px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--rc);text-shadow:0 0 14px var(--rc)}
+#hatchOv h2{position:relative;margin:4px 0;font-size:26px}
+.hD{position:relative;max-width:320px;opacity:.85;margin:2px 0;font-size:14px}
+.hBtns{position:relative;display:flex;flex-direction:column;gap:8px;margin-top:16px;width:min(300px,90vw)}
+.hBtns .ghost{background:rgba(255,255,255,.12)!important;color:#fff!important}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hgGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".45" stop-color="#f2c230"/><stop offset="1" stop-color="#a8730a"/></linearGradient></defs></svg>
 <header>
   <button class="menuBtn" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
   <div class="t"><h1>PlateScan</h1><p id="sub"></p></div>
@@ -1501,7 +1551,7 @@ function loadGuest(){DV++;base=null;chat=[];S=blank();try{const raw=lsGet(GKEY);
 let metaT=null,DV=0;
 const store={
   saveMeta(){ DV++;if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
-    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,login:S.login||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,circ:S.circ||null,...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
+    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,login:S.login||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,circ:S.circ||null,...xkSave(),...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
   putMeal(m){ DV++;if(mode==='guest')return this.saveMeta();
     FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m).catch(e=>toast('Couldn’t sync meal: '+e.code))},
   delMeal(id){ DV++;if(mode==='guest')return this.saveMeta();
@@ -1831,7 +1881,7 @@ function render(){
   const nm=(S.name||(user&&user.email)||'').trim();$('avatarBtn').textContent=nm?nm[0].toUpperCase():'?';
   if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='friends'){renderFriends();loadProfiles()}
   animNext=false;moveInd();segAll();
-  celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);if(SOC.on)checkFriendStreaks();questHearts(g);mbCheck();renderHeroCard();renderNavMe();
+  celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);if(SOC.on)checkFriendStreaks();questHearts(g);mbCheck();renderHeroCard();renderNavMe();eggCheck(g);
   if(S.gold==null&&lsGet(obKey())){S.gold=50;store.saveMeta();enqueue({type:'ach',k:'Boss mode unlocked',name:'Here’s 50 gold to get you started. Check the Quest tab!'})}
   $('questDot').classList.toggle('on',chestReady()||stageState(((S.boss||{}).beat||0)+1,g.lv.L)==='open');
 }
@@ -2005,7 +2055,7 @@ async function uploadAll(meals){for(let i=0;i<meals.length;i+=400){const b=FB.fs
 async function loadCloud(){
   const fs=FB.fs;S=blank();DV++;
   const [pd,qs]=await Promise.all([fs.getDoc(fs.doc(FB.db,'users',user.uid)),fs.getDocs(fs.collection(FB.db,'users',user.uid,'meals'))]);
-  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.gold=d.gold??undefined;S.potions=d.potions||[];S.bonus=d.bonus||[];S.inv=Object.assign({shield:0,gloves:0},d.inv||{});S.boss=d.boss||null;S.reps=d.reps||{};S.hero=d.hero||null;S.chest=d.chest||null;S.login=d.login||null;S.invite=d.invite||null;S.ex=d.ex||{};S.showcase=d.showcase||[];S.evWins=d.evWins||{};S.owned=d.owned||[];S.frame=d.frame||null;S.skin=d.skin||null;S.plan=d.plan||{};S.got=d.got||{};S.recipes=d.recipes||{};S.created=d.created||null;S.circ=d.circ||null;S.meals=qs.docs.map(x=>x.data());
+  const d=pd.exists()?pd.data():{};S.name=d.name||user.displayName||'';S.profile=Object.assign({act:'1.55'},d.profile||{});S.weights=d.weights||[];S.favs=d.favs||[];S.widgetCfg=d.widgetCfg||null;S.coach=d.coach||null;S.myFoods=d.myFoods||[];S.scans=d.scans||[];S.water=d.water||{};S.dayType=d.dayType||{};S.freeze=Object.assign({owned:0,spent:0,used:[]},d.freeze||{});S.reminder=d.reminder||null;S.widgetToken=d.widgetToken||null;S.gold=d.gold??undefined;S.potions=d.potions||[];S.bonus=d.bonus||[];S.inv=Object.assign({shield:0,gloves:0},d.inv||{});S.boss=d.boss||null;S.reps=d.reps||{};S.hero=d.hero||null;S.chest=d.chest||null;S.login=d.login||null;S.invite=d.invite||null;S.ex=d.ex||{};S.showcase=d.showcase||[];S.evWins=d.evWins||{};S.owned=d.owned||[];S.frame=d.frame||null;S.skin=d.skin||null;S.plan=d.plan||{};S.got=d.got||{};S.recipes=d.recipes||{};S.created=d.created||null;S.circ=d.circ||null;xkLoad(d);S.meals=qs.docs.map(x=>x.data());
   if(pendingMigrate){const pm=pendingMigrate;pendingMigrate=null;S.name=pm.name;
     if(pm.data){const ids=new Set(S.meals.map(m=>m.id));const add=pm.data.meals.filter(m=>!ids.has(m.id));S.meals.push(...add);
       if(!d.profile)S.profile=Object.assign({},pm.data.profile);const wd=new Set(S.weights.map(w=>w.d));S.weights.push(...pm.data.weights.filter(w=>!wd.has(w.d)));
@@ -2951,7 +3001,7 @@ const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
 function syncProfile(g){if(mode!=='cloud'||!user||!FB)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
-  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:S.av||null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g)};
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:S.av||null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g)};
   SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
   clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
 function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null})}
@@ -3048,7 +3098,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
   loadFeed();renderFeed();renderDuels();renderContacts();renderPeople();applySub('friends');if(animNext){stag($('frList'));stag($('grList'))}
 }
 function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey(Date.now()),wd=p.wk===wk?p.wd||[]:[0,0,0,0,0,0,0],th=weekTheme(wk),mx=45+PTS[th.k],left=nudgeLeft(uid);
-  $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}
+  $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood,p.pet.acc)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}
    ${fsCard(uid,p)}
    ${sharedHTML(p)}
    <div class="g3 btInfo"><div><b>📅 ${p.streak||0}</b><span>logging streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
@@ -3105,7 +3155,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='18';
+const APP_VERSION='19';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3746,9 +3796,9 @@ function mbRep(dmg){const m=mbNow(),d=ymd(Date.now());m.reps=Object.assign({},m.
   if(m.pid){const f=FB.fs;f.updateDoc(f.doc(FB.db,'mparty',m.pid),{hp:f.increment(-dmg),[`reps.${user.uid}.${d}`]:f.increment(1)}).catch(()=>{})}else m.hp=Math.max(0,m.hp-dmg)}
 function mbWin(silent){const m=mbNow();if(!m||m.won)return null;m.won=true;const r=MB_REW[m.diff],team=MBP&&MBP.members.length>1?1.5:1,today=ymd(Date.now()),b=eventBoss();
   const g=Math.round(r.g*team),xp=Math.round(r.xp*team*potionMult(today));S.gold=(S.gold||0)+g;S.bonus=(S.bonus||[]).concat([{d:today,xp,src:'monthly'}]);S.evWins=Object.assign({},S.evWins,{[b.key]:m.diff});
-  const it=SHOP.elixir;S.potions=(S.potions||[]).concat([{t:'elixir',mult:it.mult,s:today,e:addDays(today,it.days-1)}]);heartsAdd(HEART_MAX);
+  const it=SHOP.elixir;S.potions=(S.potions||[]).concat([{t:'elixir',mult:it.mult,s:today,e:addDays(today,it.days-1)}]);heartsAdd(HEART_MAX);S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggs.gold++;
   if(m.pid)FB.fs.updateDoc(FB.fs.doc(FB.db,'mparty',m.pid),{won:true}).catch(()=>{});postEvent('mbwin:'+b.key,`defeated the monthly boss ${b.n} on ${DIFF[m.diff].n}${team>1?' with their party':''} 🏆`);store.saveMeta();
-  if(silent){enqueue({type:'ach',k:'Monthly boss defeated!',name:`Your party beat ${b.n}: +${g} gold, +${fmt(xp)} XP, Elixir of Legends`});render()}return {g,xp}}
+  if(silent){enqueue({type:'ach',k:'Monthly boss defeated!',name:`Your party beat ${b.n}: +${g} gold, +${fmt(xp)} XP, Elixir of Legends and a Golden Egg`});render()}return {g,xp}}
 
 // ================= inbox (notification box) + friend codes =================
 let MPINV=[],mpiUnsub=null;
@@ -3794,9 +3844,9 @@ function heroSVG(c,b={m:.3,f:.35}){c=Object.assign(avDefault(),c||{});const id='
     aura:`<rect width="120" height="120" fill="url(#${id}aura)"/><g class="auraR" fill="none" stroke="#fff3b0" stroke-width="2" opacity=".6"><circle cx="60" cy="66" r="40"/><circle cx="60" cy="66" r="52" stroke-dasharray="4 8"/></g>`,
     vault:`<rect width="120" height="120" fill="#3b2a08"/><g fill="url(#hgGold)">${[0,1,2,3].map(i=>`<rect x="${4+i*30}" y="96" width="26" height="12" rx="2"/><rect x="${18+i*30}" y="86" width="26" height="12" rx="2"/>`).join('')}</g><g class="spk" fill="#fff">${[[20,20],[95,30],[70,14],[30,60]].map(([x,y])=>`<path d="M${x} ${y-4}l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/>`).join('')}</g>`,
     galaxy:`<rect width="120" height="120" fill="url(#${id}gal)"/><g class="spk" fill="#fff">${Array.from({length:14},(_,i)=>`<circle cx="${(i*37)%118}" cy="${(i*53)%110}" r="${i%3?0.8:1.5}"/>`).join('')}</g><ellipse cx="60" cy="40" rx="50" ry="8" fill="#c063ff" opacity=".25" transform="rotate(-20 60 40)"/>`};
-  const bg=bgs[c.bg]||BGX(c.bg,id)||`<rect width="120" height="120" fill="${(BGS[c.bg]||BGS.mint).c}"/>`;
+  const bg=bgs[c.bg]||BGX(c.bg,id)||BGX2(c.bg,id)||`<rect width="120" height="120" fill="${(BGS[c.bg]||BGS.mint).c}"/>`;
   const sleeve=['tank','singlet'].includes(c.out)?0:1,armsBehind=`<g fill="${sk}"><ellipse cx="${bx-W+arm*.35}" cy="${top+22}" rx="${arm}" ry="${22+4*m}"/><ellipse cx="${bx+W-arm*.35}" cy="${top+22}" rx="${arm}" ry="${22+4*m}"/></g>`;
-  const fillO=c.out==='armor'?'url(#hgGold)':c.out==='diamond'?`url(#${id}dm)`:c.out==='suit'?'#1c1f26':c.out==='leather'?'#2a2220':c.out==='robe'?'#7a1f3a':c.out==='compression'?'#1b1f27':c.out==='gi'?'#f4f1ea':c.out==='champ'?'#b3132b':oc;
+  const fillO=c.out==='armor'?'url(#hgGold)':c.out==='diamond'?`url(#${id}dm)`:c.out==='suit'?'#1c1f26':c.out==='leather'?'#2a2220':c.out==='robe'?'#7a1f3a':c.out==='compression'?'#1b1f27':c.out==='gi'?'#f4f1ea':c.out==='champ'?'#b3132b':c.out==='beast'?'#2a1d3a':c.out==='neon'?'#14102a':oc;
   const torso=`<path d="M${bx-W} 124 Q${bx-W} ${top+2} ${bx-W*.55} ${top-2} L${bx+W*.55} ${top-2} Q${bx+W} ${top+2} ${bx+W} 124Z" fill="${fillO}"/>`;
   const sleeves=sleeve?`<g fill="${fillO}"><path d="M${bx-W-arm*.6} 124 Q${bx-W-arm*.8} ${top+8} ${bx-W*.6} ${top}L${bx-W+arm} ${top+6}Q${bx-W+arm*1.2} ${top+20} ${bx-W+arm} 124Z"/><path d="M${bx+W+arm*.6} 124 Q${bx+W+arm*.8} ${top+8} ${bx+W*.6} ${top}L${bx+W-arm} ${top+6}Q${bx+W-arm*1.2} ${top+20} ${bx+W-arm} 124Z"/></g>`:'';
   let det='';if(c.out==='tank'){det=`<path d="M${bx-W*.45} ${top-1} Q${bx} ${top+16} ${bx+W*.45} ${top-1}" fill="${sk}"/>${m>.45?`<path d="M${bx-W*.5} ${top+20} q${W*.25} 8 ${W*.5} 0 M${bx} ${top+20} q${W*.25} 8 ${W*.5} 0" stroke="rgba(0,0,0,.18)" stroke-width="1.5" fill="none"/>`:''}`}
@@ -3807,7 +3857,7 @@ function heroSVG(c,b={m:.3,f:.35}){c=Object.assign(avDefault(),c||{});const id='
   else if(c.out==='suit')det=`<path d="M${bx-7} ${top}L${bx} ${top+34}L${bx+7} ${top}Z" fill="#fff"/><path d="M${bx-2} ${top+4}h4l1 4-3 18-3-18z" fill="#c0283b"/><path d="M${bx-7} ${top}L${bx-14} ${top+26}L${bx} ${top+34}M${bx+7} ${top}L${bx+14} ${top+26}L${bx} ${top+34}" stroke="#000" stroke-width="1" fill="none" opacity=".5"/>`;
   else if(c.out==='armor'||c.out==='diamond')det=`<path d="M${bx-W*.6} ${top+6}Q${bx} ${top+24} ${bx+W*.6} ${top+6}" stroke="rgba(0,0,0,.25)" stroke-width="2" fill="none"/><circle cx="${bx}" cy="${top+18}" r="5" fill="${c.out==='diamond'?'#fff':'#e5432d'}" stroke="rgba(0,0,0,.3)"/><path d="M${bx-W-1} ${top+4}q${arm} -6 ${arm*2} 4M${bx+W+1} ${top+4}q-${arm} -6 -${arm*2} 4" stroke="rgba(255,255,255,.6)" stroke-width="3" fill="none"/><g class="spk" fill="#fff"><path d="M${bx-W*.5} ${top+30}l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/><path d="M${bx+W*.4} ${top+14}l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></g>`;
   else if(c.out==='robe')det=`<path d="M${bx-W} ${top+4}Q${bx} ${top+16} ${bx+W} ${top+4}L${bx+W} ${top+12}Q${bx} ${top+26} ${bx-W} ${top+12}Z" fill="#f4f1ea"/><g fill="#22252b">${[-.7,-.35,0,.35,.7].map(k=>`<circle cx="${bx+k*W}" cy="${top+12+Math.abs(k)*-4}" r="1.3"/>`).join('')}</g><path d="M${bx} ${top+20}V124" stroke="url(#hgGold)" stroke-width="4"/>`;
-  det+=OUTX(c,bx,W,top,sk,oc);
+  det+=OUTX(c,bx,W,top,sk,oc)+OUTX2(c,bx,W,top,sk);
   if(f>.55&&!['armor','diamond','robe','suit','gi','champ'].includes(c.out))det+=`<ellipse cx="${bx}" cy="${118}" rx="${W*.55}" ry="${6+10*(f-.55)}" fill="rgba(0,0,0,.08)"/>`;
   const head=`<rect x="${bx-neck/2}" y="62" width="${neck}" height="${top-58}" rx="5" fill="${skD}"/><ellipse cx="${bx-20}" cy="50" rx="4" ry="5.5" fill="${skD}"/><ellipse cx="${bx+20}" cy="50" rx="4" ry="5.5" fill="${skD}"/><ellipse cx="${bx}" cy="46" rx="${19+f*2}" ry="${22+f}" fill="${sk}"/>`;
   const face=`<path d="M${bx-12} 40.5q4-2.5 8 0M${bx+4} 40.5q4-2.5 8 0" stroke="${c.hc==='blonde'||c.hc==='platinum'?'#8a6a3a':'#2a1d14'}" stroke-width="2.2" fill="none" stroke-linecap="round"/><g class="eye"><ellipse cx="${bx-7}" cy="47" rx="2.4" ry="3" fill="#2a1d14"/><ellipse cx="${bx+7}" cy="47" rx="2.4" ry="3" fill="#2a1d14"/><circle cx="${bx-6.2}" cy="46" r=".9" fill="#fff"/><circle cx="${bx+7.8}" cy="46" r=".9" fill="#fff"/></g><path d="M${bx} 50q-2 4 0 5" stroke="${skD}" stroke-width="1.6" fill="none"/><path d="M${bx-6} 58q6 5 12 0" stroke="#7a2e2a" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="${bx-12}" cy="54" r="3" fill="#ff8a7a" opacity=".25"/><circle cx="${bx+12}" cy="54" r="3" fill="#ff8a7a" opacity=".25"/>`;
@@ -3828,7 +3878,7 @@ function heroSVG(c,b={m:.3,f:.35}){c=Object.assign(avDefault(),c||{});const id='
     laurel:`<g fill="#4f9d3a">${[-1,1].map(s=>[0,1,2,3].map(i=>`<ellipse cx="${bx+s*(18-i*2)}" cy="${34-i*5}" rx="5" ry="2.4" transform="rotate(${s*(40+i*12)} ${bx+s*(18-i*2)} ${34-i*5})" fill="url(#hgGold)"/>`).join('')).join('')}</g>`,
     crown:`<path d="M${bx-16} 24l4-14 6 8 6-12 6 12 6-8 4 14z" fill="url(#hgGold)" stroke="#a8730a" stroke-width="1"/><circle cx="${bx}" cy="15" r="2.5" fill="#e5432d"/><circle cx="${bx-10}" cy="19" r="1.8" fill="#3d6fd8"/><circle cx="${bx+10}" cy="19" r="1.8" fill="#2f8a5e"/><g class="spk" fill="#fff"><path d="M${bx+14} 8l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></g>`,
     halo:`<ellipse class="haloR" cx="${bx}" cy="12" rx="17" ry="4.5" fill="none" stroke="#fff3b0" stroke-width="3.5"/><ellipse cx="${bx}" cy="12" rx="17" ry="4.5" fill="none" stroke="#f2c230" stroke-width="1.2"/>`};
-  const g=gears[c.gear]||GEARX(c.gear,bx,top,W)||'',under=c.gear==='cap'||c.gear==='beanie';
+  const g=gears[c.gear]||GEARX(c.gear,bx,top,W)||GEARX2(c.gear,bx,top,W)||'',under=c.gear==='cap'||c.gear==='beanie';
   return `<svg viewBox="0 0 120 120" class="hero2${lux?' lux'+lux:''}" aria-hidden="true">${defs}<g clip-path="url(#${id}c)">${bg}${hairBack}${!sleeve?armsBehind:''}${sleeves}${torso}${det}${head}${face}${beards[c.beard]||''}${under?'':hairFront}${g}${under&&c.hair==='long'?hairs.long:''}</g></svg>`}
 function shade(hex,p){const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,f=x=>Math.max(0,Math.min(255,Math.round(x+(p<0?x*p:(255-x)*p))));return '#'+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 const heroHTML=(cfg,build,cls='')=>`<div class="cav hero ${cls}">${heroSVG(cfg,build)}</div>`;
@@ -3854,7 +3904,7 @@ function petSVG(k,mood=70){const p=PETS[k]||PETS.pup,h=mood>=60,sad=mood<40;
   const face2=k==='panda'?'<ellipse cx="48" cy="52" rx="8" ry="10" fill="#22252b" transform="rotate(-15 48 52)"/><ellipse cx="72" cy="52" rx="8" ry="10" fill="#22252b" transform="rotate(15 72 52)"/>':k==='fox'?`<path d="M60 80q-22-2-26-22 14 6 26 6t26-6q-4 20-26 22z" fill="#fff"/>`:'';
   return `<svg viewBox="0 0 120 110" class="petSvg${h?' happy':sad?' sad':''}"><ellipse cx="60" cy="104" rx="30" ry="5" fill="#000" opacity=".12"/><g class="pb">${ears}<ellipse cx="60" cy="84" rx="28" ry="20" fill="${p.c}"/><circle cx="60" cy="52" r="28" fill="${p.c}"/>${face2}${k==='panda'?eyes.replace(/#22252b/g,'#fff'):eyes}<ellipse cx="60" cy="59" rx="4" ry="3" fill="#22252b"/>${mouth}<circle cx="40" cy="62" r="4" fill="#ff8a9a" opacity="${h?.5:.2}"/><circle cx="80" cy="62" r="4" fill="#ff8a9a" opacity="${h?.5:.2}"/>${k==='dragon'?'<path d="M50 28l4-8 4 8 4-8 4 8" fill="#f2c230"/>':''}</g></svg>`}
 function renderHeroCard(){const box=$('heroCard');if(!box)return;const ps=petState(),q=quoteOfDay(),b=myBuild();
-  box.innerHTML=`<div class="hcRow"><div class="hcAv">${myAv()}</div>${S.pet?`<div class="hcPet">${petSVG(S.pet.k,ps.mood)}</div>`:''}<div class="hcTxt"><div class="bubble">${ps&&ps.say?esc(ps.say):`“${esc(q[0])}”<span>— ${esc(q[1])}</span>`}</div>
+  box.innerHTML=`<div class="hcRow"><div class="hcAv">${myAv()}</div>${S.pet?`<div class="hcPet" style="background:${(PHAB[S.pet.hab]||PHAB.park).c}">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div>`:''}<div class="hcTxt"><div class="bubble">${ps&&ps.say?esc(ps.say):`“${esc(q[0])}”<span>— ${esc(q[1])}</span>`}</div>
    ${S.pet?`<div class="hcStat"><b>${esc(S.pet.name||PETS[S.pet.k].n)}</b> is ${ps.label.toLowerCase()} <span class="mbar"><i style="width:${ps.mood}%"></i></span></div>`:`<button class="small" data-heroTab="pet">Adopt a pet</button>`}</div></div>`}
 // ================= hero sheet (avatar, pet, profile) =================
 let htab='avatar',hcat='look',tryCfg=null;
@@ -3863,13 +3913,8 @@ function buyOrUse(key,price,apply){{const R=reqOf(key);if(R&&!reqMet(R)&&!owns(k
 function tile(key,label,price,on,prev){const R=reqOf(key),ok=reqMet(R)||owns(key),has=(!price||owns(key))&&ok;return `<button class="hTile${on?' on':''}${has?'':' locked'}${ok?'':' req'}" data-hbuy="${key}" data-price="${price||0}">${prev||''}<b>${esc(label)}</b>${!ok?`<em class="rq">🔒 ${reqTxt(R)}</em>`:has?(on?'<em>Equipped</em>':''):`<em class="pr">${COIN}${fmt(price)}</em>`}</button>`}
 function renderHeroSheet0(){const c=myAvCfg(),b=myBuild();$('hsTabs').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.ht===htab));segInd($('hsTabs'));$('hsGold').innerHTML=`${COIN}${fmt(S.gold||0)}`;
   if(htab==='avatar'){$('hsBody').innerHTML=`<div class="seg" id="hcCat">${[['look','Look'],['outfit','Outfit'],['gear','Gear'],['bg','Background']].map(([k,n])=>`<button data-hc="${k}" class="${k===hcat?'on':''}">${n}</button>`).join('')}</div><div class="hGrid" id="hGrid">${heroGrid(c)}</div>`;requestAnimationFrame(()=>segInd($('hcCat')))}
-  else if(htab==='pet'){const ps=petState();$('hsBody').innerHTML=S.pet?`<div class="petBig">${petSVG(S.pet.k,ps.mood)}</div><div class="row between"><b style="font-size:20px">${esc(S.pet.name||PETS[S.pet.k].n)}</b><button class="small ghost" id="petRename">Rename</button></div>
-    <div class="pstats"><div><span>Mood · ${ps.label}</span><span class="mbar"><i style="width:${ps.mood}%"></i></span></div><div><span>Health</span><span class="mbar"><i style="width:${ps.health}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div></div>
-    <p class="muted sm">${esc(S.pet.name||'Your pet')} is happiest when you log meals, hit protein, drink water, finish quests and work out. Treats keep the good mood going.</p>
-    <div class="lbl">Pet shop</div><div class="hGrid">${Object.entries(PET_ITEMS).map(([k,it])=>`<button class="hTile" data-petbuy="${k}"><b>${esc(it.n)}</b><span class="muted sm">${esc(it.d)}</span><em class="pr">${COIN}${fmt(it.g)}</em></button>`).join('')}</div>
-    <div class="lbl">Change pet</div><div class="hGrid">${Object.entries(PETS).map(([k,p])=>tile('pet:'+k,p.n,p.g,S.pet.k===k,`<span class="pmini">${petSVG(k,80)}</span>`)).join('')}</div>`
-    :`<p class="sm">Adopt a pet companion. It cheers when you eat well, drink water and finish quests, and gets sad when you don’t.</p><div class="hGrid">${Object.entries(PETS).map(([k,p])=>tile('pet:'+k,p.n,p.g,false,`<span class="pmini">${petSVG(k,80)}</span>`)).join('')}</div>`}
-  else{const P=S.prof||{},titles=[...RANKS.filter(r=>game().lv.L>=r[0]).map(r=>r[1]),...Object.keys(EXB).filter(k=>exTier(k)>=0).map(k=>badgeTitle(k,exTier(k)))];
+  else if(htab==='pet'){$('hsBody').innerHTML=petTabHTML();requestAnimationFrame(()=>segInd($('ptabs')))}
+  else{const P=S.prof||{},titles=[...RANKS.filter(r=>game().lv.L>=r[0]).map(r=>r[1]),...Object.keys(EXB).filter(k=>exTier(k)>=0).map(k=>badgeTitle(k,exTier(k))),...petTitles()];
     $('hsBody').innerHTML=`<label class="f"><span>Motto (friends see this)</span><input id="pfMotto" maxlength="60" value="${esc(P.motto||'')}" placeholder="No days off"></label>
     <label class="f"><span>Title</span><select id="pfTitle"><option value="">Rank title (automatic)</option>${titles.map(t=>`<option ${t===P.title?'selected':''}>${esc(t)}</option>`).join('')}</select></label>
     <label class="f"><span>Favorite exercise</span><select id="pfFav"><option value="">None</option>${Object.entries(EX).map(([k,v])=>`<option value="${k}" ${k===P.fav?'selected':''}>${esc(v.name)}</option>`).join('')}</select></label>
@@ -4024,7 +4069,7 @@ function reqOf(key){if(!key)return null;const [p,k]=key.split(':'),T={out:OUTFIT
 Object.assign(OUTFITS,{singlet:{n:'Race singlet',g:400},compression:{n:'Compression gear',g:800,req:['reps',300]},gi:{n:'Martial arts gi',g:2000,req:['lv',8]},champ:{n:'Champion robe',g:7000,req:['boss',8],lux:1}});
 Object.assign(GEAR,{whistle:{n:'Coach whistle',g:200},towel:{n:'Gym towel',g:350},medal:{n:'Gold medal',g:3000,req:['reps',1000],lux:1},belt:{n:'Title belt',g:10000,req:['boss',15],lux:2}});
 Object.assign(BGS,{track:{n:'Running track',g:300,c:'#c4553a'},pool:{n:'Lap pool',g:500,c:'#2fa6d9'},garden:{n:'Veggie garden',g:600,c:'#5b8c3a'},trail:{n:'Mountain trail',g:800,c:'#6c8aa8'},court:{n:'Court',g:900,c:'#d8a066'},zen:{n:'Yoga sunrise',g:1200,c:'#ffd9c7'},stadium:{n:'Stadium lights',g:4000,req:['lv',10],lux:1},podium:{n:'Champion podium',g:10000,req:['boss',12],lux:2}});
-const PAT=(svg,w,h)=>`url(data:image/svg+xml;base64,${btoa('<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'+svg+'</svg>')}) 0 0/${w}px ${h}px repeat`;
+const PAT=(svg,w,h)=>`url(data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">'+svg+'</svg>')))}) 0 0/${w}px ${h}px repeat`;
 Object.assign(BANNERS,{
   heartbeat:{n:'Heartbeat',g:400,c:`${PAT('<path d="M0 22h44l6-14 8 28 7-20 5 6h50" fill="none" stroke="#ff9aa8" stroke-width="2.5" opacity=".6"/>',120,44)},linear-gradient(135deg,#5a0f1f,#b3263b)`},
   track:{n:'Track lanes',g:500,c:`${PAT('<path d="M0 6h80M0 20h80M0 34h80" stroke="#fff" stroke-width="1.5" opacity=".45"/>',80,40)},linear-gradient(135deg,#8f2f1d,#d0623f)`},
@@ -4073,7 +4118,7 @@ function lockerInit(){const L=$('v-locker');if(!L||L.dataset.ok)return;L.dataset
   st.removeAttribute('data-sp');st.id='lkStyle';st.style.display='none';const tb=st.querySelector('#styleTabs');if(tb)tb.style.display='none';const h=st.querySelector('h3');if(h)h.textContent='Frames & themes';L.append(st)}
 function renderLockShow(){const el=$('lkShow');if(!el)return;const P=S.prof||{},bn=(BANNERS[P.banner]||BANNERS.forest).c,b=myBuild(),g=game(),ps=S.pet?petState():null;
   const rk=(RANKS.filter(r=>g.lv.L>=r[0]).at(-1)||[0,''])[1];$('lkGold').innerHTML=`${COIN}${fmt(S.gold||0)}`;
-  el.innerHTML=`<div class="lkBan" style="background:${bn}"><div class="gav lg${frameCls(S.frame)}">${myAv()}</div>${S.pet?`<div class="lkPet" title="${esc(S.pet.name||'')}">${petSVG(S.pet.k,ps.mood)}</div>`:''}<div class="lkTxt"><b>${esc((S.name||'You').trim())}</b><span>${esc(P.title||rk)} · Lv ${g.lv.L}</span>${P.motto?`<i>“${esc(P.motto)}”</i>`:''}</div></div>
+  el.innerHTML=`<div class="lkBan" style="background:${bn}"><div class="gav lg${frameCls(S.frame)}">${myAv()}</div>${S.pet?`<div class="lkPet" title="${esc(S.pet.name||'')}">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div>`:''}<div class="lkTxt"><b>${esc((S.name||'You').trim())}</b><span>${esc(P.title||rk)} · Lv ${g.lv.L}</span>${P.motto?`<i>“${esc(P.motto)}”</i>`:''}</div></div>
    <div class="lkStats"><div><span>💪 Muscle</span><span class="mbar"><i style="width:${b.m*100}%;background:linear-gradient(90deg,#e5432d,#f2c230)"></i></span></div><div><span>🥗 Lean</span><span class="mbar"><i style="width:${(1-b.f)*100}%"></i></span></div>${S.pet?`<div><span>🐾 ${esc(S.pet.name||'Pet')}</span><span class="mbar"><i style="width:${ps.mood}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div>`:''}<p class="muted sm" style="margin:2px 0 0">This is how friends see you. Your hero gets more muscular as you log reps and leaner as you move toward your weight goal.</p></div>`}
 function renderHeroSheet(){lockerInit();const lk=$('lkStyle'),sty=htab==='frames'||htab==='themes';
   if(lk){lk.style.display=sty?'':'none';$('hsBody').style.display=sty?'none':''}
@@ -4202,6 +4247,230 @@ GUIDE.unshift(['Fill your bars','On Today, the Fill your bars card suggests food
   ['Holiday monthly boss','Each month’s boss is themed on that month’s biggest holiday. Its health is a total for the rest of the month, so you can beat it your way. The recommended reps per day is only a guide (it updates as you go), and the pace bar shows if you’re ahead. Fall more than a day behind pace and it attacks overnight for a heart.'],
   ['Live leaderboard and sharing','Friends’ points update live, and you’ll get a heads-up when someone passes you. In Locker → Profile, choose what friends can see: workouts, monthly boss, water, food (as % of goals), weight progress and your goal. Tap a friend to see what they share.']);
 CHANGELOG.unshift({v:'18',d:'Nov 23, 2026',t:'Holiday bosses, live leaderboard and Fill your bars',items:['Monthly bosses are now themed on each month’s biggest holiday (Halloween, Thanksgiving, Christmas and more).','Monthly boss health is one big total. Beat it however you like; the daily reps are just a recommended pace. A pace bar shows if you’re ahead or behind.','Hearts: the boss only attacks overnight if you fall more than a full day behind pace, so big catch-up days count. Monthly bosses have more health: about 10, 20, 30 or 40 reps a day by difficulty.','The friends leaderboard now updates live, and you get a heads-up when a friend passes you.','Choose what friends can see (Locker → Profile): workouts, monthly boss, water, food as % of goals, weight progress and your goal. Tap a friend to see their progress.','New Fill your bars card on Today: food suggestions that fit what’s left of your calories and macros, a one-tap combo to finish the day, and ✨ AI meal ideas with your free key.','Party members on the monthly boss now show their total reps for the month.']});
+
+// ================= v19: pet eggs, 36 pets, pet gear and habitats =================
+const RAR={common:{n:'Common',c:'#9aa4b2'},rare:{n:'Rare',c:'#3d8fd8'},epic:{n:'Epic',c:'#a35bff'},legendary:{n:'Legendary',c:'#f2a20c'},mythic:{n:'Mythic',c:'#ff5fd2'}};
+const RORD=['common','rare','epic','legendary','mythic'];
+// existing six keep their keys
+Object.assign(PETS.pup,{n:'Pup',r:'common',d:'Loyal workout buddy. Lives for walkies.'});Object.assign(PETS.kitty,{n:'Kitty',r:'common',d:'Judges your form. Lovingly.'});Object.assign(PETS.bunny,{n:'Bunny',r:'common',d:'Hops on the plyo box when you’re not looking.'});
+Object.assign(PETS.fox,{n:'Fox',r:'rare',d:'Sly, quick and always first to the gym.'});Object.assign(PETS.panda,{n:'Panda',r:'rare',d:'Bamboo is a complex carb, technically.'});Object.assign(PETS.dragon,{n:'Ember Dragon',r:'legendary',d:'Breathes pre-workout. Guards your streak.'});
+for(const k of Object.keys(PETS))PETS[k].g=0;
+Object.assign(PETS,{
+ hamster:{n:'Pocket Hamster',r:'common',d:'Runs 10K a night on its wheel.',sp:{c:'#e9b27a',c2:'#fff3e0',ear:'round',belly:1,cheeks:1}},
+ duckling:{n:'Puddle Duckling',r:'common',d:'Swims laps. Quacks at quitters.',sp:{c:'#ffd84a',c2:'#ffe98a',a:'#f2c230',ear:'none',nose:'bill',wings:'small'}},
+ frog:{n:'Lily Hopper',r:'common',d:'Box jump champion of the pond.',sp:{c:'#6cc04a',c2:'#c9f0a8',ear:'none',belly:1,frogeyes:1}},
+ piglet:{n:'Snout Piglet',r:'common',d:'Bacon? Never heard of it.',sp:{c:'#ffb3c1',c2:'#ff8fa6',ear:'point',nose:'snout',tail:'curl'}},
+ hedgehog:{n:'Spike Hedgehog',r:'common',d:'Rolls into a ball for core work.',sp:{c:'#e3c39d',c2:'#fff1de',a:'#6b4a2e',ear:'round',spikes:1}},
+ penguin:{n:'Waddle Penguin',r:'common',d:'Always dressed for the gala.',sp:{c:'#2a2f3a',c2:'#ffffff',ear:'none',nose:'beak',faceC2:1,belly:1,wings:'flip'}},
+ otter:{n:'River Otter',r:'common',d:'Holds hands so it doesn’t drift off mid-set.',sp:{c:'#8a5a3b',c2:'#e8cfae',ear:'round',muzzle:1,whisk:1,tail:'thin'}},
+ sloth:{n:'Snoozy Sloth',r:'common',d:'Rest days are its specialty.',sp:{c:'#a58b6f',c2:'#e9dcc8',a:'#5a4632',ear:'none',faceC2:1,eyepatch:1}},
+ turtle:{n:'Shell Shock Turtle',r:'common',d:'Slow, steady, never skips.',sp:{c:'#8fd17a',c2:'#d9f2c8',a:'#3f7a3a',ear:'none',shell:1}},
+ redpanda:{n:'Ember Red Panda',r:'rare',d:'Fluffiest tail in the weight room.',sp:{c:'#d9622b',c2:'#fff3e0',a:'#5a2610',ear:'round',mask:'light',tail:'stripe'}},
+ koala:{n:'Koala Cuddler',r:'rare',d:'Hugs the squat rack between sets.',sp:{c:'#9aa4b2',c2:'#eef1f5',ear:'fluff',bignose:1}},
+ owl:{n:'Night Owl',r:'rare',d:'Only trains after 9 PM.',sp:{c:'#8a6a4a',c2:'#e8d2b4',a:'#5a4026',ear:'tuft',nose:'beak',belly:1,bigeyes:1,wings:'small'}},
+ axolotl:{n:'Axo the Axolotl',r:'rare',d:'Regenerates sore muscles overnight.',sp:{c:'#ffb3d1',c2:'#ffe0ee',a:'#ff5f9e',ear:'none',gills:1,tail:'fish'}},
+ shiba:{n:'Shiba Sprinter',r:'rare',d:'Much speed. Very cardio. Wow.',sp:{c:'#e8a25a',c2:'#fff6ea',ear:'point',muzzle:1,tail:'curl',gear:['headband']}},
+ corgi:{n:'Squat Corgi',r:'rare',d:'Short legs, deep squats.',sp:{c:'#e89a4e',c2:'#ffffff',ear:'bigpoint',muzzle:1,belly:1,gear:['bandana']}},
+ raccoon:{n:'Midnight Raccoon',r:'rare',d:'Raids the fridge for meal prep only.',sp:{c:'#8f96a3',c2:'#e9ecf1',a:'#2a2f3a',ear:'point',mask:'dark',tail:'stripe'}},
+ seal:{n:'Seal of Approval',r:'rare',d:'Claps for every PR you hit.',sp:{c:'#9fb3c8',c2:'#dfe8f2',ear:'none',whisk:1,wings:'flip',muzzle:1}},
+ kraken:{n:'Kettlebell Kraken',r:'epic',gym:1,d:'Eight arms, eight kettlebells, zero rest.',sp:{c:'#7d5bb0',c2:'#b89be0',a:'#5a3d8a',ear:'none',tentacles:1,gear:['kettlebell']}},
+ barbear:{n:'Barbell Bear',r:'epic',gym:1,d:'Bench presses honey pots for fun.',sp:{c:'#8a5a2b',c2:'#d9b48a',ear:'round',muzzle:1,gear:['barbell']}},
+ cheetah:{n:'Cardio Cheetah',r:'epic',gym:1,d:'Fastest mile in the savanna league.',sp:{c:'#f2c230',c2:'#fff3c4',a:'#5a3d12',ear:'round',spots:1,tearline:1,tail:'thin',gear:['headband']}},
+ yeti:{n:'Yoga Yeti',r:'epic',gym:1,d:'Holds tree pose through blizzards.',sp:{c:'#dfe7f5',c2:'#8fcfff',ear:'none',faceC2:1,fluffy:1,calm:1,gear:['mat']}},
+ slime:{n:'Protein Shake Slime',r:'epic',gym:1,d:'Chocolate flavor. 30g protein. Do not drink.',sp:{c:'#b07a4f',c2:'#d9a77a',blob:1,gear:['straw']}},
+ unicorn:{n:'Spin-Class Unicorn',r:'epic',gym:1,d:'Rides at 120 RPM. Glitter sweat.',sp:{c:'#ffffff',c2:'#ffe3f4',a:'#ff8fd1',ear:'point',mane:'rainbow',unihorn:1,gear:['headband2']}},
+ gorilla:{n:'Gym Gorilla',r:'epic',gym:1,d:'Doesn’t count reps. Reps count him.',sp:{c:'#3a3f4a',c2:'#8a94a3',ear:'round',faceC2:1,brow:1,gear:['liftbelt','chain']}},
+ bulldog:{n:'Deadlift Bulldog',r:'epic',gym:1,d:'Pulls double bodyweight. Drools triple.',sp:{c:'#d9b48a',c2:'#fff1de',ear:'flopsmall',muzzle:1,jowls:1,gear:['spikecollar','dumbbell']}},
+ phoenix:{n:'Protein Phoenix',r:'legendary',gym:1,d:'Rises from the ashes of every rest day.',sp:{c:'#ff7a3d',c2:'#ffd36b',a:'#e5432d',ear:'flame',nose:'beak',wings:'flame',tail:'flame',aura:'#ff9a3d'}},
+ griffin:{n:'Gainz Griffin',r:'legendary',gym:1,d:'Half eagle, half lion, all gains.',sp:{c:'#e3b04b',c2:'#ffffff',a:'#a8730a',ear:'tuft',nose:'beak',faceC2:1,wings:'feather',tail:'fluff',aura:'#f2c230',gear:['medal']}},
+ tiger:{n:'Titan Tiger',r:'legendary',gym:1,d:'Undefeated in the jungle powerlifting circuit.',sp:{c:'#f4f6fb',c2:'#ffffff',a:'#22252b',ear:'round',stripes:1,muzzle:1,tail:'thin',aura:'#9fd6ff',gear:['headband','liftbelt']}},
+ leviathan:{n:'Hydro Leviathan',r:'legendary',d:'Drinks a gallon a day. Make it two.',sp:{c:'#2bb3c9',c2:'#b8f1ff',a:'#0b6e86',ear:'fin',belly:1,tail:'fish',aura:'#5fe0ff',drops:1}},
+ celestial:{n:'Celestial Swole Dragon',r:'mythic',gym:1,d:'Forged in a dying star. Benches galaxies. The rarest pet in PlateScan.',sp:{c:'galaxy',c2:'#c9b8ff',a:'url(#hgGold)',ear:'horn',wings:'star',tail:'flame',aura:'mythic',gear:['crown','golddb']}}});
+const PET_KEYS=Object.keys(PETS),petsOf=r=>PET_KEYS.filter(k=>(PETS[k].r||'common')===r);
+let pvN=0;
+function petDraw(k,mood){const P=PETS[k],sp=P.sp,id='pv'+(++pvN),h=mood>=60,sad=mood<40,gal=sp.c==='galaxy',C=gal?`url(#${id}g)`:sp.c,C2=sp.c2||'#fff',A=sp.a||shade(sp.c==='galaxy'?'#5a3dff':sp.c,-.25);
+  const defs=`<defs>${gal?`<radialGradient id="${id}g" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#b48bff"/><stop offset=".45" stop-color="#3d2a8a"/><stop offset="1" stop-color="#0b0730"/></radialGradient>`:''}<linearGradient id="${id}r" x1="0" x2="1"><stop offset="0" stop-color="#ff5f5f"/><stop offset=".25" stop-color="#ffd84a"/><stop offset=".5" stop-color="#5fe08f"/><stop offset=".75" stop-color="#5fb7ff"/><stop offset="1" stop-color="#c07bff"/></linearGradient><radialGradient id="${id}fl" cx=".5" cy=".8" r=".8"><stop offset="0" stop-color="#fff3b0"/><stop offset=".5" stop-color="#ffb02e"/><stop offset="1" stop-color="#e5432d"/></radialGradient></defs>`;
+  const mir=s=>s+`<g transform="matrix(-1 0 0 1 120 0)">${s}</g>`;
+  let back='',ears='',front='',over='';
+  // aura
+  if(sp.aura==='mythic')back+=`<g class="pAuraM"><circle cx="60" cy="62" r="52" fill="none" stroke="url(#${id}r)" stroke-width="3" stroke-dasharray="10 8" opacity=".85"/></g><circle cx="60" cy="62" r="46" fill="#7a3cff" opacity=".18"/>`;
+  else if(sp.aura)back+=`<circle class="pAura" cx="60" cy="62" r="48" fill="${sp.aura}" opacity=".22"/>`;
+  // wings
+  if(sp.wings==='feather')back+=mir(`<path d="M36 76q-34-4-32-36q12 10 24 12q-8-10-4-22q10 12 16 30z" fill="${A}"/><path d="M34 70q-20-4-24-22" stroke="#fff" stroke-width="1.5" fill="none" opacity=".5"/>`);
+  if(sp.wings==='flame')back+=mir(`<path class="flm" d="M38 78q-36 0-34-40q10 14 18 12q-6-14 2-28q8 20 20 34z" fill="url(#${id}fl)"/>`);
+  if(sp.wings==='star')back+=mir(`<path d="M38 74q-40 2-36-46q14 16 22 14q-4-16 6-30q6 24 18 40z" fill="url(#${id}g)" stroke="url(#hgGold)" stroke-width="2"/><g fill="#fff"><circle cx="14" cy="44" r="1.4"/><circle cx="24" cy="36" r="1"/><circle cx="20" cy="56" r="1.2"/></g>`);
+  if(sp.wings==='small')back+=mir(`<ellipse cx="34" cy="84" rx="8" ry="13" fill="${A}" transform="rotate(25 34 84)"/>`);
+  if(sp.wings==='flip')back+=mir(`<ellipse cx="33" cy="88" rx="6" ry="13" fill="${sp.c}" transform="rotate(35 33 88)"/>`);
+  // mane
+  if(sp.mane==='rainbow')back+=`<path d="M60 20q24-6 34 14q10 18-2 38q-8-22-32-28q-22-8 0-24z" fill="url(#${id}r)"/>`;
+  // tails
+  const tails={fluff:`<path d="M84 92q28 0 26-28q-8 12-22 14z" fill="${C}"/><path d="M104 70q2 6-6 10" stroke="${C2}" stroke-width="4" fill="none"/>`,thin:`<path d="M86 94q24 2 20-22" stroke="${C}" stroke-width="5" fill="none" stroke-linecap="round"/>`,curl:`<path d="M86 88q18 6 16-10q-2-8-10-3" stroke="${C}" stroke-width="6" fill="none" stroke-linecap="round"/>`,fish:`<path d="M84 94l22-14v26z" fill="${A}"/>`,
+    flame:`<path class="flm" d="M84 92q20 4 26-10q-10 2-10-8q8-4 6-14q-14 6-14 18q-6-4-4-10q-10 10-4 24z" fill="url(#${id}fl)"/>`,stripe:`<path d="M84 94q30 2 28-26q-10 10-24 12z" fill="${C}"/><path d="M96 90l6-8M102 84l5-7" stroke="${A}" stroke-width="4"/>`};
+  if(sp.tail)back+=tails[sp.tail]||'';
+  if(sp.shell)back+=`<ellipse cx="60" cy="80" rx="38" ry="25" fill="${A}"/><path d="M40 70l10 8 10-8 10 8 10-8M36 86l14-4 10 6 10-6 14 4" stroke="#2a5a2a" stroke-width="2" fill="none" opacity=".6"/>`;
+  if(sp.spikes)back+=`<g fill="${A}">${Array.from({length:9},(_,i)=>{const a=(-160+i*20)*Math.PI/180,x=60+Math.cos(a)*34,y=56+Math.sin(a)*34,x2=60+Math.cos(a)*48,y2=56+Math.sin(a)*48;return `<path d="M${(x+Math.cos(a+1.6)*7).toFixed(1)} ${(y+Math.sin(a+1.6)*7).toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}L${(x+Math.cos(a-1.6)*7).toFixed(1)} ${(y+Math.sin(a-1.6)*7).toFixed(1)}z"/>`}).join('')}</g>`;
+  if(sp.tentacles)back+=`<path d="M38 96q-8 10 0 14M50 100q-4 10 2 10M70 100q4 10-2 10M82 96q8 10 0 14" stroke="${C}" stroke-width="7" fill="none" stroke-linecap="round"/><g fill="${C2}"><circle cx="36" cy="106" r="1.6"/><circle cx="84" cy="106" r="1.6"/></g>`;
+  if(sp.fluffy)back+=`<g fill="${C}">${[[34,40],[86,40],[30,62],[90,62],[40,24],[80,24],[60,20]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="10"/>`).join('')}</g>`;
+  // ears
+  const E={flop:`<ellipse cx="34" cy="46" rx="9" ry="16" fill="${A}" transform="rotate(${sad?25:15} 34 46)"/>`,flopsmall:`<ellipse cx="36" cy="38" rx="8" ry="9" fill="${A}" transform="rotate(20 36 38)"/>`,point:`<path d="M36 38l6-22 12 14z" fill="${C}"/><path d="M40 33l3-11 6 7z" fill="${C2}"/>`,bigpoint:`<path d="M34 40l4-30 16 18z" fill="${C}"/><path d="M38 34l3-17 8 10z" fill="#ffc9d6"/>`,
+    round:`<circle cx="37" cy="30" r="10" fill="${C}"/><circle cx="37" cy="30" r="5" fill="${C2}"/>`,fluff:`<circle cx="33" cy="34" r="15" fill="${C}"/><circle cx="33" cy="34" r="9" fill="${C2}"/>`,tuft:`<path d="M38 32l-6-18 16 10z" fill="${A}"/>`,fin:`<path d="M34 46l-16-12 4 22z" fill="${A}"/>`,
+    horn:`<path d="M44 30q-12-12-8-26q8 10 14 20z" fill="${A}" stroke="#a8730a" stroke-width="1"/>`,flame:`<path class="flm" d="M50 26q-6-14 4-24q0 10 6 14q2-10 10-12q-4 10 0 20z" fill="url(#${id}fl)"/>`};
+  if(sp.ear&&E[sp.ear])ears=sp.ear==='flame'?E.flame:mir(E[sp.ear]);
+  // body + head
+  let core;
+  if(sp.blob){core=`<path d="M60 18q36 42 32 64q-2 24-32 24t-32-24q-4-22 32-64z" fill="${C}"/><path d="M40 70q2-20 14-36" stroke="#fff" stroke-width="5" fill="none" opacity=".35" stroke-linecap="round"/><path d="M30 80q30 10 60 0" stroke="${C2}" stroke-width="4" fill="none" opacity=".7"/>`}
+  else core=`<ellipse cx="60" cy="84" rx="28" ry="20" fill="${C}"/>${sp.belly?`<ellipse cx="60" cy="88" rx="16" ry="13" fill="${C2}"/>`:''}<circle cx="60" cy="52" r="28" fill="${C}"/>${sp.faceC2?`<ellipse cx="60" cy="56" rx="21" ry="19" fill="${C2}"/>`:''}`;
+  // face markings
+  let mk='';
+  if(sp.mask==='dark')mk+=`<path d="M32 50q28-14 56 0q-6 12-28 8q-22 4-28-8z" fill="${A}"/>`;
+  if(sp.mask==='light')mk+=`<ellipse cx="46" cy="54" rx="9" ry="7" fill="${C2}"/><ellipse cx="74" cy="54" rx="9" ry="7" fill="${C2}"/><path d="M50 64q10 6 20 0" fill="${C2}"/>`;
+  if(sp.eyepatch)mk+=`<ellipse cx="48" cy="52" rx="8" ry="6" fill="${A}" transform="rotate(-20 48 52)"/><ellipse cx="72" cy="52" rx="8" ry="6" fill="${A}" transform="rotate(20 72 52)"/>`;
+  if(sp.stripes)mk+=`<path d="M60 25v9M50 27l3 8M70 27l-3 8M33 46h8M33 54h7M79 46h8M80 54h7M40 78l6 4M80 78l-6 4M40 90l6 2M80 90l-6 2" stroke="${A}" stroke-width="3" stroke-linecap="round"/>`;
+  if(sp.spots)mk+=`<g fill="${A}">${[[44,34],[72,32],[38,44],[84,46],[44,80],[76,86],[60,96],[50,92],[70,76]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.2"/>`).join('')}</g>`;
+  if(sp.tearline)mk+=`<path d="M46 56q-2 6-6 8M74 56q2 6 6 8" stroke="${A}" stroke-width="2" fill="none"/>`;
+  if(sp.muzzle)mk+=`<ellipse cx="60" cy="63" rx="13" ry="9" fill="${C2}"/>`;
+  if(sp.cheeks)mk+=`<circle cx="42" cy="62" r="8" fill="${C2}"/><circle cx="78" cy="62" r="8" fill="${C2}"/>`;
+  if(sp.brow)mk+=`<path d="M40 44q20-8 40 0" stroke="#22252b" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+  if(sp.gills)mk+=mir(`<path d="M34 40l-12-8M33 48l-14-1M34 56l-12 7" stroke="${A}" stroke-width="4" stroke-linecap="round"/>`);
+  if(sp.frogeyes)mk+=`<circle cx="46" cy="32" r="9" fill="${C}"/><circle cx="74" cy="32" r="9" fill="${C}"/>`;
+  // eyes
+  const ey=sp.frogeyes?36:52,dark=sp.mask==='dark'||sp.eyepatch,ec=dark?'#fff':'#22252b',big=sp.bigeyes?1.6:1;
+  let eyes=sp.calm||h&&!sp.bigeyes?`<path d="M${45} ${ey}q4-5 8 0M${67} ${ey}q4-5 8 0" stroke="${ec}" stroke-width="3" fill="none" stroke-linecap="round"/>`:`${sp.bigeyes?`<circle cx="48" cy="${ey}" r="9" fill="#fff"/><circle cx="72" cy="${ey}" r="9" fill="#fff"/>`:''}<circle cx="48" cy="${ey}" r="${3.5*big}" fill="${sp.bigeyes?'#22252b':ec}"/><circle cx="72" cy="${ey}" r="${3.5*big}" fill="${sp.bigeyes?'#22252b':ec}"/><circle cx="49" cy="${ey-1}" r="1.1" fill="#fff"/><circle cx="73" cy="${ey-1}" r="1.1" fill="#fff"/>${sad?`<path class="tear" d="M47 ${ey+6}q-2 4 0 6q2-2 0-6z" fill="#5aa8ff"/>`:''}`;
+  if(sp.c==='galaxy')eyes=`<path d="M44 52l8-3-8-1zM76 52l-8-3 8-1z" fill="#ffe58a"/><circle cx="48" cy="50" r="2" fill="#fff"/><circle cx="72" cy="50" r="2" fill="#fff"/>`;
+  // nose + mouth
+  const nose=sp.nose==='beak'?`<path d="M54 58l6 9 6-9z" fill="#f2a20c"/>`:sp.nose==='bill'?`<ellipse cx="60" cy="62" rx="12" ry="5" fill="#ff9a3d"/>`:sp.nose==='snout'?`<ellipse cx="60" cy="62" rx="8" ry="6" fill="${C2}"/><circle cx="57" cy="62" r="1.6" fill="#7a2e3a"/><circle cx="63" cy="62" r="1.6" fill="#7a2e3a"/>`:sp.bignose?`<ellipse cx="60" cy="60" rx="7" ry="9" fill="#2a2f3a"/>`:`<ellipse cx="60" cy="59" rx="4" ry="3" fill="#22252b"/>`;
+  const beaky=sp.nose==='beak'||sp.nose==='bill',mouth=beaky?'':h?'<path d="M54 64q6 7 12 0" stroke="#22252b" stroke-width="2.4" fill="#e5432d" stroke-linecap="round"/>':sad?'<path d="M54 68q6-5 12 0" stroke="#22252b" stroke-width="2.4" fill="none" stroke-linecap="round"/>':'<path d="M55 66h10" stroke="#22252b" stroke-width="2.4" stroke-linecap="round"/>';
+  if(sp.whisk)over+=`<path d="M40 62h-12M40 66l-11 3M80 62h12M80 66l11 3" stroke="#22252b" stroke-width="1.2" opacity=".6"/>`;
+  if(sp.jowls)over+=`<path d="M48 68q-6 6-2 10M72 68q6 6 2 10" stroke="${shade(C2,-.2)}" stroke-width="2" fill="none"/>`;
+  if(sp.unihorn)over+=`<path d="M55 28l5-26 5 26z" fill="url(#hgGold)"/><path d="M57 20l6-3M56 12l7-3" stroke="#a8730a" stroke-width="1"/>`;
+  if(sp.drops)over+=`<g class="spk" fill="#bff3ff"><path d="M24 30q-3 5 0 7q3-2 0-7z"/><path d="M96 22q-3 5 0 7q3-2 0-7z"/></g>`;
+  if(sp.aura==='mythic')over+=`<g class="spk" fill="#fff">${[[14,18],[104,26],[20,96],[100,92],[60,6]].map(([x,y])=>`<path d="M${x} ${y-5}l1.4 3.6 3.6 1.4-3.6 1.4-1.4 3.6-1.4-3.6-3.6-1.4 3.6-1.4z"/>`).join('')}</g>`;
+  const cheeksP=h&&!sp.blob?`<circle cx="40" cy="64" r="4" fill="#ff8a9a" opacity=".45"/><circle cx="80" cy="64" r="4" fill="#ff8a9a" opacity=".45"/>`:'';
+  const g=(sp.gear||[]).map(x=>petGear(x,id)).join('');
+  return `<svg viewBox="0 0 120 110" class="petSvg${h?' happy':sad?' sad':''}"><ellipse cx="60" cy="106" rx="30" ry="4" fill="#000" opacity=".12"/>${defs}${back}<g class="pb">${ears}${core}${mk}${eyes}${nose}${mouth}${cheeksP}${over}${g}<!--ACC--></g></svg>`}
+function petGear(x,id){const G={
+  headband:`<rect x="33" y="31" width="54" height="7" rx="3.5" fill="#e5432d"/><path d="M86 34l8 4-8 2" fill="#e5432d"/>`,headband2:`<rect x="33" y="31" width="54" height="7" rx="3.5" fill="#1fd1c1"/>`,
+  bandana:`<path d="M40 74h40l-20 14z" fill="#e5432d"/><circle cx="54" cy="78" r="1.3" fill="#fff"/><circle cx="64" cy="80" r="1.3" fill="#fff"/>`,
+  dumbbell:`<g transform="translate(92 86) rotate(-25)"><rect x="-11" y="-2" width="22" height="4" fill="#9aa4b2"/><rect x="-16" y="-7" width="6" height="14" rx="2" fill="#22252b"/><rect x="10" y="-7" width="6" height="14" rx="2" fill="#22252b"/></g>`,
+  golddb:`<g transform="translate(92 86) rotate(-25)"><rect x="-11" y="-2" width="22" height="4" fill="#fff3b0"/><rect x="-17" y="-8" width="7" height="16" rx="2" fill="url(#hgGold)"/><rect x="10" y="-8" width="7" height="16" rx="2" fill="url(#hgGold)"/></g>`,
+  kettlebell:`<g transform="translate(18 86)"><path d="M-6 -6q0-8 6-8t6 8" stroke="#22252b" stroke-width="3" fill="none"/><circle cx="0" cy="4" r="9" fill="#2a2f3a"/><text x="0" y="7" text-anchor="middle" font-size="7" font-weight="900" fill="#f2c230" font-family="Figtree,system-ui">20</text></g>`,
+  barbell:`<rect x="4" y="12" width="112" height="4" rx="2" fill="#9aa4b2"/><rect x="6" y="2" width="8" height="24" rx="2" fill="#e5432d"/><rect x="15" y="5" width="5" height="18" rx="2" fill="#3d6fd8"/><rect x="106" y="2" width="8" height="24" rx="2" fill="#e5432d"/><rect x="100" y="5" width="5" height="18" rx="2" fill="#3d6fd8"/><path d="M38 40l-6-24M82 40l6-24" stroke="${'#8a5a2b'}" stroke-width="7" stroke-linecap="round"/>`,
+  mat:`<rect x="16" y="100" width="88" height="6" rx="3" fill="#a35bff"/>`,
+  straw:`<path d="M66 22l10-18h8" stroke="#ff5f9e" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="40" y="96" width="40" height="6" rx="3" fill="#fff" opacity=".7"/>`,
+  liftbelt:`<rect x="32" y="82" width="56" height="9" rx="2" fill="#2a1d14"/><rect x="54" y="81" width="12" height="11" rx="2" fill="#cfd6df" stroke="#8a94a3"/>`,
+  chain:`<path d="M44 74q16 12 32 0" stroke="url(#hgGold)" stroke-width="3.5" fill="none" stroke-dasharray="3 1.5"/>`,
+  spikecollar:`<path d="M40 74q20 10 40 0" stroke="#22252b" stroke-width="5" fill="none"/><g fill="#cfd6df">${[44,52,60,68,76].map(x=>`<path d="M${x-2} ${76+(x===60?2:x===52||x===68?1.5:0)}l2-5 2 5z"/>`).join('')}</g>`,
+  medal:`<path d="M54 72l4 10M66 72l-4 10" stroke="#3d6fd8" stroke-width="3"/><circle cx="60" cy="86" r="6" fill="url(#hgGold)" stroke="#a8730a"/>`,
+  crown:`<path d="M44 26l3-14 7 8 6-12 6 12 7-8 3 14z" fill="url(#hgGold)" stroke="#a8730a"/><circle cx="60" cy="16" r="2.4" fill="#e5432d"/><circle cx="50" cy="20" r="1.6" fill="#3d8fd8"/><circle cx="70" cy="20" r="1.6" fill="#5fe08f"/>`,
+  halo:`<ellipse class="haloR" cx="60" cy="14" rx="18" ry="4.5" fill="none" stroke="#fff3b0" stroke-width="3.5"/>`,
+  shades:`<g fill="#111"><rect x="40" y="46" width="15" height="10" rx="3"/><rect x="65" y="46" width="15" height="10" rx="3"/></g><path d="M55 50h10" stroke="#111" stroke-width="2.5"/><path d="M43 49h5" stroke="#fff" opacity=".6"/>`,
+  bowtie:`<path d="M50 72l10 5-10 5zM70 72l-10 5 10 5z" fill="#e5432d"/><circle cx="60" cy="77" r="2.5" fill="#b3132b"/>`,
+  cap:`<path d="M34 34q0-20 26-20t26 20z" fill="#3d6fd8"/><path d="M34 33h-12q2 5 12 5z" fill="#2a4fa8"/>`,
+  cape:'',sweat:`<path d="M84 34q-3 5 0 7q3-2 0-7z" fill="#9fd6ff"/>`};return G[x]||''}
+const PACC={bandana:{n:'Bandana',g:150},headband:{n:'Sweatband',g:200},bowtie:{n:'Bow tie',g:300},shades:{n:'Mini shades',g:500},cap:{n:'Team cap',g:600},chain:{n:'Gold chain',g:2500,req:['lv',8]},medal:{n:'Champion medal',g:3500,req:['boss',6]},cape:{n:'Hero cape',g:4000},crown:{n:'Tiny crown',g:8000,req:['pets',12]},halo:{n:'Halo',g:15000,req:['pets',25]}};
+const PHAB={park:{n:'Sunny park',g:0,c:'linear-gradient(180deg,#bfe8ff 0 60%,#7cc46b 60%)'},beach:{n:'Beach day',g:300,c:'linear-gradient(180deg,#9fdcff 0 55%,#5fb7e8 55% 68%,#f4dca4 68%)'},gymfloor:{n:'Gym floor',g:600,c:`${PAT('<rect x="0" y="0" width="40" height="40" fill="none" stroke="#3b4454" stroke-width="2"/>',40,40)},linear-gradient(180deg,#2b3340,#1c222c)`},
+  pool:{n:'Lap pool',g:800,c:`${PAT('<path d="M0 10h60" stroke="#fff" stroke-width="2" stroke-dasharray="6 4" opacity=".7"/>',60,30)},linear-gradient(180deg,#5fd0f0,#1b88c2)`},forest:{n:'Trail forest',g:1200,c:'radial-gradient(circle at 80% 15%,#fff3b0 0 8%,transparent 9%),linear-gradient(180deg,#9fd8b0 0 55%,#3f7a3a 55%)'},
+  snow:{n:'Snow peak',g:1500,c:`${PAT('<circle cx="8" cy="8" r="2" fill="#fff" opacity=".8"/><circle cx="28" cy="22" r="1.5" fill="#fff" opacity=".7"/>',40,32)},linear-gradient(180deg,#bcd7f5 0 62%,#f4f8ff 62%)`},
+  volcano:{n:'Volcano forge',g:4000,req:['boss',5],c:'radial-gradient(ellipse at 50% 110%,#ffb02e 0 18%,#e5432d 30%,transparent 55%),linear-gradient(180deg,#2a0f14,#5a1a10)'},
+  space:{n:'Space station',g:8000,req:['pets',10],c:`${PAT('<circle cx="6" cy="6" r="1.2" fill="#fff"/><circle cx="30" cy="20" r=".8" fill="#fff"/><circle cx="18" cy="34" r="1" fill="#cfe3ff"/>',44,44)},radial-gradient(circle at 30% 20%,#5a3dff55,transparent 50%),#0b0a24`},
+  olympus:{n:'Mount Olympus',g:15000,req:['pets',20],c:'radial-gradient(circle at 50% 0%,#fff3b0 0 14%,transparent 40%),linear-gradient(180deg,#f6e7b8,#e3b04b 70%,#a8730a)'}};
+const EGGS={basic:{n:'Basic Egg',g:250,t:{common:70,rare:25,epic:5},d:'Mostly common pets, sometimes rare or epic.'},gym:{n:'Gym Egg',g:900,t:{common:25,rare:45,epic:25,legendary:5},d:'Better odds, and the only egg that’s mostly rare and up.'},gold:{n:'Golden Egg',g:3000,t:{rare:30,epic:45,legendary:23,mythic:2},d:'The only egg that can hatch the Mythic Celestial Swole Dragon.'}};
+const myPets=()=>{const o=Object.assign({},S.pets||{});for(const k of PET_KEYS)if(!o[k]&&((S.owned||[]).includes('pet:'+k)||S.pet&&S.pet.k===k))o[k]={n:1};return o};
+const petCount=()=>Object.keys(myPets()).length;
+REQ_T.pets=n=>`🥚 Collect ${n} pets`;
+{const _rh=reqHave;reqHave=function(r){return r[0]==='pets'?petCount():_rh(r)}}
+// override the base pet renderer
+const petSVG0=petSVG;
+petSVG=function(k,mood=70,acc){const base=PETS[k]&&PETS[k].sp?petDraw(k,mood):petSVG0(k,mood);const a=acc?petGear(acc):'';const cape=acc==='cape'?`<path d="M36 72q-10 30 -4 36h56q6-6-4-36z" fill="#b3132b"/>`:'';
+  let out=base;if(cape)out=out.replace('<g class="pb">','<g class="pb">'+cape);if(a)out=out.includes('<!--ACC-->')?out.replace('<!--ACC-->',a):out.replace(/<\/g><\/svg>$/,a+'</g></svg>');
+  const r=(PETS[k]||{}).r;if(!PETS[k]||!PETS[k].sp){if(r==='legendary')out=out.replace('<g class="pb">','<circle class="pAura" cx="60" cy="62" r="48" fill="#ff9a3d" opacity=".2"/><g class="pb">')}
+  return out};
+// eggs: earn + hatch
+function eggSVG(t,cls=''){const f={basic:'#f6f1e6',gym:'#3b4454',gold:'url(#hgGold)'}[t];
+  return `<svg viewBox="0 0 120 130" class="eggSvg ${cls}"><defs><linearGradient id="hgGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3b0"/><stop offset=".45" stop-color="#f2c230"/><stop offset="1" stop-color="#a8730a"/></linearGradient></defs><ellipse cx="60" cy="124" rx="32" ry="5" fill="#000" opacity=".15"/><path d="M60 8C32 8 18 58 18 80a42 40 0 0 0 84 0C102 58 88 8 60 8z" fill="${f}" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
+   ${t==='basic'?'<g fill="#7cc46b"><circle cx="44" cy="56" r="7"/><circle cx="74" cy="44" r="5"/><circle cx="70" cy="86" r="8"/><circle cx="42" cy="94" r="4"/></g>':t==='gym'?'<g transform="translate(60 74) rotate(-20)"><rect x="-18" y="-3" width="36" height="6" fill="#cfd6df"/><rect x="-26" y="-11" width="9" height="22" rx="2" fill="#e5432d"/><rect x="17" y="-11" width="9" height="22" rx="2" fill="#e5432d"/></g><path d="M28 48q32 14 64 0" stroke="#e5432d" stroke-width="4" fill="none"/>':'<g class="spk" fill="#fff"><path d="M44 40l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M76 70l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M50 92l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z"/></g><path d="M30 64q30 12 60 0" stroke="#fff3b0" stroke-width="3" fill="none" opacity=".7"/>'}
+   <path d="M40 30q-8 14-8 30" stroke="#fff" stroke-width="5" fill="none" opacity=".35" stroke-linecap="round"/></svg>`}
+function eggCheck(g){if(mode==='guest'&&0)return;S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggClaim=Object.assign({},S.eggClaim);let got=[];const c=S.eggClaim;
+  if(!c.start){c.start=1;S.eggs.basic++;got.push('basic')}
+  const r=Math.floor(totalReps()/1000);if((c.reps??r)<r){for(let i=c.reps;i<r;i++){S.eggs.basic++;got.push('basic')}}c.reps=r;
+  const bw=Math.floor(((S.boss||{}).n||0)/5);if((c.boss??bw)<bw){for(let i=c.boss;i<bw;i++){S.eggs.gym++;got.push('gym')}}c.boss=bw;
+  const st=Math.floor(Math.max(g.best||0,g.curStreak||0)/7);if((c.streak??st)<st){for(let i=c.streak;i<st;i++){S.eggs.gym++;got.push('gym')}}c.streak=st;
+  if(got.length){store.saveMeta();const n=got.length;enqueue({type:'ach',k:n>1?`${n} eggs earned!`:`${EGGS[got[0]].n} earned!`,name:'Hatch it in Locker → Pet → Eggs'})}}
+function rollRarity(t){const tab=EGGS[t].t,pity=S.pity=Object.assign({gym:0,gold:0},S.pity);
+  if(t==='gold'&&pity.gold>=14){return Math.random()<.1?'mythic':'legendary'}if(t==='gym'&&pity.gym>=9)return Math.random()<.2?'legendary':'epic';
+  let x=Math.random()*100;for(const r of RORD){if(!tab[r])continue;if((x-=tab[r])<0)return r}return 'common'}
+function hatch(t){const E=EGGS[t];S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);const free=S.eggs[t]>0;
+  if(!free){if((S.gold||0)<E.g)return toast(`You need ${fmt(E.g-(S.gold||0))} more gold`);S.gold-=E.g}else S.eggs[t]--;
+  const r=rollRarity(t),pool=petsOf(r),k=pool[Math.floor(Math.random()*pool.length)],P=S.pets=Object.assign({},S.pets),isNew=!myPets()[k];
+  S.pity=Object.assign({gym:0,gold:0},S.pity);if(t==='gold')S.pity.gold=RORD.indexOf(r)>=3?0:S.pity.gold+1;if(t==='gym')S.pity.gym=RORD.indexOf(r)>=2?0:S.pity.gym+1;
+  P[k]={n:((P[k]||{}).n||(isNew?0:1))+1,first:(P[k]||{}).first||ymd(Date.now())};let refund=0;if(!isNew){refund=Math.round((free?100:E.g)*.2);S.gold=(S.gold||0)+refund}
+  if(!S.pet){S.pet={k,name:PETS[k].n,boosts:[]}}
+  store.saveMeta();if(RORD.indexOf(r)>=3)postEvent('pet:'+k+':'+Date.now(),`hatched a ${RAR[r].n.toLowerCase()} ${PETS[k].n}! ${r==='mythic'?'🌌':'✨'}`);showHatch(t,k,r,isNew,refund)}
+function showHatch(t,k,r,isNew,refund){let o=$('hatchOv');if(!o){document.body.insertAdjacentHTML('beforeend','<div id="hatchOv" role="dialog" aria-label="Hatching"></div>');o=$('hatchOv')}
+  o.className='on';o.style.setProperty('--rc',RAR[r].c);o.innerHTML=`<div class="hEgg">${eggSVG(t,'wob')}</div><p class="hTxt">Hatching…</p>`;sfx('chest');
+  setTimeout(()=>{o.classList.add('crack');sfx('explode')},1400);
+  setTimeout(()=>{o.classList.add('done',r);burst(innerWidth/2,innerHeight/2.4,{n:r==='mythic'?160:r==='legendary'?110:60,speed:r==='mythic'?11:8,shape:'star',colors:r==='mythic'?['#ff5fd2','#5fe0ff','#ffe58a','#fff','#a35bff']:[RAR[r].c,'#fff','#ffe58a']});sfx(RORD.indexOf(r)>=3?'victory':'level');
+    const p=PETS[k],s=(S.pets[k]||{}).n||1;
+    o.innerHTML=`<div class="hRays"></div><div class="hPet">${petSVG(k,90)}</div><div class="hRar">${RAR[r].n}${isNew?' · NEW!':''}</div><h2>${esc(p.n)}</h2><p class="hD">${esc(p.d||'')}</p>${isNew?'':`<p class="hD">Duplicate: ★ ${Math.min(5,s)} and +${refund} gold back</p>`}
+     <div class="hBtns"><button data-hactive="${k}">Make active</button>${(S.eggs[t]||0)>0||(S.gold||0)>=EGGS[t].g?`<button class="ghost" data-hatch="${t}">Hatch another ${(S.eggs[t]||0)>0?`(${S.eggs[t]} free)`:`${COIN}${fmt(EGGS[t].g)}`}</button>`:''}<button class="ghost" data-hclose>Close</button></div>`;
+    renderHeroSheet();render()},2100)}
+// pet tab
+let ptab='mine';
+function petTabHTML(){const own=myPets(),ps=S.pet?petState():null,cnt=Object.keys(own).length,eg=Object.assign({basic:0,gym:0,gold:0},S.eggs),eT=eg.basic+eg.gym+eg.gold;
+  const tabs=`<div class="seg ptabs" id="ptabs">${[['mine','My pet'],['eggs','Eggs'+(eT?` (${eT})`:'')],['dex',`Collection ${cnt}/${PET_KEYS.length}`],['gear','Gear'],['hab','Habitat']].map(([k,n])=>`<button data-ptab="${k}" class="${k===ptab?'on':''}">${n}</button>`).join('')}</div>`;
+  if(!S.pet&&ptab==='mine')ptab='eggs';
+  let body='';
+  if(ptab==='mine'&&S.pet){const p=PETS[S.pet.k]||PETS.pup,r=p.r||'common',st=Math.min(5,(own[S.pet.k]||{}).n||1),hab=PHAB[S.pet.hab]||PHAB.park;
+    body=`<div class="petStage" style="background:${hab.c}"><div class="petBig">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div><span class="rTag" style="background:${RAR[r].c}">${RAR[r].n} ${'★'.repeat(st)}</span></div>
+     <div class="row between" style="margin-top:8px"><div><b style="font-size:20px">${esc(S.pet.name||p.n)}</b><div class="muted sm">${esc(p.n)} · ${esc(p.d||'')}</div></div><button class="small ghost" id="petRename">Rename</button></div>
+     <div class="pstats"><div><span>Mood · ${ps.label}</span><span class="mbar"><i style="width:${ps.mood}%"></i></span></div><div><span>Health</span><span class="mbar"><i style="width:${ps.health}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div></div>
+     <p class="muted sm">${esc(S.pet.name||'Your pet')} is happiest when you log meals, hit protein, drink water, finish quests and work out. Treats keep the good mood going.</p>
+     <div class="lbl">Pet care</div><div class="hGrid">${Object.entries(PET_ITEMS).map(([k2,it])=>`<button class="hTile" data-petbuy="${k2}"><b>${esc(it.n)}</b><span class="muted sm">${esc(it.d)}</span><em class="pr">${COIN}${fmt(it.g)}</em></button>`).join('')}</div>`}
+  else if(ptab==='eggs'){body=`<p class="sm" style="margin:8px 0">Hatch eggs to collect ${PET_KEYS.length} pets, from common critters to gym legends. The rarest is the <b style="color:${RAR.mythic.c}">Mythic Celestial Swole Dragon</b>. Duplicates power up a pet’s stars (up to ★5) and give 20% of the egg’s gold back.</p>
+     <div class="eggGrid">${Object.entries(EGGS).map(([t,E])=>`<div class="eggCard ${t}"><div class="eggPic">${eggSVG(t,'idle')}${eg[t]?`<span class="eggN">${eg[t]}</span>`:''}</div><b>${E.n}</b><div class="odds">${RORD.filter(r=>E.t[r]).map(r=>`<span style="color:${RAR[r].c}">${RAR[r].n} ${E.t[r]}%</span>`).join('')}</div><button class="small${t==='gold'?' gold':''}" data-hatch="${t}" ${eg[t]||(S.gold||0)>=E.g?'':'disabled'}>${eg[t]?`Hatch free (${eg[t]})`:`${COIN}${fmt(E.g)}`}</button></div>`).join('')}</div>
+     <div class="card" style="margin-top:10px;background:var(--sunk)"><b>Earn free eggs</b><ul class="sm eggWays"><li>🥚 Basic Egg for every 1,000 reps you do (${fmt(1000-totalReps()%1000)} to go)</li><li>🏋️ Gym Egg every 5 bosses beaten and every 7-day logging streak</li><li>🌟 Golden Egg for beating the monthly boss</li></ul><p class="muted sm" style="margin:0">Lucky streak protection: a Gym Egg is guaranteed Epic or better after 9 misses (${(S.pity||{}).gym||0}/9), and a Golden Egg is guaranteed Legendary or better after 14 (${(S.pity||{}).gold||0}/14).</p></div>`}
+  else if(ptab==='dex'){body=RORD.map(r=>{const ks=petsOf(r);return `<div class="lbl" style="color:${RAR[r].c}">${RAR[r].n} · ${ks.filter(k=>own[k]).length}/${ks.length}</div><div class="dexGrid">${ks.map(k=>{const o=own[k];return o?`<button class="dexIt${S.pet&&S.pet.k===k?' on':''}" data-pset="${k}" style="--rc:${RAR[r].c}"><span>${petSVG(k,80)}</span><b>${esc(PETS[k].n)}</b><em>${'★'.repeat(Math.min(5,o.n||1))}</em></button>`:`<div class="dexIt lock" style="--rc:${RAR[r].c}"><span class="sil">${petSVG(k,70)}</span><b>???</b><em>${RAR[r].n}</em></div>`}).join('')}</div>`}).join('')}
+  else if(ptab==='gear'){body=S.pet?`<p class="muted sm" style="margin:8px 0">Gear goes on your active pet. Friends see it too.</p><div class="hGrid">${tileP('none','None',0,!S.pet.acc,'')}${Object.entries(PACC).map(([k,a])=>tileP(k,a.n,a.g,S.pet.acc===k,`<span class="pmini">${petSVG(S.pet.k,80,k)}</span>`,a.req,'pacc')).join('')}</div>`:'<p class="muted sm">Hatch a pet first.</p>'}
+  else if(ptab==='hab'){body=S.pet?`<p class="muted sm" style="margin:8px 0">Where your pet hangs out.</p><div class="hGrid">${Object.entries(PHAB).map(([k,a])=>tileP(k,a.n,a.g,(S.pet.hab||'park')===k,`<span class="habSw" style="background:${a.c}"></span>`,a.req,'phab')).join('')}</div>`:'<p class="muted sm">Hatch a pet first.</p>'}
+  return tabs+body}
+function tileP(k,label,price,on,prev,req,kind='pacc'){const key=kind+':'+k,ok=!req||reqMet(req)||owns(key),has=(!price||owns(key))&&ok;return `<button class="hTile${on?' on':''}${has?'':' locked'}${ok?'':' req'}" data-${kind}="${k}" data-price="${price||0}">${prev}<b>${esc(label)}</b>${!ok?`<em class="rq">🔒 ${reqTxt(req)}</em>`:has?(on?'<em>Equipped</em>':''):`<em class="pr">${COIN}${fmt(price)}</em>`}</button>`}
+function petBuyUse(kind,k){const T=kind==='pacc'?PACC:PHAB,it=T[k],key=kind+':'+k;if(k==='none'){S.pet.acc=null;store.saveMeta();renderHeroSheet();render();return}
+  if(it.req&&!reqMet(it.req)&&!owns(key)){sfx('miss');return toast(`Unlock it first: ${reqTxt(it.req)} (you have ${fmt(reqHave(it.req))})`)}
+  if(it.g&&!owns(key)){if((S.gold||0)<it.g)return toast(`You need ${fmt(it.g-(S.gold||0))} more gold`);S.gold-=it.g;S.owned=[...new Set([...(S.owned||[]),key])];sfx('chest');toast('Unlocked!')}else sfx('pop');
+  if(kind==='pacc')S.pet.acc=k;else S.pet.hab=k;store.saveMeta();renderHeroSheet();render()}
+document.addEventListener('click',e=>{const t=e.target;
+  const pt=t.closest('[data-ptab]');if(pt){ptab=pt.dataset.ptab;sfx('tap');renderHeroSheet();return}
+  const ht=t.closest('[data-hatch]');if(ht){hatch(ht.dataset.hatch);return}
+  const ps=t.closest('[data-pset]');if(ps){const k=ps.dataset.pset;S.pet=Object.assign({boosts:[]},S.pet||{},{k,name:S.pet&&S.pet.k===k?S.pet.name:PETS[k].n});store.saveMeta();sfx('pop');toast(`${PETS[k].n} is your active pet`);renderHeroSheet();render();return}
+  const pa=t.closest('[data-pacc]');if(pa){petBuyUse('pacc',pa.dataset.pacc);return}
+  const ph=t.closest('[data-phab]');if(ph){petBuyUse('phab',ph.dataset.phab);return}
+  const ha=t.closest('[data-hactive]');if(ha){const k=ha.dataset.hactive;S.pet=Object.assign({boosts:[]},S.pet||{},{k,name:PETS[k].n});store.saveMeta();$('hatchOv').className='';ptab='mine';renderHeroSheet();render();toast(`${PETS[k].n} is your active pet`);return}
+  if(t.closest('[data-hclose]')){$('hatchOv').className='';ptab='dex';renderHeroSheet()}});
+function petTitles(){const n=petCount(),own=myPets(),o=[];if(n>=10)o.push('Egg Hunter');if(n>=20)o.push('Beast Collector');if(n>=PET_KEYS.length)o.push('Master of Beasts');if(own.celestial)o.push('Mythic Tamer');return o}
+
+// ================= v19: more hero cosmetics to work for =================
+Object.assign(OUTFITS,{neon:{n:'Neon tracksuit',g:1500},beast:{n:'Beastmaster armor',g:12000,req:['pets',25],lux:2}});
+Object.assign(GEAR,{petpal:{n:'Shoulder dragon',g:6000,req:['pets',15],lux:1}});
+Object.assign(BGS,{neongym:{n:'Neon gym',g:2000,c:'#14102a'},forge:{n:'Volcano forge',g:5000,req:['boss',6],lux:1},aurora:{n:'Aurora peaks',g:7000,req:['streak',14],lux:1},hall:{n:'Hall of Fame',g:20000,req:['boss',20],lux:2},sanctuary:{n:'Beast sanctuary',g:9000,req:['pets',18],lux:1}});
+Object.assign(BANNERS,{menagerie:{n:'Menagerie',g:0,req:['pets',15],c:`${PAT('<text x="4" y="24" font-size="18">🐾</text>',44,36)},linear-gradient(135deg,#3f6b2a,#a35bff)`},mythicban:{n:'Mythic',g:0,req:['pets',36],c:'conic-gradient(from 90deg at 50% 50%,#ff5fd2,#5fe0ff,#ffe58a,#a35bff,#ff5fd2)'}});
+function OUTX2(c,bx,W,top,sk){if(c.out==='neon')return `<path d="M${bx-W+3} ${top+8}V124M${bx+W-3} ${top+8}V124" stroke="#3df5ff" stroke-width="3"/><path d="M${bx} ${top}V124" stroke="#ff3df5" stroke-width="2"/><path d="M${bx-7} ${top-1}L${bx} ${top+8}L${bx+7} ${top-1}" fill="none" stroke="#3df5ff" stroke-width="2"/>`;
+  if(c.out==='beast')return `<path d="M${bx-W} ${top+2}q${W} 16 ${2*W} 0q-6 -10 -${W} -8q-${W*.8} -2 -${W} 8z" fill="#c9a27a"/>${[-.7,-.35,0,.35,.7].map(k=>`<path d="M${bx+k*W-3} ${top+4}l3 8 3-8" fill="#a8835a"/>`).join('')}<path d="M${bx-W*.5} ${top+22}L${bx} ${top+40}L${bx+W*.5} ${top+22}" stroke="url(#hgGold)" stroke-width="4" fill="none"/><circle cx="${bx}" cy="${top+28}" r="5" fill="#a35bff" stroke="url(#hgGold)" stroke-width="2"/><g class="spk" fill="#fff"><path d="M${bx+W*.5} ${top+30}l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></g>`;return ''}
+function GEARX2(k,bx,top,W){if(k==='petpal')return `<g transform="translate(${bx+W*.75} ${top-12}) scale(.32)">${petDraw('phoenix',90).replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'').replace(/ff7a3d/g,'3fbf7a').replace(/ffd36b/g,'c9f0a8')}</g>`;return ''}
+function BGX2(k,id){
+  if(k==='neongym')return `<rect width="120" height="120" fill="#14102a"/><g stroke-width="3" fill="none"><path d="M10 30h30M10 24v12M40 24v12" stroke="#3df5ff"/><path d="M80 40h30M80 34v12M110 34v12" stroke="#ff3df5"/></g><rect y="88" width="120" height="32" fill="#1f1840"/><path d="M0 88h120" stroke="#3df5ff" stroke-width="2" opacity=".8"/>`;
+  if(k==='forge')return `<rect width="120" height="120" fill="#2a0f14"/><path d="M0 120L30 62L46 80L60 50L76 78L92 60L120 120Z" fill="#4a1a10"/><path d="M54 56l6-10 6 10q-6 8-12 0z" fill="#ffb02e"/><g class="spk" fill="#ffb02e">${[[20,40],[96,30],[70,20],[40,24]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6"/>`).join('')}</g><rect y="100" width="120" height="20" fill="#e5432d" opacity=".5"/>`;
+  if(k==='aurora')return `<rect width="120" height="120" fill="#0b1630"/><path d="M0 40q30-20 60 0t60-6" stroke="#5fe08f" stroke-width="10" fill="none" opacity=".55"/><path d="M0 54q40-16 70 4t50-8" stroke="#a35bff" stroke-width="7" fill="none" opacity=".45"/><path d="M0 120L28 76L50 96L76 66L120 110V120Z" fill="#dfe9fb"/>`;
+  if(k==='hall')return `<rect width="120" height="120" fill="#1a1208"/>${[14,40,66,92].map(x=>`<rect x="${x}" y="20" width="14" height="80" fill="url(#hgGold)" opacity=".8"/>`).join('')}<rect y="100" width="120" height="20" fill="#7a1f3a"/><path d="M0 100h120" stroke="url(#hgGold)" stroke-width="3"/><g class="spk" fill="#fff"><path d="M60 10l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g>`;
+  if(k==='sanctuary')return `<rect width="120" height="120" fill="#bfe8ff"/><circle cx="96" cy="22" r="10" fill="#fff3b0"/><rect y="78" width="120" height="42" fill="#7cc46b"/><g opacity=".9" font-size="12"><text x="6" y="96">🐼</text><text x="92" y="100">🦊</text><text x="20" y="114">🐢</text><text x="84" y="116">🐸</text></g>`;
+  return ''}
+
+// ================= v19: guide + patch notes =================
+GUIDE.unshift(['Pets and eggs','Locker → Pet → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
+CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in Locker → Pet → Eggs, with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
+
+const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity'];
+function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
+function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
 
 // ================= start =================
 setMealType(defaultMealType());

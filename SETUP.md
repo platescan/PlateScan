@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (v18: holiday monthly bosses with one total health pool, live friends leaderboard, choose-what-friends-see progress, Fill your bars food suggestions), just do **Upload the update**. No database rule changes. If you skipped v17, make sure `reminders/send.mjs` is replaced too; if you skipped v16, publish the rules in step 4. Full patch notes are in `CHANGELOG.md` and in the app under Settings → Help → Patch notes. The in-app **Guide** (Settings → Help → Guide) explains every feature.
+Steps 1–3 are already done if your app and accounts work. For this update (v19: pet eggs with 36 pets, pet gear and habitats, more cosmetics, and a fix so your hero, pet, hearts and monthly boss save to your account), just do **Upload the update**. No database rule changes. If you skipped v17, make sure `reminders/send.mjs` is replaced too; if you skipped v16, publish the rules in step 4.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -298,6 +298,15 @@ Each friend's profile shows your mutual friends. **Friends → Friends → Peopl
 Quest → Bosses → **Monthly boss**. Each month's boss is themed on that month's biggest holiday (🎃 Halloween, 🦃 Thanksgiving, 🎄 Christmas, 💘 Valentine's Day and so on). Pick a difficulty: the boss gets one big **total** health pool for the rest of the month (about 10, 20, 30 or 40 reps a day's worth). Beat it however you like: a little every day or a few big sessions. **Recommended today** is only a guide and adjusts as you go; the pace bar shows if you're ahead or behind.
 **Hearts:** up to 5. The boss attacks overnight (-1 ❤) only if you fall more than a full day behind pace, and it hits you during fights if you stop repping or don't block a ⚡ charge attack. Get hearts back: 1 every 45 minutes, 1 per daily quest, or buy them in the Shop.
 **Parties:** tap **+ Invite friends**. Each friend adds 80% HP, everyone shares the pace, and rewards are +50% (gold, XP, an exclusive badge and an Elixir of Legends). Each member's total reps for the month are shown.
+
+## Pets and eggs
+Locker → **Pet**. Tabs: **My pet**, **Eggs**, **Collection**, **Gear**, **Habitat**.
+- **Eggs:** Basic (250 gold: common 70%, rare 25%, epic 5%), Gym (900: common 25%, rare 45%, epic 25%, legendary 5%) and Golden (3,000: rare 30%, epic 45%, legendary 23%, **mythic 2%**). The Mythic **Celestial Swole Dragon** only hatches from Golden Eggs.
+- **36 pets** in 5 rarities, including gym-themed originals: Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin, Titan Tiger.
+- **Free eggs:** everyone starts with one Basic Egg; a Basic Egg every 1,000 reps; a Gym Egg every 5 bosses beaten and every 7-day logging streak; a Golden Egg for beating the monthly boss.
+- **Duplicates** add a star (up to ★5) and give 20% of the egg's price back. **Lucky streak protection:** a Gym Egg is guaranteed Epic+ after 9 misses; a Golden Egg is guaranteed Legendary+ after 14.
+- **Gear** (bandana up to a halo) and **Habitats** (Sunny park up to Mount Olympus). Some unlock by collecting pets, beating bosses or leveling up. Friends see your pet and its gear.
+- **New hero items to work for:** Neon tracksuit, Beastmaster armor (25 pets), Shoulder dragon (15 pets), backgrounds Neon gym, Volcano forge, Aurora peaks, Beast sanctuary and Hall of Fame, the Menagerie and Mythic banners, and collector titles (Egg Hunter, Beast Collector, Master of Beasts, Mythic Tamer).
 
 ## Fill your bars (food suggestions)
 On Today, **Fill your bars** suggests foods that best fit what's left of your calories, protein, carbs and fat, favoring healthy whole foods, plus a combo that finishes the day. Tap a food (or **Add all**) to put it in a new meal, then confirm. Tap ✕ to stop seeing a food. With a free AI key, **✨ AI meal ideas** suggests whole meals.
