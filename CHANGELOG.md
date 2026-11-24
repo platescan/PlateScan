@@ -2,6 +2,9 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.2: Pull-ups from behind (Nov 24, 2026)
+- Pull-ups now count with your back to the camera too. Turn around so the camera sees your back, hands and shoulders; it checks that your head clears the bar and your arms bend, the same as facing it.
+
 ## v22.1: Party invite fix (Nov 24, 2026)
 - The quote of the day is back on Today. Your pet’s message now shows under it instead of replacing it.
 - Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.

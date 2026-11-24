@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22.1">
+<meta name="ps-version" content="22.2">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -2809,7 +2809,7 @@ const EX={
     pts:[[LM.lh,LM.lk,LM.la],[LM.rh,LM.rk,LM.ra]]},
   pushup:{name:'Push-ups',one:'push-up',mult:1.5,tip:'Put your phone on the floor beside you, side-on, so your whole body from head to feet is in view.',
     pts:[[LM.ls,LM.le,LM.lw,LM.lh,LM.la],[LM.rs,LM.re,LM.rw,LM.rh,LM.ra]]},
-  pullup:{name:'Pull-ups',one:'pull-up',mult:3,tip:'Face the camera from a few feet back so your hands on the bar and your head are both in view.',
+  pullup:{name:'Pull-ups',one:'pull-up',mult:3,tip:'Face the camera or turn your back to it, a few feet back, so your hands on the bar and your head are both in view.',
     pts:[[LM.nose,LM.ls,LM.le,LM.lw,LM.rs,LM.re,LM.rw]]},
   lunge:{name:'Lunges',one:'lunge',mult:1,tip:'Stand side-on, 6 to 8 feet back, so both legs are in view. Step forward and drop your back knee toward the floor.',
     pts:[[LM.lh,LM.lk,LM.la,LM.rh,LM.rk,LM.ra]]},
@@ -2826,7 +2826,7 @@ const EX={
   burpee:{name:'Burpees',one:'burpee',mult:2,home:1,tip:'Side-on, 8 feet back. Drop to a plank, then jump back up with arms overhead.',pts:[[LM.ls,LM.lh,LM.la],[LM.rs,LM.rh,LM.ra]]}
 };
 function makeCounter(ex,opt={}){
-  const minGap=opt.minGap??600;let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
+  const minGap=opt.minGap??600;const PU={hang:0};let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
   const sm=v=>ema=ema==null?v:ema*0.5+v*0.5;
   function vis(lm,ids){return ids.every(i=>lm[i]&&(lm[i].visibility??1)>=0.5)}
   function frame(lm,t,asp=0.75){
@@ -2912,14 +2912,19 @@ function makeCounter(ex,opt={}){
       else if(vert){state='up';if(t-lastRep>=Math.max(minGap,1200)){lastRep=t;reps++;good++;const armsUp=lm[LM.lw]&&lm[LM.lw].y<lm[LM.nose].y;ev={type:'rep',perfect:!!armsUp};cue=armsUp?'Perfect burpee!':'Good! Reach up on the jump'}}
     }else{
       const N=lm[LM.nose],ls=lm[LM.ls],rs=lm[LM.rs],lw=lm[LM.lw],rw=lm[LM.rw];
-      if(!vis(lm,[LM.nose,LM.ls,LM.rs,LM.lw,LM.rw])){lostAt??=t;cue='Get your hands and head in view';return null}lostAt=null;
+      if(!vis(lm,[LM.ls,LM.rs,LM.lw,LM.rw])){lostAt??=t;cue='Get your hands and shoulders in view';return null}lostAt=null;
       const wy=(lw.y+rw.y)/2,sy=sm((ls.y+rs.y)/2);
       const elb=Math.max(angAt(ls,lm[LM.le],lw,asp),angAt(rs,lm[LM.re],rw,asp));
       if(wy>Math.min(ls.y,rs.y)){cue='Grab the bar with your hands overhead';state='up';botY=null;dropped=false;return null}
+      // works facing the camera (chin from the nose) or from behind (chin from the ears, or how close the shoulders get to the bar)
+      const vv=i=>lm[i]&&(lm[i].visibility??1)>=.5,front=vv(LM.nose)&&N.y<(ls.y+rs.y)/2,ears=[7,8].filter(i=>lm[i]&&(lm[i].visibility??1)>=.35);
+      if(elb>150)PU.hang=Math.max(PU.hang||0,sy-wy);
+      const chinY=front?N.y:ears.length?ears.reduce((a,i)=>a+lm[i].y,0)/ears.length+.3*Math.max(0,(ls.y+rs.y)/2-ears.reduce((a,i)=>a+lm[i].y,0)/ears.length):null;
+      const topOK=chinY!=null?chinY<wy:PU.hang>0&&(sy-wy)<PU.hang*.35&&elb<100;
       if(state==='up'){ // hanging, waiting for a pull
-        if(elb>150){if(dropped&&botY!=null&&N.y>=wy){dropped=false;ev={type:'partial'};cue='Pull higher: chin over the bar'}botY=Math.max(botY??0,sy);if(!dropped&&!ev)cue=reps?'Pull again!':'Pull until your chin clears the bar'}
+        if(elb>150){if(dropped&&botY!=null&&!topOK){dropped=false;ev={type:'partial'};cue='Pull higher: chin over the bar'}botY=Math.max(botY??0,sy);if(!dropped&&!ev)cue=reps?'Pull again!':'Pull until your chin clears the bar'}
         if(botY!=null&&botY-sy>0.05)dropped=true;
-        if(botY!=null&&N.y<wy&&botY-sy>0.06){state='down';ext=elb;dropped=false;cue='Now lower all the way down'}
+        if(botY!=null&&topOK&&botY-sy>0.06){state='down';ext=elb;dropped=false;cue='Now lower all the way down'}
         else if(dropped&&!ev)cue='Higher… chin over the bar'}
       else{ext=Math.min(ext,elb);if(elb>150){state='up';botY=sy;
         if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<60,depth:ext};cue=ext<60?'Perfect pull-up!':'Good rep!'}else{ev={type:'fast'};cue='Control the way down'}ext=null}}
@@ -3111,7 +3116,7 @@ function drawPose(lm){const c=$('btC'),v=$('btV');if(!c||!v)return;const W=c.wid
 function loop(){if(!BT||!BT.lmk)return;BT.raf=requestAnimationFrame(loop);const v=$('btV');if(!v||v.readyState<2)return;const now=performance.now();if(now-BT.lastTs<33)return;BT.lastTs=now;
   let lm=null;try{const r=BT.lmk.detectForVideo(v,now);lm=r&&r.landmarks&&r.landmarks[0]||null}catch(e){}
   drawPose(lm);liveTick(lm);const asp=(v.videoWidth||4)/(v.videoHeight||3);
-  if(BT.phase==='cal'){const ids={squat:[23,25,27],lunge:[23,25,27],pushup:[11,13,15,23],plank:[11,23,27],situp:[11,23,25],pullup:[0,11,12,15,16],jacks:[0,15,16,27,28],highknees:[23,24,25,26],climbers:[11,23,25],bridge:[11,23,25],wallsit:[23,25,27],burpee:[11,23]}[BT.ex]||[23,25,27];const sideIds=BT.ex==='pullup'||BT.ex==='jacks'||BT.ex==='highknees'?[ids]:[ids,ids.map(i=>i+1)];
+  if(BT.phase==='cal'){const ids={squat:[23,25,27],lunge:[23,25,27],pushup:[11,13,15,23],plank:[11,23,27],situp:[11,23,25],pullup:[11,12,15,16],jacks:[0,15,16,27,28],highknees:[23,24,25,26],climbers:[11,23,25],bridge:[11,23,25],wallsit:[23,25,27],burpee:[11,23]}[BT.ex]||[23,25,27];const sideIds=BT.ex==='pullup'||BT.ex==='jacks'||BT.ex==='highknees'?[ids]:[ids,ids.map(i=>i+1)];
     const seen=lm&&sideIds.some(set=>set.every(i=>(lm[i].visibility??1)>=.55));BT.okFrames=seen?BT.okFrames+1:0;
     $('cue').textContent=seen?'Hold still…':(lm?EX[BT.ex].tip:'Step into view of the camera');$('cue').classList.toggle('good',!!seen);
     if(BT.okFrames>=20){BT.phase='cd';countdown()}return}
@@ -3338,7 +3343,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22.1';
+const APP_VERSION='22.2';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -5096,6 +5101,7 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'22.2',d:'Nov 24, 2026',t:'Pull-ups from behind',items:['Pull-ups now count with your back to the camera too. Turn around so the camera sees your back, hands and shoulders; it checks that your head clears the bar and your arms bend, the same as facing it.']});
 CHANGELOG.unshift({v:'22.1',d:'Nov 24, 2026',t:'Party invite fix',items:['The quote of the day is back on Today. Your pet’s message now shows under it instead of replacing it.','Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.','Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.']});
 // ================= v22: your 3D gym =================
 // isometric helpers: x goes down-right, y goes down-left, z is height in px
