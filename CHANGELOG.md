@@ -3,6 +3,7 @@
 The same notes are in the app under Settings → Help → Patch notes.
 
 ## v22.1: Party invite fix (Nov 24, 2026)
+- The quote of the day is back on Today. Your pet’s message now shows under it instead of replacing it.
 - Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.
 - Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.
 - Database rules: invites can now be refreshed by the person who sent them. Publish the rules again.

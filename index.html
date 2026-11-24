@@ -1001,6 +1001,7 @@ h3.clH,b.clH{display:flex;align-items:center;gap:8px}
 #prB .prStep{display:block}
 .zBtn{font-size:14px!important;font-weight:900}.zBtn.on{background:#f2c230!important;color:#14201a!important}
 .feTips li{margin-bottom:6px}
+.hcSay{font-size:12px;color:var(--mute);margin-top:4px;line-height:1.3}
 </style>
 </head>
 <body>
@@ -4096,8 +4097,8 @@ function petSVG(k,mood=70){const p=PETS[k]||PETS.pup,h=mood>=60,sad=mood<40;
   const face2=k==='panda'?'<ellipse cx="48" cy="52" rx="8" ry="10" fill="#22252b" transform="rotate(-15 48 52)"/><ellipse cx="72" cy="52" rx="8" ry="10" fill="#22252b" transform="rotate(15 72 52)"/>':k==='fox'?`<path d="M60 80q-22-2-26-22 14 6 26 6t26-6q-4 20-26 22z" fill="#fff"/>`:'';
   return `<svg viewBox="0 0 120 110" class="petSvg${h?' happy':sad?' sad':''}"><ellipse cx="60" cy="104" rx="30" ry="5" fill="#000" opacity=".12"/><g class="pb">${ears}<ellipse cx="60" cy="84" rx="28" ry="20" fill="${p.c}"/><circle cx="60" cy="52" r="28" fill="${p.c}"/>${face2}${k==='panda'?eyes.replace(/#22252b/g,'#fff'):eyes}<ellipse cx="60" cy="59" rx="4" ry="3" fill="#22252b"/>${mouth}<circle cx="40" cy="62" r="4" fill="#ff8a9a" opacity="${h?.5:.2}"/><circle cx="80" cy="62" r="4" fill="#ff8a9a" opacity="${h?.5:.2}"/>${k==='dragon'?'<path d="M50 28l4-8 4 8 4-8 4 8" fill="#f2c230"/>':''}</g></svg>`}
 function renderHeroCard(){const box=$('heroCard');if(!box)return;const ps=petState(),q=quoteOfDay(),b=myBuild();
-  box.innerHTML=`<div class="hcRow"><div class="hcAv">${myAv()}</div>${S.pet?`<div class="hcPet" style="background:${(PHAB[S.pet.hab]||PHAB.park).c}">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div>`:''}<div class="hcTxt"><div class="bubble">${ps&&ps.say?esc(ps.say):`“${esc(q[0])}”<span>— ${esc(q[1])}</span>`}</div>
-   ${S.pet?`<div class="hcStat"><b>${esc(S.pet.name||PETS[S.pet.k].n)}</b> is ${ps.label.toLowerCase()} <span class="mbar"><i style="width:${ps.mood}%"></i></span></div>`:`<button class="small" data-heroTab="pet">Adopt a pet</button>`}</div></div>`}
+  box.innerHTML=`<div class="hcRow"><div class="hcAv">${myAv()}</div>${S.pet?`<div class="hcPet" style="background:${(PHAB[S.pet.hab]||PHAB.park).c}">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div>`:''}<div class="hcTxt"><div class="bubble">“${esc(q[0])}”<span>— ${esc(q[1])}</span></div>
+   ${S.pet?`<div class="hcStat"><b>${esc(S.pet.name||PETS[S.pet.k].n)}</b> is ${ps.label.toLowerCase()} <span class="mbar"><i style="width:${ps.mood}%"></i></span></div>${ps&&ps.say?`<div class="hcSay">🐾 ${esc(ps.say)}</div>`:''}`:`<button class="small" data-heroTab="pet">Adopt a pet</button>`}</div></div>`}
 // ================= hero sheet (avatar, pet, profile) =================
 let htab='avatar',hcat='look',tryCfg=null;
 const owns=k=>(S.owned||[]).includes(k);
@@ -5095,7 +5096,7 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
-CHANGELOG.unshift({v:'22.1',d:'Nov 24, 2026',t:'Party invite fix',items:['Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.','Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.']});
+CHANGELOG.unshift({v:'22.1',d:'Nov 24, 2026',t:'Party invite fix',items:['The quote of the day is back on Today. Your pet’s message now shows under it instead of replacing it.','Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.','Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.']});
 // ================= v22: your 3D gym =================
 // isometric helpers: x goes down-right, y goes down-left, z is height in px
 const GI=(x,y,z=0)=>[180+(x-y)*34,128+(x+y)*17-z];
