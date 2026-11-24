@@ -212,6 +212,8 @@ service cloud.firestore {
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + me()))
         && me() in get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.members;
       allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
+      allow update: if signedIn() && resource.data.from == me() && request.resource.data.from == me()
+        && request.resource.data.to == resource.data.to && request.resource.data.pid == resource.data.pid;
       allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
     }
       // v20: live workouts (avatar motion only, never video)

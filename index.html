@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22">
+<meta name="ps-version" content="22.1">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -987,7 +987,7 @@ body.sbx header{margin-top:30px}
 .gSw{width:100%;aspect-ratio:1.4;max-height:60px;border-radius:12px;display:block;margin-bottom:2px}
 .gSw.lt-off{background:linear-gradient(#bfe3ff,#fff)}.gSw.lt-warm{background:radial-gradient(circle at 50% 20%,#ffd36b,#ff8a3d)}.gSw.lt-neonl{background:linear-gradient(90deg,#ff3df5,#7a3cff,#3df5ff)}.gSw.lt-spot{background:radial-gradient(circle at 50% 0,#fff3b0 0 25%,#05030c 70%)}
 /* v22 avatars, sheets, collapsibles, prompts, camera */
-.avatar{overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}.avatar .cav{width:100%;height:100%;border-radius:50%}
+.avatar{position:relative;display:block;flex:none;overflow:visible}.avatar>.cav{position:absolute!important;inset:0;width:100%!important;height:100%!important;margin:0!important;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px rgba(255,255,255,.45)}.avatar.dot::after{z-index:2}
 .acAv,.acAv .cav{width:48px!important;height:48px!important;cursor:pointer}
 .clH{cursor:pointer;user-select:none;-webkit-user-select:none}
 h3.clH,b.clH{display:flex;align-items:center;gap:8px}
@@ -3337,7 +3337,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22';
+const APP_VERSION='22.1';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3967,8 +3967,16 @@ async function mbEnsureParty(){const m=mbNow();if(m.pid)return m.pid;const fs=FB
 function openMbInvite(){const list=SOC.friends.map(f=>[f.uid,SOC.profiles[f.uid]]).filter(x=>x[1]);const p=MBP;
   $('mbiList').innerHTML=list.length?list.map(([u,q])=>{const inP=p&&p.members.includes(u);return `<div class="fr"><span class="gav">${pAv(q)}</span><div class="fmid"><b>${esc(q.name)}</b><div class="muted sm">Lv ${q.L||1}</div></div><button class="small${inP?' ghost':''}" data-mbinv="${u}" ${inP?'disabled':''}>${inP?'In party':'Invite'}</button></div>`}).join(''):'<p class="muted sm">Add friends first in the Friends tab.</p>';openSheet('mbiSheet')}
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-mbinv]');if(!b)return;b.disabled=true;const to=b.dataset.mbinv,push=$('mbiPush').checked;
-  try{const pid=await mbEnsureParty();await FB.fs.setDoc(FB.fs.doc(FB.db,'mpInv',pid+'_'+to),{pid,to,from:user.uid,fromName:(S.name||'Friend').slice(0,30),boss:eventBoss().n,diff:mbNow().diff,ts:Date.now(),ping:push});b.textContent='Invited';sfx('send')}
-  catch(er){b.disabled=false;toast(er.code==='permission-denied'?'Party invites need the latest database rules (SETUP.md step 4).':'Couldn’t invite: '+(er.code||''))}});
+  const fs=FB.fs,send=pid=>{const ref=fs.doc(FB.db,'mpInv',pid+'_'+to),data={pid,to,from:user.uid,fromName:(S.name||'Friend').slice(0,30),boss:eventBoss().n,diff:mbNow().diff,ts:Date.now(),ping:push};
+    // an older invite to the same friend makes this an update, so clear it and send fresh
+    return fs.setDoc(ref,data).catch(async er=>{if(er.code!=='permission-denied')throw er;await fs.deleteDoc(ref).catch(()=>{});return fs.setDoc(ref,data)})};
+  try{let pid=await mbEnsureParty();
+    try{await send(pid)}catch(er){if(er.code!=='permission-denied')throw er;
+      // the saved party may be gone or you may no longer be in it: start a fresh one and try again
+      const d=await fs.getDoc(fs.doc(FB.db,'mparty',pid)).catch(()=>null),ok=d&&d.exists()&&(d.data().members||[]).includes(user.uid);
+      if(ok)throw er;const m=mbNow();m.pid=null;store.saveMeta();pid=await mbEnsureParty();await send(pid)}
+    b.textContent='Invited';sfx('send')}
+  catch(er){b.disabled=false;console.warn('party invite',er);toast(er.code==='permission-denied'?'Couldn’t invite: the database said no. Make sure the rules from this update are published, then try again.':'Couldn’t invite: '+(er.code||er.message||'error'))}});
 async function joinParty(inv){const fs=FB.fs,me=user.uid;try{const ref=fs.doc(FB.db,'mparty',inv.pid);
   const d=await fs.getDoc(ref).catch(()=>null);const base=d&&d.exists()?d.data().base:mbBase(inv.diff);
   await fs.updateDoc(ref,{members:fs.arrayUnion(me),['names.'+me]:(S.name||'Friend').slice(0,30),hp:fs.increment(Math.round(base*.8)),max:fs.increment(Math.round(base*.8))});
@@ -5087,6 +5095,7 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'22.1',d:'Nov 24, 2026',t:'Party invite fix',items:['Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.','Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.']});
 // ================= v22: your 3D gym =================
 // isometric helpers: x goes down-right, y goes down-left, z is height in px
 const GI=(x,y,z=0)=>[180+(x-y)*34,128+(x+y)*17-z];

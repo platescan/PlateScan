@@ -2,6 +2,11 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.1: Party invite fix (Nov 24, 2026)
+- Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.
+- Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.
+- Database rules: invites can now be refreshed by the person who sent them. Publish the rules again.
+
 ## v22: Your own 3D gym, avatars everywhere and a better plank (Nov 24, 2026)
 - Your own 3D gym: a new Gym tab in the menu. Place equipment and wall decor, pick floors, walls and lighting, and name your gym. Your avatar and pet hang out in it.
 - Gym shop: 15 pieces of equipment, 9 wall decorations, 6 floors, 6 wall styles and 4 lighting moods. Most cost gold; some unlock from daily quests, levels and bosses, and each month’s boss gives a holiday decoration you can only get that month.
