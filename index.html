@@ -932,6 +932,7 @@ body.sbx header{margin-top:30px}
 .mth.fp{display:grid;place-items:center;position:relative;overflow:hidden}.mth.fp .e1{font-size:30px;line-height:1}.mth.fp .e2{position:absolute;right:3px;bottom:2px;font-size:17px}
 .hWhy .tx{flex:1;min-width:0}
 .cbPick:not(.sty) button{background:var(--sunk)!important}.cbPick.sty button{background:var(--g)!important;opacity:1!important}
+.fCode b{font-size:17px;letter-spacing:.03em}
 </style>
 </head>
 <body>
@@ -3202,6 +3203,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
 function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey(Date.now()),wd=p.wk===wk?p.wd||[]:[0,0,0,0,0,0,0],th=weekTheme(wk),mx=45+PTS[th.k],left=nudgeLeft(uid);
   $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood,p.pet.acc)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}
    ${fsCard(uid,p)}
+   ${p.tag||isAdmin?`<div class="card fCode"><div class="row between" style="gap:8px"><div><span class="muted sm">Friend code</span><div><b>${esc(p.tag||'Not set yet')}</b></div></div><div class="row" style="gap:6px">${p.tag?`<button class="chip" data-fcopy="${esc(p.tag)}">Copy</button>`:''}${isAdmin?`<button class="small red" data-fbadge="${esc(p.tag||uid)}">🏅 Give badge</button>`:''}</div></div></div>`:''}
    ${sharedHTML(p)}
    ${p.cb&&p.cb.length?`<div class="card"><h3>Special badges</h3>${cbRow(p.cb)}</div>`:''}
    <div class="g3 btInfo"><div><b>📅 ${p.streak||0}</b><span>logging streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
@@ -4832,10 +4834,17 @@ document.addEventListener('click',e=>{const c=e.target.closest('[data-smc]');if(
 GUIDE.unshift(['Live workouts','When you fight or work out, friends can watch your hero move in real time (never your camera) and send emoji cheers. Each cheer gives you +5% damage for 10 seconds, up to +25%. Friends get a heads-up when you go live, and a Watch button shows on Today and Friends. Turn it off on the workout setup screen.'],
   ['Smart reminders','Up to 3 helpful notifications a day (around noon, 4 PM and 8 PM), only when they matter: save your streak, catch up on your monthly boss, log a meal, or check on your pet. Pick the kinds you want in Settings → Reminders.'],
   ['Meal health score','When you build a meal, PlateScan grades it A to F with a health score out of 100, shows how well it fits your goal (Great, Good, Okay or Poor) and explains why. Logged meals show their grade and a food picture in your history.']);
-CHANGELOG.unshift({v:'20',d:'Nov 23, 2026',t:'Live workouts, health scores and smart reminders',items:['Live workouts: friends can watch your hero move as you work out (never your real camera) and send emoji cheers. Cheers give +5% damage for 10 seconds, up to +25%.','A “just went live” alert, a Watch button on Today and Friends, and a push notification for friends.','Meal health score: every meal gets an A to F grade, a score out of 100, how well it fits your goal and why.','Meals without a photo now get a food picture based on what’s in them, plus their grade.','Smart reminders: up to 3 a day, only when needed, for streaks, boss battles, logging and your pet. Choose the kinds in Settings → Reminders.','After you sign in, a quick “Get the full PlateScan” screen helps you add the app to your Home Screen and turn on notifications.','The daily login reward now resets at midnight and pops up right away, with a countdown to the next one.','Referrals now give a Basic Egg to you and your friend, and new Referral badges go from Bronze Recruiter up to Legendary Ambassador.','Special badges: the PlateScan team can now award one-of-a-kind badges, which show on your profile.']});
+CHANGELOG.unshift({v:'20',d:'Nov 23, 2026',t:'Live workouts, health scores and smart reminders',items:['Live workouts: friends can watch your hero move as you work out (never your real camera) and send emoji cheers. Cheers give +5% damage for 10 seconds, up to +25%.','A “just went live” alert, a Watch button on Today and Friends, and a push notification for friends.','Meal health score: every meal gets an A to F grade, a score out of 100, how well it fits your goal and why.','Meals without a photo now get a food picture based on what’s in them, plus their grade.','Smart reminders: up to 3 a day, only when needed, for streaks, boss battles, logging and your pet. Choose the kinds in Settings → Reminders.','After you sign in, a quick “Get the full PlateScan” screen helps you add the app to your Home Screen and turn on notifications.','The daily login reward now resets at midnight and pops up right away, with a countdown to the next one.','Referrals now give a Basic Egg to you and your friend, and new Referral badges go from Bronze Recruiter up to Legendary Ambassador.','Special badges: the PlateScan team can now award one-of-a-kind badges, which show on your profile.','Tap a friend to see their friend code with a Copy button. Admins also get a Give badge button there.']});
 
 {const _rb=renderBadges;renderBadges=function(){_rb();const b=$('exBadges');if(b&&(S.cb||[]).length)b.insertAdjacentHTML('afterbegin',`<div class="cbSec"><div class="lbl">Special badges</div>${cbRow(S.cb)}</div>`)}}
 {const _rd=render;render=function(...a){const r=_rd(...a);try{renderLiveBanner()}catch(e){}return r}}
+
+
+// ================= v20.1: friend code on a friend's screen + quick Give badge =================
+document.addEventListener('click',async e=>{const t=e.target;
+  const c=t.closest('[data-fcopy]');if(c){try{await navigator.clipboard.writeText(c.dataset.fcopy);toast('Friend code copied')}catch(er){prompt('Friend code:',c.dataset.fcopy)}return}
+  const b=t.closest('[data-fbadge]');if(b&&isAdmin){const code=b.dataset.fbadge;document.querySelectorAll('.sheet.on').forEach(x=>closeSheet(x.id));openSettings('help');
+    setTimeout(()=>{if(!$('devTools'))renderDev();const to=$('cbTo');if(to){to.value=code;const n=$('cbN');(n||to).scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>(n&&!n.value?n:to).focus(),400)}},450)}});
 
 // ================= start =================
 setMealType(defaultMealType());

@@ -12,6 +12,7 @@ The same notes are in the app under Settings → Help → Patch notes.
 - The daily login reward now resets at midnight and pops up right away, with a countdown to the next one.
 - Referrals now give a Basic Egg to you and your friend, and new Referral badges go from Bronze Recruiter up to Legendary Ambassador.
 - Special badges: the PlateScan team can now award one-of-a-kind badges, which show on your profile.
+- Tap a friend to see their friend code with a Copy button. Admins also get a Give badge button there.
 
 ## v19: Pet eggs and 36 pets (Nov 23, 2026)
 - Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.

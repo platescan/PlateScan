@@ -345,7 +345,7 @@ Each friend who joins with your link gives you **100 gold and a Basic Egg**; the
 Settings → Help, below the suggestions inbox:
 - **Sign up as a fake new user:** opens a sandbox that walks through the welcome screen, sign-up, setup and tour exactly like a new person. Nothing is saved online and your real account isn't touched. Tap **Exit** in the purple bar to go back.
 - Quick buttons: +5,000 gold, +1 of each egg, refill hearts, preview the Mythic hatch, reset today's login reward, preview level-up, replay the tour, show "Get the app", show patch notes.
-- **Custom badge:** name it, describe it, pick a symbol (crown, bolt, flame, gem, rocket, dumbbell, paw and more) and a finish (Gold, Holographic, Ruby, Emerald, Sapphire, Obsidian, Rose gold, Frost), then give it to anyone by friend code (like MIKE-1234) or user ID. They get a popup and it shows on their profile and Badges. **Take back** removes it. Needs the v20 rules.
+- **Custom badge:** name it, describe it, pick a symbol (crown, bolt, flame, gem, rocket, dumbbell, paw and more) and a finish (Gold, Holographic, Ruby, Emerald, Sapphire, Obsidian, Rose gold, Frost), then give it to anyone by friend code (like MIKE-1234) or user ID. Shortcut: tap the friend in your Friends list and tap **🏅 Give badge**, which fills in their code. (Everyone can see a friend's code there with a Copy button; your own code is under the bell 🔔.) They get a popup and it shows on their profile and Badges. **Take back** removes it. Needs the v20 rules.
 
 ## Pets and eggs
 Menu (☰) → **Pets** (its own tab). Sections: **My pet**, **Eggs**, **Collection**, **Gear**, **Habitat**.
