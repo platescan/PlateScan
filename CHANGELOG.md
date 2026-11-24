@@ -3,7 +3,7 @@
 The same notes are in the app under Settings → Help → Patch notes.
 
 ## v19: Pet eggs and 36 pets (Nov 23, 2026)
-- Pet eggs! Hatch Basic, Gym and Golden eggs in Locker → Pet → Eggs, with a hatching animation and odds shown on every egg.
+- Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.
 - 36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.
 - The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.
 - Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.

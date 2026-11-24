@@ -64,11 +64,12 @@ for (const doc of snap.docs) {
 }
 console.log(`Reminders sent: ${sent}, skipped: ${skipped}`);
 
-// ---- meal, water and weigh-in reminders ----
+const yestOf = d => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() - 1); return x.toISOString().slice(0, 10); };
+// ---- meal, water, weigh-in and pet reminders ----
 let extra = 0;
 for (const doc of snap.docs) {
-  const u = doc.data(), r = u.reminder || {}, m = r.more;
-  if (!m || !hasSub(r)) continue;
+  const u = doc.data(), r = u.reminder || {}, m = r.more || {};
+  if (!hasSub(r)) continue;
   const { today, hour } = localNow(r.tz || 'America/Phoenix');
   const dow = new Date(today + 'T12:00:00Z').getUTCDay();
   const st = u.status || {}, isToday = st.day === today, sentKeys = r.sentKeys || [];
@@ -85,6 +86,15 @@ for (const doc of snap.docs) {
   if (!msg && m.weigh && m.weigh.on && dow === (m.weigh.dow ?? 1) && hour === 8) {
     const last = st.lastWeigh ? new Date(st.lastWeigh + 'T12:00:00Z') : null, days = last ? (new Date(today + 'T12:00:00Z') - last) / 864e5 : 99;
     if (days >= 6) { key = `${today}-weigh`; msg = { title: 'Weekly weigh-in ⚖️', body: 'Step on the scale and log it in PlateScan to keep your trend accurate.' }; }
+  }
+  // pet alerts (on unless turned off): thirsty, wants to train, feeling down, egg ready
+  const pet = st.pet, petOn = !(m.pet && m.pet.on === false);
+  if (!msg && petOn && pet && pet.n) {
+    const goal = st.waterGoal || 8, had = isToday ? (st.water || 0) : 0, reps = isToday ? (st.reps || 0) : 0;
+    if ((hour === 13 && had < goal * 0.35) || (hour === 16 && had < goal * 0.6)) { key = `${today}-pthirst-${hour}`; msg = { title: `${pet.n} is thirsty 💧`, body: `You've had ${had} of ${goal} glasses. Drink one and log it so ${pet.n} perks up.` }; }
+    else if (hour === 18 && reps < 10) { key = `${today}-ptrain`; msg = { title: `${pet.n} wants to train 🏋️`, body: `Do 10 quick reps or fight a boss to make ${pet.n}'s day.` }; }
+    else if (hour === 12 && pet.d && pet.d >= yestOf(today) && (pet.mood ?? 100) < 40) { key = `${today}-psad`; msg = { title: `${pet.n} is feeling down 🥺`, body: 'Log a meal, drink water or finish a quest to cheer them up.' }; }
+    else if (hour >= 17 && hour <= 20 && (st.eggs || 0) > 0 && !sentKeys.includes(`egg-${st.eggN || 0}`)) { key = `egg-${st.eggN || 0}`; msg = { title: 'An egg is ready to hatch 🥚', body: `You have ${st.eggs} egg${st.eggs > 1 ? 's' : ''} waiting. Open Pets to see who's inside!` }; }
   }
   if (!msg || sentKeys.includes(key)) continue;
   try {

@@ -834,6 +834,34 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
 .hD{position:relative;max-width:320px;opacity:.85;margin:2px 0;font-size:14px}
 .hBtns{position:relative;display:flex;flex-direction:column;gap:8px;margin-top:16px;width:min(300px,90vw)}
 .hBtns .ghost{background:rgba(255,255,255,.12)!important;color:#fff!important}
+#v-pets .lkHead{margin-bottom:8px}
+#v-pets .ptabs button{font-size:12.5px}
+.pMine{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+.petStage.sm{padding:6px 0 2px;border-radius:18px}.petStage.sm .petBig{width:140px}
+.pInfo{display:flex;flex-direction:column;gap:3px;min-width:0;align-items:flex-start}
+.pInfo .rTag{position:static}
+.pName{font-size:20px;line-height:1.15}
+.pInfo .pstats{width:100%;margin:4px 0}
+.pDesc{margin:8px 2px}
+.pCare{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scroll-snap-type:x mandatory}
+.pCare button{flex:0 0 46%;scroll-snap-align:start;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;background:var(--sunk)!important;color:var(--ink)!important;border-radius:14px;padding:10px;min-height:0}
+.pCare small{color:var(--mute);font-weight:600;font-size:11.5px;line-height:1.25}.pCare em{font-style:normal;color:#a8730a;font-weight:800;display:flex;align-items:center;gap:3px;font-size:12px}
+.pCare .coin{width:13px;height:13px}
+.eggHow{margin-top:8px;background:var(--sunk);border-radius:14px;padding:10px 12px}.eggHow summary{font-weight:700;font-size:14px}
+.pFil{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.pFil button{flex:none;min-height:0;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:var(--sunk)!important;color:var(--rc)!important;border:2px solid transparent!important}
+.pFil button.on{border-color:var(--rc)!important}
+.dexGrid2{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+.dx{position:relative;padding:3px!important;border-radius:12px;background:var(--sunk)!important;border:2px solid color-mix(in srgb,var(--rc) 45%,transparent)!important;min-height:0;display:block}
+.dx svg{width:100%;display:block}
+.dx em{position:absolute;bottom:1px;left:0;right:0;text-align:center;font-style:normal;font-size:8px;color:var(--rc);font-weight:900;letter-spacing:-1px}
+.dx.on{border-color:var(--rc)!important;box-shadow:0 0 10px color-mix(in srgb,var(--rc) 55%,transparent)}
+.dx.lock svg{filter:brightness(0) opacity(.3)}
+.dx.lock em{font-size:11px}
+.pGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.pGrid .hTile{font-size:11px}
+.pGrid .pmini{width:44px}
+.pInfo .pstats>div{flex-direction:column;align-items:stretch;gap:3px}.pInfo .pstats .mbar{width:100%;flex:none}
 </style>
 </head>
 <body>
@@ -996,6 +1024,7 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
   </div>
 </section>
 <section id="v-locker"></section>
+<section id="v-pets"><div class="lkHead"><div><h2>Pets</h2><p class="muted sm">Hatch eggs, collect all 36 and keep your buddy happy.</p></div><span class="hsGold" id="ptGold"></span></div><div id="petBody"></div></section>
 </main>
 
 <div id="navScrim"></div>
@@ -1006,6 +1035,7 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
   <button data-go="log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7"/><path d="M3 20h18"/><path d="M19 4l2 2-2 2" stroke-width="1.8"/></svg><span>Progress</span></button>
   <button data-go="level"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5h6v6L10 20l-6-6z"/><path d="M5 13l6 6M3 21l3-3"/></svg><span>Quest</span><i class="ndot" id="questDot"></i></button>
   <button data-go="locker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18M9 9v2.5M15 9v2.5M7 17h2M15 17h2"/></svg><span>Locker</span></button>
+  <button data-go="pets"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><circle cx="5.5" cy="10.5" r="2.2"/><circle cx="18.5" cy="10.5" r="2.2"/><circle cx="9" cy="6.5" r="2.2"/><circle cx="15" cy="6.5" r="2.2"/></svg><span>Pets</span><i class="ndot" id="petDot"></i></button>
   <button data-go="friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.2a5 5 0 0 1 5.5 5.3"/></svg><span>Friends</span></button>
   <div class="snSp"></div>
   <button class="snSet" id="navRem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span>Reminders</span></button>
@@ -1312,7 +1342,7 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
 <script type="text/plain" id="wTpl">// PlateScan widget for Scriptable (scriptable.app)
 // Pick what it shows in PlateScan → You → Alerts → Widget. Changes appear here automatically.
 // To make one widget different, long-press it → Edit Widget → Parameter, e.g.  quests  or  kcal,water
-// Options: streak, quests, kcal, protein, water, level
+// Options: streak, quests, kcal, protein, water, level, pet
 const DATA = "https://firestore.googleapis.com/v1/projects/__PID__/databases/(default)/documents/widgets/__TOK__?key=__KEY__";
 const APP = "__APP__";
 function ymd(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
@@ -1335,7 +1365,7 @@ const proLeft = fresh ? (d.proLeft ?? d.proGoal ?? 0) : (d.proGoal ?? 0);
 const water = fresh ? (d.water || 0) : 0, waterGoal = d.waterGoal || 8;
 const param = (args.widgetParameter || "").trim().toLowerCase();
 let keys = (param || d.cfg || "streak,quests,kcal").split(",").map(s => s.trim()).filter(Boolean);
-const ALL = ["streak", "quests", "kcal", "protein", "water", "level"];
+const ALL = ["streak", "quests", "kcal", "protein", "water", "level", "pet"];
 keys = keys.filter(k => ALL.includes(k)); if (!keys.length) keys = ["streak"];
 
 const THEMES = {
@@ -1355,6 +1385,7 @@ function metric(k) {
     case "protein": return { sym: "bolt.fill", val: Math.max(0, Math.round(proLeft)) + "g", lab: proLeft <= 0 ? "protein hit" : "protein left", col: T.accent };
     case "water": return { sym: "drop.fill", val: `${water}/${waterGoal}`, lab: "glasses", col: "#3aa0e8" };
     case "level": return { sym: "star.fill", val: "Lv " + (d.level || 1), lab: d.title || "", col: T.accent };
+    case "pet": { const mood = d.petMood ?? 0, face = mood >= 80 ? "😄" : mood >= 60 ? "🙂" : mood >= 40 ? "😐" : "🥺"; return { sym: "pawprint.fill", val: d.petName ? face + " " + mood + "%" : "—", lab: d.petName ? d.petName + " is " + String(d.petLabel || "").toLowerCase() : "hatch a pet", col: mood >= 40 ? T.accent : T.warn, next: d.petSay || "" }; }
   }
 }
 function icon(stack, m, size, tint) { const img = stack.addImage(SFSymbol.named(m.sym).image); img.imageSize = new Size(size, size); img.tintColor = C(tint || m.col); return img; }
@@ -1660,7 +1691,7 @@ function celebrate(g){
 
 // ================= navigation + sheets =================
 let view='today';
-const NAVI={today:0,log:1,stats:1,body:1,plan:1,level:3,friends:4,locker:5};const PORD={log:0,stats:1,body:2,plan:3};let animNext=true;
+const NAVI={today:0,log:1,stats:1,body:1,plan:1,level:3,friends:4,locker:5,pets:6};const PORD={log:0,stats:1,body:2,plan:3};let animNext=true;
 function moveInd(){$('navInd').style.transform=`translateX(${(NAVI[view]||0)*100}%)`}
 function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v in PORD&&view in PORD&&PORD[v]<PORD[view]);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,scrollMem[v]||0);render()}
 function openSheet(id){$(id).classList.add('on');document.body.classList.add('lock');requestAnimationFrame(segAll)}
@@ -1879,9 +1910,9 @@ function render(){
   $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
   $('lvPill').textContent='Lv '+g.lv.L;$('goldTxt').textContent=fmt(S.gold||0);
   const nm=(S.name||(user&&user.email)||'').trim();$('avatarBtn').textContent=nm?nm[0].toUpperCase():'?';
-  if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='friends'){renderFriends();loadProfiles()}
+  if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='pets')renderPets();if(view==='friends'){renderFriends();loadProfiles()}
   animNext=false;moveInd();segAll();
-  celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);if(SOC.on)checkFriendStreaks();questHearts(g);mbCheck();renderHeroCard();renderNavMe();eggCheck(g);
+  celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);if(SOC.on)checkFriendStreaks();questHearts(g);mbCheck();renderHeroCard();renderNavMe();eggCheck(g);petDot();
   if(S.gold==null&&lsGet(obKey())){S.gold=50;store.saveMeta();enqueue({type:'ach',k:'Boss mode unlocked',name:'Here’s 50 gold to get you started. Check the Quest tab!'})}
   $('questDot').classList.toggle('on',chestReady()||stageState(((S.boss||{}).beat||0)+1,g.lv.L)==='open');
 }
@@ -2140,7 +2171,7 @@ function syncWidget(g){
   const j=JSON.stringify(w);if(j===lastWidget)return;lastWidget=j;
   clearTimeout(wT);wT=setTimeout(()=>{
     FB.fs.setDoc(FB.fs.doc(FB.db,'widgets',S.widgetToken),{...w,updated:Date.now()}).catch(e=>console.warn('widget',e.code));
-    FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{status:{lastLogDay:w.lastLogDay,streak:w.streak,day:ymd(Date.now()),types:[...new Set(((byDay()[ymd(Date.now())]||{}).meals||[]).map(m=>m.type))],water:(S.water||{})[ymd(Date.now())]||0,waterGoal:+S.profile.waterGoal||8,lastWeigh:(S.weights.slice().sort((a,b)=>a.d<b.d?-1:1).at(-1)||{}).d||null}},{merge:true}).catch(()=>{});
+    FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{status:{lastLogDay:w.lastLogDay,streak:w.streak,day:ymd(Date.now()),types:[...new Set(((byDay()[ymd(Date.now())]||{}).meals||[]).map(m=>m.type))],water:(S.water||{})[ymd(Date.now())]||0,waterGoal:+S.profile.waterGoal||8,lastWeigh:(S.weights.slice().sort((a,b)=>a.d<b.d?-1:1).at(-1)||{}).d||null,...petStatus()}},{merge:true}).catch(()=>{});
   },1200);
 }
 $('wCopy').onclick=async()=>{
@@ -3387,12 +3418,13 @@ function saveRecipe(){if(meal.length<1)return toast('Add the ingredients first')
 document.addEventListener('click',e=>{if(e.target.closest('#saveRecipe'))saveRecipe()});
 
 // ================= extra reminders =================
-function remMore(){return Object.assign({meals:{on:false,b:8,l:12,d:18},water:{on:false},weigh:{on:false,dow:1}},(S.reminder&&S.reminder.more)||{})}
+function remMore(){return Object.assign({meals:{on:false,b:8,l:12,d:18},water:{on:false},weigh:{on:false,dow:1},pet:{on:true}},(S.reminder&&S.reminder.more)||{})}
 function renderMoreRem(){const box=$('remMore');if(!box)return;const m=remMore(),on=S.reminder&&S.reminder.on,hs=h=>Array.from({length:18},(_,i)=>i+5).map(x=>`<option value="${x}" ${x===h?'selected':''}>${hourLabel(x)}</option>`).join('');
   box.innerHTML=`<div class="row between"><div><b>Meal reminders</b><div class="muted sm">A nudge at meal times if you haven’t logged that meal.</div></div><label class="switch"><input type="checkbox" data-rm="meals" ${m.meals.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
    ${m.meals.on?`<div class="g3" style="margin-top:8px"><label class="f"><span>Breakfast</span><select data-rh="b">${hs(m.meals.b)}</select></label><label class="f"><span>Lunch</span><select data-rh="l">${hs(m.meals.l)}</select></label><label class="f"><span>Dinner</span><select data-rh="d">${hs(m.meals.d)}</select></label></div>`:''}
    <div class="row between" style="margin-top:12px"><div><b>Water reminders</b><div class="muted sm">At 11 AM, 2 PM and 5 PM if you’re behind on water.</div></div><label class="switch"><input type="checkbox" data-rm="water" ${m.water.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
    <div class="row between" style="margin-top:12px"><div><b>Weekly weigh-in</b><div class="muted sm">8 AM on your chosen day if you haven’t weighed in this week.</div></div><label class="switch"><input type="checkbox" data-rm="weigh" ${m.weigh.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
+   <div class="row between" style="margin-top:12px"><div><b>Pet alerts 🐾</b><div class="muted sm">Your pet lets you know when it’s thirsty, wants to train, feels down, or when an egg is ready to hatch.</div></div><label class="switch"><input type="checkbox" data-rm="pet" ${m.pet.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
    ${m.weigh.on?`<label class="f" style="margin-top:8px"><span>Day</span><select data-rw>${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].map((d,i)=>`<option value="${i}" ${i===m.weigh.dow?'selected':''}>${d}</option>`).join('')}</select></label>`:''}
    ${on?'':'<p class="muted sm" style="margin:8px 0 0">Turn on the streak reminder above first. These use the same notifications.</p>'}`}
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#remMore'))return;const m=remMore();
@@ -3931,7 +3963,7 @@ function heroGrid(c){const pv=o=>`<span class="hmini">${heroSVG(Object.assign({}
 document.addEventListener('click',e=>{const t=e.target;
   const ht=t.closest('#hsTabs [data-ht]');if(ht){htab=ht.dataset.ht;renderHeroSheet();return}
   const hc=t.closest('#hcCat [data-hc]');if(hc){hcat=hc.dataset.hc;renderHeroSheet();return}
-  const ho=t.closest('[data-heroTab]');if(ho){htab=ho.dataset.herotab||'avatar';document.querySelectorAll('.sheet.on').forEach(x=>closeSheet(x.id));go('locker');return}
+  const ho=t.closest('[data-heroTab]');if(ho){const want=ho.dataset.herotab||'avatar';document.querySelectorAll('.sheet.on').forEach(x=>closeSheet(x.id));if(want==='pet'){go('pets')}else{htab=want;go('locker')}return}
   if(t.closest('#heroCard')&&!t.closest('button')){htab='avatar';go('locker');return}
   const hs=t.closest('[data-hset],[data-hbuy]');if(hs&&t.closest('#hsBody')){const set=hs.dataset.hset,key=hs.dataset.hbuy,price=+hs.dataset.price||0;
     if(key&&key.startsWith('pet:')){const k=key.slice(4);return buyOrUse(key,price,()=>{const first=!S.pet;S.pet=Object.assign({k,name:PETS[k].n,boosts:[]},S.pet||{},{k});if(first){S.pet.name=(prompt('Name your pet',PETS[k].n)||PETS[k].n).slice(0,20)}})}
@@ -4395,7 +4427,7 @@ function eggCheck(g){if(mode==='guest'&&0)return;S.eggs=Object.assign({basic:0,g
   const r=Math.floor(totalReps()/1000);if((c.reps??r)<r){for(let i=c.reps;i<r;i++){S.eggs.basic++;got.push('basic')}}c.reps=r;
   const bw=Math.floor(((S.boss||{}).n||0)/5);if((c.boss??bw)<bw){for(let i=c.boss;i<bw;i++){S.eggs.gym++;got.push('gym')}}c.boss=bw;
   const st=Math.floor(Math.max(g.best||0,g.curStreak||0)/7);if((c.streak??st)<st){for(let i=c.streak;i<st;i++){S.eggs.gym++;got.push('gym')}}c.streak=st;
-  if(got.length){store.saveMeta();const n=got.length;enqueue({type:'ach',k:n>1?`${n} eggs earned!`:`${EGGS[got[0]].n} earned!`,name:'Hatch it in Locker → Pet → Eggs'})}}
+  if(got.length){store.saveMeta();const n=got.length;enqueue({type:'ach',k:n>1?`${n} eggs earned!`:`${EGGS[got[0]].n} earned!`,name:'Hatch it in Pets → Eggs'})}}
 function rollRarity(t){const tab=EGGS[t].t,pity=S.pity=Object.assign({gym:0,gold:0},S.pity);
   if(t==='gold'&&pity.gold>=14){return Math.random()<.1?'mythic':'legendary'}if(t==='gym'&&pity.gym>=9)return Math.random()<.2?'legendary':'epic';
   let x=Math.random()*100;for(const r of RORD){if(!tab[r])continue;if((x-=tab[r])<0)return r}return 'common'}
@@ -4465,12 +4497,52 @@ function BGX2(k,id){
   return ''}
 
 // ================= v19: guide + patch notes =================
-GUIDE.unshift(['Pets and eggs','Locker → Pet → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
-CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in Locker → Pet → Eggs, with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
+GUIDE.unshift(['Pets and eggs','Menu → Pets → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
+CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
 
 const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity'];
 function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
 function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
+
+
+// ================= v19.1: Pets is its own tab =================
+{const b=$('hsTabs').querySelector('[data-ht=pet]');if(b)b.remove()}
+function renderPets(){const el=$('petBody');if(!el)return;$('ptGold').innerHTML=`${COIN}${fmt(S.gold||0)}`;el.innerHTML=petTabHTML();requestAnimationFrame(()=>segInd($('ptabs')))}
+{const _rhs=renderHeroSheet;renderHeroSheet=function(){if(htab==='pet')htab='avatar';_rhs();if(view==='pets')renderPets()}}
+function petDot(){const e=$('petDot');if(!e)return;const eg=S.eggs||{};e.style.display=(eg.basic||0)+(eg.gym||0)+(eg.gold||0)>0?'block':'none'}
+
+// ================= v19.1: compact Pets tab, pet widget + notifications =================
+let pfil='all';
+petTabHTML=function(){const own=myPets(),ps=S.pet?petState():null,cnt=Object.keys(own).length,eg=Object.assign({basic:0,gym:0,gold:0},S.eggs),eT=eg.basic+eg.gym+eg.gold;
+  if(!S.pet&&ptab==='mine')ptab='eggs';
+  const tabs=`<div class="seg ptabs" id="ptabs">${[['mine','My pet'],['eggs','Eggs'+(eT?` (${eT})`:'')],['dex',`${cnt}/${PET_KEYS.length}`],['gear','Gear'],['hab','Habitat']].map(([k,n])=>`<button data-ptab="${k}" class="${k===ptab?'on':''}">${k==='dex'?'📖 ':''}${n}</button>`).join('')}</div>`;
+  let body='';
+  if(ptab==='mine'&&S.pet){const p=PETS[S.pet.k]||PETS.pup,r=p.r||'common',st=Math.min(5,(own[S.pet.k]||{}).n||1),hab=PHAB[S.pet.hab]||PHAB.park;
+    body=`<div class="pMine"><div class="petStage sm" style="background:${hab.c}"><div class="petBig">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div></div>
+      <div class="pInfo"><span class="rTag" style="background:${RAR[r].c}">${RAR[r].n} ${'★'.repeat(st)}</span><b class="pName">${esc(S.pet.name||p.n)}</b><div class="muted sm">${esc(p.n)}</div>
+      <div class="pstats"><div><span>Mood · ${ps.label}</span><span class="mbar"><i style="width:${ps.mood}%"></i></span></div><div><span>Health</span><span class="mbar"><i style="width:${ps.health}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div></div>
+      <button class="small ghost" id="petRename">Rename</button></div></div>
+      <p class="muted sm pDesc">${esc(p.d||'')} ${ps.say?`<b>${esc(ps.say)}</b>`:'Happiest when you log meals, hit protein, drink water, finish quests and work out.'}</p>
+      <div class="pCare">${Object.entries(PET_ITEMS).map(([k2,it])=>`<button data-petbuy="${k2}"><b>${esc(it.n)}</b><small>${esc(it.d)}</small><em>${COIN}${fmt(it.g)}</em></button>`).join('')}</div>`}
+  else if(ptab==='eggs'){body=`<div class="eggGrid">${Object.entries(EGGS).map(([t,E])=>`<div class="eggCard ${t}"><div class="eggPic">${eggSVG(t,'idle')}${eg[t]?`<span class="eggN">${eg[t]}</span>`:''}</div><b>${E.n}</b><div class="odds">${RORD.filter(r=>E.t[r]).map(r=>`<span style="color:${RAR[r].c}">${RAR[r].n} ${E.t[r]}%</span>`).join('')}</div><button class="small${t==='gold'?' gold':''}" data-hatch="${t}" ${eg[t]||(S.gold||0)>=E.g?'':'disabled'}>${eg[t]?`Hatch free (${eg[t]})`:`${COIN}${fmt(E.g)}`}</button></div>`).join('')}</div>
+     <p class="muted sm" style="margin:8px 2px 0">Rarest: <b style="color:${RAR.mythic.c}">Celestial Swole Dragon</b> (Golden Egg, 2%). Duplicates add ★ and give 20% gold back.</p>
+     <details class="eggHow"><summary>Free eggs and lucky streak protection</summary><ul class="sm eggWays"><li>🥚 Basic Egg every 1,000 reps (${fmt(1000-totalReps()%1000)} to go)</li><li>🏋️ Gym Egg every 5 bosses beaten and every 7-day logging streak</li><li>🌟 Golden Egg for beating the monthly boss</li></ul><p class="muted sm" style="margin:0">Gym Egg: Epic or better guaranteed after 9 misses (${(S.pity||{}).gym||0}/9). Golden Egg: Legendary or better after 14 (${(S.pity||{}).gold||0}/14).</p></details>`}
+  else if(ptab==='dex'){const keys=pfil==='all'?PET_KEYS.slice().sort((a,b)=>RORD.indexOf(PETS[a].r)-RORD.indexOf(PETS[b].r)):petsOf(pfil);
+    body=`<div class="pFil">${['all',...RORD].map(r=>{const ks=r==='all'?PET_KEYS:petsOf(r);return `<button data-pfil="${r}" class="${pfil===r?'on':''}" style="--rc:${r==='all'?'var(--kale2)':RAR[r].c}">${r==='all'?'All':RAR[r].n} ${ks.filter(k=>own[k]).length}/${ks.length}</button>`}).join('')}</div>
+     <div class="dexGrid2">${keys.map(k=>{const o=own[k],r=PETS[k].r,on=S.pet&&S.pet.k===k;return o?`<button class="dx${on?' on':''}" data-pset="${k}" style="--rc:${RAR[r].c}" title="${esc(PETS[k].n)}" aria-label="${esc(PETS[k].n)}">${petSVG(k,80)}<em>${'★'.repeat(Math.min(5,o.n||1))}</em></button>`:`<div class="dx lock" style="--rc:${RAR[r].c}" title="${RAR[r].n}">${petSVG(k,70)}<em>?</em></div>`}).join('')}</div>
+     <p class="muted sm" style="margin:8px 2px 0">${S.pet?`Active: <b>${esc(PETS[S.pet.k].n)}</b>. `:''}Tap a pet to make it your buddy. Dark ones are still waiting in eggs.</p>`}
+  else if(ptab==='gear'){body=S.pet?`<div class="hGrid pGrid">${tileP('none','None',0,!S.pet.acc,'')}${Object.entries(PACC).map(([k,a])=>tileP(k,a.n,a.g,S.pet.acc===k,`<span class="pmini">${petSVG(S.pet.k,80,k)}</span>`,a.req,'pacc')).join('')}</div>`:'<p class="muted sm">Hatch a pet first.</p>'}
+  else if(ptab==='hab'){body=S.pet?`<div class="hGrid pGrid">${Object.entries(PHAB).map(([k,a])=>tileP(k,a.n,a.g,(S.pet.hab||'park')===k,`<span class="habSw" style="background:${a.c}"></span>`,a.req,'phab')).join('')}</div>`:'<p class="muted sm">Hatch a pet first.</p>'}
+  return tabs+body};
+document.addEventListener('click',e=>{const f=e.target.closest('[data-pfil]');if(f){pfil=f.dataset.pfil;sfx('tap');renderPets()}});
+// widget: pet metric
+WM.pet='Pet';WIC.pet='<g fill="@COL"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><circle cx="5.5" cy="10.5" r="2.2"/><circle cx="18.5" cy="10.5" r="2.2"/><circle cx="9" cy="6.5" r="2.2"/><circle cx="15" cy="6.5" r="2.2"/></g>';
+{const _wd=widgetData;widgetData=function(g){const d=_wd(g),ps=S.pet?petState():null;if(ps){d.petName=S.pet.name||PETS[S.pet.k].n;d.petMood=ps.mood;d.petLabel=ps.label;d.petSay=ps.say||''}return d}}
+{const _wm=wMetric;wMetric=function(k,d,theme){if(k!=='pet')return _wm(k,d,theme);const acc=theme==='light'?'#1d4a37':'#f2c230',warn=theme==='light'?'#e5432d':'#ff8a66',mood=d.petMood??0,face=mood>=80?'😄':mood>=60?'🙂':mood>=40?'😐':'🥺';
+  const m={val:d.petName?`${face} ${mood}%`:'—',lab:d.petName?`${d.petName} is ${(d.petLabel||'').toLowerCase()}`:'hatch a pet',col:mood>=40?acc:warn,next:d.petSay||''};m.ic=s=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24">${WIC.pet.replaceAll('@COL',m.col)}</svg>`;return m}}
+// status for pet push notifications
+function petStatus(){const ps=S.pet?petState():null,eg=S.eggs||{};return {pet:ps?{n:(S.pet.name||PETS[S.pet.k].n).slice(0,24),mood:ps.mood,d:ymd(Date.now())}:null,reps:(S.reps||{})[ymd(Date.now())]||0,eggs:(eg.basic||0)+(eg.gym||0)+(eg.gold||0),eggN:(S.eggClaim||{}).total||0}}
+{const _ec=eggCheck;eggCheck=function(g){const before=Object.values(Object.assign({basic:0,gym:0,gold:0},S.eggs)).reduce((a,b)=>a+b,0);_ec(g);const after=Object.values(Object.assign({basic:0,gym:0,gold:0},S.eggs)).reduce((a,b)=>a+b,0);if(after>before){S.eggClaim=Object.assign({},S.eggClaim);S.eggClaim.total=(S.eggClaim.total||0)+(after-before)}}}
 
 // ================= start =================
 setMealType(defaultMealType());

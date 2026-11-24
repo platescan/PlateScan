@@ -300,7 +300,7 @@ Quest → Bosses → **Monthly boss**. Each month's boss is themed on that month
 **Parties:** tap **+ Invite friends**. Each friend adds 80% HP, everyone shares the pace, and rewards are +50% (gold, XP, an exclusive badge and an Elixir of Legends). Each member's total reps for the month are shown.
 
 ## Pets and eggs
-Locker → **Pet**. Tabs: **My pet**, **Eggs**, **Collection**, **Gear**, **Habitat**.
+Menu (☰) → **Pets** (its own tab). Sections: **My pet**, **Eggs**, **Collection**, **Gear**, **Habitat**.
 - **Eggs:** Basic (250 gold: common 70%, rare 25%, epic 5%), Gym (900: common 25%, rare 45%, epic 25%, legendary 5%) and Golden (3,000: rare 30%, epic 45%, legendary 23%, **mythic 2%**). The Mythic **Celestial Swole Dragon** only hatches from Golden Eggs.
 - **36 pets** in 5 rarities, including gym-themed originals: Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin, Titan Tiger.
 - **Free eggs:** everyone starts with one Basic Egg; a Basic Egg every 1,000 reps; a Gym Egg every 5 bosses beaten and every 7-day logging streak; a Golden Egg for beating the monthly boss.
