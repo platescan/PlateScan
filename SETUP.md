@@ -215,6 +215,16 @@ service cloud.firestore {
       allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
     }
       // v20: live workouts (avatar motion only, never video)
+    // Gym likes: one per friend per gym
+    match /gymLikes/{lid} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.by == me() && request.resource.data.owner != me()
+        && lid == request.resource.data.owner + '_' + me()
+        && request.resource.data.keys().hasOnly(['owner','by','name','ts'])
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.owner + '_' + me())) && !exists(/databases/$(database)/documents/bans/$(me()));
+      allow delete: if signedIn() && (resource.data.by == me() || resource.data.owner == me());
+    }
+
     match /lives/{uid} {
       allow read: if signedIn() && !exists(/databases/$(database)/documents/blocks/$(uid + '_' + me()));
       allow write: if signedIn() && me() == uid && !exists(/databases/$(database)/documents/bans/$(me()));
@@ -325,6 +335,32 @@ People can send ideas, problems and missing foods from **Settings → Help → S
 4. Document ID: paste your user ID. Add a field: name `role`, type string, value `owner`. Click **Save**.
 5. Reopen PlateScan. **Help** now shows a **Suggestions inbox** with everything people send. A red dot on your initial means there's something new. Mark each one **Planned** or **Done** (the sender sees that status) or delete it.
 
+## Your gym (new in v22)
+Menu → **Gym**. A 3D gym that's yours to build:
+- **Edit**: tap a glowing spot on the floor (6 spots) or wall (2 spots) to buy and place something. Tap a placed item's spot again to swap it or leave it empty.
+- **Style**: floors, wall styles and lighting. **Shop**: everything in one place. Tap ✏️ to name your gym.
+- **How you get items**: gold for most; the Smoothie bar and Quest Master plaque from daily quests (30 and 100), the Cable machine at level 12, the Trophy case after 10 bosses, the Golden champion statue after 20 bosses plus gold, and one holiday decoration from each month's boss (only that month).
+- **Stars**: 1 to 5, based on how much is in your gym.
+- **Friends**: visit from **Friends' gyms** on the Gym tab or the **Visit gym** button on a friend's profile, and tap **Like**. You get a pop-up when someone likes yours. Likes need the v22 database rules (step 4).
+
+## Avatars everywhere (v22)
+Your custom avatar (Locker → Avatar) replaces the old preset heroes everywhere: leaderboards, friend requests, duels, the activity feed, the top bar and Settings → Account. Tapping your avatar on Friends opens the Locker.
+
+## Forgot password or email (v22)
+On **Sign in**: **Forgot password?** sends a reset email (tell users to check spam). **Forgot email?** shows the email last used on that phone (partly hidden) with a **Use this email** button, plus tips for finding it.
+
+## Camera zoom, plank and sounds (v22)
+- **.5× zoom**: during a workout with the **back camera**, a **.5×** button appears at the top if the phone has an ultra-wide lens (most iPhones since the 11, many Androids). The front camera can't zoom out. The choice is remembered.
+- **Planks** only count on elbows or hands with hips off the floor; lying flat says "Prop up on your elbows or hands".
+- **Hit sounds**: normal hits play a bright two-note chime; critical hits keep the big sound.
+- **Screen recordings**: Settings → Alerts → **Sound in screen recordings** (on by default) plays game sounds and voice counting even with the silent switch on, so iPhone screen recordings capture them. It can pause music from other apps; turn it off to keep music playing.
+
+## Live workouts: smoother playback (v22)
+Live workouts now send 15 frames a second with finer positions and the real camera shape, and viewers' phones buffer about a second and smooth between frames, so movement looks fluid instead of jumpy. Uses about the same database writes as before.
+
+## Folding cards (v22)
+Fill your bars, the suggestion box and the admin sections (suggestions inbox, owner dashboard, reports, developer tools) fold with a tap on their title and remember how you left them.
+
 ## Daily rewards and tips
 Everyone gets a daily reward the first time they open PlateScan each day: gold that grows over 7 days, with an XP potion on day 7. Missing a single day keeps their progress; missing two starts over. PlateScan also shows at most one friendly tip a day: how to add it to the Home Screen (if they haven't), or to turn on reminders (once it's installed). Tapping **Not now** hides that tip for 3 days.
 
@@ -373,7 +409,7 @@ Settings → Reminders → **Smart reminders**. Up to 3 a day (around noon, 4 PM
 While building a meal, PlateScan shows an **A to F grade**, a **Health score out of 100**, a **Goal fit** (Great, Good, Okay or Poor for losing, gaining or maintaining) and the reasons (protein, whole foods, processed or sugary items, meal size, calories and protein left today). Logged meals without a photo get a food picture based on what's in them, plus their grade, on Today and in Progress.
 
 ## Get the app (after signing in)
-After someone signs in, PlateScan shows **Get the full PlateScan** with two steps: add to Home Screen (instructions for iPhone, an Install button on Android and desktop) and turn on notifications. It shows once per sign-in and only if something isn't set up yet.
+After the tour (and after signing in), PlateScan shows two quick pop-ups, one at a time: **Add to Home Screen** (steps for iPhone, an Install button on Android and desktop), then **Turn on notifications** (on iPhone in Safari it offers Calendar reminders instead). Each only shows if that step isn't done yet, and never on top of another screen.
 
 ## Daily login reward
 The reward resets at **midnight** your time. If the app is open at midnight it pops up right away, and after claiming you see a countdown to the next one.
@@ -405,11 +441,11 @@ The weekly leaderboard updates live (watch for the red **LIVE** dot), and you ge
 ## The menu
 The tabs moved from the bottom to a side menu. On a phone tap **☰** (top left) or swipe in from the left edge; tap outside, ×, or swipe left to close. On a computer or iPad it stays open on the left, and **Collapse** shrinks it to icons. **Scan** stays in the middle at the bottom.
 
-## Locker (hero, pet, profile, frames, themes)
-Menu → **Locker** (or tap the hero card on Today). The card at the top shows how friends see you. Tabs: **Hero**, **Pet**, **Profile**, **Frames**, **Themes**. New fitness items: race singlet, compression gear, martial arts gi, champion robe, coach whistle, gym towel, gold medal, title belt; backgrounds like running track, lap pool, veggie garden, mountain trail, court, yoga sunrise, stadium lights and champion podium; 12 new banners; 4 frames; 4 themes. Items marked 🔒 unlock by doing reps, reaching a level, keeping a streak or beating bosses, and some also cost gold.
+## Locker (avatar, profile, frames, themes)
+Menu → **Locker** (or tap the avatar card on Today, or your avatar on Friends). The card at the top shows how friends see you. Tabs: **Avatar**, **Profile**, **Frames**, **Themes**. New fitness items: race singlet, compression gear, martial arts gi, champion robe, coach whistle, gym towel, gold medal, title belt; backgrounds like running track, lap pool, veggie garden, mountain trail, court, yoga sunrise, stadium lights and champion podium; 12 new banners; 4 frames; 4 themes. Items marked 🔒 unlock by doing reps, reaching a level, keeping a streak or beating bosses, and some also cost gold.
 
-## Your hero, pet and profile
-In the Locker. **Avatar**: skin, hair, hair color, facial hair, outfits, gear and backgrounds; expensive items shimmer. Your hero gets more muscular as you log reps and leaner as you approach your weight goal. **Pet**: adopt one; it's happy when you log meals, hit protein, drink water, finish quests and work out. Treats, toys and a cozy bed (gold) keep it happy. **Profile**: motto, title, favorite exercise and banner. Friends see all of this.
+## Your avatar, pet and profile
+In the Locker. **Avatar**: skin, hair, hair color, facial hair, outfits, gear and backgrounds; expensive items shimmer. Your avatar gets more muscular as you log reps and leaner as you approach your weight goal. **Pet**: adopt one; it's happy when you log meals, hit protein, drink water, finish quests and work out. Treats, toys and a cozy bed (gold) keep it happy. **Profile**: motto, title, favorite exercise and banner. Friends see all of this.
 
 ## Notification box and friend codes
 Tap the bell at the top. Friend requests, duel challenges and party invites all land here. Your friend code (like MIKE-4821) is at the top; type someone else's code to send them a request. When you send requests, duels or invites you can turn the push notification off and it will only go to their notification box.

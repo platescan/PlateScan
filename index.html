@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="21">
+<meta name="ps-version" content="22">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -44,7 +44,7 @@ html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font:16px/1.45 Figtree,system-ui,-apple-system,sans-serif;overflow-x:clip;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 body.lock{overflow:hidden}
 header{background:var(--hdr);box-shadow:0 2px 10px rgba(0,0,0,.12);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:4}
-header .t{flex:1}header h1{margin:0;font-size:20px;font-weight:800;line-height:1.1}header p{margin:0;opacity:.8;font-size:13px}
+header .t{flex:1}header h1{margin:0;font-size:20px;font-weight:800;line-height:1.1}header p{margin:0;opacity:.8;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lvpill{background:var(--lemon);color:#14201a;border-radius:999px;padding:4px 10px;font-weight:800;font-size:13px;white-space:nowrap;min-height:30px}
 .avatar{width:40px;height:40px;min-height:40px;border-radius:50%;padding:0;background:rgba(255,255,255,.16);color:#fff;font-weight:800;font-size:15px}
 main{max-width:640px;margin:0 auto;padding:12px 14px}
@@ -951,6 +951,56 @@ body.sbx header{margin-top:30px}
 .rc:has(.rcImg),.rc:has(.rcLoad){background:none!important;padding:0!important;box-shadow:none!important}
 .rcLoad{padding:60px 0;text-align:center;color:var(--mute);font-weight:700}
 .col{display:flex;flex-direction:column}
+
+/* v22 gym */
+#v-gym .gymHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin:2px 2px 8px}
+#v-gym h2{display:flex;align-items:center;gap:4px;margin:0 0 2px;font-size:20px;min-width:0}
+#v-gym h2 .ico{background:none;min-height:0;width:30px;height:30px;padding:0;font-size:14px;flex:none}
+.gymMeta{display:flex;gap:12px;align-items:center;font-size:13px;font-weight:700;color:var(--mute)}
+.gymMeta .stars{color:#f2b600;letter-spacing:1px}.gymMeta .stars i{font-style:normal;color:var(--line)}
+.gymStage{border-radius:22px;overflow:hidden;background:radial-gradient(120% 90% at 50% 0%,#2a3550 0%,#121826 70%);box-shadow:0 12px 30px rgba(0,0,0,.25),inset 0 0 0 1px rgba(255,255,255,.06);position:relative}
+.gymSvg{display:block;width:100%;height:auto}
+.gymSvg .gItem{transition:transform .25s}
+.gymSvg.editing .gItem{opacity:.85}
+.gymSvg .gSlot{cursor:pointer}
+.gymSvg .gSlot polygon{animation:gPulse 1.6s ease-in-out infinite}
+@keyframes gPulse{50%{fill:rgba(61,245,200,.28)}}
+.gymSvg .gAv{animation:gBob 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center bottom}
+@keyframes gBob{50%{transform:translateY(-3px)}}
+.gymSvg .spk{animation:twinkle 1.8s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.25}}
+.gymSvg .flm{animation:flick .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center bottom}
+@keyframes flick{to{transform:scaleY(.8)}}
+.gymSvg .neonT{animation:neonB 3s infinite}
+@keyframes neonB{0%,92%,100%{opacity:1}94%{opacity:.4}96%{opacity:1}97%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){.gymSvg *{animation:none!important}}
+.gymBar{display:flex;gap:8px;margin-top:10px}.gymBar button{flex:1}
+.gymFr{margin-top:12px}.gymFr summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none}.gymFr summary::-webkit-details-marker{display:none}
+.gymFr[open] summary{margin-bottom:8px}
+.gGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.gTile{display:flex!important;flex-direction:column;align-items:center;gap:2px;background:var(--sunk)!important;color:var(--ink)!important;border-radius:16px!important;padding:6px 4px 8px!important;min-height:0!important;font-size:12px!important;line-height:1.2;text-align:center;border:2px solid transparent!important;box-shadow:none!important}
+.gTile b{font-weight:700}.gTile em{font-style:normal;font-size:11px;font-weight:800;color:var(--mute)}.gTile em.pr{color:#a8730a;display:flex;align-items:center;gap:2px}.gTile em.pr .coin{width:12px;height:12px}
+.gTile.on{border-color:#2f8a5e!important;background:color-mix(in srgb,#2f8a5e 12%,var(--sunk))!important}
+.gTile.lock{opacity:.6}.gTile.lock .gPrev{filter:grayscale(1)}.gTile em.rq{font-size:10px}
+.gTile.lux{background:linear-gradient(160deg,color-mix(in srgb,#f2c230 18%,var(--sunk)),var(--sunk))!important}
+.gPrev{width:100%;aspect-ratio:1;max-height:84px;display:block}
+.gSw{width:100%;aspect-ratio:1.4;max-height:60px;border-radius:12px;display:block;margin-bottom:2px}
+.gSw.lt-off{background:linear-gradient(#bfe3ff,#fff)}.gSw.lt-warm{background:radial-gradient(circle at 50% 20%,#ffd36b,#ff8a3d)}.gSw.lt-neonl{background:linear-gradient(90deg,#ff3df5,#7a3cff,#3df5ff)}.gSw.lt-spot{background:radial-gradient(circle at 50% 0,#fff3b0 0 25%,#05030c 70%)}
+/* v22 avatars, sheets, collapsibles, prompts, camera */
+.avatar{overflow:hidden;box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}.avatar .cav{width:100%;height:100%;border-radius:50%}
+.acAv,.acAv .cav{width:48px!important;height:48px!important;cursor:pointer}
+.clH{cursor:pointer;user-select:none;-webkit-user-select:none}
+h3.clH,b.clH{display:flex;align-items:center;gap:8px}
+.clChev{flex:none;width:9px;height:9px;border-right:2.5px solid var(--mute);border-bottom:2.5px solid var(--mute);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s var(--ease);margin-left:auto}
+.row.clH .clChev{margin-left:8px}
+.clp.clz>.clH .clChev{transform:rotate(-45deg)}
+.clp.clz>:not(.clH){display:none!important}
+.clp.clz>.clH{margin-bottom:0!important}
+.adSec+.adSec,#modBox+.adSec,.adSec+#devTools{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.prStep{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#e5432d;margin-bottom:4px}
+#prB .prStep{display:block}
+.zBtn{font-size:14px!important;font-weight:900}.zBtn.on{background:#f2c230!important;color:#14201a!important}
+.feTips li{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -986,7 +1036,7 @@ body.sbx header{margin-top:30px}
     <button data-qa="workout"><span style="background:#efe6fb;color:#7d5bb0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3.5 9v6M20.5 9v6M6.5 12h11"/></svg></span>Workout</button>
   </div>
   <div class="card"><div class="row between"><h2 style="margin:0">Today's meals</h2><button class="small" id="addToday">+ Add</button></div><div id="mealList"></div><div id="todayCopy"></div></div>
-  <div class="card heroCard" id="heroCard" role="button" tabindex="0" aria-label="Your hero and pet"></div>
+  <div class="card heroCard" id="heroCard" role="button" tabindex="0" aria-label="Your avatar and pet"></div>
   <div class="card xpstrip" data-go="level" role="button" tabindex="0">
     <div class="badge em" id="tBadge"></div>
     <div><div class="row between"><b id="tTitle">Couch Recruit</b><span class="muted sm" id="tXp"></span></div>
@@ -1091,7 +1141,7 @@ body.sbx header{margin-top:30px}
 <section id="v-friends">
   <div id="frOff" class="card" style="display:none"><h3>Train with friends</h3><p class="muted sm">Add friends with a link, start group chats, and compete in a fair weekly challenge. You need an account so friends can find you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div></div>
   <div id="frOn">
-    <div class="card meCard"><div class="frMe" id="frMe"></div><button class="heroBtn" id="heroBtn" aria-label="Pick your hero"></button></div>
+    <div class="card meCard"><div class="frMe" id="frMe"></div><button class="heroBtn" id="heroBtn" aria-label="Edit your avatar"></button></div>
     <div class="seg subseg" id="sub-friends" data-view="friends"><button data-sv="challenge" class="on">Challenge</button><button data-sv="people">Friends</button><button data-sv="duels">Duels<i class="ndot" id="duelDot" style="top:2px;right:6px"></i></button><button data-sv="groups">Groups</button></div>
     <div class="card chCard" data-sp="challenge"><div class="row between"><div><div class="k">Weekly challenge</div><h3 style="margin:0" id="chTheme"></h3></div><div style="text-align:right"><div class="chPts"><b id="chMine">0</b> pts</div><div class="muted sm" id="chEnds"></div></div></div>
       <div class="muted sm" id="chThemeD"></div><div class="chDays" id="chDays"></div>
@@ -1114,6 +1164,7 @@ body.sbx header{margin-top:30px}
 </section>
 <section id="v-locker"></section>
 <section id="v-pets"><div class="lkHead"><div><h2>Pets</h2><p class="muted sm">Hatch eggs, collect all 36 and keep your buddy happy.</p></div><span class="hsGold" id="ptGold"></span></div><div id="petBody"></div></section>
+<section id="v-gym"></section>
 </main>
 
 <div id="navScrim"></div>
@@ -1125,6 +1176,7 @@ body.sbx header{margin-top:30px}
   <button data-go="level"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 3.5h6v6L10 20l-6-6z"/><path d="M5 13l6 6M3 21l3-3"/></svg><span>Quest</span><i class="ndot" id="questDot"></i></button>
   <button data-go="locker"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18M9 9v2.5M15 9v2.5M7 17h2M15 17h2"/></svg><span>Locker</span></button>
   <button data-go="pets"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><circle cx="5.5" cy="10.5" r="2.2"/><circle cx="18.5" cy="10.5" r="2.2"/><circle cx="9" cy="6.5" r="2.2"/><circle cx="15" cy="6.5" r="2.2"/></svg><span>Pets</span><i class="ndot" id="petDot"></i></button>
+  <button data-go="gym"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M8 15h8M9 13.5v3M15 13.5v3"/></svg><span>Gym</span></button>
   <button data-go="friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.2a5 5 0 0 1 5.5 5.3"/></svg><span>Friends</span></button>
   <div class="snSp"></div>
   <button class="snSet" id="navRem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><span>Reminders</span></button>
@@ -1204,6 +1256,7 @@ body.sbx header{margin-top:30px}
     <div data-pane="remind" style="display:none">
       <div class="card">
         <div class="row between"><div><b>Sounds</b><div class="muted sm">Chimes for logging, quests and level-ups.</div></div><label class="switch"><input type="checkbox" id="sndOn" aria-label="Sounds"><i></i></label></div>
+        <div class="row between" style="margin-top:12px"><div><b>Sound in screen recordings</b><div class="muted sm">Plays sounds even when your phone is on silent, so screen recordings pick them up. It can pause music from other apps; turn this off to keep your music going.</div></div><label class="switch"><input type="checkbox" id="recSnd" aria-label="Sound in screen recordings"><i></i></label></div>
         <div class="row between" style="margin-top:12px"><div><b>Visual effects</b><div class="muted sm">Confetti, sparkles and splashes.</div></div><label class="switch"><input type="checkbox" id="fxOn" aria-label="Visual effects"><i></i></label></div>
       </div>
       <div class="card">
@@ -1256,12 +1309,12 @@ body.sbx header{margin-top:30px}
       <p class="muted sm" style="margin-top:0">Save a copy of all your data as a file, or restore one.</p>
       <div class="row" style="flex-wrap:wrap"><button class="ghost small" id="exp">Save backup</button><label class="btn small" style="background:transparent;color:var(--kale2);border:1.5px solid var(--line);min-height:36px;padding:6px 12px;font-size:14px">Restore backup<input type="file" id="imp" accept="application/json,.json" style="display:none"></label></div>
     </div>    <div data-pane="help" style="display:none" id="helpBox">
-      <div class="card sugCard"><h3 style="margin-bottom:2px">Suggestion box</h3><p class="muted sm" style="margin:0 0 10px">Have an idea, found a problem, or missing a food? Tell us. Every suggestion is read.</p>
+      <div class="card sugCard" data-cl="sug"><h3 style="margin-bottom:2px">Suggestion box</h3><p class="muted sm" style="margin:0 0 10px">Have an idea, found a problem, or missing a food? Tell us. Every suggestion is read.</p>
         <div id="suggOff" class="muted sm">Sign in to send a suggestion. <a href="#" data-auth="signin">Sign in</a></div>
         <div id="suggForm"><div class="row" id="suggCats" style="flex-wrap:wrap;gap:6px;margin-bottom:8px"></div><textarea id="suggText" rows="3" maxlength="1000" placeholder="I wish PlateScan could…"></textarea><button class="wide red" id="suggSend" style="margin-top:8px">Send suggestion</button></div>
         <div id="mySugg"></div></div>
-      <div class="card" id="adminBox" style="display:none"><div class="row between"><h3 style="margin:0">Suggestions inbox</h3><span class="pill" id="inboxN"></span></div><p class="muted sm" style="margin:4px 0 8px">Only you can see this. Mark ideas as planned or done and the sender sees the status.</p><div id="inbox"></div>
-        <div class="row between" style="margin-top:14px"><h3 style="margin:0">Owner dashboard</h3><button class="small ghost" id="dashBtn">Load stats</button></div><div id="dash"></div></div>
+      <div class="card" id="adminBox" style="display:none"><div data-cl="inbox" class="adSec"><div class="row between"><h3 style="margin:0">Suggestions inbox</h3><span class="pill" id="inboxN"></span></div><p class="muted sm" style="margin:4px 0 8px">Only you can see this. Mark ideas as planned or done and the sender sees the status.</p><div id="inbox"></div></div>
+        <div data-cl="dash" class="adSec"><div class="row between"><h3 style="margin:0">Owner dashboard</h3><button class="small ghost" id="dashBtn">Load stats</button></div><div id="dash"></div></div></div>
       <div class="card" id="installBox"></div>
       <div class="row" style="flex-wrap:wrap;margin-bottom:10px"><button class="ghost small" id="newsBtn">What’s new</button><button class="ghost small" data-changelog>Patch notes</button><button class="ghost small" data-guide>Guide</button><button class="ghost small" data-privacy>Privacy</button><button class="ghost small" id="replayTour">Replay the app tour</button></div>
       <p class="muted sm" id="uidLine"></p>
@@ -1396,8 +1449,8 @@ body.sbx header{margin-top:30px}
   <div class="sf"><button class="wide red" id="dsGo">Go</button></div></div>
 <div class="sheet" id="clSheet" role="dialog" aria-label="Patch notes" style="z-index:27">
   <div class="sh"><h2>Patch notes</h2><button class="x" data-close="clSheet" aria-label="Close">×</button></div><div class="sb" id="clList"></div></div>
-<div class="sheet" id="heroSheet2" role="dialog" aria-label="Your hero" style="z-index:24">
-  <div class="sh"><h2>Your hero</h2><span class="hsGold" id="hsGold"></span><button class="x" data-close="heroSheet2" aria-label="Close">×</button></div>
+<div class="sheet" id="heroSheet2" role="dialog" aria-label="Your avatar" style="z-index:24">
+  <div class="sh"><h2>Your avatar</h2><span class="hsGold" id="hsGold"></span><button class="x" data-close="heroSheet2" aria-label="Close">×</button></div>
   <div style="padding:8px 14px 0;max-width:640px;width:100%;margin:0 auto"><div class="seg" id="hsTabs" style="margin:0"><button data-ht="avatar" class="on">Avatar</button><button data-ht="pet">Pet</button><button data-ht="profile">Profile</button></div></div>
   <div class="sb" id="hsBody"></div></div>
 <div class="sheet" id="inboxSheet" role="dialog" aria-label="Notifications" style="z-index:24">
@@ -1781,7 +1834,7 @@ function celebrate(g){
 
 // ================= navigation + sheets =================
 let view='today';
-const NAVI={today:0,log:1,stats:1,body:1,plan:1,level:3,friends:4,locker:5,pets:6};const PORD={log:0,stats:1,body:2,plan:3};let animNext=true;
+const NAVI={today:0,log:1,stats:1,body:1,plan:1,level:3,friends:4,locker:5,pets:6,gym:7};const PORD={log:0,stats:1,body:2,plan:3};let animNext=true;
 function moveInd(){$('navInd').style.transform=`translateX(${(NAVI[view]||0)*100}%)`}
 function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v in PORD&&view in PORD&&PORD[v]<PORD[view]);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,scrollMem[v]||0);render()}
 function openSheet(id){$(id).classList.add('on');document.body.classList.add('lock');requestAnimationFrame(segAll)}
@@ -2003,8 +2056,8 @@ function render(){
   DV++;applyFreezes();applySkin();const g=game();checkBadges();if(mode==='cloud')milestones(g);
   $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
   $('lvPill').textContent='Lv '+g.lv.L;$('goldTxt').textContent=fmt(S.gold||0);
-  const nm=(S.name||(user&&user.email)||'').trim();$('avatarBtn').textContent=nm?nm[0].toUpperCase():'?';
-  if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='pets')renderPets();if(view==='friends'){renderFriends();loadProfiles()}
+  {const ab=$('avatarBtn'),k=JSON.stringify([myAvCfg(),myBuild()]);if(ab.dataset.k!==k||!ab.firstElementChild){ab.dataset.k=k;ab.innerHTML=myAv()}}
+  if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='pets')renderPets();if(view==='gym')renderGym();if(view==='friends'){renderFriends();loadProfiles()}
   animNext=false;moveInd();segAll();
   celebrate(g);updateBadge(g);syncWidget(g);syncProfile(g);if(SOC.on)checkFriendStreaks();questHearts(g);mbCheck();renderHeroCard();renderNavMe();eggCheck(g);petDot();
   if(S.gold==null&&lsGet(obKey())){S.gold=50;store.saveMeta();enqueue({type:'ach',k:'Boss mode unlocked',name:'Here’s 50 gold to get you started. Check the Quest tab!'})}
@@ -2157,8 +2210,8 @@ const ERR={'auth/email-already-in-use':'That email already has an account. Try s
 function showAuth(m,blocking){authMode=m;authBlocking=!!blocking;$('authClose').style.visibility=blocking?'hidden':'visible';
   $('aWelcome').style.display=m==='welcome'?'':'none';$('aForm').style.display=m==='welcome'?'none':'';$('aErr').textContent='';
   const cfg={signup:['Create your account','Your log and level sync to any device you sign in on.','Create account',`Already have one? <a href="#" data-auth="signin">Sign in</a>`],
-    signin:['Welcome back','Sign in to load your log, stats and level.','Sign in',`<a href="#" data-auth="reset">Forgot password?</a> · <a href="#" data-auth="signup">Create account</a>`],
-    reset:['Reset password','We’ll email you a link to set a new password.','Send reset link',`<a href="#" data-auth="signin">Back to sign in</a>`]}[m];
+    signin:['Welcome back','Sign in to load your log, stats and level.','Sign in',`<a href="#" data-auth="reset">Forgot password?</a> · <a href="#" data-femail>Forgot email?</a><br><a href="#" data-auth="signup">Create account</a>`],
+    reset:['Reset password','Enter your account email and we’ll send a link to set a new password. Check spam if it isn’t there in a few minutes.','Send reset link',`<a href="#" data-femail>Forgot email?</a> · <a href="#" data-auth="signin">Back to sign in</a>`]}[m];
   if(cfg){$('aTitle').textContent=cfg[0];$('aSub').textContent=cfg[1];$('aSubmit').textContent=cfg[2];$('aLinks').innerHTML=cfg[3]+(blocking?` · <a href="#" data-auth="welcome">Back</a>`:'');
     $('aNameF').style.display=m==='signup'?'':'none';$('aPassF').style.display=m==='reset'?'none':'';$('aPass').autocomplete=m==='signup'?'new-password':'current-password';
     const guestMeals=mode==='guest'&&S.meals.length;$('aMigF').style.display=m==='signup'&&guestMeals?'':'none';
@@ -2173,7 +2226,7 @@ $('aForm').addEventListener('submit',async e=>{e.preventDefault();if(SBX){sandbo
       pendingMigrate={name:nm0,data:$('aMig').checked&&mode==='guest'?JSON.parse(JSON.stringify(S)):null};
       const cred=await FB.au.createUserWithEmailAndPassword(FB.auth,email,pw);FB.au.updateProfile(cred.user,{displayName:nm0}).catch(()=>{})}
     else if(authMode==='signin'){await FB.au.signInWithEmailAndPassword(FB.auth,email,pw)}
-    else if(authMode==='reset'){await FB.au.sendPasswordResetEmail(FB.auth,email);$('aErr').textContent='';toast('Reset link sent. Check your email.');showAuth('signin',authBlocking)}
+    else if(authMode==='reset'){await FB.au.sendPasswordResetEmail(FB.auth,email);$('aErr').textContent='';lsSet('platescan.lastEmail',email);toast('Reset link sent to '+email+'. Check spam too.');showAuth('signin',authBlocking)}
   }catch(err){pendingMigrate=null;$('aErr').textContent=ERR[err.code]||('Something went wrong ('+(err.code||err.message)+').')}
   finally{$('aSubmit').disabled=!CLOUD_OK}});
 async function uploadAll(meals){for(let i=0;i<meals.length;i+=400){const b=FB.fs.writeBatch(FB.db);for(const m of meals.slice(i,i+400))b.set(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m);await b.commit()}}
@@ -2197,7 +2250,7 @@ async function onUser(u){
 function renderAccount(){
   renderInstall();renderHelp();
   const box=$('acctBox');
-  if(mode==='cloud'&&user)box.innerHTML=`<div class="row"><div class="badge" style="background:var(--kale);color:#fff">${esc((S.name||user.email)[0].toUpperCase())}</div><div style="flex:1"><b>${esc(S.name||'Your account')}</b><div class="muted sm">${esc(user.email)}</div></div></div><p class="muted sm">Signed in. Your meals, weight and level sync across devices.</p><label class="f"><span>Display name</span><input id="nameIn" value="${esc(S.name)}"></label><button class="ghost small" id="outBtn">Sign out</button>`;
+  if(mode==='cloud'&&user)box.innerHTML=`<div class="row"><span class="gav acAv" data-go="locker" role="button" aria-label="Edit avatar">${myAv()}</span><div style="flex:1"><b>${esc(S.name||'Your account')}</b><div class="muted sm">${esc(user.email)}</div></div></div><p class="muted sm">Signed in. Your meals, weight and level sync across devices.</p><label class="f"><span>Display name</span><input id="nameIn" value="${esc(S.name)}"></label><button class="ghost small" id="outBtn">Sign out</button>`;
   else box.innerHTML=`<b>Using PlateScan without an account</b><p class="muted sm">Your data lives only on this phone. Create an account to back it up and sync to other devices. Your current log comes with you.</p><div class="row"><button class="small red" data-auth="signup">Create account</button><button class="small ghost" data-auth="signin">Sign in</button></div>`;
   const n=$('nameIn');if(n)n.oninput=()=>{S.name=n.value;store.saveMeta();render()};
   const o=$('outBtn');if(o)o.onclick=async()=>{closeSheet('setSheet');lsDel('platescan.guest');await FB.au.signOut(FB.auth)};
@@ -2285,7 +2338,7 @@ const TOUR=[
   {t:()=>`<span class="wave">👋</span> Welcome${first()?', '+esc(first()):''}!`,b:'Here’s a quick tour of PlateScan. It takes about 30 seconds, then we’ll set up your goals.'},
   {t:'Your daily fuel gauge',b:'The ring counts down the calories you have left today. The bars track protein, carbs and fat.',el:()=>document.querySelector('#v-today .card')},
   {t:'Snap a meal',b:'Tap the camera to photograph your plate. PlateScan suggests what’s on it, and you confirm and adjust servings.',el:()=>document.querySelector('#scanNav .c')},
-  {t:'Your menu',b:'Progress, Quests, your Locker (hero, pet and style) and Friends live in the side menu. Tap ☰ anytime, or swipe in from the left edge.',el:()=>wideNav()?$('sideNav'):$('menuBtn')},
+  {t:'Your menu',b:'Progress, Quests, your Locker (avatar and style), Pets, your Gym and Friends live in the side menu. Tap ☰ anytime, or swipe in from the left edge.',el:()=>wideNav()?$('sideNav'):$('menuBtn')},
   {t:'Level up as you go',b:'Earn XP for logging, hitting your targets and keeping streaks. Daily quests unlock badges.',el:()=>document.querySelector('#v-today .xpstrip')},
   {t:'Meet your coach',b:'Tap me anytime. I’ll answer questions about your meals and goals, suggest what to eat, and cheer you on. You can pick a different coach in my settings.',el:()=>$('coachFab')},
   {t:'Your settings',b:'Change goals, turn on streak reminders, and add a home screen widget here anytime.',el:()=>$('avatarBtn')}];
@@ -2546,7 +2599,7 @@ const SFX={
   send:()=>tone(600,0,.12,{f2:1150,gain:.05}),
   coach:()=>{tone(880,0,.08,{gain:.06});tone(1320,.07,.13,{gain:.05})},
   swoosh:()=>tone(520,0,.2,{f2:110,gain:.05,type:'sawtooth'}),
-  hit:()=>{tone(180,0,.12,{f2:60,type:'square',gain:.12});tone(900,0,.05,{type:'triangle',gain:.05})},
+  hit:()=>{tone(150,0,.08,{f2:95,type:'square',gain:.08});tone(784,.015,.11,{type:'triangle',gain:.1});tone(1175,.065,.2,{type:'triangle',gain:.09});tone(2349,.07,.12,{gain:.02})},
   crit:()=>{tone(220,0,.18,{f2:50,type:'square',gain:.14});[1047,1568,2093].forEach((f,i)=>tone(f,.03+i*.04,.2,{type:'triangle',gain:.07}))},
   miss:()=>tone(300,0,.18,{f2:180,type:'triangle',gain:.06}),
   bossAtk:()=>{tone(120,0,.45,{f2:40,type:'sawtooth',gain:.16});tone(70,.05,.5,{type:'square',gain:.1})},
@@ -2763,7 +2816,7 @@ const EX={
     pts:[[LM.ls,LM.lh,LM.lk],[LM.rs,LM.rh,LM.rk]]},
   jacks:{name:'Jumping jacks',one:'jumping jack',mult:.5,tip:'Face the camera from 6 to 8 feet back so your hands and feet are in view.',
     pts:[[LM.nose,LM.lw,LM.rw,LM.la,LM.ra,LM.ls,LM.rs]]},
-  plank:{name:'Plank hold',one:'2 seconds of plank',mult:1,timed:true,tip:'Put the phone on the floor beside you, side-on. Hold a straight plank: every 2 seconds of good form is one hit.',
+  plank:{name:'Plank hold',one:'2 seconds of plank',mult:1,timed:true,tip:'Put the phone on the floor beside you, side-on. Hold a straight plank on your elbows or hands, hips off the floor: every 2 seconds of good form is one hit. Lying flat doesn’t count.',
     pts:[[LM.ls,LM.le,LM.lh,LM.la],[LM.rs,LM.re,LM.rh,LM.ra]]},
   highknees:{name:'High knees',one:'high knee',mult:.5,home:1,tip:'Face the camera from 6 to 8 feet back. Run in place, driving each knee up to hip height.',pts:[[LM.lh,LM.rh,LM.lk,LM.rk]]},
   climbers:{name:'Mountain climbers',one:'climber',mult:.5,home:1,tip:'Phone on the floor beside you, side-on. From a plank, drive your knees toward your chest one at a time.',pts:[[LM.ls,LM.lh,LM.lk],[LM.rs,LM.rh,LM.rk]]},
@@ -2823,8 +2876,9 @@ function makeCounter(ex,opt={}){
       const [s,e,h,a]=side(lm,EX.plank.pts[0],EX.plank.pts[1]);
       if(!vis(lm,[s,h,a])){lostAt??=t;cue='Get your whole body in view';ext=null;return null}lostAt=null;
       const line=sm(angAt(lm[s],lm[h],lm[a],asp)),tilt=Math.abs(Math.atan2(lm[a].y-lm[s].y,(lm[a].x-lm[s].x)*asp))*180/Math.PI,flat=Math.min(tilt,180-tilt)<35;
-      if(flat&&line>158){if(ext==null)ext=t;const held=t-ext;cue=`Holding… ${Math.floor(held/1000)}s`;if(held>=2000){ext=t;reps++;good++;ev={type:'rep',perfect:line>170}}}
-      else{ext=null;cue=!flat?'Get into a plank: body level with the floor':line<=158&&lm[h].y<lm[s].y?'Lower your hips':'Lift your hips: straight line'}
+      const T=Math.hypot((lm[s].x-lm[h].x)*asp,lm[s].y-lm[h].y)||.1,eOK=vis(lm,[e]),aDy=lm[e].y-lm[s].y,aDx=Math.abs(lm[e].x-lm[s].x)*asp,propped=eOK&&aDy>.28*T&&aDx<aDy*1.3,raised=lm[a].y-lm[s].y>.18*T,fx=(lm[a].x-lm[e].x)||1e-6,floorY=lm[e].y+(lm[a].y-lm[e].y)*((lm[h].x-lm[e].x)/fx),hipUp=floorY-lm[h].y>.1*T,onFloor=!propped||!raised||!hipUp;
+      if(flat&&line>158&&!onFloor){if(ext==null)ext=t;const held=t-ext;cue=`Holding… ${Math.floor(held/1000)}s`;if(held>=2000){ext=t;reps++;good++;ev={type:'rep',perfect:line>170}}}
+      else{ext=null;cue=!flat?'Get into a plank: body level with the floor':!eOK?'Keep your arms in view':!propped?'Prop up on your elbows or hands':!raised||!hipUp?'Lift your hips off the floor':line<=158&&lm[h].y<lm[s].y?'Lower your hips':'Lift your hips: straight line'}
     }else if(ex==='highknees'){
       if(!vis(lm,[LM.lh,LM.rh,LM.lk,LM.rk])){lostAt??=t;cue='Step back so your hips and knees are in view';return null}lostAt=null;
       const hy=(lm[LM.lh].y+lm[LM.rh].y)/2,th=Math.abs(lm[LM.lk].y-lm[LM.lh].y)*.35||.05,lu=lm[LM.lk].y<hy+th,ru=lm[LM.rk].y<hy+th;
@@ -3008,7 +3062,7 @@ function renderSetup(){const {b,s}=BT,dummy=b.dummy,inv=S.inv,rw=dummy?null:rewa
   ${dummy?'':`<div class="lbl">Fight</div><div class="seg" id="modeSeg"><button data-mode="solo" class="${BT.mode!=='team'?'on':''}">Solo</button><button data-mode="team" class="${BT.mode==='team'?'on':''}">Team (group)</button></div>
    ${BT.mode==='team'?`<label class="f"><span>Group</span><select id="raidGroup">${SOC.groups.map(g=>`<option value="${g.id}" ${g.id===BT.gid?'selected':''}>${esc(g.name)}</option>`).join('')}</select></label><p class="muted sm" style="margin:-4px 0 8px">Everyone in the lobby fights the same boss from their own phone. Each extra fighter adds 75% HP, and everyone gets 25% bonus rewards.</p>`:`<p class="muted sm" style="margin:-4px 0 8px">Solo: just you against the boss at normal HP.</p>`}`}
   <label class="row between voiceRow"><span><b>Count reps out loud</b><span class="muted sm"> so you don’t need to look</span></span><input type="checkbox" id="voiceTog" ${voiceOn()?'checked':''} style="width:22px;min-height:22px;flex:none"></label>
-  <div class="seg" id="camSeg" style="margin-top:10px"><button data-cam="user" class="${BT.cam==='user'?'on':''}">Front camera</button><button data-cam="environment" class="${BT.cam!=='user'?'on':''}">Back camera</button></div>
+  <div class="seg" id="camSeg" style="margin-top:10px"><button data-cam="user" class="${BT.cam==='user'?'on':''}">Front camera</button><button data-cam="environment" class="${BT.cam!=='user'?'on':''}">Back camera</button></div><p class="muted sm" style="margin:6px 0 0">Need to fit more of your body? With the back camera, tap <b>.5×</b> during the fight on phones with an ultra-wide lens.</p>
   <p class="muted sm">Video stays on your phone. Rep tracking runs on-device and nothing is recorded or uploaded.</p></div>
   <div class="btFoot"><button class="wide red big" id="btGo">${dummy?'Start workout':BT.mode==='team'?'Open team lobby':'Fight!'}</button></div>`);
   if(BT.plan){const g=$('exSeg');if(g){g.previousElementSibling.remove();g.nextElementSibling.remove();g.outerHTML=planSetupHTML()}}
@@ -3032,7 +3086,7 @@ document.addEventListener('change',e=>{if(e.target.id==='voiceTog')lsSet('plates
 document.addEventListener('visibilitychange',()=>{if(!BT||BT.phase!=='fight'||BT.raid)return;if(document.hidden)BT.pausedAt=performance.now();else if(BT.pausedAt){chargeShift(performance.now()-BT.pausedAt);BT.atkAt+=performance.now()-BT.pausedAt;BT.pausedAt=0}});
 async function startFight(){const {b}=BT;BT.phase='load';
   btEl(`<div class="arena"><video id="btV" playsinline muted autoplay class="${BT.cam==='user'?'mir':''}"></video><canvas id="btC" class="${BT.cam==='user'?'mir':''}"></canvas><div class="vign" id="btVig"></div>
-   <div class="hud"><div class="btTop dark"><button class="x" id="btQuit" aria-label="Stop">×</button>${BT.raid?'':'<button class="x" id="btPause" aria-label="Pause" style="font-size:15px">❚❚</button>'}<div style="flex:1"><b>${esc(b.n)}</b>${b.dummy?'':`<div class="hpbar"><i class="ghost" id="hpG"></i><i id="hpI"></i><span id="hpT"></span></div>`}</div>${b.dummy?'':`<div class="hearts" id="hearts"></div>`}</div>
+   <div class="hud"><div class="btTop dark"><button class="x" id="btQuit" aria-label="Stop">×</button>${BT.raid?'':'<button class="x" id="btPause" aria-label="Pause" style="font-size:15px">❚❚</button>'}<button class="x zBtn" id="btZoom" aria-label="Zoom out" style="display:none">1×</button><div style="flex:1"><b>${esc(b.n)}</b>${b.dummy?'':`<div class="hpbar"><i class="ghost" id="hpG"></i><i id="hpI"></i><span id="hpT"></span></div>`}</div>${b.dummy?'':`<div class="hearts" id="hearts"></div>`}</div>
    ${BT.raid?'<div class="raidBoard" id="raidBoard"></div>':''}<div class="bossStage fight"><div id="bossWrap">${bossArt(b,'idle')}</div><div id="dmgL"></div></div>
    ${b.dummy?'':`<div class="atk"><i id="atkI"></i></div><div class="charge" id="chg" hidden></div>`}
    ${BT.plan||BT.duel?'<div class="segBox" id="segBox"></div>':''}<div class="repBox"><div class="repN" id="repN">0</div><div class="repL" id="repL">${esc(EX[BT.ex].name.toLowerCase())}</div></div>
@@ -3041,7 +3095,7 @@ async function startFight(){const {b}=BT;BT.phase='load';
     const vP=navigator.mediaDevices.getUserMedia({video:{facingMode:BT.cam,width:{ideal:640},height:{ideal:480}},audio:false});
     $('cue').textContent='Loading the rep tracker (first time takes a moment)…';
     const [stream,lmk]=await Promise.all([vP,loadPose()]);if(!BT){stream.getTracks().forEach(t=>t.stop());return}
-    BT.stream=stream;BT.lmk=lmk;const v=$('btV');v.srcObject=stream;await v.play().catch(()=>{});
+    BT.stream=stream;BT.lmk=lmk;const v=$('btV');v.srcObject=stream;await v.play().catch(()=>{});camZoomSetup();audioKeep();
     await new Promise(r=>v.readyState>=2?r():v.onloadeddata=r);
   }catch(e){console.warn(e);btEl(`<div class="btTop"><button class="x" id="btClose" aria-label="Close">×</button><b style="flex:1">Camera needed</b></div><div class="btSb"><div class="bossStage">${bossArt(b,'idle')}</div><h3>${e&&e.name==='NotAllowedError'?'Camera access is off':'Couldn’t start the rep tracker'}</h3><p class="muted">${e&&e.name==='NotAllowedError'?'Boss fights use your camera to count good reps. Allow camera access for PlateScan (iPhone: Settings → Safari → Camera, or tap “aA” → Website Settings), then try again.':'Check your connection and try again. The tracker downloads once (about 6 MB), then works faster.'}</p><button class="wide red" id="btAgain">Try again</button></div>`);BT.phase='err';return}
   BT.counter=makeCounter(BT.ex);BT.phase='cal';BT.okFrames=0;BT.reps=0;BT.crits=0;BT.partials=0;BT.lastTs=0;
@@ -3126,7 +3180,7 @@ const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
 function syncProfile(g){if(mode!=='cloud'||!user||!FB)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
-  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:S.av||null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
   SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
   clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
 function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null})}
@@ -3137,7 +3191,7 @@ function socStart(){socStop();if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)r
     SOC.inbox=q.docs.map(d=>d.data()).sort((a,b)=>b.ts-a.ts).slice(0,10);for(const n of SOC.inbox)if(n.ts>seen){mx=Math.max(mx,n.ts);if(Date.now()-n.ts<3*864e5)enqueue({type:'quest',k:'You got a nudge',name:`${n.fromName||'A friend'} says: time to work out! 💪`,xp:''})}
     lsSet(seenK,String(mx));if(view==='friends')renderFriends()},e=>console.warn('nudges',e.code)));
   if(lsGet('platescan.goFriends')){lsDel('platescan.goFriends');goSub('friends','people')}
-  duelStart();reqStart();inboxStart();mbPartyWatch();processInvites()}
+  duelStart();reqStart();inboxStart();gymLikesStart();mbPartyWatch();processInvites()}
 let profT=0;
 async function loadProfiles(force){if(!SOC.on)return;profWatch();if(!force&&Date.now()-profT<20000){if(view==='friends')renderFriends();return}profT=Date.now();
   const ids=new Set(SOC.friends.map(f=>f.uid));for(const g of SOC.groups)for(const m of g.members)ids.add(m);ids.delete(user.uid);
@@ -3223,7 +3277,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
   loadFeed();renderFeed();renderDuels();renderContacts();renderPeople();applySub('friends');if(animNext){stag($('frList'));stag($('grList'))}
 }
 function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey(Date.now()),wd=p.wk===wk?p.wd||[]:[0,0,0,0,0,0,0],th=weekTheme(wk),mx=45+PTS[th.k],left=nudgeLeft(uid);
-  $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood,p.pet.acc)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}
+  $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood,p.pet.acc)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}<button class="wide ghost" data-gvisit="${uid}" style="margin:4px 0 10px">🏋️ Visit ${esc((p.name||'their').split(' ')[0])}’s gym</button>
    ${fsCard(uid,p)}
    ${p.tag||isAdmin?`<div class="card fCode"><div class="row between" style="gap:8px"><div><span class="muted sm">Friend code</span><div><b>${esc(p.tag||'Not set yet')}</b></div></div><div class="row" style="gap:6px">${p.tag?`<button class="chip" data-fcopy="${esc(p.tag)}">Copy</button>`:''}${isAdmin?`<button class="small red" data-fbadge="${esc(p.tag||uid)}">🏅 Give badge</button>`:''}</div></div></div>`:''}
    ${sharedHTML(p)}
@@ -3247,7 +3301,7 @@ document.addEventListener('click',e=>{const t=e.target;
   if(t.closest('#gInvite')){const g=SOC.groups.find(x=>x.id===SOC.gid);if(g)shareLink(`${appURL()}#join=${g.id}.${g.code}`,`Join ${g.name} on PlateScan`,`Join my group “${g.name}” on PlateScan:`);return}
   if(t.closest('#gLeave')){leaveGroup();return}
   if(t.closest('#newGroup')){newGroup();return}
-  if(t.closest('#heroBtn')){renderHeroPick();openSheet('heroSheet');return}
+  if(t.closest('#heroBtn')){go('locker');return}
   if(t.closest('#gClose')){closeGroup();return}
   const gt=t.closest('#gTabs [data-gt]');if(gt){gTab=gt.dataset.gt;if(gTab==='board')loadProfiles();renderGroup();return}
 });
@@ -3283,7 +3337,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='21';
+const APP_VERSION='22';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3406,7 +3460,7 @@ async function loadFeed(force){if(!SOC.on||(!force&&Date.now()-feedT<30000))retu
   if(now>before&&before>0)toast(`You got ${now-before} new high-five${now-before>1?'s':''} 👋`);lsSet(mineK,String(now));renderFeed()}
 function renderFeed(){const box=$('feed');if(!box)return;const me=user&&user.uid;
   box.innerHTML=FEED.length?FEED.map(ev=>{const p=ev.uid===me?{name:'You',hero:heroId()}:(SOC.profiles[ev.uid]||{name:ev.name}),n=(ev.fives||[]).length,mine=(ev.fives||[]).includes(me);
-    return `<div class="fe"><span class="gav">${avHTML(AV[p.hero||ev.hero]?p.hero||ev.hero:'maya')}</span><div class="fmid"><div><b>${esc(ev.uid===me?'You':p.name||ev.name||'Friend')}</b> ${esc(ev.t)}</div><span class="muted sm">${agoT(ev.ts)}</span></div><button class="five${mine?' on':''}" data-five="${ev.uid}/${ev.id}" ${ev.uid===me||mine?'disabled':''} aria-label="High-five">👋${n?` ${n}`:''}</button></div>`}).join(''):`<p class="muted sm" style="margin:0">When you or your friends beat bosses, earn badges or hit streaks, it shows up here.</p>`}
+    return `<div class="fe"><span class="gav">${pAv(ev.uid===me?{av:myAvCfg(),build:myBuild()}:p)}</span><div class="fmid"><div><b>${esc(ev.uid===me?'You':p.name||ev.name||'Friend')}</b> ${esc(ev.t)}</div><span class="muted sm">${agoT(ev.ts)}</span></div><button class="five${mine?' on':''}" data-five="${ev.uid}/${ev.id}" ${ev.uid===me||mine?'disabled':''} aria-label="High-five">👋${n?` ${n}`:''}</button></div>`}).join(''):`<p class="muted sm" style="margin:0">When you or your friends beat bosses, earn badges or hit streaks, it shows up here.</p>`}
 const agoT=ts=>{const m=Math.round((Date.now()-ts)/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago'};
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-five]');if(!b)return;const [uid,id]=b.dataset.five.split('/');b.disabled=true;b.classList.add('on','pop');sfx('pop');burstAt(b,{n:14,speed:4,shape:'star'});
   try{await FB.fs.updateDoc(FB.fs.doc(FB.db,'profiles',uid,'events',id),{fives:FB.fs.arrayUnion(user.uid)});const ev=FEED.find(x=>x.id===id);if(ev){ev.fives=[...(ev.fives||[]),user.uid];renderFeed()}}catch(er){toast('Couldn’t send the high-five')}});
@@ -3728,7 +3782,7 @@ function renderDuels(){const box=$('duelList');if(!box)return;const me=user&&use
     if(d.status==='open'||d.status==='playing'){if(d.mine)st=`Waiting for ${esc(opp)} · you scored ${d.aScore}`;else{st=`Beat ${d.aScore} ${ex} in 60s`;act=d.status==='open'?`<button class="small red" data-daccept="${d.id}">Accept</button><button class="small ghost" data-ddecline="${d.id}">No</button>`:''}}
     else if(d.status==='done'){const my=d.mine?d.aScore:d.bScore,th=d.mine?d.bScore:d.aScore;st=my>th?`<b class="okc">Won ${d.stake*2} gold</b> · ${my}–${th}`:my===th?`Tie · ${my}–${th}`:`Lost · ${my}–${th}`;act=`<button class="small ghost" data-duel="${d.mine?d.b:d.a}">Rematch</button>`}
     else st=d.status==='declined'?(d.mine?'Declined · gold returned':'You declined'):'Expired · gold returned';
-    return `<div class="fr"><span class="gav">${avHTML(AV[hero]?hero:'maya')}</span><div class="fmid"><b>${esc(opp)}</b> <span class="pill gp">${d.stake*2}g</span><div class="sm muted">${esc(EX[d.ex]?EX[d.ex].name:'')} · ${st}</div></div><div class="row" style="gap:4px">${act}</div></div>`}).join(''):`<p class="muted sm" style="margin:0">No duels yet. Tap a friend and choose <b>Duel</b> to bet gold on who can do more reps in 60 seconds.</p>`}
+    return `<div class="fr"><span class="gav">${pAv(SOC.profiles[d.mine?d.b:d.a]||{})}</span><div class="fmid"><b>${esc(opp)}</b> <span class="pill gp">${d.stake*2}g</span><div class="sm muted">${esc(EX[d.ex]?EX[d.ex].name:'')} · ${st}</div></div><div class="row" style="gap:4px">${act}</div></div>`}).join(''):`<p class="muted sm" style="margin:0">No duels yet. Tap a friend and choose <b>Duel</b> to bet gold on who can do more reps in 60 seconds.</p>`}
 
 // ================= invite from your contacts =================
 const inviteText=()=>`${S.name||'I'} invited you to PlateScan, the free food scanner with boss battles. Join with my link and we both get 250 gold: ${appURL()}#add=${user.uid}.${myInvite()}`;
@@ -3795,12 +3849,12 @@ async function loadFoF(){if(!SOC.on)return;const mine=friendIds(),cand=new Map()
   SOC.fof=[...cand.entries()].sort((a,b)=>b[1]-a[1]).filter(([id])=>SOC.profiles[id]).slice(0,6).map(([id,n])=>({id,n}))}
 function renderPeople(){const rq=$('reqList'),pk=$('pymk');if(!rq)return;
   $('reqCard').dataset.off=REQS.length?'':'1';$('reqCard').style.display=REQS.length&&subOf('friends')==='people'?'':'none';
-  rq.innerHTML=REQS.map(r=>`<div class="fr"><span class="gav">${avHTML(AV[r.fromHero]?r.fromHero:'maya')}</span><div class="fmid"><b>${esc(r.fromName||'Someone')}</b><div class="muted sm">${r.mutual?`${r.mutual} mutual friend${r.mutual>1?'s':''}`:'wants to be friends'}</div></div><div class="row" style="gap:4px"><button class="small" data-racc="${r.id}">Accept</button><button class="small ghost" data-rdec="${r.id}">×</button></div></div>`).join('');
+  rq.innerHTML=REQS.map(r=>`<div class="fr"><span class="gav">${pAv(SOC.profiles[r.from]||{av:r.fromAv,build:r.fromBuild})}</span><div class="fmid"><b>${esc(r.fromName||'Someone')}</b><div class="muted sm">${r.mutual?`${r.mutual} mutual friend${r.mutual>1?'s':''}`:'wants to be friends'}</div></div><div class="row" style="gap:4px"><button class="small" data-racc="${r.id}">Accept</button><button class="small ghost" data-rdec="${r.id}">×</button></div></div>`).join('');
   const list=(SOC.fof||[]).filter(x=>!friendIds().has(x.id));$('pymkCard').dataset.off=list.length?'':'1';$('pymkCard').style.display=list.length&&subOf('friends')==='people'?'':'none';
   pk.innerHTML=list.map(({id,n})=>{const p=SOC.profiles[id],names=mutualOf(p).map(u=>(SOC.profiles[u]||{}).name).filter(Boolean),sent=sentReq.has(id);
     return `<div class="fr"><span class="gav${frameCls(p.frame)}">${pAv(p)}</span><div class="fmid"><b>${esc(p.name)}</b><div class="muted sm ell">${n} mutual: ${esc(names.slice(0,2).join(', '))}${names.length>2?' +'+(names.length-2):''} · Lv ${p.L||1}</div></div><button class="small${sent?' ghost':''}" data-req="${id}" ${sent?'disabled':''}>${sent?'Requested':'Add'}</button></div>`}).join('')}
 async function sendReq(id,btn,push){const fs=FB.fs,p=SOC.profiles[id]||{};btn.disabled=true;
-  try{await fs.setDoc(fs.doc(FB.db,'friendReqs',`${user.uid}_${id}`),{from:user.uid,to:id,fromName:(S.name||'Friend').slice(0,30),fromHero:heroId(),mutual:mutualOf(p).length,ts:Date.now(),ping:push!==false});
+  try{await fs.setDoc(fs.doc(FB.db,'friendReqs',`${user.uid}_${id}`),{from:user.uid,to:id,fromName:(S.name||'Friend').slice(0,30),fromHero:heroId(),fromAv:myAvCfg(),fromBuild:myBuild(),mutual:mutualOf(p).length,ts:Date.now(),ping:push!==false});
     sentReq.add(id);lsSet('platescan.sentReq',JSON.stringify([...sentReq].slice(-100)));sfx('send');toast(`Friend request sent to ${p.name||'them'}`);renderPeople()}
   catch(e){btn.disabled=false;toast(e.code==='permission-denied'?'Friend requests need the latest database rules (SETUP.md step 4).':'Couldn’t send: '+e.code)}}
 async function acceptReq(rid){const r=REQS.find(x=>x.id===rid);if(!r)return;const fs=FB.fs,me=user.uid;
@@ -3961,7 +4015,8 @@ const GEAR={none:{n:'None',g:0},headband:{n:'Headband',g:150},cap:{n:'Cap',g:250
 const BGS={mint:{n:'Mint',g:0,c:'#dff2e6'},peach:{n:'Peach',g:0,c:'#ffe3d6'},sky:{n:'Sky',g:0,c:'#dfe9fb'},lilac:{n:'Lilac',g:0,c:'#ece4f7'},sunset:{n:'Sunset',g:400},gym:{n:'Gym',g:800},city:{n:'City night',g:1200},aura:{n:'Power aura',g:2500,lux:1},vault:{n:'Gold vault',g:6000,lux:1},galaxy:{n:'Galaxy',g:12000,lux:2}};
 const BEARDS={none:'None',stubble:'Stubble',goatee:'Goatee',full:'Full beard'};
 const avDefault=()=>({skin:2,hair:'short',hc:'brown',beard:'none',out:'tee',oc:'green',gear:'none',bg:'mint'});
-const myAvCfg=()=>Object.assign(avDefault(),S.av||{});
+function avSeed(k){const r=n=>Math.floor(seedRand(String(k)+n)*1e6);return {skin:r('s')%6,hc:['black','brown','blonde','red','black','brown'][r('h')%6]}}
+const myAvCfg=()=>Object.assign(avDefault(),avSeed((user&&user.uid)||'me'),S.av||{});
 function myBuild(){const reps=Object.values(S.ex||{}).reduce((a,b)=>a+b,0)+((S.boss||{}).n||0)*20,m=Math.min(1,.12+.88*Math.log10(1+reps)/4);
   const bf=+S.profile.bf||25,f0=Math.max(0,Math.min(1,(bf-8)/30)),ws=S.weights.slice().sort((a,b)=>a.d<b.d?-1:1),goal=+S.profile.change||0;
   let prog=0;if(ws.length>=2&&goal){prog=Math.max(-.5,Math.min(1,(ws.at(-1).lb-ws[0].lb)/goal))}const f=goal<0?f0*(1-.6*prog):goal>0?f0+.1*prog:f0;return {m:+m.toFixed(2),f:+Math.max(0,Math.min(1,f)).toFixed(2)}}
@@ -4011,8 +4066,8 @@ function heroSVG(c,b={m:.3,f:.35}){c=Object.assign(avDefault(),c||{});const id='
   return `<svg viewBox="0 0 120 120" class="hero2${lux?' lux'+lux:''}" aria-hidden="true">${defs}<g clip-path="url(#${id}c)">${bg}${hairBack}${!sleeve?armsBehind:''}${sleeves}${torso}${det}${head}${face}${beards[c.beard]||''}${under?'':hairFront}${g}${under&&c.hair==='long'?hairs.long:''}</g></svg>`}
 function shade(hex,p){const n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,f=x=>Math.max(0,Math.min(255,Math.round(x+(p<0?x*p:(255-x)*p))));return '#'+[f(r),f(g),f(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
 const heroHTML=(cfg,build,cls='')=>`<div class="cav hero ${cls}">${heroSVG(cfg,build)}</div>`;
-const pAv=p=>p&&p.av?heroHTML(p.av,p.build):avHTML(p&&AV[p.hero]?p.hero:'maya');
-const myAv=()=>S.av?heroHTML(myAvCfg(),myBuild()):avHTML(heroId());
+const pAv=p=>heroHTML(p&&p.av||Object.assign(avDefault(),avSeed(p&&(p.name||p.hero)||'x')),p&&p.build);
+const myAv=()=>heroHTML(myAvCfg(),myBuild());
 
 // ================= pets =================
 const PETS={pup:{n:'Pup',g:0,c:'#d9a066',c2:'#8a5a2b'},kitty:{n:'Kitty',g:0,c:'#a7a7b8',c2:'#6b6b7d'},bunny:{n:'Bunny',g:0,c:'#f4ece4',c2:'#e7b3c3'},fox:{n:'Fox',g:2500,c:'#ef7d3c',c2:'#fff'},panda:{n:'Panda',g:4000,c:'#ffffff',c2:'#22252b'},dragon:{n:'Dragon',g:8000,c:'#3fbf7a',c2:'#f2c230'}};
@@ -4106,13 +4161,13 @@ const GUIDE=[['Logging food','Snap a photo, scan a barcode or search. The scanne
  ['Charge attacks','Every boss (not the training dummy or duels) charges up a big hit on a timer, even if you keep repping: every 60 seconds on Easy, 45 on Normal, 35 on Hard and 28 on Legend. When it glows and the ⚡ bar shows, do 3 quick reps within 6 seconds (or keep holding a plank or wall sit) to block it. If you don’t, you take a hit.'],
  ['Stage bosses','Unlock a new boss every 2 levels. Harder difficulties have more HP and less damage per rep, but pay much more. Winning on each difficulty earns its own badge line.'],
  ['Workouts and the camera','Each move has an animated demo on the fight screen showing the movement and where the phone goes. Your phone must see your whole body from the side or the front (each move tells you which). Prop it 6 to 8 feet (about 2 m) away in good light. Each move has “How to do it” steps. Only full, controlled reps count.'],
- ['Your hero','Customize skin, hair, outfit, gear and background. Fancy items cost gold, and the most expensive ones shimmer. Your hero gets more muscular as you log reps and leaner as you move toward your weight goal.'],
+ ['Your avatar','Customize skin, hair, outfit, gear and background. Fancy items cost gold, and the most expensive ones shimmer. Your avatar gets more muscular as you log reps and leaner as you move toward your weight goal.'],
  ['Your pet','Adopt a pet. It’s happy when you log meals, hit protein, drink water, finish quests and work out, and sad when you don’t. Treats, toys and a cozy bed keep its good mood going.'],
  ['Friends','Add friends by link, by friend code (bell icon) or from People you may know. Requests, duel challenges and party invites all land in your notification box; push notifications are optional. Keep workout streaks going, duel for gold and nudge each other.'],
  ['Gold','Earn gold from bosses, daily rewards, workouts and streak milestones. Spend it on potions, hearts, hero items, pet treats and app themes. The best items take a while to earn on purpose.']];
 function showGuide(){$('guideBody').innerHTML=GUIDE.map(([t,b],i)=>`<details class="cl"${i===0?' open':''}><summary><b>${esc(t)}</b></summary><p class="sm" style="margin:6px 0 0">${esc(b)}</p></details>`).join('');openSheet('guideSheet')}
 document.addEventListener('click',e=>{if(e.target.closest('[data-guide]'))showGuide()});
-CHANGELOG.unshift({v:'16',d:'Nov 23, 2026',t:'Monthly boss, heroes and pets',items:['Bosses now fight back on a timer, even while you rep. When it starts charging (the boss glows and a ⚡ bar appears), do 3 quick reps in 6 seconds, or hold your plank or wall sit, to block. Miss it and you take a hit. Easy every 60s, Normal 45s, Hard 35s, Legend 28s.','Fixed: your hero now fills its circle on wider screens (computers and iPads) instead of showing up small in the corner.','Animated demo for every exercise: watch the move and see exactly where to put your phone (side or front, 6–8 ft / 2 m back).','Monthly boss with a whole month of health: pick 5, 10, 15 or 20 reps a day. Miss your reps and it attacks, costing a heart. Invite friends to a party for more HP and +50% rewards.','Hearts: 5 max. Get them back every 45 minutes, by finishing quests, or in the Shop.','Your hero: customize skin, hair, outfits, gear and backgrounds, with luxury items that shimmer. Your hero gets more muscular and leaner as you make progress.','Pets that are happy when you eat well, drink water and finish quests, and sad when you don’t. Treats keep them happy.','Profiles: motto, title, favorite exercise and banners. Friends see your hero, pet and motto.','Notification box (bell): friend requests, duel challenges and party invites, plus friend codes. Push notifications are optional when you send.','Badges for boss wins on each difficulty. Harder difficulties now give bosses more HP.','Portions: S/M/L/XL, exact amounts in g, oz, cups or tbsp, and AI portion suggestions.','Scanner: more accurate, smaller and faster, and runs the AI estimate automatically if you’ve added your key.','Search millions of foods online, plus about 150 more cheeses, nuts, brand and fast foods.','Water: bottle sizes, oz or ml, and a recommended goal.','Daily motivation quotes from athletes and artists.','Workout directions and camera tips for every move.','Gold rewards are lower and shop prices are higher, so the best items take time to earn. Invited friends get gold but no XP.','In-app Guide (Settings → Help). Double-tap no longer zooms.']});
+CHANGELOG.unshift({v:'16',d:'Nov 23, 2026',t:'Monthly boss, avatars and pets',items:['Bosses now fight back on a timer, even while you rep. When it starts charging (the boss glows and a ⚡ bar appears), do 3 quick reps in 6 seconds, or hold your plank or wall sit, to block. Miss it and you take a hit. Easy every 60s, Normal 45s, Hard 35s, Legend 28s.','Fixed: your hero now fills its circle on wider screens (computers and iPads) instead of showing up small in the corner.','Animated demo for every exercise: watch the move and see exactly where to put your phone (side or front, 6–8 ft / 2 m back).','Monthly boss with a whole month of health: pick 5, 10, 15 or 20 reps a day. Miss your reps and it attacks, costing a heart. Invite friends to a party for more HP and +50% rewards.','Hearts: 5 max. Get them back every 45 minutes, by finishing quests, or in the Shop.','Your hero: customize skin, hair, outfits, gear and backgrounds, with luxury items that shimmer. Your avatar gets more muscular and leaner as you make progress.','Pets that are happy when you eat well, drink water and finish quests, and sad when you don’t. Treats keep them happy.','Profiles: motto, title, favorite exercise and banners. Friends see your hero, pet and motto.','Notification box (bell): friend requests, duel challenges and party invites, plus friend codes. Push notifications are optional when you send.','Badges for boss wins on each difficulty. Harder difficulties now give bosses more HP.','Portions: S/M/L/XL, exact amounts in g, oz, cups or tbsp, and AI portion suggestions.','Scanner: more accurate, smaller and faster, and runs the AI estimate automatically if you’ve added your key.','Search millions of foods online, plus about 150 more cheeses, nuts, brand and fast foods.','Water: bottle sizes, oz or ml, and a recommended goal.','Daily motivation quotes from athletes and artists.','Workout directions and camera tips for every move.','Gold rewards are lower and shop prices are higher, so the best items take time to earn. Invited friends get gold but no XP.','In-app Guide (Settings → Help). Double-tap no longer zooms.']});
 
 
 // ================= charge attack: the boss strikes on a timer even while you rep =================
@@ -4240,15 +4295,15 @@ function BGX(k,id){
 // ================= v17: locker =================
 function lockerInit(){const L=$('v-locker');if(!L||L.dataset.ok)return;L.dataset.ok='1';
   L.innerHTML=`<div class="lkHead"><div><h2>Locker</h2><p class="muted sm">Your hero, pet and style. Some gear unlocks with workouts, not just gold.</p></div><span class="hsGold" id="lkGold"></span></div><div class="lkShow" id="lkShow"></div>`;
-  const tabs=$('hsTabs');tabs.querySelector('[data-ht=avatar]').textContent='Hero';tabs.insertAdjacentHTML('beforeend','<button data-ht="frames">Frames</button><button data-ht="themes">Themes</button>');
+  const tabs=$('hsTabs');tabs.querySelector('[data-ht=avatar]').textContent='Avatar';tabs.insertAdjacentHTML('beforeend','<button data-ht="frames">Frames</button><button data-ht="themes">Themes</button>');
   const tw=tabs.parentElement;tw.style.padding='0';tw.classList.add('lkTabs');L.append(tw);
   const body=$('hsBody');body.classList.remove('sb');body.classList.add('lkBody');L.append(body);
-  const st=$('styleShop').closest('.card');st.insertAdjacentHTML('beforebegin','<div class="card" data-sp="shop"><div class="row between" style="gap:10px"><div><b>Frames, themes and hero gear</b><div class="muted sm">They live in your Locker now.</div></div><button class="small" data-go="locker">Open Locker</button></div></div>');
+  const st=$('styleShop').closest('.card');st.insertAdjacentHTML('beforebegin','<div class="card" data-sp="shop"><div class="row between" style="gap:10px"><div><b>Frames, themes and avatar gear</b><div class="muted sm">They live in your Locker now.</div></div><button class="small" data-go="locker">Open Locker</button></div></div>');
   st.removeAttribute('data-sp');st.id='lkStyle';st.style.display='none';const tb=st.querySelector('#styleTabs');if(tb)tb.style.display='none';const h=st.querySelector('h3');if(h)h.textContent='Frames & themes';L.append(st)}
 function renderLockShow(){const el=$('lkShow');if(!el)return;const P=S.prof||{},bn=(BANNERS[P.banner]||BANNERS.forest).c,b=myBuild(),g=game(),ps=S.pet?petState():null;
   const rk=(RANKS.filter(r=>g.lv.L>=r[0]).at(-1)||[0,''])[1];$('lkGold').innerHTML=`${COIN}${fmt(S.gold||0)}`;
   el.innerHTML=`<div class="lkBan" style="background:${bn}"><div class="gav lg${frameCls(S.frame)}">${myAv()}</div>${S.pet?`<div class="lkPet" title="${esc(S.pet.name||'')}">${petSVG(S.pet.k,ps.mood,S.pet.acc)}</div>`:''}<div class="lkTxt"><b>${esc((S.name||'You').trim())}</b><span>${esc(P.title||rk)} · Lv ${g.lv.L}</span>${P.motto?`<i>“${esc(P.motto)}”</i>`:''}</div></div>
-   <div class="lkStats"><div><span>💪 Muscle</span><span class="mbar"><i style="width:${b.m*100}%;background:linear-gradient(90deg,#e5432d,#f2c230)"></i></span></div><div><span>🥗 Lean</span><span class="mbar"><i style="width:${(1-b.f)*100}%"></i></span></div>${S.pet?`<div><span>🐾 ${esc(S.pet.name||'Pet')}</span><span class="mbar"><i style="width:${ps.mood}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div>`:''}<p class="muted sm" style="margin:2px 0 0">This is how friends see you. Your hero gets more muscular as you log reps and leaner as you move toward your weight goal.</p></div>`}
+   <div class="lkStats"><div><span>💪 Muscle</span><span class="mbar"><i style="width:${b.m*100}%;background:linear-gradient(90deg,#e5432d,#f2c230)"></i></span></div><div><span>🥗 Lean</span><span class="mbar"><i style="width:${(1-b.f)*100}%"></i></span></div>${S.pet?`<div><span>🐾 ${esc(S.pet.name||'Pet')}</span><span class="mbar"><i style="width:${ps.mood}%;background:linear-gradient(90deg,#3aa0e8,#7fd6a4)"></i></span></div>`:''}<p class="muted sm" style="margin:2px 0 0">This is how friends see you. Your avatar gets more muscular as you log reps and leaner as you move toward your weight goal.</p></div>`}
 function renderHeroSheet(){lockerInit();const lk=$('lkStyle'),sty=htab==='frames'||htab==='themes';
   if(lk){lk.style.display=sty?'':'none';$('hsBody').style.display=sty?'none':''}
   if(sty){$('hsTabs').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.ht===htab));segInd($('hsTabs'));styleTab=htab;renderStyle()}else renderHeroSheet0();
@@ -4597,7 +4652,7 @@ function BGX2(k,id){
 GUIDE.unshift(['Pets and eggs','Menu → Pets → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
 CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
 
-const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn','blocks'];
+const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn','blocks','gym','gymOwned','questN'];
 function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
 function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
 
@@ -4647,16 +4702,17 @@ const LIVE_PTS=[0,11,12,13,14,15,16,23,24,25,26,27,28];
 const CHEERS=['🔥','💪','👏','😤','🏆','🚀'];
 const liveOK=()=>mode==='cloud'&&user&&FB&&FB.fs&&S.liveOn!==false&&!SBX&&!isBanned;
 const liveWatchers=()=>Object.values(LV.viewers).filter(v=>Date.now()-(v.ts||0)<45000).length;
-function liveDoc(){const b=BT&&BT.b;return {uid:user.uid,name:(S.name||'Friend').slice(0,30),on:LV.on,t0:LV.t0,ts:Date.now(),ex:BT?BT.ex:'',exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):'',boss:b&&!b.dummy?{n:b.n,hp:Math.max(0,Math.round(BT.hp||0)),max:Math.round(BT.max||1)}:null,reps:BT?BT.reps:0,mir:!!(BT&&BT.cam==='user'),fr:LV.buf.join(';'),cheers:LV.cheerN,av:S.av||null,build:myBuild()}}
+function liveDoc(){const b=BT&&BT.b;return {sc:1000,fi:64,ar:LV.ar||4/3,uid:user.uid,name:(S.name||'Friend').slice(0,30),on:LV.on,t0:LV.t0,ts:Date.now(),ex:BT?BT.ex:'',exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):'',boss:b&&!b.dummy?{n:b.n,hp:Math.max(0,Math.round(BT.hp||0)),max:Math.round(BT.max||1)}:null,reps:BT?BT.reps:0,mir:!!(BT&&BT.cam==='user'),fr:LV.buf.join(';'),cheers:LV.cheerN,av:myAvCfg(),build:myBuild()}}
 const liveProf=()=>LV.on?{on:true,t0:LV.t0,exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):''}:null;
 function liveStart(){if(LV.on||!liveOK()||!BT)return;const fs=FB.fs,me=user.uid;LV.on=true;LV.t0=Date.now();LV.buf=[];LV.viewers={};LV.seen=new Set();LV.cheerN=0;LV.boost=[];LV.lastFlush=0;
   fs.setDoc(fs.doc(FB.db,'lives',me),liveDoc()).catch(e=>console.warn('live',e.code));syncProfile(game());
   fs.setDoc(fs.doc(FB.db,'livePings',me+'_'+LV.t0),{from:me,name:(S.name||'A friend').slice(0,30),ts:LV.t0,sent:false}).catch(()=>{});
   LV.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'lives',me,'cheers'),fs.where('ts','>',LV.t0-1000)),q=>{for(const d of q.docs){if(LV.seen.has(d.id))continue;LV.seen.add(d.id);cheerIn(d.data())}},()=>{}));
   LV.unsubs.push(fs.onSnapshot(fs.collection(FB.db,'lives',me,'viewers'),q=>{LV.viewers={};q.docs.forEach(d=>LV.viewers[d.id]=d.data());liveHud()},()=>{}));
-  LV.flushT=setInterval(liveFlush,1500);liveHud()}
-function liveTick(lm){if(!BT||BT.phase!=='fight')return;if(!LV.on){liveStart();if(!LV.on)return}const now=performance.now();if(now-LV.last<100)return;LV.last=now;
-  LV.buf.push(lm?LIVE_PTS.map(i=>{const p=lm[i]||{x:0,y:0};return Math.round(p.x*100)+','+Math.round(p.y*100)}).join(','):'');if(LV.buf.length>24)LV.buf.shift()}
+  LV.flushT=setInterval(liveFlush,1200);liveHud()}
+function liveTick(lm){if(!BT||BT.phase!=='fight')return;if(!LV.on){liveStart();if(!LV.on)return}const now=performance.now();if(now-LV.last<64)return;LV.last=now;
+  if(lm){LV.lp=LV.lp||[];LV.buf.push(LIVE_PTS.map((i,k)=>{const p=lm[i];let q=p&&(p.visibility==null||p.visibility>.35)?[p.x,p.y]:LV.lp[k]||[p?p.x:0,p?p.y:0];LV.lp[k]=q;return Math.round(q[0]*1000)+','+Math.round(q[1]*1000)}).join(','))}else LV.buf.push('');
+  if(LV.buf.length>40)LV.buf.shift();const v=$('btV');if(v&&v.videoWidth)LV.ar=Math.round(v.videoWidth/v.videoHeight*1000)/1000}
 function liveFlush(){if(!LV.on||!BT)return;const w=liveWatchers(),now=Date.now();if(!w&&now-LV.lastFlush<12000){LV.buf=[];return}
   LV.lastFlush=now;FB.fs.setDoc(FB.fs.doc(FB.db,'lives',user.uid),liveDoc()).catch(()=>{});LV.buf=[]}
 function liveEnd(){if(!LV.on)return;LV.on=false;clearInterval(LV.flushT);LV.unsubs.forEach(u=>{try{u()}catch(e){}});LV.unsubs=[];
@@ -4668,17 +4724,17 @@ function cheerIn(c){if(!BT)return;LV.cheerN++;if(BT.b&&!BT.b.dummy)LV.boost.push
 function liveHud(){if(!LV.on||!BT)return;const hud=document.querySelector('#battle .hud');if(!hud)return;let p=$('liveP');if(!p){hud.insertAdjacentHTML('beforeend','<div class="liveP" id="liveP"></div>');p=$('liveP')}
   const m=cheerMult(),w=liveWatchers();p.innerHTML=`<span class="dotL"></span>LIVE · 👀 ${w}${LV.cheerN?` · ${LV.cheerN} cheers`:''}${m>1?` · <b>Cheer power +${Math.round((m-1)*100)}%</b>`:''}`}
 setInterval(()=>{if(LV.on)liveHud()},2000);
-const liveToggleHTML=()=>mode==='cloud'&&!SBX?`<label class="liveTog"><span>🔴 Let friends watch live <small class="muted">They see your hero move, never your camera</small></span><span class="switch"><input type="checkbox" id="liveSw" ${S.liveOn!==false?'checked':''}><span></span></span></label>`:'';
+const liveToggleHTML=()=>mode==='cloud'&&!SBX?`<label class="liveTog"><span>🔴 Let friends watch live <small class="muted">They see your avatar move, never your camera</small></span><span class="switch"><input type="checkbox" id="liveSw" ${S.liveOn!==false?'checked':''}><span></span></span></label>`:'';
 document.addEventListener('change',e=>{if(e.target.id==='liveSw'){S.liveOn=e.target.checked;store.saveMeta();toast(S.liveOn?'Friends can watch your workouts live':'Live sharing off')}});
 // ---- watching a friend ----
 const LW={uid:null,unsubs:[],q:[],raf:0,hb:0,doc:null,lastFr:'',img:null,imgKey:'',last:0,frame:null,seen:new Set(),lastCheer:0};
 const LSEG=[[1,2],[1,3],[3,5],[2,4],[4,6],[1,7],[2,8],[7,8],[7,9],[9,11],[8,10],[10,12]];
-function openWatch(uid){if(mode!=='cloud'||!FB||!user)return toast('Sign in to watch friends');closeWatch();LW.uid=uid;LW.q=[];LW.doc=null;LW.lastFr='';LW.frame=null;LW.seen=new Set();
+function openWatch(uid){if(mode!=='cloud'||!FB||!user)return toast('Sign in to watch friends');closeWatch();LW.uid=uid;LW.q=[];LW.doc=null;LW.lastFr='';LW.frame=null;LW.prev=null;LW.disp=null;LW.ph=0;LW.last=0;LW.seen=new Set();
   let sh=$('watchSheet');if(!sh){document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="watchSheet" role="dialog" aria-label="Watching live"><div class="sh"><h2 id="wtTitle">Live</h2><button class="x" id="wtRep" aria-label="Report" style="font-size:16px">🚩</button><button class="x" id="wtClose" aria-label="Close">×</button></div><div class="sb"><div class="wtStage"><canvas id="wtC" width="720" height="540"></canvas><div class="wtTop"><span class="livePill"><i></i>LIVE</span><span id="wtView"></span></div><div class="wtFly" id="wtFly"></div><div class="wtEnd" id="wtEnd"></div></div><div class="wtStats" id="wtStats"></div><div class="wtBar">${CHEERS.map(c=>`<button data-cheer="${c}" aria-label="Cheer ${c}">${c}</button>`).join('')}</div><p class="muted sm" style="text-align:center;margin:6px 0 0">Every cheer gives them +5% damage for 10 seconds (up to +25%).</p></div></div>`);sh=$('watchSheet')}
   $('wtTitle').textContent='Connecting…';$('wtEnd').textContent='';openSheet('watchSheet');const fs=FB.fs;
   fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{});
   LW.hb=setInterval(()=>fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{}),20000);
-  LW.unsubs.push(fs.onSnapshot(fs.doc(FB.db,'lives',uid),d=>{const x=d.exists()?d.data():null;LW.doc=x;if(x&&x.fr&&x.fr!==LW.lastFr){LW.lastFr=x.fr;x.fr.split(';').forEach(f=>f&&LW.q.push(f));if(LW.q.length>40)LW.q.splice(0,LW.q.length-20)}watchHud()},()=>{}));
+  LW.unsubs.push(fs.onSnapshot(fs.doc(FB.db,'lives',uid),d=>{const x=d.exists()?d.data():null;LW.doc=x;if(x&&x.fr&&x.fr!==LW.lastFr){LW.lastFr=x.fr;const sc=x.sc||100;x.fr.split(';').forEach(f=>{if(!f)return;const n=f.split(',').map(Number),P=[];for(let i=0;i+1<n.length;i+=2)P.push([n[i]/sc,n[i+1]/sc]);LW.q.push(P)});LW.fi=x.fi||100;if(LW.q.length>90)LW.q.splice(0,LW.q.length-30)}watchHud()},()=>{}));
   LW.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'lives',uid,'cheers'),fs.where('ts','>',Date.now()-3000)),q=>{for(const d of q.docs){if(LW.seen.has(d.id))continue;LW.seen.add(d.id);const c=d.data();if(c.from!==user.uid)flyW(c.e,c.name)}},()=>{}));
   LW.unsubs.push(fs.onSnapshot(fs.collection(FB.db,'lives',uid,'viewers'),q=>{const n=q.docs.filter(d=>Date.now()-(d.data().ts||0)<45000).length;$('wtView').textContent=`👀 ${n} watching`},()=>{}));
   LW.raf=requestAnimationFrame(watchLoop)}
@@ -4689,12 +4745,19 @@ function watchHud(){const x=LW.doc;if(!x){$('wtTitle').textContent='Not live rig
   $('wtStats').innerHTML=`<div><b>${x.reps||0}</b><span>reps</span></div><div><b>${mins}m</b><span>live</span></div><div><b>${x.cheers||0}</b><span>cheers</span></div>${x.boss?`<div class="wide"><span>${esc(x.boss.n)}</span><span class="hpbar"><i style="width:${Math.max(0,x.boss.hp/x.boss.max*100)}%"></i></span></div>`:''}`;
   $('wtEnd').innerHTML=liveStale(x)?`<div><b>Workout finished</b><span>${x.reps||0} reps${x.cheers?` · ${x.cheers} cheers`:''}</span></div>`:'';
   const key=JSON.stringify([x.av,x.build]);if(key!==LW.imgKey){LW.imgKey=key;try{let svg=heroSVG(x.av||{},x.build||{m:.3,f:.5});if(!/xmlns=/.test(svg.slice(0,200)))svg=svg.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');svg=svg.replace(/url\(#hgGold\)/g,'#f2c230');const im=new Image();im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);LW.img=im}catch(e){LW.img=null}}}
-function watchLoop(t){if(!LW.uid)return;LW.raf=requestAnimationFrame(watchLoop);if(t-LW.last<95)return;LW.last=t;if(LW.q.length)LW.frame=LW.q.shift();drawWatch()}
+function watchLoop(t){if(!LW.uid)return;LW.raf=requestAnimationFrame(watchLoop);const dt=Math.min(100,t-(LW.last||t));LW.last=t;
+  // jitter buffer: wait for a few frames, then play at a speed that keeps ~1 second buffered
+  if(!LW.prev){if(LW.q.length>=(LW.frame?3:6)){LW.prev=LW.q.shift();LW.ph=0}}
+  else{const n=LW.q.length,rate=n>30?1.3:n>18?1.1:n<4?.8:1;LW.ph+=dt/(LW.fi||100)*rate;while(LW.ph>=1&&LW.q.length){LW.prev=LW.q.shift();LW.ph-=1}if(!LW.q.length)LW.ph=Math.min(LW.ph,1)}
+  const A=LW.prev,B=LW.q[0];if(A){const tgt=B&&A.length===B.length?A.map((p,i)=>[p[0]+(B[i][0]-p[0])*LW.ph,p[1]+(B[i][1]-p[1])*LW.ph]):A;
+    if(!LW.disp||LW.disp.length!==tgt.length)LW.disp=tgt.map(p=>p.slice());else{const k=1-Math.pow(.001,dt/1000*2.2);LW.disp.forEach((p,i)=>{const d=Math.hypot(tgt[i][0]-p[0],tgt[i][1]-p[1]),kk=d>.12?1:k;p[0]+=(tgt[i][0]-p[0])*kk;p[1]+=(tgt[i][1]-p[1])*kk})}LW.frame=LW.disp}
+  drawWatch()}
 function drawWatch(){const cv=$('wtC');if(!cv)return;const c=cv.getContext('2d'),W=cv.width,H=cv.height,x=LW.doc;
   const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1b1640');g.addColorStop(1,'#0b0f17');c.fillStyle=g;c.fillRect(0,0,W,H);
   c.strokeStyle='rgba(255,255,255,.06)';c.lineWidth=2;for(let i=1;i<8;i++){c.beginPath();c.moveTo(i*W/8,0);c.lineTo(i*W/8,H);c.stroke()}
   if(!LW.frame){c.fillStyle='rgba(255,255,255,.6)';c.font='600 26px system-ui';c.textAlign='center';c.fillText(liveStale(x)?'':'Waiting for movement…',W/2,H/2);return}
-  const n=LW.frame.split(',').map(Number),P=[];for(let i=0;i<n.length;i+=2){let px=n[i]/100,py=n[i+1]/100;if(x&&x.mir)px=1-px;P.push([px*W,py*H])}
+  const ar=x&&x.ar||4/3;let bw=W,bh=W/ar;if(bh>H){bh=H;bw=H*ar}const ox=(W-bw)/2,oy=(H-bh)/2,P=LW.frame.map(([px,py])=>[ox+(x&&x.mir?1-px:px)*bw,oy+py*bh]);
+  c.strokeStyle='rgba(61,245,200,.12)';c.lineWidth=2;c.strokeRect(ox+1,oy+1,bw-2,bh-2);
   c.lineCap='round';c.shadowColor='#3df5c8';c.shadowBlur=18;c.strokeStyle='#3df5c8';c.lineWidth=16;
   for(const [a,b] of LSEG){if(!P[a]||!P[b])continue;c.beginPath();c.moveTo(P[a][0],P[a][1]);c.lineTo(P[b][0],P[b][1]);c.stroke()}
   c.shadowBlur=0;c.fillStyle='#ffffff';for(const i of [5,6,11,12]){if(P[i]){c.beginPath();c.arc(P[i][0],P[i][1],9,0,7);c.fill()}}
@@ -4732,7 +4795,7 @@ function getAppHTML(){const st=needGetApp(),and=/Android/i.test(navigator.userAg
 function openGetApp(){let sh=$('getAppSheet');if(!sh){document.body.insertAdjacentHTML('beforeend','<div class="sheet" id="getAppSheet" role="dialog" aria-label="Get the app"><div class="sb" id="gaBody"></div></div>');sh=$('getAppSheet')}
   $('gaBody').innerHTML=getAppHTML();openSheet('getAppSheet');sfx('pop')}
 let gaTries=0;function maybeGetApp(force){if(!force&&sessionStorage.getItem('platescan.ga'))return;const st=needGetApp();if(!st.need)return;
-  if(document.querySelector('.sheet.on')||$('loginSheet').classList.contains('on')||$('tour').classList.contains('on')||$('battle').classList.contains('on')||$('lvup').classList.contains('on')){if(gaTries++<30)setTimeout(()=>maybeGetApp(force),2500);return}
+  if(document.querySelector('.sheet.on')||$('loginSheet').classList.contains('on')||$('tour').classList.contains('on')||$('battle').classList.contains('on')||$('lvup').classList.contains('on')||$('promptBox').classList.contains('on')){if(gaTries++<150)setTimeout(()=>maybeGetApp(force),2500);return}
   sessionStorage.setItem('platescan.ga','1');openGetApp()}
 document.addEventListener('click',async e=>{const t=e.target;
   if(t.closest('#gaInstall')&&deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null;$('gaBody').innerHTML=getAppHTML();return}
@@ -4901,7 +4964,7 @@ function msgActions(uid,name,text){miniSheet('msgSheet',`<div class="row between
   <div class="rCtx">${esc(text||'')}</div><div class="col" style="gap:8px;margin-top:10px"><button class="wide ghost" data-report="${uid}" data-rname="${esc(name||'')}" data-rctx="${esc('Group message: '+(text||''))}">🚩 Report message</button><button class="wide ghost" data-block="${uid}" data-bname="${esc(name||'')}">🚫 Block ${esc(name||'them')}</button></div>`)}
 // privacy notice
 const PRIVACY=`<h2 style="margin:0 0 6px">Privacy, in plain words</h2><p class="muted sm">Last updated November 2026</p>
-<h3>What PlateScan keeps</h3><ul><li><b>Your account:</b> name, email and password sign-in (handled by Google Firebase).</li><li><b>Your log:</b> meals, weight, water, workouts, goals, game progress and settings, stored in your private part of the database. Only you can read it.</li><li><b>Your public card:</b> name, level, streaks, weekly points, badges, hero, pet and anything you choose to share in Locker → Profile. Only signed-in people who have your link or code can see it, mainly your friends.</li></ul>
+<h3>What PlateScan keeps</h3><ul><li><b>Your account:</b> name, email and password sign-in (handled by Google Firebase).</li><li><b>Your log:</b> meals, weight, water, workouts, goals, game progress and settings, stored in your private part of the database. Only you can read it.</li><li><b>Your public card:</b> name, level, streaks, weekly points, badges, avatar, gym, pet and anything you choose to share in Locker → Profile. Only signed-in people who have your link or code can see it, mainly your friends.</li></ul>
 <h3>What stays on your phone</h3><ul><li>Food photos are recognized <b>on your phone</b>. Photos aren’t uploaded unless you add your own AI key, then the photo is sent to Google Gemini only to estimate portions.</li><li>Progress photos never leave your phone.</li><li>The camera for workouts only tracks body points on your phone. Live workouts share those moving points, never video.</li></ul>
 <h3>What we never do</h3><ul><li>No ads, and we never sell your data.</li><li>Food, calories and weight stay private unless you turn on sharing.</li></ul>
 <h3>Your choices</h3><ul><li>Download your data or delete your account anytime in Settings → Account.</li><li>Block or report anyone from their profile, a group message or a live workout.</li><li>Turn off live sharing, reminders or sharing settings whenever you like.</li></ul>
@@ -4931,7 +4994,8 @@ async function deleteAccount(){const pw=$('delPw').value,cf=$('delCf').value.tri
     const fr=await fs.getDocs(fs.query(fs.collection(FB.db,'friendships'),fs.where('members','array-contains',me))).catch(()=>({docs:[]}));await Promise.all(fr.docs.map(d=>del(fs.doc(FB.db,'friendships',d.id))));
     for(const g of SOC.groups||[])await fs.updateDoc(fs.doc(FB.db,'groups',g.id),{members:fs.arrayRemove(me)}).catch(()=>{});
     const ev=await fs.getDocs(fs.collection(FB.db,'profiles',me,'events')).catch(()=>({docs:[]}));await Promise.all(ev.docs.map(d=>del(fs.doc(FB.db,'profiles',me,'events',d.id))));
-    await del(fs.doc(FB.db,'profiles',me));await del(fs.doc(FB.db,'lives',me));if(S.widgetToken)await del(fs.doc(FB.db,'widgets',S.widgetToken));if(S.tag)await del(fs.doc(FB.db,'tags',S.tag));
+    await del(fs.doc(FB.db,'profiles',me));await del(fs.doc(FB.db,'lives',me));
+    for(const f of ['owner','by']){const q=await fs.getDocs(fs.query(fs.collection(FB.db,'gymLikes'),fs.where(f,'==',me))).catch(()=>({docs:[]}));await Promise.all(q.docs.map(d=>del(fs.doc(FB.db,'gymLikes',d.id))))}if(S.widgetToken)await del(fs.doc(FB.db,'widgets',S.widgetToken));if(S.tag)await del(fs.doc(FB.db,'tags',S.tag));
     await del(fs.doc(FB.db,'users',me));
     try{socStop()}catch(e){}await FB.auth.currentUser.delete()}
   catch(e){btn.disabled=false;btn.textContent='Delete everything';err.textContent=e.code==='auth/requires-recent-login'?'For safety, enter your password and try again.':'Something went wrong ('+(e.code||e.message)+'). Some data may already be deleted. Try again.';return}
@@ -5019,6 +5083,238 @@ GUIDE.unshift(['Safety and privacy','Tap a friend, a group message or the 🚩 o
   ['Weekly recap','Every Sunday to Tuesday, Today shows your weekly recap: days logged, calories, protein, reps, workout days, average meal grade, weight change and XP, with ▲▼ compared to last week, your top wins, your hero and your pet. Tap Share to send the card anywhere. You can open it anytime from Progress.']);
 CHANGELOG.unshift({v:'21',d:'Nov 23, 2026',t:'Safety, weekly recap 2.0 and a faster app',items:['Block and report: from a friend’s profile, a group message (tap it) or a live workout. Blocked people can’t friend, nudge, duel, invite or cheer you, and their messages are hidden.','Download all your data or permanently delete your account in Settings → Account.','A plain-language privacy notice, and new accounts confirm they’re 13 or older.','Weekly recap 2.0: a shareable card with your hero and pet, reps, workout days, average meal grade, ▲▼ versus last week and your top wins.','Faster: smoother tab switching (up to 2x quicker on older phones), quicker number formatting, and the app now opens instantly from cache and updates in the background.','Starts faster on slow connections: the app’s Firebase files begin downloading right away instead of waiting.']});
 
+CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywhere and a better plank',items:['Your own 3D gym: a new Gym tab in the menu. Place equipment and wall decor, pick floors, walls and lighting, and name your gym. Your avatar and pet hang out in it.','Gym shop: 15 pieces of equipment, 9 wall decorations, 6 floors, 6 wall styles and 4 lighting moods. Most cost gold; some unlock from daily quests, levels and bosses, and each month’s boss gives a holiday decoration you can only get that month.','Visit friends’ gyms from the Gym tab or their profile and leave a like. You get a heads-up when someone likes yours, and gyms earn up to 5 stars as they fill up.','Your avatar now shows everywhere friends see you: leaderboards, friend requests, duels, activity, the top bar and your account. Friends without a custom avatar get their own starter look instead of a shared hero.','Plank fix: lying flat on the floor no longer counts. You need to be up on your elbows or hands with your hips off the floor.','Non-critical hits now play a bright two-note “counted!” chime, so every good rep sounds like it landed. Critical hits keep the big sound.','Live workouts look smoother and more accurate: 15 frames a second instead of 10, finer body positions, the right camera shape, steady playback that smooths out network hiccups, and hidden body points hold still instead of jumping.','.5× camera zoom in workouts on phones with an ultra-wide lens (back camera), so your whole body fits. Your choice is remembered.','Sound in screen recordings: game sounds and voice counting now play even with the silent switch on, so phone screen recordings capture them. Turn it off in Settings → Alerts if you’d rather keep music from other apps playing.','Forgot your email? The sign-in screen now shows the email last used on your phone and tips to find it. Forgot password emails now say where they went.','After the tour, adding to your Home Screen and turning on notifications are now two quick pop-ups, one at a time, instead of a list.','Tidier screens: Fill your bars and the suggestion box fold up with a tap (they remember how you left them), and admin sections fold too.','Fixes: every pop-up page (privacy, report, delete account, message actions) now has a proper header so the × is always reachable on iPhone, Esc closes the top page on a keyboard, the date in the top bar no longer wraps, and egg rewards no longer pop up on the sign-in screen.']});
+GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
+GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
+GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+// ================= v22: your 3D gym =================
+// isometric helpers: x goes down-right, y goes down-left, z is height in px
+const GI=(x,y,z=0)=>[180+(x-y)*34,128+(x+y)*17-z];
+const GP=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+function gBox(x,y,w,d,h,c,z=0,o=''){const t=[GI(x,y,z+h),GI(x+w,y,z+h),GI(x+w,y+d,z+h),GI(x,y+d,z+h)],fx=[GI(x+w,y,z),GI(x+w,y+d,z),GI(x+w,y+d,z+h),GI(x+w,y,z+h)],fy=[GI(x,y+d,z),GI(x+w,y+d,z),GI(x+w,y+d,z+h),GI(x,y+d,z+h)];
+  return `<g ${o}><polygon points="${GP(fy)}" fill="${shade(c,-.14)}"/><polygon points="${GP(fx)}" fill="${shade(c,-.32)}"/><polygon points="${GP(t)}" fill="${shade(c,.1)}"/></g>`}
+function gCyl(x,y,r,h,c,z=0,top){const [cx,cy]=GI(x,y,z),rx=r*48,ry=r*24,tp=cy-h;return `<path d="M${cx-rx} ${tp}V${cy}A${rx} ${ry} 0 0 0 ${cx+rx} ${cy}V${tp}Z" fill="${shade(c,-.22)}"/><ellipse cx="${cx}" cy="${tp}" rx="${rx}" ry="${ry}" fill="${top||shade(c,.12)}"/>`}
+function gShadow(x,y,r=.45){const [cx,cy]=GI(x,y);return `<ellipse cx="${cx}" cy="${cy}" rx="${r*52}" ry="${r*26}" fill="#000" opacity=".18"/>`}
+const gBall=(x,y,r,c,z=0)=>{const [cx,cy]=GI(x,y,z);return `<circle cx="${cx}" cy="${cy-r}" r="${r}" fill="${c}"/><circle cx="${cx-r*.35}" cy="${cy-r*1.35}" r="${r*.32}" fill="#fff" opacity=".45"/>`};
+// wall planes: back-right wall is y=0 (u runs along x), back-left wall is x=0 (u runs along y)
+const WQ=(wall,u0,u1,z0,z1)=>wall==='R'?[GI(u0,0,z0),GI(u1,0,z0),GI(u1,0,z1),GI(u0,0,z1)]:[GI(0,u0,z0),GI(0,u1,z0),GI(0,u1,z1),GI(0,u0,z1)];
+const WT=(wall,u,z)=>{const [x,y]=wall==='R'?GI(u,0,z):GI(0,u,z);return wall==='R'?`matrix(.894 .447 0 1 ${x} ${y})`:`matrix(.894 -.447 0 1 ${x} ${y})`};
+const GSLOTS={f1:[.75,.75],f2:[2.15,.6],f3:[3.35,.75],f4:[.6,2.15],f5:[.75,3.35],f6:[3.3,2.35],w1:'R',w2:'L'};
+const GOLD='#f2c230';
+// ---- catalog ----
+// t: eq (floor equipment), wall (wall decor), floor, walls (wall style), light; g = gold; req = unlock; hol = monthly boss month (0-11)
+const GYM={
+ kb:{t:'eq',n:'Kettlebells',g:0,d:(x,y)=>gShadow(x,y,.4)+[[-.2,-.1,'#2a2f3a'],[.15,-.15,'#e5432d'],[0,.18,'#3d6fd8']].map(([a,b,c])=>{const [cx,cy]=GI(x+a,y+b);return `<path d="M${cx-5} ${cy-15}q5-9 10 0" stroke="${c}" stroke-width="3" fill="none"/><circle cx="${cx}" cy="${cy-8}" r="8" fill="${c}"/><circle cx="${cx-3}" cy="${cy-11}" r="2.4" fill="#fff" opacity=".35"/>`}).join('')},
+ mat:{t:'eq',n:'Yoga mat & ball',g:0,d:(x,y)=>gBox(x-.25,y-.45,.5,.9,2,'#a35bff')+gBall(x+.28,y+.05,15,'#5fd0f0')},
+ plant:{t:'eq',n:'Monstera plant',g:0,d:(x,y)=>{const [cx,cy]=GI(x,y,26);return gShadow(x,y,.3)+gCyl(x,y,.2,26,'#c97b4a')+`<g fill="#2f8a5e"><ellipse cx="${cx-14}" cy="${cy-10}" rx="14" ry="8" transform="rotate(-30 ${cx-14} ${cy-10})"/><ellipse cx="${cx+14}" cy="${cy-12}" rx="14" ry="8" transform="rotate(30 ${cx+14} ${cy-12})"/><ellipse cx="${cx}" cy="${cy-24}" rx="10" ry="15"/></g><g fill="#4fb07a"><ellipse cx="${cx-6}" cy="${cy-30}" rx="8" ry="12" transform="rotate(-20 ${cx-6} ${cy-30})"/><ellipse cx="${cx+9}" cy="${cy-26}" rx="9" ry="6" transform="rotate(25 ${cx+9} ${cy-26})"/></g>`}},
+ dbrack:{t:'eq',n:'Dumbbell rack',g:500,d:(x,y)=>gShadow(x,y,.5)+gBox(x-.5,y-.18,1,.36,14,'#3b4454')+[0,1,2,3,4].map(i=>{const [cx,cy]=GI(x-.4+i*.2,y-.05,18);return `<rect x="${cx-7}" y="${cy-3}" width="14" height="3" fill="#9aa4b2"/><circle cx="${cx-8}" cy="${cy-2}" r="${4+i*.6}" fill="#22252b"/><circle cx="${cx+8}" cy="${cy-2}" r="${4+i*.6}" fill="#22252b"/>`}).join('')},
+ bench:{t:'eq',n:'Bench press',g:600,d:(x,y)=>{const bar=GI(x-.5,y+.05,62),bar2=GI(x+.5,y+.05,62);return gShadow(x,y,.5)+gBox(x-.38,y-.08,.06,.06,62,'#3b4454')+gBox(x+.32,y-.08,.06,.06,62,'#3b4454')+gBox(x-.14,y-.45,.28,.9,8,'#2a2f3a')+gBox(x-.12,y-.42,.24,.84,7,'#e5432d',8)+`<line x1="${bar[0]}" y1="${bar[1]}" x2="${bar2[0]}" y2="${bar2[1]}" stroke="#cfd6df" stroke-width="3"/><ellipse cx="${bar[0]+4}" cy="${bar[1]+2}" rx="4" ry="12" fill="#22252b"/><ellipse cx="${bar2[0]-4}" cy="${bar2[1]-2}" rx="4" ry="12" fill="#22252b"/>`}},
+ rack:{t:'eq',n:'Squat rack',g:800,d:(x,y)=>{const b1=GI(x-.55,y,78),b2=GI(x+.55,y,78);return gShadow(x,y,.55)+gBox(x-.5,y-.3,1,.6,4,'#3b4454')+[[-.45,-.25],[.39,-.25],[-.45,.19],[.39,.19]].map(([a,b])=>gBox(x+a,y+b,.06,.06,100,'#4b5563')).join('')+gBox(x-.45,y-.25,.9,.06,5,'#4b5563',96)+`<line x1="${b1[0]}" y1="${b1[1]}" x2="${b2[0]}" y2="${b2[1]}" stroke="#e6e9ef" stroke-width="3.5"/><ellipse cx="${b1[0]+5}" cy="${b1[1]+3}" rx="5" ry="15" fill="#e5432d"/><ellipse cx="${b1[0]+10}" cy="${b1[1]+5}" rx="4" ry="12" fill="#3d6fd8"/><ellipse cx="${b2[0]-5}" cy="${b2[1]-3}" rx="5" ry="15" fill="#e5432d"/><ellipse cx="${b2[0]-10}" cy="${b2[1]-5}" rx="4" ry="12" fill="#3d6fd8"/>`}},
+ treadmill:{t:'eq',n:'Treadmill',g:900,d:(x,y)=>{const c=GI(x,y-.42,58);return gShadow(x,y,.55)+gBox(x-.3,y-.5,.6,1.05,10,'#2a2f3a')+gBox(x-.24,y-.42,.48,.92,2,'#15181e',10)+gBox(x-.3,y-.5,.05,.05,55,'#4b5563')+gBox(x+.25,y-.5,.05,.05,55,'#4b5563')+gBox(x-.32,y-.56,.64,.14,10,'#3b4454',52)+`<rect x="${c[0]-9}" y="${c[1]-10}" width="18" height="7" rx="2" fill="#3df5c8" opacity=".85"/>`}},
+ bag:{t:'eq',n:'Punching bag',g:700,d:(x,y)=>{const [cx,cy]=GI(x,y,150);return gShadow(x,y,.35)+`<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+72}" stroke="#8a94a3" stroke-width="2"/>`+gCyl(x,y,.2,62,'#b3132b',20)+`<rect x="${cx-9.6}" y="${cy+96}" width="19.2" height="6" fill="#22252b" opacity=".6"/>`}},
+ bike:{t:'eq',n:'Spin bike',g:650,d:(x,y)=>{const w=GI(x,y-.35,20),s=GI(x,y+.25,46),h=GI(x,y-.3,58);return gShadow(x,y,.45)+gBox(x-.2,y-.45,.4,.9,4,'#3b4454')+`<circle cx="${w[0]}" cy="${w[1]}" r="17" fill="#2a2f3a" stroke="#9aa4b2" stroke-width="3"/><path d="M${w[0]} ${w[1]}L${s[0]} ${s[1]}M${w[0]} ${w[1]}L${h[0]} ${h[1]}" stroke="#e5432d" stroke-width="5" stroke-linecap="round"/><rect x="${s[0]-9}" y="${s[1]-5}" width="18" height="6" rx="3" fill="#22252b"/><path d="M${h[0]-10} ${h[1]}h20" stroke="#22252b" stroke-width="4" stroke-linecap="round"/>`}},
+ rower:{t:'eq',n:'Rowing machine',g:750,d:(x,y)=>gShadow(x,y,.55)+gBox(x-.06,y-.55,.12,1.1,8,'#3b4454')+gCyl(x,y-.45,.16,24,'#1fbf6a',4)+gBox(x-.12,y+.05,.24,.22,8,'#22252b',8)},
+ cooler:{t:'eq',n:'Water cooler',g:350,d:(x,y)=>gShadow(x,y,.3)+gBox(x-.16,y-.16,.32,.32,44,'#e9ecf1')+gCyl(x,y,.13,30,'#5fd0f0',44,'#bfefff')},
+ smoothie:{t:'eq',n:'Smoothie bar',g:1500,req:['quests',30],d:(x,y)=>{const [cx,cy]=GI(x,y,40);return gShadow(x,y,.6)+gBox(x-.55,y-.2,1.1,.4,40,'#f4dca4')+gBox(x-.58,y-.23,1.16,.46,4,'#ffffff',40)+[['#ff8fd1',-.3],['#7fd6a4',0],['#ffb02e',.3]].map(([c,o])=>gCyl(x+o,y,.06,16,c,44,shade(c,.3))).join('')+`<text x="${cx}" y="${cy+30}" text-anchor="middle" font-size="8" font-weight="900" fill="#a8730a" font-family="Figtree,system-ui">SMOOTHIES</text>`}},
+ cable:{t:'eq',n:'Cable machine',g:2200,req:['lv',12],d:(x,y)=>{const top=GI(x,y-.1,104),low=GI(x+.1,y+.35,40);return gShadow(x,y,.55)+gBox(x-.45,y-.2,.08,.08,110,'#4b5563')+gBox(x+.37,y-.2,.08,.08,110,'#4b5563')+gBox(x-.45,y-.2,.9,.08,8,'#4b5563',104)+gBox(x-.14,y-.18,.28,.1,46,'#22252b',6)+`<path d="M${top[0]} ${top[1]}L${low[0]} ${low[1]}" stroke="#cfd6df" stroke-width="1.5"/><rect x="${low[0]-6}" y="${low[1]-2}" width="12" height="4" rx="2" fill="#e5432d"/>`}},
+ trophy:{t:'eq',n:'Trophy case',g:0,req:['boss',10],d:(x,y)=>{const [cx,cy]=GI(x,y,40);return gShadow(x,y,.4)+gBox(x-.3,y-.2,.6,.4,10,'#5a3d1f')+gBox(x-.3,y-.2,.6,.4,60,'#bfe3ff',10,'opacity=".35"')+`<g fill="${GOLD}"><path d="M${cx-14} ${cy-6}h10v4q-1 8-5 8t-5-8z"/><path d="M${cx+4} ${cy-14}h12v5q-1 10-6 10t-6-10z"/><rect x="${cx-11}" y="${cy+6}" width="4" height="6"/><rect x="${cx+8}" y="${cy+1}" width="4" height="8"/></g>`+gBox(x-.3,y-.2,.6,.4,3,'#5a3d1f',70)}},
+ statue:{t:'eq',n:'Golden champion statue',g:12000,req:['boss',20],lux:2,d:(x,y)=>{const [cx,cy]=GI(x,y,30);return gShadow(x,y,.45)+gBox(x-.3,y-.3,.6,.6,30,'#22252b')+`<g fill="url(#hgGold)" stroke="#a8730a" stroke-width=".8"><circle cx="${cx}" cy="${cy-52}" r="6"/><path d="M${cx-18} ${cy-46}q-4 -10 2 -16q4 6 10 8h12q6-2 10-8q6 6 2 16l-6 2-2 18 4 22h-8l-4-18-4 18h-8l4-22-2-18z"/></g><g class="spk" fill="#fff"><path d="M${cx+20} ${cy-60}l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z"/></g>`}},
+ // monthly boss holiday decorations
+ h0:{t:'eq',n:'New Year balloons',hol:0,d:(x,y)=>{const [cx,cy]=GI(x,y,0);return gShadow(x,y,.3)+[['#f2c230',-10,-70],['#fff',6,-82],['#a35bff',16,-64]].map(([c,a,b])=>`<path d="M${cx} ${cy}Q${cx+a/2} ${cy+b/2} ${cx+a} ${cy+b+12}" stroke="#ccc" fill="none"/><ellipse cx="${cx+a}" cy="${cy+b}" rx="10" ry="12" fill="${c}" stroke="rgba(0,0,0,.1)"/>`).join('')+`<text x="${cx}" y="${cy-2}" text-anchor="middle" font-size="10" font-weight="900" fill="${GOLD}" font-family="Figtree,system-ui">${new Date().getFullYear()}</text>`}},
+ h1:{t:'eq',n:'Heart balloons',hol:1,d:(x,y)=>{const [cx,cy]=GI(x,y,0);return gShadow(x,y,.3)+[['#ff5f7a',-12,-66],['#ff9ab0',8,-80],['#e5243b',14,-58]].map(([c,a,b])=>`<path d="M${cx} ${cy}Q${cx+a/2} ${cy+b/2} ${cx+a} ${cy+b+10}" stroke="#ddd" fill="none"/><path d="M${cx+a} ${cy+b+10}c-14-10-14-24-4-24c3 0 4 3 4 3s1-3 4-3c10 0 10 14-4 24z" fill="${c}"/>`).join('')}},
+ h2:{t:'eq',n:'Pot of gold',hol:2,d:(x,y)=>{const [cx,cy]=GI(x,y,22);return `<path d="M${cx-40} ${cy+10}a40 40 0 0 1 80 0" fill="none" stroke="url(#gyR)" stroke-width="10" opacity=".85"/>`+gShadow(x,y,.3)+gCyl(x,y,.2,20,'#22252b')+[[-6,-2],[0,-6],[6,-1],[-2,2],[4,3]].map(([a,b])=>`<ellipse cx="${cx+a}" cy="${cy+b}" rx="5" ry="3" fill="${GOLD}" stroke="#a8730a" stroke-width=".6"/>`).join('')}},
+ h3:{t:'eq',n:'Egg basket',hol:3,d:(x,y)=>{const [cx,cy]=GI(x,y,14);return gShadow(x,y,.3)+gCyl(x,y,.22,14,'#c99a6b')+`<path d="M${cx-10} ${cy}q10-30 20 0" stroke="#8a5a2b" stroke-width="2.5" fill="none"/>`+[['#ff9ad5',-6],['#8fe8ff',2],['#ffe58a',8]].map(([c,a])=>`<ellipse cx="${cx+a}" cy="${cy-4}" rx="4.5" ry="6" fill="${c}"/>`).join('')}},
+ h4:{t:'eq',n:'Flower bouquet',hol:4,d:(x,y)=>{const [cx,cy]=GI(x,y,26);return gShadow(x,y,.25)+gCyl(x,y,.12,26,'#bfe3ff')+[['#ff8fb1',-8,-10],['#ffd36b',6,-14],['#a35bff',-2,-20],['#ff5f7a',10,-6],['#fff',-10,-2]].map(([c,a,b])=>`<path d="M${cx} ${cy}L${cx+a} ${cy+b}" stroke="#2f8a5e" stroke-width="1.5"/><circle cx="${cx+a}" cy="${cy+b}" r="5" fill="${c}"/><circle cx="${cx+a}" cy="${cy+b}" r="1.6" fill="#f2c230"/>`).join('')}},
+ h5:{t:'eq',n:'BBQ grill',hol:5,d:(x,y)=>{const [cx,cy]=GI(x,y,34);return gShadow(x,y,.35)+gBox(x-.04,y-.04,.08,.08,30,'#3b4454')+gCyl(x,y,.25,10,'#22252b',28)+`<g fill="#8a4a2b"><rect x="${cx-8}" y="${cy-8}" width="7" height="3" rx="1.5"/><rect x="${cx+2}" y="${cy-6}" width="7" height="3" rx="1.5"/></g><path class="flm" d="M${cx-4} ${cy-14}q-3-8 3-12q-1 6 3 8q3-6 0-10q8 6 2 14z" fill="#ffb02e" opacity=".8"/>`}},
+ h6:{t:'eq',n:'Firework rockets',hol:6,d:(x,y)=>{const [cx,cy]=GI(x,y,0);return gShadow(x,y,.3)+[[-8,'#e5432d'],[0,'#fff'],[8,'#3d6fd8']].map(([a,c])=>`<rect x="${cx+a-3}" y="${cy-34}" width="6" height="26" fill="${c}" stroke="rgba(0,0,0,.15)"/><path d="M${cx+a-3} ${cy-34}l3-7 3 7z" fill="${c}"/>`).join('')+`<g class="spk" fill="#ffe58a"><circle cx="${cx-14}" cy="${cy-60}" r="2"/><circle cx="${cx+12}" cy="${cy-66}" r="2.4"/><circle cx="${cx}" cy="${cy-72}" r="1.6"/></g>`}},
+ h7:{t:'eq',n:'Backpack & lunchbox',hol:7,d:(x,y)=>gShadow(x,y,.35)+gBox(x-.25,y-.1,.3,.22,34,'#3d6fd8')+gBox(x-.24,y+.08,.28,.06,16,'#2a4fa8',6)+gBox(x+.1,y-.05,.22,.18,14,'#e5432d')},
+ h8:{t:'eq',n:'Lounge chair',hol:8,d:(x,y)=>gShadow(x,y,.5)+gBox(x-.2,y-.45,.4,.9,12,'#e9ecf1')+gBox(x-.2,y-.45,.4,.9,4,'#ffb02e',12)+gBox(x-.2,y-.45,.4,.12,34,'#ffb02e',12)},
+ h9:{t:'eq',n:'Jack-o’-lanterns',hol:9,d:(x,y)=>{return gShadow(x,y,.4)+[[-.2,-.05,13],[.18,.1,10]].map(([a,b,r])=>{const [cx,cy]=GI(x+a,y+b);return `<ellipse cx="${cx}" cy="${cy-r}" rx="${r*1.2}" ry="${r}" fill="#ef7d3c"/><path d="M${cx} ${cy-r*2}v-5" stroke="#2f6b28" stroke-width="3"/><path d="M${cx-r*.55} ${cy-r*1.2}l3-4 3 4zM${cx+r*.15} ${cy-r*1.2}l3-4 3 4z" fill="#ffe58a"/><path d="M${cx-r*.6} ${cy-r*.6}q${r*.6} ${r*.5} ${r*1.2} 0" stroke="#ffe58a" stroke-width="2" fill="none"/>`}).join('')}},
+ h10:{t:'eq',n:'Harvest table',hol:10,d:(x,y)=>{const [cx,cy]=GI(x,y,24);return gShadow(x,y,.5)+gBox(x-.4,y-.25,.8,.5,24,'#8a5a2b')+`<ellipse cx="${cx-6}" cy="${cy-4}" rx="9" ry="6" fill="#ef7d3c"/><path d="M${cx+4} ${cy-6}q10-4 14 4l-14 2z" fill="#f2c230"/><circle cx="${cx+14}" cy="${cy}" r="3" fill="#e5432d"/><circle cx="${cx-14}" cy="${cy+2}" r="3" fill="#7d5bb0"/>`}},
+ h11:{t:'eq',n:'Holiday tree',hol:11,d:(x,y)=>{const [cx,cy]=GI(x,y,0);return gShadow(x,y,.4)+`<rect x="${cx-4}" y="${cy-12}" width="8" height="12" fill="#6b4a2e"/><path d="M${cx} ${cy-92}L${cx-26} ${cy-12}H${cx+26}Z" fill="#2f8a5e"/><path d="M${cx} ${cy-92}L${cx-18} ${cy-44}H${cx+18}Z" fill="#3fa36b"/><path d="M${cx} ${cy-99}l2.4 5 5.4.6-4 3.6 1.2 5.4-5-2.8-5 2.8 1.2-5.4-4-3.6 5.4-.6z" fill="${GOLD}"/><g class="spk">${[[-10,-30,'#e5432d'],[8,-48,'#3d6fd8'],[-4,-62,'#f2c230'],[12,-24,'#fff'],[-16,-18,'#ff9ad5']].map(([a,b,c])=>`<circle cx="${cx+a}" cy="${cy+b}" r="3" fill="${c}"/>`).join('')}</g>`+gBox(x+.18,y+.15,.2,.2,12,'#e5432d')+gBox(x-.38,y+.18,.18,.18,10,'#3d6fd8')}},
+ // wall decor
+ poster:{t:'wall',n:'“No excuses” poster',g:150,d:w=>{const q=WQ(w,1.4,2.6,40,96);return `<polygon points="${GP(q)}" fill="#22252b"/><text transform="${WT(w,w==='R'?1.52:2.48,80)}" font-size="13" font-weight="900" fill="#ffe58a" font-family="Figtree,system-ui">NO</text><text transform="${WT(w,w==='R'?1.52:2.48,64)}" font-size="13" font-weight="900" fill="#fff" font-family="Figtree,system-ui">EXCUSES</text>`}},
+ clock:{t:'wall',n:'Gym clock',g:250,d:w=>`<g transform="${WT(w,w==='R'?1.5:2.5,96)}"><circle cx="20" cy="20" r="20" fill="#fff" stroke="#22252b" stroke-width="3.5"/><path d="M20 20V8M20 20l8 5" stroke="#e5432d" stroke-width="3" stroke-linecap="round"/><circle cx="20" cy="20" r="2" fill="#22252b"/></g>`},
+ window:{t:'wall',n:'City window',g:300,d:w=>{const q=WQ(w,1.2,2.8,36,100);return `<polygon points="${GP(q)}" fill="url(#gySky)" stroke="#e9ecf1" stroke-width="4"/>`+[[1.35,42,62],[1.65,42,78],[1.95,42,54],[2.25,42,70],[2.55,42,60]].map(([u,z0,z1])=>`<polygon points="${GP(WQ(w,w==='R'?u:4-u-.25,w==='R'?u+.25:4-u,z0,z1))}" fill="#3b4a7a" opacity=".8"/>`).join('')+`<polygon points="${GP(WQ(w,1.98,2.02,36,100))}" fill="#e9ecf1"/>`}},
+ mirror:{t:'wall',n:'Wall mirror',g:400,d:w=>{const q=WQ(w,1.1,2.9,20,104);return `<polygon points="${GP(q)}" fill="url(#gyMir)" stroke="#cfd6df" stroke-width="3"/><polygon points="${GP(WQ(w,1.3,1.5,40,96))}" fill="#fff" opacity=".35"/><polygon points="${GP(WQ(w,1.6,1.7,50,96))}" fill="#fff" opacity=".25"/>`}},
+ shelf:{t:'wall',n:'Supplement shelf',g:500,d:w=>{const s=WQ(w,1.3,2.7,60,64);return `<polygon points="${GP(s)}" fill="#8a5a2b"/>`+[[1.45,'#e5432d'],[1.75,'#3d6fd8'],[2.05,'#22252b'],[2.35,'#1fbf6a']].map(([u,c])=>`<polygon points="${GP(WQ(w,w==='R'?u:4-u-.2,w==='R'?u+.2:4-u,64,86))}" fill="${c}"/><polygon points="${GP(WQ(w,w==='R'?u:4-u-.2,w==='R'?u+.2:4-u,74,79))}" fill="#fff" opacity=".7"/>`).join('')}},
+ banner:{t:'wall',n:'Champion banner',g:600,d:w=>{const P=(u,z)=>w==='R'?GI(u,0,z):GI(0,u,z);return `<polygon points="${GP([P(1.45,106),P(2.55,106),P(2.55,44),P(2,28),P(1.45,44)])}" fill="#b3132b"/><polygon points="${GP([P(1.45,106),P(2.55,106),P(2.55,100),P(1.45,100)])}" fill="${GOLD}"/><text transform="${WT(w,w==='R'?1.62:2.38,74)}" font-size="9.5" font-weight="900" fill="#ffe58a" font-family="Figtree,system-ui">CHAMPION</text>`}},
+ neon:{t:'wall',n:'“GAINS” neon sign',g:900,d:w=>`<text class="neonT" transform="${WT(w,w==='R'?1.25:2.75,78)}" font-size="30" font-weight="900" fill="none" stroke="#ff3df5" stroke-width="2.4" font-family="Figtree,system-ui" filter="url(#gyGlow)">GAINS</text>`},
+ tv:{t:'wall',n:'Stats TV',g:1200,d:w=>{const q=WQ(w,1.1,2.9,44,100);return `<polygon points="${GP(q)}" fill="#0b0f17" stroke="#3b4454" stroke-width="4"/>`+[[1.35,.6],[1.75,.85],[2.15,.45],[2.55,.95]].map(([u,h])=>`<polygon points="${GP(WQ(w,w==='R'?u:4-u-.22,w==='R'?u+.22:4-u,52,52+40*h))}" fill="#3df5c8" opacity=".85"/>`).join('')}},
+ plaque:{t:'wall',n:'Quest Master plaque',g:0,req:['quests',100],d:w=>{const q=WQ(w,1.45,2.55,52,92);return `<polygon points="${GP(q)}" fill="#5a3d1f"/><polygon points="${GP(WQ(w,1.55,2.45,58,86))}" fill="url(#hgGold)"/><text transform="${WT(w,w==='R'?1.62:2.38,74)}" font-size="8" font-weight="900" fill="#5a3d1f" font-family="Figtree,system-ui">QUEST MASTER</text>`}},
+ // floors
+ wood:{t:'floor',n:'Oak floor',g:0,c:'#c99a6b',l:'#b8875a'},rubber:{t:'floor',n:'Rubber mats',g:300,c:'#2a2f3a',l:'#3b4454'},concrete:{t:'floor',n:'Polished concrete',g:300,c:'#9aa4b2',l:'#8a94a3'},turf:{t:'floor',n:'Sprint turf',g:600,c:'#2f8a5e',l:'#3fa36b',stripe:1},
+ marble:{t:'floor',n:'White marble',g:3000,lux:1,c:'#eef1f5',l:'#cfd6df',vein:1},neonf:{t:'floor',n:'Neon grid',g:5000,lux:1,c:'#14102a',l:'#3df5ff',glow:1},
+ // wall styles
+ white:{t:'walls',n:'Clean white',g:0,c:'#eef1f5'},brick:{t:'walls',n:'Red brick',g:300,c:'#b5583a',brick:1},navy:{t:'walls',n:'Navy',g:400,c:'#1c2e55'},concretew:{t:'walls',n:'Concrete',g:400,c:'#8a94a3',dots:1},
+ woodw:{t:'walls',n:'Wood panels',g:600,c:'#8a5a2b',panel:1},goldw:{t:'walls',n:'Gold leaf',g:8000,lux:2,c:'#d9a521',shine:1},
+ // lights
+ off:{t:'light',n:'Daylight',g:0},warm:{t:'light',n:'Warm glow',g:300},neonl:{t:'light',n:'Neon nights',g:1200},spot:{t:'light',n:'Spotlight',g:2500,lux:1}};
+const HOLNAME=m=>(HOLI[m]||['🎉',''])[1];
+const gymDef=()=>({name:'',floor:'wood',walls:'white',light:'off',slots:{f1:'kb',f2:null,f3:'plant',f4:'mat',f5:null,f6:null,w1:null,w2:null}});
+const myGym=()=>{const g=Object.assign(gymDef(),S.gym||{});g.slots=Object.assign(gymDef().slots,(S.gym||{}).slots||{});return g};
+const gymOwned=()=>new Set(['kb','mat','plant','wood','white','off',...(S.gymOwned||[])]);
+function gymReqTxt(it){if(it.hol!=null)return `🐲 Beat the ${HOLNAME(it.hol)} monthly boss`;return it.req?reqTxt(it.req):''}
+function gymCanBuy(k){const it=GYM[k];return it.hol==null&&(!it.req||reqMet(it.req))}
+function gymScore(cfg){let s=0;for(const k of [cfg.floor,cfg.walls,cfg.light,...Object.values(cfg.slots||{})]){const it=GYM[k];if(!it)continue;s+=it.hol!=null?2500:it.req&&!it.g?2000:(it.g||0)}return s}
+const gymStars=cfg=>Math.max(1,Math.min(5,1+Math.floor(Math.log2(1+gymScore(cfg)/700))));
+let gyN=0;
+function gymSVG(cfg,o={}){cfg=Object.assign(gymDef(),cfg||{});const sl=Object.assign(gymDef().slots,cfg.slots||{}),F=GYM[cfg.floor]||GYM.wood,W=GYM[cfg.walls]||GYM.white,L=cfg.light||'off',id='gy'+(++gyN),edit=o.edit;
+  const defs=`<defs><linearGradient id="gySky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ec4ef"/><stop offset="1" stop-color="#ffd9a8"/></linearGradient><linearGradient id="gyMir" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#dfe9f5"/><stop offset=".5" stop-color="#b8c8db"/><stop offset="1" stop-color="#e9f1fa"/></linearGradient><linearGradient id="gyR" x1="0" x2="1"><stop offset="0" stop-color="#ff5f5f"/><stop offset=".33" stop-color="#ffd84a"/><stop offset=".66" stop-color="#5fe08f"/><stop offset="1" stop-color="#5fb7ff"/></linearGradient><filter id="gyGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="${id}wr"><polygon points="${GP(WQ('R',0,4,0,120))}"/></clipPath><clipPath id="${id}wl"><polygon points="${GP(WQ('L',0,4,0,120))}"/></clipPath><clipPath id="${id}fl"><polygon points="${GP([GI(0,0),GI(4,0),GI(4,4),GI(0,4)])}"/></clipPath></defs>`;
+  // walls
+  const wc=W.c;let walls=`<polygon points="${GP(WQ('L',0,4,0,120))}" fill="${shade(wc,-.08)}"/><polygon points="${GP(WQ('R',0,4,0,120))}" fill="${shade(wc,.04)}"/>`;
+  if(W.brick)walls+=['R','L'].map(w=>`<g clip-path="url(#${id}w${w.toLowerCase()})" stroke="${shade(wc,-.35)}" stroke-width="1" opacity=".55">${Array.from({length:12},(_,i)=>{const z=i*10;return `<polyline points="${GP([w==='R'?GI(0,0,z):GI(0,0,z),w==='R'?GI(4,0,z):GI(0,4,z)])}" fill="none"/>`+Array.from({length:8},(_,j)=>{const u=j*.5+(i%2?.25:0),a=w==='R'?GI(u,0,z):GI(0,u,z),b=w==='R'?GI(u,0,z+10):GI(0,u,z+10);return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`}).join('')}).join('')}</g>`).join('');
+  if(W.panel)walls+=['R','L'].map(w=>Array.from({length:8},(_,j)=>{const a=w==='R'?GI(j*.5,0,0):GI(0,j*.5,0),b=w==='R'?GI(j*.5,0,120):GI(0,j*.5,120);return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${shade(wc,-.3)}" stroke-width="1.2" opacity=".6"/>`}).join('')).join('');
+  if(W.dots)walls+=['R','L'].map(w=>Array.from({length:6},(_,i)=>Array.from({length:4},(_,j)=>{const p=w==='R'?GI(.5+i*.6,0,20+j*28):GI(0,.5+i*.6,20+j*28);return `<circle cx="${p[0]}" cy="${p[1]}" r="1.3" fill="${shade(wc,-.3)}"/>`}).join('')).join('')).join('');
+  if(W.shine)walls+=`<polygon points="${GP(WQ('R',.6,1.2,0,120))}" fill="#fff" opacity=".18"/><polygon points="${GP(WQ('L',2.4,2.8,0,120))}" fill="#fff" opacity=".14"/>`;
+  walls+=`<polygon points="${GP([GI(0,0,120),GI(4,0,120),GI(4,-.12,124),GI(-.12,-.12,124)])}" fill="${shade(wc,-.25)}"/><polygon points="${GP([GI(0,0,120),GI(0,4,120),GI(-.12,4,124),GI(-.12,-.12,124)])}" fill="${shade(wc,-.35)}"/>`;
+  walls+=`<polygon points="${GP(WQ('R',0,4,0,8))}" fill="${shade(wc,-.3)}"/><polygon points="${GP(WQ('L',0,4,0,8))}" fill="${shade(wc,-.4)}"/>`;
+  // floor
+  let floor=`<polygon points="${GP([GI(4,0),GI(4,4,0),GI(4,4,-10),GI(4,0,-10)])}" fill="${shade(F.c,-.4)}"/><polygon points="${GP([GI(0,4),GI(4,4),GI(4,4,-10),GI(0,4,-10)])}" fill="${shade(F.c,-.25)}"/><polygon points="${GP([GI(0,0),GI(4,0),GI(4,4),GI(0,4)])}" fill="${F.c}"/>`;
+  floor+=`<g clip-path="url(#${id}fl)" stroke="${F.l}" stroke-width="${F.glow?1.4:1}" ${F.glow?'filter="url(#gyGlow)"':''} opacity="${F.glow?.9:.7}">${Array.from({length:9},(_,i)=>{const u=i*.5,a=GI(u,0),b=GI(u,4),c=GI(0,u),d=GI(4,u);return `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`+(F.stripe?'':`<line x1="${c[0]}" y1="${c[1]}" x2="${d[0]}" y2="${d[1]}"/>`)}).join('')}</g>`;
+  if(F.vein)floor+=`<g clip-path="url(#${id}fl)" stroke="#b8c2cc" stroke-width="1" fill="none" opacity=".7"><path d="M60 170q40-10 70 6t80 -4M140 220q30-20 80-10M220 150q20 20 70 18"/></g>`;
+  floor+=`<ellipse cx="${GI(2.2,2.85)[0]}" cy="${GI(2.2,2.85)[1]}" rx="58" ry="29" fill="${F.glow?'#3df5ff':'#000'}" opacity="${F.glow?.12:.08}"/>`;
+  // items, avatar and pet sorted back to front
+  const parts=[];for(const k of ['f1','f2','f3','f4','f5','f6']){const it=GYM[sl[k]];const [x,y]=GSLOTS[k];if(it&&it.d)parts.push([x+y,`<g class="gItem" data-gslot="${k}">${it.d(x,y)}</g>`]);if(edit)parts.push([x+y+.01,`<g class="gSlot" data-gslot="${k}"><polygon points="${GP([GI(x-.42,y-.42),GI(x+.42,y-.42),GI(x+.42,y+.42),GI(x-.42,y+.42)])}" fill="rgba(61,245,200,.12)" stroke="#3df5c8" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="${GI(x,y)[0]}" cy="${GI(x,y)[1]-4}" r="9" fill="#3df5c8"/><path d="M${GI(x,y)[0]-4} ${GI(x,y)[1]-4}h8M${GI(x,y)[0]} ${GI(x,y)[1]-8}v8" stroke="#0b0f17" stroke-width="2"/></g>`])}
+  const [ax,ay]=GI(2.2,2.85);const av=o.av?heroSVG(o.av,o.build||{m:.3,f:.5}):'';
+  parts.push([5.05,`${gShadow(2.2,2.85,.4)}${gCyl(2.2,2.85,.34,9,'#3b4454',0,'#4b5563')}<g class="gAv"><circle cx="${ax}" cy="${ay-43}" r="29" fill="#fff" opacity=".16"/>${av.replace('<svg',`<svg x="${ax-26}" y="${ay-69}" width="52" height="52"`)}</g>${o.name?`<g><rect x="${ax-38}" y="${ay-12}" width="76" height="16" rx="8" fill="#0b0f17" opacity=".75"/><text x="${ax}" y="${ay}" text-anchor="middle" font-size="9" font-weight="800" fill="#fff" font-family="Figtree,system-ui">${esc(String(o.name).slice(0,16))}</text></g>`:''}`]);
+  if(o.pet&&PETS[o.pet.k]){const [px,py]=GI(3.25,2.95);parts.push([6.2,`${gShadow(3.25,2.95,.28)}${petSVG(o.pet.k,o.pet.mood??80,o.pet.acc).replace('<svg',`<svg x="${px-24}" y="${py-44}" width="48" height="44"`)}`])}
+  parts.sort((a,b)=>a[0]-b[0]);
+  // wall decor
+  let wd='';for(const [k,w] of [['w1','R'],['w2','L']]){const it=GYM[sl[k]];if(it&&it.d)wd+=`<g class="gItem" data-gslot="${k}">${it.d(w)}</g>`;if(edit){const q=WQ(w,1.2,2.8,40,100);wd+=`<g class="gSlot" data-gslot="${k}"><polygon points="${GP(q)}" fill="rgba(61,245,200,.12)" stroke="#3df5c8" stroke-width="1.5" stroke-dasharray="4 3"/>${(()=>{const c=w==='R'?GI(2,0,70):GI(0,2,70);return `<circle cx="${c[0]}" cy="${c[1]}" r="9" fill="#3df5c8"/><path d="M${c[0]-4} ${c[1]}h8M${c[0]} ${c[1]-4}v8" stroke="#0b0f17" stroke-width="2"/>`})()}</g>`}}
+  // lighting
+  let lt='';if(L==='warm')lt=`<rect width="360" height="290" fill="url(#${id}warm)"/><defs><radialGradient id="${id}warm" cx=".5" cy=".2" r=".8"><stop offset="0" stop-color="#ffd36b" stop-opacity=".35"/><stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/></radialGradient></defs>`;
+  if(L==='neonl')lt=`<polygon points="${GP(WQ('R',0,4,112,116))}" fill="#3df5ff" filter="url(#gyGlow)"/><polygon points="${GP(WQ('L',0,4,112,116))}" fill="#ff3df5" filter="url(#gyGlow)"/><rect width="360" height="290" fill="#7a3cff" opacity=".1"/>`;
+  if(L==='spot')lt=`<rect width="360" height="290" fill="#05030c" opacity=".35"/><path d="M${ax-6} 0L${ax-70} ${ay+20}H${ax+70}L${ax+6} 0Z" fill="#fff3b0" opacity=".22"/>`;
+  return `<svg viewBox="0 0 360 290" class="gymSvg${edit?' editing':''}" role="img" aria-label="Gym">${defs}${walls}${wd}${floor}${parts.map(p=>p[1]).join('')}${lt}</svg>`}
+// ---- the Gym tab ----
+let gymEdit=false,GS={slot:null,tab:'eq'},gymLikeN=0,gymLikeUnsub=null,gymLikers={};
+const gymCfgPublic=()=>{const g=myGym();return {name:(g.name||'').slice(0,24),floor:g.floor,walls:g.walls,light:g.light,slots:g.slots}};
+const gymTitle=(g,nm)=>g.name||`${(nm||'My').split(' ')[0]}’s Gym`;
+function renderGym(){const el=$('v-gym');if(!el)return;const g=myGym(),st=gymStars(g),ps=S.pet?petState():null;
+  el.innerHTML=`<div class="gymHead"><div style="min-width:0"><h2 id="gymName">${esc(gymTitle(g,S.name))} <button class="ico" id="gymRename" aria-label="Rename gym">✏️</button></h2><div class="gymMeta"><span class="stars">${'★'.repeat(st)}<i>${'★'.repeat(5-st)}</i></span><span>❤️ ${fmt(gymLikeN)} like${gymLikeN===1?'':'s'}</span></div></div><span class="hsGold">${COIN}${fmt(S.gold||0)}</span></div>
+   <div class="gymStage${gymEdit?' edit':''}" id="gymStage">${gymSVG(g,{edit:gymEdit,av:myAvCfg(),build:myBuild(),pet:S.pet?{k:S.pet.k,mood:ps.mood,acc:S.pet.acc}:null})}</div>
+   <div class="gymBar"><button class="${gymEdit?'red':''}" id="gymEditBtn">${gymEdit?'✓ Done':'✏️ Edit'}</button><button class="ghost" id="gymStyleBtn">🎨 Style</button><button class="ghost" id="gymShopBtn">🛒 Shop</button></div>
+   ${gymEdit?'<p class="muted sm" style="text-align:center;margin:6px 0 0">Tap a glowing spot to place equipment or decor.</p>':''}
+   <details class="card gymFr" ${lsGet('platescan.gymFrOpen')==='1'?'open':''}><summary><b>Friends’ gyms</b><span class="muted sm">Visit and leave a like</span></summary><div id="gymFrList">${gymFriendsHTML()}</div></details>
+   <p class="muted sm" style="margin:8px 2px">Earn gear with gold, daily quests and boss wins. Each month’s boss gives a holiday decoration you can only get that month.</p>`}
+function gymFriendsHTML(){if(mode!=='cloud'||!SOC.on)return '<p class="muted sm">Sign in and add friends to visit their gyms.</p>';const L=SOC.friends.map(f=>[f.uid,SOC.profiles[f.uid]]).filter(([u,p])=>p&&!isBlocked(u));if(!L.length)return '<p class="muted sm">Add friends to visit their gyms.</p>';
+  return L.map(([u,p])=>`<div class="fr"><span class="gav">${pAv(p)}</span><div class="fmid"><b>${esc(gymTitle(p.gym||{},p.name))}</b><div class="muted sm">${p.gym?'★'.repeat(gymStars(p.gym)):'Still empty'}</div></div><button class="small ghost" data-gvisit="${u}">Visit</button></div>`).join('')}
+function gymSheetHTML(){const g=myGym(),own=gymOwned(),slot=GS.slot,isWall=slot&&slot[0]==='w',tabs=slot?[isWall?['wall','Wall decor']:['eq','Equipment']]:[['eq','Equipment'],['wall','Wall decor'],['floor','Floor'],['walls','Walls'],['light','Lights']];
+  if(!tabs.some(t=>t[0]===GS.tab))GS.tab=tabs[0][0];
+  const cur=slot?g.slots[slot]:GS.tab==='floor'?g.floor:GS.tab==='walls'?g.walls:GS.tab==='light'?g.light:null;
+  const items=Object.entries(GYM).filter(([k,it])=>it.t===GS.tab).sort((a,b)=>(own.has(b[0])-own.has(a[0]))||((a[1].hol!=null)-(b[1].hol!=null))||((a[1].g||0)-(b[1].g||0)));
+  const prev=(k,it)=>{if(it.t==='floor')return `<span class="gSw" style="background:${it.c};box-shadow:inset 0 0 0 2px ${it.l}"></span>`;if(it.t==='walls')return `<span class="gSw" style="background:${it.c}"></span>`;if(it.t==='light')return `<span class="gSw lt-${k}"></span>`;
+    return `<svg viewBox="${it.t==='wall'?'186 18 136 150':'95 36 170 170'}" class="gPrev">${it.t==='wall'?`<polygon points="${GP(WQ('R',.9,3.4,10,120))}" fill="var(--card)" opacity=".6"/>`+it.d('R'):it.d(2,2)}</svg>`};
+  return `<div class="row between"><h2 style="margin:0">${slot?(isWall?'Wall decor':'Place equipment'):'Gym shop'}</h2><button class="x" data-close="gymSheet" aria-label="Close">×</button></div>
+   ${tabs.length>1?`<div class="seg" id="gsTabs">${tabs.map(([k,n])=>`<button data-gstab="${k}" class="${GS.tab===k?'on':''}">${n}</button>`).join('')}</div>`:''}
+   <div class="gGrid">${slot?`<button class="gTile${!cur?' on':''}" data-gpick="">${'<span class="gSw" style="background:var(--sunk)"></span>'}<b>Empty</b></button>`:''}${items.map(([k,it])=>{const has=own.has(k),buy=!has&&gymCanBuy(k),lock=!has&&!buy;return `<button class="gTile${cur===k?' on':''}${lock?' lock':''}${it.lux?' lux':''}" data-gpick="${k}">${prev(k,it)}<b>${esc(it.n)}</b>${has?(cur===k?'<em>In use</em>':''):lock?`<em class="rq">🔒 ${esc(gymReqTxt(it))}</em>`:`<em class="pr">${COIN}${fmt(it.g)}</em>`}</button>`}).join('')}</div>`}
+function gymSheetDraw(){const sb=$('gymSheet')&&$('gymSheet').querySelector('.sb'),y=sb?sb.scrollTop:0;miniSheet('gymSheet',gymSheetHTML());const nb=$('gymSheet').querySelector('.sb');if(nb)nb.scrollTop=y;requestAnimationFrame(()=>{const s=$('gsTabs');if(s)segInd(s)})}
+function openGymSheet(slot,tab){GS.slot=slot||null;GS.tab=tab||(slot?(slot[0]==='w'?'wall':'eq'):'eq');const sb=$('gymSheet')&&$('gymSheet').querySelector('.sb');if(sb)sb.scrollTop=0;gymSheetDraw()}
+function gymPick(k){const g=myGym(),own=gymOwned();if(k){const it=GYM[k];if(!own.has(k)){if(!gymCanBuy(k)){sfx('miss');return toast('Locked: '+gymReqTxt(it))}if((S.gold||0)<it.g){sfx('miss');return toast(`You need ${fmt(it.g-(S.gold||0))} more gold`)}
+    S.gold-=it.g;S.gymOwned=[...new Set([...(S.gymOwned||[]),k])];sfx('chest');toast(`${it.n} unlocked!`)}else sfx('pop');
+    if(GS.slot){for(const s of Object.keys(g.slots))if(g.slots[s]===k&&s!==GS.slot)g.slots[s]=null;g.slots[GS.slot]=k}else if(it.t==='floor')g.floor=k;else if(it.t==='walls')g.walls=k;else if(it.t==='light')g.light=k;
+    else{const free=Object.keys(g.slots).find(s=>(it.t==='wall'?s[0]==='w':s[0]==='f')&&!g.slots[s]);if(free&&!Object.values(g.slots).includes(k)){g.slots[free]=k;toast('Placed in your gym')}}}
+  else if(GS.slot)g.slots[GS.slot]=null;
+  S.gym=g;store.saveMeta();syncProfile(game());gymSheetDraw();renderGym();if(GS.slot&&k)setTimeout(()=>closeSheet('gymSheet'),250)}
+// visiting
+async function visitGym(uid){const p=SOC.profiles[uid];if(!p)return;let liked=false,n=0;
+  try{const q=await FB.fs.getDocs(FB.fs.query(FB.fs.collection(FB.db,'gymLikes'),FB.fs.where('owner','==',uid)));n=q.docs.length;liked=q.docs.some(d=>d.data().by===user.uid)}catch(e){}
+  const draw=()=>`<div class="row between"><h2 style="margin:0">${esc(gymTitle(p.gym||{},p.name))}</h2><button class="x" data-close="gymVisit" aria-label="Close">×</button></div><div class="gymMeta" style="margin:2px 0 8px"><span class="stars">${'★'.repeat(gymStars(p.gym||{}))}<i>${'★'.repeat(5-gymStars(p.gym||{}))}</i></span><span>❤️ ${n}</span></div>
+    <div class="gymStage">${gymSVG(p.gym||{},{av:p.av||null,build:p.build,pet:p.pet||null,name:p.name})}</div>
+    <button class="wide ${liked?'ghost':'red'}" id="gymLike" style="margin-top:10px">${liked?'❤️ Liked':'🤍 Like this gym'}</button>`;
+  const sh=miniSheet('gymVisit',draw()),sb=sh.querySelector('.sb');
+  sb.onclick=async e=>{if(!e.target.closest('#gymLike'))return;const ref=FB.fs.doc(FB.db,'gymLikes',uid+'_'+user.uid);try{if(liked){await FB.fs.deleteDoc(ref);liked=false;n--}else{await FB.fs.setDoc(ref,{owner:uid,by:user.uid,name:(S.name||'Friend').slice(0,30),ts:Date.now()});liked=true;n++;sfx('pop');burst(innerWidth/2,innerHeight*.6,{n:18,colors:['#ff5f7a','#ff9ab0','#fff']})}miniSheet('gymVisit',draw())}catch(er){toast('Couldn’t like: '+(er.code||'error')+'. Did you publish the new rules?')}}}
+function gymLikesStart(){if(gymLikeUnsub){gymLikeUnsub();gymLikeUnsub=null}if(mode!=='cloud'||!user||!FB)return;let first=true;
+  gymLikeUnsub=FB.fs.onSnapshot(FB.fs.query(FB.fs.collection(FB.db,'gymLikes'),FB.fs.where('owner','==',user.uid)),q=>{const now={};q.docs.forEach(d=>now[d.id]=d.data());if(!first)for(const [k,v] of Object.entries(now))if(!gymLikers[k]&&!isBlocked(v.by))toast(`${v.name||'A friend'} liked your gym ❤️`);gymLikers=now;first=false;gymLikeN=Object.values(now).filter(v=>!isBlocked(v.by)).length;if(view==='gym')renderGym()},()=>{})}
+document.addEventListener('click',e=>{const t=e.target;
+  if(t.closest('#gymEditBtn')){gymEdit=!gymEdit;sfx('tap');renderGym();return}
+  if(t.closest('#gymStyleBtn')){openGymSheet(null,'floor');return}
+  if(t.closest('#gymShopBtn')){openGymSheet(null,'eq');return}
+  if(t.closest('#gymRename')){const n=prompt('Name your gym',myGym().name||gymTitle({},S.name));if(n!=null){S.gym=Object.assign(myGym(),{name:n.trim().slice(0,24)});store.saveMeta();syncProfile(game());renderGym()}return}
+  const sl=t.closest('#gymStage [data-gslot]');if(sl&&gymEdit){openGymSheet(sl.dataset.gslot);return}
+  const tb=t.closest('[data-gstab]');if(tb){GS.tab=tb.dataset.gstab;sfx('tap');gymSheetDraw();return}
+  const pk=t.closest('[data-gpick]');if(pk){gymPick(pk.dataset.gpick);return}
+  const v=t.closest('[data-gvisit]');if(v){document.querySelectorAll('.sheet.on').forEach(x=>{if(x.id!=='gymVisit')closeSheet(x.id)});visitGym(v.dataset.gvisit);return}});
+document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('gymFr'))lsSet('platescan.gymFrOpen',e.target.open?'1':'')},true);
+// quests and monthly bosses unlock gym items
+REQ_T.quests=n=>`✅ Finish ${fmt(n)} daily quests`;
+{const _rh=reqHave;reqHave=function(r){return r[0]==='quests'?(S.questN||0):_rh(r)}}
+{const _qh=questHearts;questHearts=function(g){const k='platescan.qn.'+(user?user.uid:'g')+'.'+ymd(Date.now()),done=questList(g).filter(q=>q.done).length,was=+(lsGet(k)||0);if(done>was){S.questN=(S.questN||0)+(done-was);lsSet(k,String(done))}return _qh(g)}}
+{const _mw=mbWin;mbWin=function(silent){const r=_mw(silent);if(r!==null){const hk='h'+new Date().getMonth();if(GYM[hk]&&!(S.gymOwned||[]).includes(hk)){S.gymOwned=[...(S.gymOwned||[]),hk];store.saveMeta();setTimeout(()=>toast(`New gym decoration: ${GYM[hk].n} 🎉`),2500)}}return r}}
+
+// ================= v22: sheets, collapsibles, sign-in help, pop-ups, camera, sound =================
+// mini sheets get a real header (safe-area aware), so the close button is always reachable
+miniSheet=function(id,html,title){let sh=$(id);if(!sh||!sh.querySelector('.msT')){if(sh)sh.remove();document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="${id}" role="dialog" style="z-index:45"><div class="sh"><h2 class="msT" style="flex:1;margin:0"></h2><button class="x" data-close="${id}" aria-label="Close">×</button></div><div class="sb"></div></div>`);sh=$(id)}
+  const sb=sh.querySelector('.sb');sb.innerHTML=html;let t=title||'';const f=sb.firstElementChild;
+  if(f&&f.matches('.row')&&f.querySelector('[data-close]')){const h=f.querySelector('h2');if(h&&!t)t=h.textContent;f.remove()}
+  if(!t){const h=sb.querySelector('h2'),f0=sb.firstElementChild;if(h&&(h===f0||(h.parentElement===f0&&!h.previousElementSibling))){t=h.textContent;h.remove()}}
+  sh.querySelector('.msT').textContent=t;sh.setAttribute('aria-label',t||'Details');if(!sh.classList.contains('on'))openSheet(id);return sh}
+// Escape closes the top sheet (keyboards, desktop)
+addEventListener('keydown',e=>{if(e.key!=='Escape')return;const P=$('promptBox');if(P&&P.classList.contains('on')){$('prNo').click();return}const on=[...document.querySelectorAll('.sheet.on')];if(!on.length)return;const top=on.sort((a,b)=>(+getComputedStyle(b).zIndex||0)-(+getComputedStyle(a).zIndex||0))[0];if(top.id==='auth'&&authBlocking)return;const x=top.querySelector('[data-close]');if(x)x.click();else closeSheet(top.id)});
+// collapsible cards: first child is the header, state is remembered
+const CLD={sug:1,inbox:1,dash:1,dev:1,mod:0,fill:0};
+function clOne(el){const k=el.dataset.cl,h=el.firstElementChild;if(!k||!h)return;h.classList.add('clH');if(!h.querySelector(':scope>.clChev'))h.insertAdjacentHTML('beforeend','<span class="clChev" aria-hidden="true"></span>');el.classList.add('clp');const v=lsGet('platescan.cl.'+k),c=v==null?!!CLD[k]:v==='1';el.classList.toggle('clz',c);h.setAttribute('role','button');h.setAttribute('tabindex','0');h.setAttribute('aria-expanded',String(!c))}
+function clApply(root=document){root.querySelectorAll('[data-cl]').forEach(clOne)}
+function clToggle(h){const el=h.parentElement;if(!el||!el.dataset.cl)return;const c=!el.classList.contains('clz');el.classList.toggle('clz',c);lsSet('platescan.cl.'+el.dataset.cl,c?'1':'0');h.setAttribute('aria-expanded',String(!c));sfx('tap')}
+document.addEventListener('click',e=>{const h=e.target.closest('.clH');if(!h||e.target.closest('a,input,textarea,select,label,button:not(.clH)'))return;clToggle(h)});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('clH')){e.preventDefault();clToggle(e.target)}});
+{const _rf=renderFill;renderFill=function(g){_rf(g);const el=$('fillCard');if(el&&el.style.display!=='none'){el.dataset.cl='fill';clOne(el)}}}
+{const _rr=renderReports;renderReports=function(){_rr();const r=$('modBox');if(r){r.dataset.cl='mod';clOne(r)}}}
+{const _rd=renderDev;renderDev=function(){_rd();const d=$('devTools');if(d&&d.firstElementChild){d.firstElementChild.dataset.cl='dev';clOne(d.firstElementChild)}}}
+{const _rh=renderHelp;renderHelp=function(){_rh();clApply($('setSheet')||document)}}
+// sign in: forgot email + remember the last email used here
+{const _ou=onUser;onUser=function(u){if(u&&u.email)lsSet('platescan.lastEmail',u.email);return _ou.apply(this,arguments)}}
+const maskEmail=e=>{const [u,d]=String(e).split('@');return d?u.slice(0,2)+'•'.repeat(Math.max(3,u.length-2))+'@'+d:e};
+function openForgotEmail(){const le=lsGet('platescan.lastEmail')||'';
+  miniSheet('feSheet',`<div class="row between"><h2 style="margin:0">Forgot your email?</h2><button class="x" data-close="feSheet" aria-label="Close">×</button></div>
+  ${le?`<div class="card"><span class="muted sm">Last used on this device</span><div class="row between" style="gap:8px;margin-top:4px"><b>${esc(maskEmail(le))}</b><button class="small red" id="feUse">Use this email</button></div></div>`:'<p class="muted sm">No account has signed in on this device yet.</p>'}
+  <h3>Other ways to find it</h3><ul class="sm feTips"><li>Search your inboxes for <b>PlateScan</b>. The email that got your welcome or reset messages is the one.</li><li>Try the email you use for your Apple ID or Google account. Most people sign up with that one.</li><li>On iPhone, open <b>Settings → Passwords</b> and search <b>github.io</b>. Saved sign-ins show the email.</li><li>Still signed in on another phone or computer? It’s shown in Settings → Account.</li></ul>
+  <p class="muted sm">Found it but forgot the password too? Use <a href="#" data-femail-reset>Forgot password</a> and we’ll email you a reset link.</p>`)}
+document.addEventListener('click',e=>{const t=e.target;
+  if(t.closest('[data-femail]')){e.preventDefault();openForgotEmail();return}
+  if(t.closest('#feUse')||t.closest('[data-femail-reset]')){e.preventDefault();const le=lsGet('platescan.lastEmail')||'';const reset=!!t.closest('[data-femail-reset]');closeSheet('feSheet');showAuth(reset?'reset':'signin',authBlocking);if(le)$('aEmail').value=le;setTimeout(()=>(reset||!le?$('aEmail'):$('aPass')).focus(),350)}});
+// get the full app: one pop-up at a time instead of a list
+const SHARE_IC='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg>';
+function gaPop(o){const P=$('promptBox');$('prIc').innerHTML=o.ic;$('prT').textContent=o.t;$('prB').innerHTML=o.b;$('prYes').textContent=o.yes;$('prNo').textContent=o.no;
+  $('prYes').onclick=()=>{P.classList.remove('on');o.go()};$('prNo').onclick=()=>{P.classList.remove('on');o.skip()};P.classList.add('on');sfx('pop')}
+function gaFlow(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent),iosWeb=isIOS&&!st.inst,steps=[];
+  if(!st.inst&&(isMobile()||deferredInstall))steps.push('inst');if(!st.notif)steps.push('notif');if(!steps.length)return;
+  const N=steps.length;let i=0;const done=()=>lsSet('platescan.gaLater',String(Date.now()));
+  const busy=()=>!lsGet(obKey())||document.querySelector('.sheet.on')||['tour','loginSheet','battle','lvup','promptBox'].some(id=>$(id)&&$(id).classList.contains('on'));
+  const next=()=>{if(i>=N)return done();if(busy())return setTimeout(next,1500);const k=steps[i++],tag=N>1?`<span class="prStep">Step ${i} of ${N}</span>`:'';
+    if(k==='inst')gaPop({ic:'<img src="icon-192.png" alt="" width="64" height="64" style="border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.2)">',t:'Add PlateScan to your Home Screen',
+      b:tag+'Opens full screen like a real app and works offline'+(isIOS?'. On iPhone it also unlocks notifications.':'.')+(isIOS?`<ol class="steps sm"><li>Tap <b>Share</b> ${SHARE_IC} in Safari</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b></li><li>Open PlateScan from the new icon</li></ol>`:and&&!deferredInstall?'<ol class="steps sm"><li>Tap the <b>⋮</b> menu in Chrome</li><li>Tap <b>Add to Home screen</b> or <b>Install app</b></li></ol>':''),
+      yes:deferredInstall?'Install':'Got it',no:'Later',go:async()=>{if(deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null}setTimeout(next,450)},skip:()=>setTimeout(next,450)});
+    else gaPop({ic:'<span class="prBell">🔔</span>',t:iosWeb?'Reminders on iPhone':'Turn on notifications',
+      b:tag+(iosWeb?'iPhone only allows notifications once PlateScan is on your Home Screen. Until then, Calendar reminders work right from the website.':'Streak saves, boss alerts, friends going live and your pet’s check-ins. Change or turn them off anytime.'),
+      yes:iosWeb?'Set up Calendar reminders':mode==='cloud'?'Allow notifications':'Create a free account',no:'Not now',
+      go:()=>{done();if(iosWeb){openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400)}else if(mode!=='cloud')showAuth('signup');else{const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}))}},skip:done})};
+  next()}
+openGetApp=gaFlow;
+{const _ec=eggCheck;eggCheck=function(g){if($('auth')&&$('auth').classList.contains('on'))return;return _ec(g)}}
+{const _et=endTour;endTour=function(){_et();setTimeout(()=>maybeGetApp(),1200)}}
+// camera: .5x zoom (ultra-wide) when the phone has it
+async function camZoomSetup(){if(!BT||!BT.stream)return;const tr=BT.stream.getVideoTracks()[0];let cap={};try{cap=tr&&tr.getCapabilities?tr.getCapabilities():{}}catch(e){}
+  BT.zc=cap.zoom&&cap.zoom.min<1?cap.zoom:null;BT.uw=null;BT.zoom=1;
+  if(!BT.zc&&BT.cam!=='user'){try{const ds=await navigator.mediaDevices.enumerateDevices();const u=ds.find(d=>d.kind==='videoinput'&&/ultra[ -]?wide|0[.,]5x?/i.test(d.label));if(u)BT.uw=u.deviceId}catch(e){}}
+  const b=$('btZoom');if(!b||!BT)return;const ok=!!(BT.zc||BT.uw);b.style.display=ok?'':'none';if(ok&&lsGet('platescan.zoom')==='0.5')setZoom(.5,true)}
+async function setZoom(z,quiet){if(!BT||!BT.stream)return;const b=$('btZoom');
+  try{if(BT.zc)await BT.stream.getVideoTracks()[0].applyConstraints({advanced:[{zoom:Math.max(BT.zc.min,Math.min(BT.zc.max,z))}]});
+    else if(BT.uw){const ns=await navigator.mediaDevices.getUserMedia({video:z<1?{deviceId:{exact:BT.uw},width:{ideal:640},height:{ideal:480}}:{facingMode:BT.cam,width:{ideal:640},height:{ideal:480}},audio:false});if(!BT){ns.getTracks().forEach(t=>t.stop());return}const old=BT.stream;BT.stream=ns;const v=$('btV');v.srcObject=ns;await v.play().catch(()=>{});old.getTracks().forEach(t=>t.stop());audioKeep()}
+    else return;
+    BT.zoom=z;lsSet('platescan.zoom',String(z));if(b){b.textContent=z<1?'.5×':'1×';b.classList.toggle('on',z<1)}if(!quiet){sfx('tap');toast(z<1?'Zoomed out: .5×':'Back to 1×')}}catch(e){if(!quiet)toast('This camera can’t zoom out')}}
+document.addEventListener('click',e=>{if(e.target.closest('#btZoom')&&BT)setZoom(BT.zoom<1?1:.5)});
+// sound: keep playing with the silent switch on so screen recordings pick it up
+const recSnd=()=>lsGet('platescan.recsnd')!=='0';
+function audioKeep(){try{if(navigator.audioSession)navigator.audioSession.type=recSnd()?'playback':'auto'}catch(e){}if(AC&&AC.state!=='running'&&sndOn())AC.resume().catch(()=>{})}
+{const _ac=ac;ac=function(){const fresh=!AC;if(fresh)audioKeep();const a=_ac();if(a&&fresh){a.onstatechange=()=>{if(a.state!=='running'&&sndOn()&&!document.hidden)setTimeout(()=>a.resume().catch(()=>{}),250)}}return a}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AC)audioKeep()});
+addEventListener('pageshow',()=>{if(AC)audioKeep()});
+{const _rfx=renderFxSwitches;renderFxSwitches=function(){_rfx();const r=$('recSnd');if(r)r.checked=recSnd()}}
+document.addEventListener('change',e=>{if(e.target.id==='recSnd'){lsSet('platescan.recsnd',e.target.checked?'1':'0');audioKeep();if(sndOn())sfx('pop')}});
+
+clApply();
 // ================= start =================
 setMealType(defaultMealType());
 if(CLOUD_OK&&!SBX){

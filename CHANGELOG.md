@@ -2,6 +2,21 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22: Your own 3D gym, avatars everywhere and a better plank (Nov 24, 2026)
+- Your own 3D gym: a new Gym tab in the menu. Place equipment and wall decor, pick floors, walls and lighting, and name your gym. Your avatar and pet hang out in it.
+- Gym shop: 15 pieces of equipment, 9 wall decorations, 6 floors, 6 wall styles and 4 lighting moods. Most cost gold; some unlock from daily quests, levels and bosses, and each month’s boss gives a holiday decoration you can only get that month.
+- Visit friends’ gyms from the Gym tab or their profile and leave a like. You get a heads-up when someone likes yours, and gyms earn up to 5 stars as they fill up.
+- Your avatar now shows everywhere friends see you: leaderboards, friend requests, duels, activity, the top bar and your account. Friends without a custom avatar get their own starter look instead of a shared hero.
+- Plank fix: lying flat on the floor no longer counts. You need to be up on your elbows or hands with your hips off the floor.
+- Non-critical hits now play a bright two-note “counted!” chime, so every good rep sounds like it landed. Critical hits keep the big sound.
+- Live workouts look smoother and more accurate: 15 frames a second instead of 10, finer body positions, the right camera shape, steady playback that smooths out network hiccups, and hidden body points hold still instead of jumping.
+- .5× camera zoom in workouts on phones with an ultra-wide lens (back camera), so your whole body fits. Your choice is remembered.
+- Sound in screen recordings: game sounds and voice counting now play even with the silent switch on, so phone screen recordings capture them. Turn it off in Settings → Alerts if you’d rather keep music from other apps playing.
+- Forgot your email? The sign-in screen now shows the email last used on your phone and tips to find it. Forgot password emails now say where they went.
+- After the tour, adding to your Home Screen and turning on notifications are now two quick pop-ups, one at a time, instead of a list.
+- Tidier screens: Fill your bars and the suggestion box fold up with a tap (they remember how you left them), and admin sections fold too.
+- Fixes: every pop-up page (privacy, report, delete account, message actions) now has a proper header so the × is always reachable on iPhone, Esc closes the top page on a keyboard, the date in the top bar no longer wraps, and egg rewards no longer pop up on the sign-in screen.
+
 ## v21: Safety, weekly recap 2.0 and a faster app (Nov 23, 2026)
 - Block and report: from a friend’s profile, a group message (tap it) or a live workout. Blocked people can’t friend, nudge, duel, invite or cheer you, and their messages are hidden.
 - Download all your data or permanently delete your account in Settings → Account.
