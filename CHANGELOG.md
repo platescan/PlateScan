@@ -2,6 +2,17 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v20: Live workouts, health scores and smart reminders (Nov 23, 2026)
+- Live workouts: friends can watch your hero move as you work out (never your real camera) and send emoji cheers. Cheers give +5% damage for 10 seconds, up to +25%.
+- A “just went live” alert, a Watch button on Today and Friends, and a push notification for friends.
+- Meal health score: every meal gets an A to F grade, a score out of 100, how well it fits your goal and why.
+- Meals without a photo now get a food picture based on what’s in them, plus their grade.
+- Smart reminders: up to 3 a day, only when needed, for streaks, boss battles, logging and your pet. Choose the kinds in Settings → Reminders.
+- After you sign in, a quick “Get the full PlateScan” screen helps you add the app to your Home Screen and turn on notifications.
+- The daily login reward now resets at midnight and pops up right away, with a countdown to the next one.
+- Referrals now give a Basic Egg to you and your friend, and new Referral badges go from Bronze Recruiter up to Legendary Ambassador.
+- Special badges: the PlateScan team can now award one-of-a-kind badges, which show on your profile.
+
 ## v19: Pet eggs and 36 pets (Nov 23, 2026)
 - Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.
 - 36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.

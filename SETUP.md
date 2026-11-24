@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (v19: pet eggs with 36 pets, pet gear and habitats, more cosmetics, and a fix so your hero, pet, hearts and monthly boss save to your account), just do **Upload the update**. No database rule changes. If you skipped v17, make sure `reminders/send.mjs` is replaced too; if you skipped v16, publish the rules in step 4.
+Steps 1–3 are already done if your app and accounts work. For this update (v20: live workouts with emoji cheers, meal health scores, food pictures, smart reminders, special badges and developer tools), do **Upload the update** (including `reminders/send.mjs`), then **step 4: publish the new database rules (required for live workouts and special badges)**.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -209,6 +209,30 @@ service cloud.firestore {
       allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
       allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
     }
+      // v20: live workouts (avatar motion only, never video)
+    match /lives/{uid} {
+      allow read: if signedIn();
+      allow write: if signedIn() && me() == uid;
+      match /cheers/{cid} {
+        allow read: if signedIn();
+        allow create: if signedIn() && request.resource.data.from == me()
+          && request.resource.data.e is string && request.resource.data.e.size() <= 8;
+        allow delete: if signedIn() && me() == uid;
+      }
+      match /viewers/{vid} {
+        allow read: if signedIn();
+        allow write: if signedIn() && me() == vid;
+        allow delete: if signedIn() && (me() == vid || me() == uid);
+      }
+    }
+    match /livePings/{pid} {
+      allow create: if signedIn() && request.resource.data.from == me() && pid.matches(me() + '_.*');
+    }
+    // v20: special badges given by admins
+    match /grants/{gid} {
+      allow read: if signedIn() && (resource.data.uid == me() || exists(/databases/$(database)/documents/admins/$(me())));
+      allow create, delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
   }
 }
 ```
@@ -298,6 +322,30 @@ Each friend's profile shows your mutual friends. **Friends → Friends → Peopl
 Quest → Bosses → **Monthly boss**. Each month's boss is themed on that month's biggest holiday (🎃 Halloween, 🦃 Thanksgiving, 🎄 Christmas, 💘 Valentine's Day and so on). Pick a difficulty: the boss gets one big **total** health pool for the rest of the month (about 10, 20, 30 or 40 reps a day's worth). Beat it however you like: a little every day or a few big sessions. **Recommended today** is only a guide and adjusts as you go; the pace bar shows if you're ahead or behind.
 **Hearts:** up to 5. The boss attacks overnight (-1 ❤) only if you fall more than a full day behind pace, and it hits you during fights if you stop repping or don't block a ⚡ charge attack. Get hearts back: 1 every 45 minutes, 1 per daily quest, or buy them in the Shop.
 **Parties:** tap **+ Invite friends**. Each friend adds 80% HP, everyone shares the pace, and rewards are +50% (gold, XP, an exclusive badge and an Elixir of Legends). Each member's total reps for the month are shown.
+
+## Live workouts (avatar cam) and cheers
+When you start a fight or workout, friends can watch **live**. They see your hero moving along with your body (from the rep tracker), your rep count and the boss's health, never your real camera. They tap emojis (🔥 💪 👏 😤 🏆 🚀) that fly up on your screen. Each cheer gives **+5% damage for 10 seconds** (up to +25%). Friends get a "just went live" alert in the app, a **Watch** button on Today and Friends, and a push notification (sent by the reminder job, so it can arrive a few minutes late). Turn it off with **Let friends watch live** on the workout setup screen. Needs the v20 rules.
+
+## Smart reminders
+Settings → Reminders → **Smart reminders**. Up to 3 a day (around noon, 4 PM and 8 PM), only when something needs attention: your streak ends tonight, you're behind on the monthly boss, you haven't logged a meal, or your pet is thirsty, sad, wants to train or has an egg to hatch. Tap the chips to choose **Streak saves**, **Boss battles**, **Logging** and **Pet**. These need the streak reminder switch on.
+
+## Meal health score and food pictures
+While building a meal, PlateScan shows an **A to F grade**, a **Health score out of 100**, a **Goal fit** (Great, Good, Okay or Poor for losing, gaining or maintaining) and the reasons (protein, whole foods, processed or sugary items, meal size, calories and protein left today). Logged meals without a photo get a food picture based on what's in them, plus their grade, on Today and in Progress.
+
+## Get the app (after signing in)
+After someone signs in, PlateScan shows **Get the full PlateScan** with two steps: add to Home Screen (instructions for iPhone, an Install button on Android and desktop) and turn on notifications. It shows once per sign-in and only if something isn't set up yet.
+
+## Daily login reward
+The reward resets at **midnight** your time. If the app is open at midnight it pops up right away, and after claiming you see a countdown to the next one.
+
+## Referrals
+Each friend who joins with your link gives you **100 gold and a Basic Egg**; they get a welcome gift and a Basic Egg too. **Referral badges** go Bronze (1 friend), Silver (3), Gold (5), Platinum (10), Diamond (15) and Legendary Ambassador (20).
+
+## Developer tools (admins only)
+Settings → Help, below the suggestions inbox:
+- **Sign up as a fake new user:** opens a sandbox that walks through the welcome screen, sign-up, setup and tour exactly like a new person. Nothing is saved online and your real account isn't touched. Tap **Exit** in the purple bar to go back.
+- Quick buttons: +5,000 gold, +1 of each egg, refill hearts, preview the Mythic hatch, reset today's login reward, preview level-up, replay the tour, show "Get the app", show patch notes.
+- **Custom badge:** name it, describe it, pick a symbol (crown, bolt, flame, gem, rocket, dumbbell, paw and more) and a finish (Gold, Holographic, Ruby, Emerald, Sapphire, Obsidian, Rose gold, Frost), then give it to anyone by friend code (like MIKE-1234) or user ID. They get a popup and it shows on their profile and Badges. **Take back** removes it. Needs the v20 rules.
 
 ## Pets and eggs
 Menu (☰) → **Pets** (its own tab). Sections: **My pet**, **Eggs**, **Collection**, **Gear**, **Habitat**.

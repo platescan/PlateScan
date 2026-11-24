@@ -862,6 +862,76 @@ nav#sideNav .snSet{font-size:14px;min-height:42px}
 .pGrid .hTile{font-size:11px}
 .pGrid .pmini{width:44px}
 .pInfo .pstats>div{flex-direction:column;align-items:stretch;gap:3px}.pInfo .pstats .mbar{width:100%;flex:none}
+.sbxBar{position:fixed;top:0;left:0;right:0;z-index:300;background:#7a3cff;color:#fff;font-size:13px;font-weight:700;padding:calc(6px + env(safe-area-inset-top)) 12px 6px;display:flex;gap:8px;align-items:center;justify-content:center}
+.sbxBar button{min-height:0;padding:4px 10px;font-size:12px;background:#fff!important;color:#7a3cff!important;border-radius:999px}
+body.sbx header{margin-top:30px}
+.liveP{position:absolute;top:calc(64px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:rgba(0,0,0,.55);backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;white-space:nowrap;z-index:5;display:flex;align-items:center;gap:6px}
+.liveP b{color:#ffe58a}
+.dotL{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 0 0 rgba(255,59,59,.7);animation:dotL 1.4s infinite;flex:none}
+@keyframes dotL{0%{box-shadow:0 0 0 0 rgba(255,59,59,.7)}70%{box-shadow:0 0 0 8px rgba(255,59,59,0)}100%{box-shadow:0 0 0 0 rgba(255,59,59,0)}}
+.cheerFly{position:absolute;bottom:18%;display:flex;flex-direction:column;align-items:center;pointer-events:none;animation:cheerUp 2.6s ease-out forwards;z-index:6}
+.cheerFly span{font-size:44px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4))}.cheerFly small{color:#fff;font-weight:800;font-size:12px;background:rgba(0,0,0,.45);padding:1px 8px;border-radius:999px}
+@keyframes cheerUp{0%{transform:translateY(0) scale(.4);opacity:0}12%{transform:translateY(-20px) scale(1.15);opacity:1}100%{transform:translateY(-260px) scale(.9) rotate(-8deg);opacity:0}}
+.liveTog{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--sunk);border-radius:14px;padding:10px 12px;margin:8px 0;font-size:14px;font-weight:700}
+.liveTog small{display:block;font-weight:500;font-size:12px}
+.wtStage{position:relative;border-radius:20px;overflow:hidden;background:#0b0f17}
+.wtStage canvas{display:block;width:100%;height:auto;aspect-ratio:4/3}
+.wtTop{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;color:#fff;font-size:12px;font-weight:700}
+.wtTop .livePill{background:rgba(0,0,0,.5);padding:4px 10px;border-radius:999px;color:#ff5f5f}
+.wtFly{position:absolute;inset:0;pointer-events:none}
+.wtEnd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.wtEnd>div{background:rgba(0,0,0,.65);color:#fff;padding:14px 20px;border-radius:16px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.wtStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.wtStats>div{background:var(--sunk);border-radius:14px;padding:8px;text-align:center;display:flex;flex-direction:column}
+.wtStats b{font-size:22px}.wtStats span{font-size:12px;color:var(--mute);font-weight:700}
+.wtStats .wide{grid-column:1/-1;text-align:left;gap:4px}
+.wtBar{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.wtBar button{font-size:30px;min-height:56px;padding:0;background:var(--sunk)!important;border-radius:16px;transition:transform .15s}
+.wtBar button.pop{animation:cheerPop .35s var(--spring)}@keyframes cheerPop{50%{transform:scale(1.3)}}
+.liveBan{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}
+.liveBan button{display:flex;align-items:center;gap:8px;justify-content:flex-start;background:linear-gradient(135deg,#3a0f1f,#7a1f3a)!important;color:#fff!important;border-radius:14px;padding:10px 12px;font-size:14px;font-weight:600;min-height:0;text-align:left}
+.liveBan em{margin-left:auto;font-style:normal;font-weight:800;background:#ff3b3b;padding:4px 10px;border-radius:999px;font-size:12px}
+.livePop{position:fixed;left:50%;bottom:calc(110px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;pointer-events:none;z-index:40;background:var(--card);color:var(--ink);border-radius:16px;padding:10px 10px 10px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 12px 30px rgba(0,0,0,.3);transition:all .35s var(--spring);width:min(360px,92vw);font-size:14px}
+.livePop.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.livePop span:nth-child(2){flex:1}
+@media (min-width:900px){.livePop{left:calc(50% + var(--railW)/2)}}
+#getAppSheet .sb{padding-top:18px}
+.gaHero{display:flex;gap:14px;align-items:center;margin-bottom:14px}.gaHero img{border-radius:16px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+.gaStep{display:flex;gap:12px;background:var(--sunk);border-radius:16px;padding:12px;margin-bottom:8px}
+.gaStep.done{opacity:.75}
+.gaN{flex:none;width:30px;height:30px;border-radius:50%;background:#e5432d;color:#fff;font-weight:900;display:grid;place-items:center}
+.gaStep.done .gaN{background:#2f8a5e}
+.linkBtn{display:block;margin:8px auto 0;background:none!important;color:var(--mute)!important;font-size:13px;min-height:0}
+.th.fp{display:grid;place-items:center;position:relative;overflow:hidden}
+.th.fp .e1{font-size:26px;line-height:1;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+.th.fp .e2{position:absolute;right:2px;bottom:1px;font-size:15px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.25))}
+.mg{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:6px;font-size:11px;font-weight:900;color:#fff;margin-left:6px;vertical-align:1px}
+.gA{background:#1fbf6a}.gB{background:#7cc46b}.gC{background:#f2c230;color:#3a2a00}.gD{background:#ef7d3c}.gF{background:#e5432d}
+.hBox{background:var(--sunk);border-radius:16px;padding:12px;margin-top:10px}
+.hTop{display:flex;gap:12px;align-items:center}
+.hGr{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:24px;font-weight:900;color:#fff;flex:none;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.fit3{color:#1fbf6a}.fit2{color:#2f8a5e}.fit1{color:#c98a00}.fit0{color:#e5432d}
+.hWhy{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px;font-size:13px}
+.hWhy li{display:flex;gap:8px;align-items:flex-start}.hWhy li.hNeg{color:var(--mute)}
+.devBox{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.devGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.devGrid button{font-size:12.5px;min-height:40px;padding:6px 8px;background:var(--sunk)!important;color:var(--ink)!important;border-radius:12px;text-align:left;justify-content:flex-start}
+.cbEd{display:flex;gap:12px;align-items:center}.cbPrev{width:84px;flex:none}.cbPrev svg{width:100%}
+.cbPick{display:grid;grid-template-columns:repeat(8,1fr);gap:5px}
+.cbPick button{min-height:38px;padding:6px;background:var(--sunk);color:var(--ink)!important;border-radius:10px;border:2px solid transparent!important}
+.cbPick button svg{width:100%;height:22px}
+.cbPick button.on{border-color:var(--kale2)!important}
+.cbPick.sty{grid-template-columns:repeat(4,1fr)}.cbPick.sty button{color:#fff!important;font-size:11px;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.cbadge{width:44px;display:block}.cbadge.big{width:84px}.cbadge.sm{width:30px}
+.cbadge.holo{animation:holo 3s linear infinite}@keyframes holo{0%{filter:hue-rotate(0deg) drop-shadow(0 0 6px #b48bff)}100%{filter:hue-rotate(360deg) drop-shadow(0 0 6px #8fe8ff)}}
+.cbRow{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}
+.cbIt{display:flex;flex-direction:column;align-items:center;gap:2px;width:64px;text-align:center}.cbIt small{font-size:10.5px;font-weight:700;line-height:1.15}
+.cbSec{grid-column:1/-1}
+.cbG{padding:6px 0;border-bottom:1px solid var(--line)}
+.smc{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mth.fp{display:grid;place-items:center;position:relative;overflow:hidden}.mth.fp .e1{font-size:30px;line-height:1}.mth.fp .e2{position:absolute;right:3px;bottom:2px;font-size:17px}
+.hWhy .tx{flex:1;min-width:0}
+.cbPick:not(.sty) button{background:var(--sunk)!important}.cbPick.sty button{background:var(--g)!important;opacity:1!important}
 </style>
 </head>
 <body>
@@ -1565,9 +1635,10 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const ymd=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
 const r0=n=>Math.round(n),fmt=n=>r0(n).toLocaleString();
 const dayOffset=(n)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d};
-const lsGet=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
-const lsSet=(k,v)=>{try{localStorage.setItem(k,v);return true}catch(e){return false}};
-const lsDel=k=>{try{localStorage.removeItem(k)}catch(e){}};
+const SBX=(()=>{try{return sessionStorage.getItem('platescan.sbx')==='1'}catch(e){return false}})(),SK=k=>SBX?'sbx.'+k:k;
+const lsGet=k=>{try{return localStorage.getItem(SK(k))}catch(e){return null}};
+const lsSet=(k,v)=>{try{localStorage.setItem(SK(k),v);return true}catch(e){return false}};
+const lsDel=k=>{try{localStorage.removeItem(SK(k))}catch(e){}};
 let undoFn=null,toastT=null,newId=null;
 function toast(msg,undo){$('toastMsg').textContent=msg;undoFn=undo||null;$('toastUndo').style.display=undo?'':'none';const tt=$('toast');tt.style.display='flex';tt.classList.remove('show');void tt.offsetWidth;tt.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>{$('toast').style.display='none';undoFn=null},4500)}
 $('toastUndo').onclick=()=>{if(undoFn)undoFn();$('toast').style.display='none';undoFn=null};
@@ -1738,7 +1809,7 @@ function logAgain(id){const m=S.meals.find(x=>x.id===id);if(!m)return;const n={.
   S.meals.push(n);newId=n.id;setTimeout(()=>{newId=null},2000);store.putMeal(n);toast(`${m.type} logged again for today`);render()}
 document.addEventListener('click',e=>{const f=e.target.closest('[data-fav]');if(f)toggleFav(f.dataset.fav);const a=e.target.closest('[data-again]');if(a)logAgain(a.dataset.again)});
 function mealRow(m,del=true){const s=sumItems(m.items);const time=new Date(m.ts).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-  return `<div class="meal${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(m.type)}">${m.thumb?`<img class="th" loading="lazy" decoding="async" src="${m.thumb}" alt="">`:`<div class="th"></div>`}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span></b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
+  return `<div class="meal${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(m.type)}">${m.thumb?`<img class="th" loading="lazy" decoding="async" src="${m.thumb}" alt="">`:foodPic(m.items)}<div class="t"><b>${esc(m.type)} <span class="muted sm" style="display:inline;font-weight:400">${time}</span>${(()=>{const gr=mealGrade(m);return gr?`<span class="mg g${gr}" title="Health grade ${gr}">${gr}</span>`:''})()}</b><span class="muted sm">${esc(m.items.map(i=>i.n).join(', '))}</span></div><span class="k">${fmt(s.k)}</span><button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${del?`<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button>`:''}</div>`}
 function renderToday(g){
   const todayKey=ymd(Date.now()),t=g.todayT,d=byDay()[todayKey]||{k:0,p:0,f:0,c:0,meals:[]};
   const kind=dayKind(todayKey),dt=$('dtype');dt.style.display=kind?'':'none';if(kind){dt.textContent=kind==='train'?'Training day':'Rest day';dt.classList.toggle('rest',kind==='rest')}
@@ -1802,7 +1873,7 @@ function renderLog(g){
     if(!ms.length)return `<button class="addType" data-addtype="${ty}"><span class="mico">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+MICON[ty]+'</svg>'}</span>Add ${ty.toLowerCase()}<b>+</b></button>`;
     return `<div class="card mgroup"><div class="mgh"><span class="mico on">${'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+MICON[ty]+'</svg>'}</span><b>${ty}</b><span class="muted sm">${fmt(tot)} kcal</span><button class="x addMini" data-addtype="${ty}" aria-label="Add to ${ty}">+</button></div>`+
       ms.map(m=>{const x=sumItems(m.items),time=new Date(m.ts).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
-        return `<div class="mcard${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(ty)} at ${time}">${m.thumb?`<img class="mth" loading="lazy" decoding="async" src="${m.thumb}" alt="">`:''}<div class="mt"><div class="mtop"><span class="muted sm">${time}${m.scanned?' · 📷':''}</span><b>${fmt(x.k)} kcal</b></div>
+        return `<div class="mcard${m.id===newId?' new':''}" data-meal="${esc(m.id)}" role="button" tabindex="0" aria-label="Edit ${esc(ty)} at ${time}">${m.thumb?`<img class="mth" loading="lazy" decoding="async" src="${m.thumb}" alt="">`:foodPic(m.items).replace('class="th fp"','class="mth fp"')}<div class="mt"><div class="mtop"><span class="muted sm">${time}${m.scanned?' · 📷':''}${(()=>{const gr=mealGrade(m);return gr?`<span class="mg g${gr}" title="Health grade ${gr}">${gr}</span>`:''})()}</span><b>${fmt(x.k)} kcal</b></div>
           <div class="mitems">${m.items.map(i=>`<span>${esc(i.n)}${i.q!==1?` <em>×${+(+i.q).toFixed(2)}</em>`:''}</span>`).join('')}</div>
           <div class="mfoot"><span class="mm p">P ${r0(x.p)}g</span><span class="mm c">C ${r0(x.c)}g</span><span class="mm f">F ${r0(x.f)}g</span><span style="flex:1"></span>
           <button class="x fav${isFav(m)?' on':''}" data-fav="${esc(m.id)}" aria-label="Favorite">${isFav(m)?'★':'☆'}</button>${past?`<button class="x" data-again="${esc(m.id)}" aria-label="Log again today" title="Log again today"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5"/><path d="M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5"/></svg></button>`:''}<button class="x" data-del="${esc(m.id)}" aria-label="Delete meal">×</button></div></div></div>`}).join('')+'</div>'}).join('');
@@ -2073,7 +2144,7 @@ function showAuth(m,blocking){authMode=m;authBlocking=!!blocking;$('authClose').
 document.addEventListener('click',e=>{const a=e.target.closest('[data-auth]');if(a){e.preventDefault();showAuth(a.dataset.auth,$('auth').classList.contains('on')?authBlocking:false)}});
 $('authClose').onclick=()=>closeSheet('auth');
 $('guestBtn').onclick=e=>{e.preventDefault();lsSet('platescan.guest','1');closeSheet('auth');render();maybeOnboard()};
-$('aForm').addEventListener('submit',async e=>{e.preventDefault();if(!FB)return;const email=$('aEmail').value.replace(/\s+/g,'').toLowerCase(),pw=$('aPass').value;$('aEmail').value=email;$('aErr').textContent='';$('aSubmit').disabled=true;
+$('aForm').addEventListener('submit',async e=>{e.preventDefault();if(SBX){sandboxAuth();return}if(!FB)return;const email=$('aEmail').value.replace(/\s+/g,'').toLowerCase(),pw=$('aPass').value;$('aEmail').value=email;$('aErr').textContent='';$('aSubmit').disabled=true;
   try{
     if(authMode==='signup'){justSignedUp=true;const name=$('aName').value.trim();const nm0=name||email.split('@')[0];
       pendingMigrate={name:nm0,data:$('aMig').checked&&mode==='guest'?JSON.parse(JSON.stringify(S)):null};
@@ -2097,7 +2168,7 @@ async function onUser(u){
   base=null;lastWidget='';
   if(u){user=u;mode='cloud';try{await loadCloud()}catch(e){toast('Couldn’t load your data: '+(e.code||e.message))}closeSheet('auth');closeSheet('setSheet');
     const k='platescan.lvl.'+u.uid;if(!lsGet(k))lsSet(k,String(game().lv.L)); // no level-up popup for existing progress on a new device
-    fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews();setTimeout(maybeLogin,2600)}
+    fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews();setTimeout(maybeLogin,2600);setTimeout(maybeGetApp,5000);grantStart();setTimeout(liveDeepLink,2500)}
   else{socStop();user=null;mode='guest';loadGuest();fillFields();render();suggStart();if(refUnsub){refUnsub();refUnsub=null}maybeNews();setTimeout(maybeLogin,2600);if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
 }
 function renderAccount(){
@@ -2171,7 +2242,7 @@ function syncWidget(g){
   const j=JSON.stringify(w);if(j===lastWidget)return;lastWidget=j;
   clearTimeout(wT);wT=setTimeout(()=>{
     FB.fs.setDoc(FB.fs.doc(FB.db,'widgets',S.widgetToken),{...w,updated:Date.now()}).catch(e=>console.warn('widget',e.code));
-    FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{status:{lastLogDay:w.lastLogDay,streak:w.streak,day:ymd(Date.now()),types:[...new Set(((byDay()[ymd(Date.now())]||{}).meals||[]).map(m=>m.type))],water:(S.water||{})[ymd(Date.now())]||0,waterGoal:+S.profile.waterGoal||8,lastWeigh:(S.weights.slice().sort((a,b)=>a.d<b.d?-1:1).at(-1)||{}).d||null,...petStatus()}},{merge:true}).catch(()=>{});
+    FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{status:{lastLogDay:w.lastLogDay,streak:w.streak,day:ymd(Date.now()),types:[...new Set(((byDay()[ymd(Date.now())]||{}).meals||[]).map(m=>m.type))],water:(S.water||{})[ymd(Date.now())]||0,waterGoal:+S.profile.waterGoal||8,lastWeigh:(S.weights.slice().sort((a,b)=>a.d<b.d?-1:1).at(-1)||{}).d||null,...petStatus(),mb:mbStatus()}},{merge:true}).catch(()=>{});
   },1200);
 }
 $('wCopy').onclick=async()=>{
@@ -2932,8 +3003,8 @@ $('battle').addEventListener('click',e=>{const t=e.target;if(!BT)return;
   if(t.closest('#btPause')){if(BT.raid)return toast('Team fights can’t be paused');if(BT.pausedAt){chargeShift(performance.now()-BT.pausedAt);BT.atkAt+=performance.now()-BT.pausedAt;BT.pausedAt=0;$('btPause').textContent='❚❚';$('cue').textContent='Go!'}else{BT.pausedAt=performance.now();$('btPause').textContent='▶';$('cue').textContent='Paused. Tap ▶ to continue.'}return}
   if(t.closest('#btAgain')){const s=BT.s;closeBattle(true);openBattle(s);return}
 });
-function stopCam(){if(BT&&BT.stream){BT.stream.getTracks().forEach(t=>t.stop());BT.stream=null}if(BT&&BT.raf){cancelAnimationFrame(BT.raf);BT.raf=0}}
-function closeBattle(keep){if(BT&&BT.rUnsub){BT.rUnsub();BT.rUnsub=null}wake(false);stopCam();clearInterval(BT&&BT.cdT);BT=null;$('battle').classList.remove('on');if(!document.querySelector('.sheet.on'))document.body.classList.remove('lock');if(!keep)render()}
+function stopCam(){liveEnd();if(BT&&BT.stream){BT.stream.getTracks().forEach(t=>t.stop());BT.stream=null}if(BT&&BT.raf){cancelAnimationFrame(BT.raf);BT.raf=0}}
+function closeBattle(keep){liveEnd();if(BT&&BT.rUnsub){BT.rUnsub();BT.rUnsub=null}wake(false);stopCam();clearInterval(BT&&BT.cdT);BT=null;$('battle').classList.remove('on');if(!document.querySelector('.sheet.on'))document.body.classList.remove('lock');if(!keep)render()}
 document.addEventListener('change',e=>{if(e.target.id==='voiceTog')lsSet('platescan.voice',e.target.checked?'1':'0')});
 document.addEventListener('visibilitychange',()=>{if(!BT||BT.phase!=='fight'||BT.raid)return;if(document.hidden)BT.pausedAt=performance.now();else if(BT.pausedAt){chargeShift(performance.now()-BT.pausedAt);BT.atkAt+=performance.now()-BT.pausedAt;BT.pausedAt=0}});
 async function startFight(){const {b}=BT;BT.phase='load';
@@ -2961,7 +3032,7 @@ function drawPose(lm){const c=$('btC'),v=$('btV');if(!c||!v)return;const W=c.wid
   x.fillStyle='#fff';for(const i of [0,11,12,13,14,15,16,23,24,25,26,27,28]){const p=lm[i];if((p.visibility??1)<.4)continue;x.beginPath();x.arc(p.x*W,p.y*H,W/90,0,7);x.fill()}}
 function loop(){if(!BT||!BT.lmk)return;BT.raf=requestAnimationFrame(loop);const v=$('btV');if(!v||v.readyState<2)return;const now=performance.now();if(now-BT.lastTs<33)return;BT.lastTs=now;
   let lm=null;try{const r=BT.lmk.detectForVideo(v,now);lm=r&&r.landmarks&&r.landmarks[0]||null}catch(e){}
-  drawPose(lm);const asp=(v.videoWidth||4)/(v.videoHeight||3);
+  drawPose(lm);liveTick(lm);const asp=(v.videoWidth||4)/(v.videoHeight||3);
   if(BT.phase==='cal'){const ids={squat:[23,25,27],lunge:[23,25,27],pushup:[11,13,15,23],plank:[11,23,27],situp:[11,23,25],pullup:[0,11,12,15,16],jacks:[0,15,16,27,28],highknees:[23,24,25,26],climbers:[11,23,25],bridge:[11,23,25],wallsit:[23,25,27],burpee:[11,23]}[BT.ex]||[23,25,27];const sideIds=BT.ex==='pullup'||BT.ex==='jacks'||BT.ex==='highknees'?[ids]:[ids,ids.map(i=>i+1)];
     const seen=lm&&sideIds.some(set=>set.every(i=>(lm[i].visibility??1)>=.55));BT.okFrames=seen?BT.okFrames+1:0;
     $('cue').textContent=seen?'Hold still…':(lm?EX[BT.ex].tip:'Step into view of the camera');$('cue').classList.toggle('good',!!seen);
@@ -2976,7 +3047,7 @@ function countdown(){let n=3;const cd=$('cd');const tick=()=>{cd.textContent=n||
     if(!BT.b.dummy){const inv=S.inv;if(BT.useShield&&inv.shield>0)inv.shield--;if(BT.useGloves&&inv.gloves>0)inv.gloves--;store.saveMeta()}},700)}n--};tick();BT.cdT=setInterval(tick,900)}
 function onRep(ev){BT.reps++;BT.flash=performance.now();sayRep(BT.reps);if(navigator.vibrate)navigator.vibrate(30);const rn=$('repN');rn.textContent=BT.reps;rn.classList.remove('bump');void rn.offsetWidth;rn.classList.add('bump');
   if(BT.b.dummy){if(BT.plan)circuitRep();sfx('hit');const w=$('bossWrap');w.classList.remove('hit');void w.offsetWidth;w.classList.add('hit');dmgNum(ev.perfect?'PERFECT':'+1',ev.perfect);if(ev.perfect)BT.crits++;return}
-  const dd=DIFF[BT.diff],crit=!!ev.perfect,dmg=dd.dmg*EX[BT.ex].mult*(BT.useGloves?1.2:1)*(crit?1.5:1);if(crit)BT.crits++;if(BT.mb){mbRep(dmg);BT.sess+=dmg;const r=mbNow().reps[ymd(Date.now())],I=mbInfo();if(I&&r===I.rec){toast('Recommended reps done for today ✅ Keep going to get ahead!');sfx('ach')}}
+  const dd=DIFF[BT.diff],crit=!!ev.perfect,dmg=dd.dmg*EX[BT.ex].mult*(BT.useGloves?1.2:1)*(crit?1.5:1)*cheerMult();if(crit)BT.crits++;if(BT.mb){mbRep(dmg);BT.sess+=dmg;const r=mbNow().reps[ymd(Date.now())],I=mbInfo();if(I&&r===I.rec){toast('Recommended reps done for today ✅ Keep going to get ahead!');sfx('ach')}}
   BT.hp-=dmg;BT.atkAt=performance.now()+dd.atk*1000;sfx(crit?'crit':'hit');
   if(BT.raid){const f=FB.fs,u='m.'+user.uid;f.updateDoc(raidRef(BT.raid.gid,BT.raid.rid),{hp:f.increment(-dmg),[u+'.dmg']:f.increment(dmg),[u+'.reps']:f.increment(1),[u+'.crits']:f.increment(crit?1:0)}).catch(()=>{})}
   const w=$('bossWrap');w.classList.remove('hit','crit');void w.offsetWidth;w.classList.add(crit?'crit':'hit');dmgNum((crit?'CRIT ':'-')+Math.round(dmg),crit);
@@ -3032,7 +3103,7 @@ const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
 function syncProfile(g){if(mode!=='cloud'||!user||!FB)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
-  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:S.av||null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g)};
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:S.av||null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
   SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
   clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
 function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null})}
@@ -3132,6 +3203,7 @@ function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey
   $('fsBody').innerHTML=`<div class="fsHero" style="background:${(BANNERS[p.banner]||BANNERS.forest).c}">${emblem(p.L||1,'float big')}<div class="gav lg${frameCls(p.frame)}">${pAv(p)}</div><h2>${esc(p.name)}</h2><div class="fsSub">Level ${p.L||1} · ${esc(p.ptitle||p.title||rankFor(p.L||1).title)}</div>${p.motto?`<div class="motto">“${esc(p.motto)}”</div>`:''}${p.pet?`<div class="fsPet">${petSVG(p.pet.k,p.pet.mood,p.pet.acc)}<span>${esc(p.pet.name)} is ${p.pet.mood>=60?'happy':p.pet.mood>=40?'okay':'sad'}</span></div>`:''}${badgeRow(p.badges,'lg')}</div>${mutualHTML(p)}
    ${fsCard(uid,p)}
    ${sharedHTML(p)}
+   ${p.cb&&p.cb.length?`<div class="card"><h3>Special badges</h3>${cbRow(p.cb)}</div>`:''}
    <div class="g3 btInfo"><div><b>📅 ${p.streak||0}</b><span>logging streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
    <div class="card"><div class="row between"><h3 style="margin:0">This week</h3><b>${p.wk===wk?p.wp||0:0} pts</b></div><div class="chDays">${wd.map((v,i)=>`<div class="cd"><i style="--h:${(v/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('')}</div><p class="muted sm" style="margin:6px 0 0">${esc(ago(p.last))} · boss stage ${(p.stage||0)+1}</p></div>
    ${p.ex&&Object.keys(p.ex).length?`<div class="card"><h3>Workout stats</h3><div class="exStats">${Object.entries(EXB).filter(([k])=>p.ex[k]).map(([k,e])=>`<div>${badgeSVG(k,exTier(k,p.ex[k]))}<b>${fmtEx(k,p.ex[k])}</b><span class="muted sm">${e.n}</span></div>`).join('')}</div></div>`:''}
@@ -3186,7 +3258,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='19';
+const APP_VERSION='20';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3418,13 +3490,13 @@ function saveRecipe(){if(meal.length<1)return toast('Add the ingredients first')
 document.addEventListener('click',e=>{if(e.target.closest('#saveRecipe'))saveRecipe()});
 
 // ================= extra reminders =================
-function remMore(){return Object.assign({meals:{on:false,b:8,l:12,d:18},water:{on:false},weigh:{on:false,dow:1},pet:{on:true}},(S.reminder&&S.reminder.more)||{})}
+function remMore(){return Object.assign({meals:{on:false,b:8,l:12,d:18},water:{on:false},weigh:{on:false,dow:1},pet:{on:true},smart:{on:true,cats:{pet:true,log:true,streak:true,battle:true}}},(S.reminder&&S.reminder.more)||{})}
 function renderMoreRem(){const box=$('remMore');if(!box)return;const m=remMore(),on=S.reminder&&S.reminder.on,hs=h=>Array.from({length:18},(_,i)=>i+5).map(x=>`<option value="${x}" ${x===h?'selected':''}>${hourLabel(x)}</option>`).join('');
   box.innerHTML=`<div class="row between"><div><b>Meal reminders</b><div class="muted sm">A nudge at meal times if you haven’t logged that meal.</div></div><label class="switch"><input type="checkbox" data-rm="meals" ${m.meals.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
    ${m.meals.on?`<div class="g3" style="margin-top:8px"><label class="f"><span>Breakfast</span><select data-rh="b">${hs(m.meals.b)}</select></label><label class="f"><span>Lunch</span><select data-rh="l">${hs(m.meals.l)}</select></label><label class="f"><span>Dinner</span><select data-rh="d">${hs(m.meals.d)}</select></label></div>`:''}
    <div class="row between" style="margin-top:12px"><div><b>Water reminders</b><div class="muted sm">At 11 AM, 2 PM and 5 PM if you’re behind on water.</div></div><label class="switch"><input type="checkbox" data-rm="water" ${m.water.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
    <div class="row between" style="margin-top:12px"><div><b>Weekly weigh-in</b><div class="muted sm">8 AM on your chosen day if you haven’t weighed in this week.</div></div><label class="switch"><input type="checkbox" data-rm="weigh" ${m.weigh.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
-   <div class="row between" style="margin-top:12px"><div><b>Pet alerts 🐾</b><div class="muted sm">Your pet lets you know when it’s thirsty, wants to train, feels down, or when an egg is ready to hatch.</div></div><label class="switch"><input type="checkbox" data-rm="pet" ${m.pet.on?'checked':''} ${on?'':'disabled'}><span></span></label></div>
+   <div class="row between" style="margin-top:12px"><div><b>Smart reminders ✨</b><div class="muted sm">Up to 3 a day (around noon, 4 PM and 8 PM), only when they matter.</div></div><label class="switch"><input type="checkbox" data-rm="smart" ${m.smart.on!==false?'checked':''} ${on?'':'disabled'}><span></span></label></div>${m.smart.on!==false&&on?`<div class="smc">${Object.entries(SMC).map(([k,n])=>{const c=Object.assign({pet:true,log:true,streak:true,battle:true},m.smart.cats);return `<button class="chip${c[k]?' on':''}" data-smc="${k}">${c[k]?'✓ ':''}${n}</button>`}).join('')}</div>`:''}
    ${m.weigh.on?`<label class="f" style="margin-top:8px"><span>Day</span><select data-rw>${['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].map((d,i)=>`<option value="${i}" ${i===m.weigh.dow?'selected':''}>${d}</option>`).join('')}</select></label>`:''}
    ${on?'':'<p class="muted sm" style="margin:8px 0 0">Turn on the streak reminder above first. These use the same notifications.</p>'}`}
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#remMore'))return;const m=remMore();
@@ -3988,7 +4060,7 @@ const HOW={squat:['side',['Feet shoulder-width apart, toes slightly out.','Push 
   burpee:['side',['From standing, squat and put your hands on the floor.','Jump your feet back into a plank.','Jump your feet in and leap up with your arms overhead.']]};
 const camNote=ex=>{const h=HOW[ex];return h?`<div class="camNote">📷 The camera must see your <b>whole body from the ${h[0]==='front'?'front':'side'}</b>. Prop your phone up ${h[0]==='front'?'facing you':'beside you'}, 6 to 8 feet away, in good light.</div>`:''};
 const howHTML=ex=>HOW[ex]?`<details class="how"><summary>How to do ${esc(EX[ex].name.toLowerCase())}</summary><ol>${HOW[ex][1].map(x=>`<li>${esc(x)}</li>`).join('')}</ol></details>`:'';
-function howTo(){const g=$('exSeg');if(g&&!BT.plan){const tip=g.nextElementSibling;if(tip)tip.insertAdjacentHTML('afterend',demoHTML(BT.ex)+camNote(BT.ex)+howHTML(BT.ex));startDemos()}
+function howTo(){const g=$('exSeg');if(g&&!BT.plan){const tip=g.nextElementSibling;if(tip)tip.insertAdjacentHTML('afterend',demoHTML(BT.ex)+liveToggleHTML()+camNote(BT.ex)+howHTML(BT.ex));startDemos()}
   else if(BT.plan){const l=$('battle').querySelector('.woList');if(l)l.insertAdjacentHTML('afterend','<div class="camNote">📷 Your phone needs to see your whole body. Side-on moves and front-facing moves are marked during rest breaks, so you have 10 seconds to turn.</div>')}}
 // ================= monthly boss setup + session summary =================
 function mbSetup(){const m=mbNow();if(!m)return;const bx=$('battle');
@@ -4500,7 +4572,7 @@ function BGX2(k,id){
 GUIDE.unshift(['Pets and eggs','Menu → Pets → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
 CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
 
-const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity'];
+const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn'];
 function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
 function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
 
@@ -4544,9 +4616,230 @@ WM.pet='Pet';WIC.pet='<g fill="@COL"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><
 function petStatus(){const ps=S.pet?petState():null,eg=S.eggs||{};return {pet:ps?{n:(S.pet.name||PETS[S.pet.k].n).slice(0,24),mood:ps.mood,d:ymd(Date.now())}:null,reps:(S.reps||{})[ymd(Date.now())]||0,eggs:(eg.basic||0)+(eg.gym||0)+(eg.gold||0),eggN:(S.eggClaim||{}).total||0}}
 {const _ec=eggCheck;eggCheck=function(g){const before=Object.values(Object.assign({basic:0,gym:0,gold:0},S.eggs)).reduce((a,b)=>a+b,0);_ec(g);const after=Object.values(Object.assign({basic:0,gym:0,gold:0},S.eggs)).reduce((a,b)=>a+b,0);if(after>before){S.eggClaim=Object.assign({},S.eggClaim);S.eggClaim.total=(S.eggClaim.total||0)+(after-before)}}}
 
+// ================= v20: live workouts (avatar cam) + emoji cheers =================
+const LV={on:false,t0:0,buf:[],last:0,flushT:0,lastFlush:0,unsubs:[],viewers:{},seen:new Set(),boost:[],cheerN:0};
+const LIVE_PTS=[0,11,12,13,14,15,16,23,24,25,26,27,28];
+const CHEERS=['🔥','💪','👏','😤','🏆','🚀'];
+const liveOK=()=>mode==='cloud'&&user&&FB&&FB.fs&&S.liveOn!==false&&!SBX;
+const liveWatchers=()=>Object.values(LV.viewers).filter(v=>Date.now()-(v.ts||0)<45000).length;
+function liveDoc(){const b=BT&&BT.b;return {uid:user.uid,name:(S.name||'Friend').slice(0,30),on:LV.on,t0:LV.t0,ts:Date.now(),ex:BT?BT.ex:'',exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):'',boss:b&&!b.dummy?{n:b.n,hp:Math.max(0,Math.round(BT.hp||0)),max:Math.round(BT.max||1)}:null,reps:BT?BT.reps:0,mir:!!(BT&&BT.cam==='user'),fr:LV.buf.join(';'),cheers:LV.cheerN,av:S.av||null,build:myBuild()}}
+const liveProf=()=>LV.on?{on:true,t0:LV.t0,exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):''}:null;
+function liveStart(){if(LV.on||!liveOK()||!BT)return;const fs=FB.fs,me=user.uid;LV.on=true;LV.t0=Date.now();LV.buf=[];LV.viewers={};LV.seen=new Set();LV.cheerN=0;LV.boost=[];LV.lastFlush=0;
+  fs.setDoc(fs.doc(FB.db,'lives',me),liveDoc()).catch(e=>console.warn('live',e.code));syncProfile(game());
+  fs.setDoc(fs.doc(FB.db,'livePings',me+'_'+LV.t0),{from:me,name:(S.name||'A friend').slice(0,30),ts:LV.t0,sent:false}).catch(()=>{});
+  LV.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'lives',me,'cheers'),fs.where('ts','>',LV.t0-1000)),q=>{for(const d of q.docs){if(LV.seen.has(d.id))continue;LV.seen.add(d.id);cheerIn(d.data())}},()=>{}));
+  LV.unsubs.push(fs.onSnapshot(fs.collection(FB.db,'lives',me,'viewers'),q=>{LV.viewers={};q.docs.forEach(d=>LV.viewers[d.id]=d.data());liveHud()},()=>{}));
+  LV.flushT=setInterval(liveFlush,1500);liveHud()}
+function liveTick(lm){if(!BT||BT.phase!=='fight')return;if(!LV.on){liveStart();if(!LV.on)return}const now=performance.now();if(now-LV.last<100)return;LV.last=now;
+  LV.buf.push(lm?LIVE_PTS.map(i=>{const p=lm[i]||{x:0,y:0};return Math.round(p.x*100)+','+Math.round(p.y*100)}).join(','):'');if(LV.buf.length>24)LV.buf.shift()}
+function liveFlush(){if(!LV.on||!BT)return;const w=liveWatchers(),now=Date.now();if(!w&&now-LV.lastFlush<12000){LV.buf=[];return}
+  LV.lastFlush=now;FB.fs.setDoc(FB.fs.doc(FB.db,'lives',user.uid),liveDoc()).catch(()=>{});LV.buf=[]}
+function liveEnd(){if(!LV.on)return;LV.on=false;clearInterval(LV.flushT);LV.unsubs.forEach(u=>{try{u()}catch(e){}});LV.unsubs=[];
+  if(FB&&user)FB.fs.setDoc(FB.fs.doc(FB.db,'lives',user.uid),{on:false,ts:Date.now(),fr:''},{merge:true}).catch(()=>{});syncProfile(game());const p=$('liveP');if(p)p.remove()}
+function cheerMult(){const now=Date.now();LV.boost=LV.boost.filter(t=>t>now);return 1+.05*Math.min(5,LV.boost.length)}
+function cheerIn(c){if(!BT)return;LV.cheerN++;if(BT.b&&!BT.b.dummy)LV.boost.push(Date.now()+10000);
+  const host=document.querySelector('#battle .hud')||$('battle');if(host){const d=document.createElement('div');d.className='cheerFly';d.style.left=(10+Math.random()*70)+'%';d.innerHTML=`<span>${esc(c.e||'🔥')}</span><small>${esc((c.name||'Friend').split(' ')[0])}</small>`;host.appendChild(d);setTimeout(()=>d.remove(),2600)}
+  sfx('pop');if(navigator.vibrate)navigator.vibrate(15);liveHud()}
+function liveHud(){if(!LV.on||!BT)return;const hud=document.querySelector('#battle .hud');if(!hud)return;let p=$('liveP');if(!p){hud.insertAdjacentHTML('beforeend','<div class="liveP" id="liveP"></div>');p=$('liveP')}
+  const m=cheerMult(),w=liveWatchers();p.innerHTML=`<span class="dotL"></span>LIVE · 👀 ${w}${LV.cheerN?` · ${LV.cheerN} cheers`:''}${m>1?` · <b>Cheer power +${Math.round((m-1)*100)}%</b>`:''}`}
+setInterval(()=>{if(LV.on)liveHud()},2000);
+const liveToggleHTML=()=>mode==='cloud'&&!SBX?`<label class="liveTog"><span>🔴 Let friends watch live <small class="muted">They see your hero move, never your camera</small></span><span class="switch"><input type="checkbox" id="liveSw" ${S.liveOn!==false?'checked':''}><span></span></span></label>`:'';
+document.addEventListener('change',e=>{if(e.target.id==='liveSw'){S.liveOn=e.target.checked;store.saveMeta();toast(S.liveOn?'Friends can watch your workouts live':'Live sharing off')}});
+// ---- watching a friend ----
+const LW={uid:null,unsubs:[],q:[],raf:0,hb:0,doc:null,lastFr:'',img:null,imgKey:'',last:0,frame:null,seen:new Set(),lastCheer:0};
+const LSEG=[[1,2],[1,3],[3,5],[2,4],[4,6],[1,7],[2,8],[7,8],[7,9],[9,11],[8,10],[10,12]];
+function openWatch(uid){if(mode!=='cloud'||!FB||!user)return toast('Sign in to watch friends');closeWatch();LW.uid=uid;LW.q=[];LW.doc=null;LW.lastFr='';LW.frame=null;LW.seen=new Set();
+  let sh=$('watchSheet');if(!sh){document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="watchSheet" role="dialog" aria-label="Watching live"><div class="sh"><h2 id="wtTitle">Live</h2><button class="x" id="wtClose" aria-label="Close">×</button></div><div class="sb"><div class="wtStage"><canvas id="wtC" width="720" height="540"></canvas><div class="wtTop"><span class="livePill"><i></i>LIVE</span><span id="wtView"></span></div><div class="wtFly" id="wtFly"></div><div class="wtEnd" id="wtEnd"></div></div><div class="wtStats" id="wtStats"></div><div class="wtBar">${CHEERS.map(c=>`<button data-cheer="${c}" aria-label="Cheer ${c}">${c}</button>`).join('')}</div><p class="muted sm" style="text-align:center;margin:6px 0 0">Every cheer gives them +5% damage for 10 seconds (up to +25%).</p></div></div>`);sh=$('watchSheet')}
+  $('wtTitle').textContent='Connecting…';$('wtEnd').textContent='';openSheet('watchSheet');const fs=FB.fs;
+  fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{});
+  LW.hb=setInterval(()=>fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{}),20000);
+  LW.unsubs.push(fs.onSnapshot(fs.doc(FB.db,'lives',uid),d=>{const x=d.exists()?d.data():null;LW.doc=x;if(x&&x.fr&&x.fr!==LW.lastFr){LW.lastFr=x.fr;x.fr.split(';').forEach(f=>f&&LW.q.push(f));if(LW.q.length>40)LW.q.splice(0,LW.q.length-20)}watchHud()},()=>{}));
+  LW.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'lives',uid,'cheers'),fs.where('ts','>',Date.now()-3000)),q=>{for(const d of q.docs){if(LW.seen.has(d.id))continue;LW.seen.add(d.id);const c=d.data();if(c.from!==user.uid)flyW(c.e,c.name)}},()=>{}));
+  LW.unsubs.push(fs.onSnapshot(fs.collection(FB.db,'lives',uid,'viewers'),q=>{const n=q.docs.filter(d=>Date.now()-(d.data().ts||0)<45000).length;$('wtView').textContent=`👀 ${n} watching`},()=>{}));
+  LW.raf=requestAnimationFrame(watchLoop)}
+function closeWatch(){if(!LW.uid)return;LW.unsubs.forEach(u=>{try{u()}catch(e){}});LW.unsubs=[];clearInterval(LW.hb);cancelAnimationFrame(LW.raf);if(FB&&user)FB.fs.deleteDoc(FB.fs.doc(FB.db,'lives',LW.uid,'viewers',user.uid)).catch(()=>{});LW.uid=null;const sh=$('watchSheet');if(sh&&sh.classList.contains('on'))closeSheet('watchSheet')}
+const liveStale=x=>!x||!x.on||Date.now()-(x.ts||0)>40000;
+function watchHud(){const x=LW.doc;if(!x){$('wtTitle').textContent='Not live right now';return}$('wtTitle').textContent=`${x.name||'Friend'} · ${x.exn||'Workout'}`;
+  const mins=Math.max(0,Math.floor((Date.now()-(x.t0||Date.now()))/60000));
+  $('wtStats').innerHTML=`<div><b>${x.reps||0}</b><span>reps</span></div><div><b>${mins}m</b><span>live</span></div><div><b>${x.cheers||0}</b><span>cheers</span></div>${x.boss?`<div class="wide"><span>${esc(x.boss.n)}</span><span class="hpbar"><i style="width:${Math.max(0,x.boss.hp/x.boss.max*100)}%"></i></span></div>`:''}`;
+  $('wtEnd').innerHTML=liveStale(x)?`<div><b>Workout finished</b><span>${x.reps||0} reps${x.cheers?` · ${x.cheers} cheers`:''}</span></div>`:'';
+  const key=JSON.stringify([x.av,x.build]);if(key!==LW.imgKey){LW.imgKey=key;try{let svg=heroSVG(x.av||{},x.build||{m:.3,f:.5});if(!/xmlns=/.test(svg.slice(0,200)))svg=svg.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');svg=svg.replace(/url\(#hgGold\)/g,'#f2c230');const im=new Image();im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);LW.img=im}catch(e){LW.img=null}}}
+function watchLoop(t){if(!LW.uid)return;LW.raf=requestAnimationFrame(watchLoop);if(t-LW.last<95)return;LW.last=t;if(LW.q.length)LW.frame=LW.q.shift();drawWatch()}
+function drawWatch(){const cv=$('wtC');if(!cv)return;const c=cv.getContext('2d'),W=cv.width,H=cv.height,x=LW.doc;
+  const g=c.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1b1640');g.addColorStop(1,'#0b0f17');c.fillStyle=g;c.fillRect(0,0,W,H);
+  c.strokeStyle='rgba(255,255,255,.06)';c.lineWidth=2;for(let i=1;i<8;i++){c.beginPath();c.moveTo(i*W/8,0);c.lineTo(i*W/8,H);c.stroke()}
+  if(!LW.frame){c.fillStyle='rgba(255,255,255,.6)';c.font='600 26px system-ui';c.textAlign='center';c.fillText(liveStale(x)?'':'Waiting for movement…',W/2,H/2);return}
+  const n=LW.frame.split(',').map(Number),P=[];for(let i=0;i<n.length;i+=2){let px=n[i]/100,py=n[i+1]/100;if(x&&x.mir)px=1-px;P.push([px*W,py*H])}
+  c.lineCap='round';c.shadowColor='#3df5c8';c.shadowBlur=18;c.strokeStyle='#3df5c8';c.lineWidth=16;
+  for(const [a,b] of LSEG){if(!P[a]||!P[b])continue;c.beginPath();c.moveTo(P[a][0],P[a][1]);c.lineTo(P[b][0],P[b][1]);c.stroke()}
+  c.shadowBlur=0;c.fillStyle='#ffffff';for(const i of [5,6,11,12]){if(P[i]){c.beginPath();c.arc(P[i][0],P[i][1],9,0,7);c.fill()}}
+  if(P[1]&&P[2]&&P[0]){const r=Math.max(36,Math.hypot(P[1][0]-P[2][0],P[1][1]-P[2][1])*.62),hx=P[0][0],hy=P[0][1];c.save();c.beginPath();c.arc(hx,hy,r,0,7);c.closePath();c.fillStyle='#2a2f3a';c.fill();c.clip();if(LW.img&&LW.img.complete&&LW.img.naturalWidth)c.drawImage(LW.img,hx-r*1.75,hy-r*1.45,r*3.5,r*3.5);c.restore();c.strokeStyle='#3df5c8';c.lineWidth=5;c.beginPath();c.arc(hx,hy,r,0,7);c.stroke()}}
+function flyW(e,name){const f=$('wtFly');if(!f)return;const d=document.createElement('div');d.className='cheerFly';d.style.left=(8+Math.random()*75)+'%';d.innerHTML=`<span>${esc(e||'🔥')}</span>${name?`<small>${esc(String(name).split(' ')[0])}</small>`:''}`;f.appendChild(d);setTimeout(()=>d.remove(),2600)}
+document.addEventListener('click',e=>{const t=e.target;
+  if(t.closest('#wtClose')){closeWatch();return}
+  const ch=t.closest('[data-cheer]');if(ch&&LW.uid){const now=Date.now();if(now-LW.lastCheer<1100)return;LW.lastCheer=now;if(liveStale(LW.doc))return toast('Their workout already ended');
+    FB.fs.addDoc(FB.fs.collection(FB.db,'lives',LW.uid,'cheers'),{e:ch.dataset.cheer,from:user.uid,name:(S.name||'Friend').slice(0,30),ts:now}).catch(er=>toast('Couldn’t send: '+(er.code||'error')));flyW(ch.dataset.cheer,'You');sfx('pop');ch.classList.remove('pop');void ch.offsetWidth;ch.classList.add('pop');return}
+  const w=t.closest('[data-watch]');if(w){e.preventDefault();document.querySelectorAll('.sheet.on').forEach(x=>{if(x.id!=='watchSheet')closeSheet(x.id)});openWatch(w.dataset.watch);return}
+  if(t.closest('#livePopX')){$('livePop').classList.remove('on')}});
+// who's live (from friends' profiles, which update live)
+function liveFriends(){if(!SOC.on)return [];return SOC.friends.map(f=>[f.uid,SOC.profiles[f.uid]]).filter(([u,p])=>p&&p.live&&p.live.on&&Date.now()-(p.live.t0||0)<45*60000)}
+function renderLiveBanner(){const lf=liveFriends();for(const id of ['v-today','v-friends']){const sec=$(id);if(!sec)continue;let b=sec.querySelector('.liveBan');if(!lf.length){if(b)b.remove();continue}
+    if(!b){sec.insertAdjacentHTML('afterbegin','<div class="liveBan"></div>');b=sec.querySelector('.liveBan')}
+    b.innerHTML=lf.slice(0,3).map(([u,p])=>`<button data-watch="${u}"><span class="dotL"></span><b>${esc(p.name||'Friend')}</b> is working out live${p.live.exn?` · ${esc(p.live.exn)}`:''}<em>Watch</em></button>`).join('')}}
+{const _lb=liveBump;liveBump=function(id,old,nw){_lb(id,old,nw);const was=old&&old.live&&old.live.on,is=nw&&nw.live&&nw.live.on;if(is&&!was&&old&&SOC.friends.some(f=>f.uid===id))livePop(id,nw.name);renderLiveBanner()}}
+function livePop(uid,name){let p=$('livePop');if(!p){document.body.insertAdjacentHTML('beforeend','<div id="livePop" class="livePop"></div>');p=$('livePop')}
+  p.innerHTML=`<span class="dotL"></span><span><b>${esc(name||'A friend')}</b> just went live</span><button class="small red" data-watch="${uid}">Watch</button><button class="x" id="livePopX" aria-label="Dismiss">×</button>`;p.classList.add('on');sfx('pop');clearTimeout(p._t);p._t=setTimeout(()=>p.classList.remove('on'),9000)}
+function liveDeepLink(){const m=/^#live-(.+)$/.exec(location.hash);if(m&&user&&mode==='cloud'){history.replaceState(null,'',location.pathname);setTimeout(()=>openWatch(m[1]),600)}}
+addEventListener('hashchange',liveDeepLink);
+
+{const _cs=closeSheet;closeSheet=function(id){_cs(id);if(id==='watchSheet'&&LW.uid)closeWatch()}}
+
+// ================= v20: get the app + notifications, shown on sign-in =================
+const isMobile=()=>isIOS||/Android/i.test(navigator.userAgent);
+function needGetApp(){const inst=standalone(),notif=!!(S.reminder&&S.reminder.on)&&typeof Notification!=='undefined'&&Notification.permission==='granted';return {inst,notif,need:(!inst&&(isMobile()||deferredInstall))||!notif}}
+function getAppHTML(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent),iosWeb=isIOS&&!st.inst;
+  const step1=st.inst?`<div class="gaStep done"><span class="gaN">✓</span><div><b>On your Home Screen</b><div class="muted sm">You’re using the app version.</div></div></div>`:`<div class="gaStep"><span class="gaN">1</span><div><b>Add PlateScan to your Home Screen</b><div class="muted sm">Opens full screen like a real app, works offline and unlocks notifications on iPhone.</div>
+    ${isIOS?`<ol class="steps sm"><li>Tap <b>Share</b> <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg> at the bottom of Safari</li><li>Tap <b>Add to Home Screen</b>, then <b>Add</b></li><li>Open PlateScan from the new icon</li></ol>`:deferredInstall?`<button class="small red" id="gaInstall" style="margin-top:6px">Install app</button>`:and?`<ol class="steps sm"><li>Tap the <b>⋮</b> menu in Chrome</li><li>Tap <b>Add to Home screen</b> or <b>Install app</b></li></ol>`:`<p class="muted sm">In Chrome or Edge, click the install icon in the address bar.</p>`}</div></div>`;
+  const step2=st.notif?`<div class="gaStep done"><span class="gaN">✓</span><div><b>Notifications are on</b><div class="muted sm">Streak saves, boss alerts and your pet’s check-ins.</div></div></div>`:`<div class="gaStep"><span class="gaN">2</span><div><b>Turn on notifications</b><div class="muted sm">Up to 3 helpful reminders a day: save your streak, beat your boss, keep your pet happy.</div>
+    ${iosWeb?`<p class="sm" style="margin:6px 0">On iPhone, do step 1 first, then turn them on from the Home Screen app. For now you can use Calendar reminders.</p><button class="small ghost" id="gaCal">Set up Calendar reminders</button>`:`<button class="small red" id="gaNotif" style="margin-top:6px">Turn on notifications</button>`}</div></div>`;
+  return `<div class="gaHero"><img src="icon-192.png" alt="" width="64" height="64"><div><h2 style="margin:0">Get the full PlateScan</h2><p class="muted sm" style="margin:2px 0 0">Two quick steps so you never lose a streak.</p></div></div>${step1}${step2}<div class="row" style="gap:8px;margin-top:12px"><button class="wide" id="gaDone">${st.inst&&st.notif?'All set!':'Done'}</button></div><button class="linkBtn" id="gaLater">Maybe later</button>`}
+function openGetApp(){let sh=$('getAppSheet');if(!sh){document.body.insertAdjacentHTML('beforeend','<div class="sheet" id="getAppSheet" role="dialog" aria-label="Get the app"><div class="sb" id="gaBody"></div></div>');sh=$('getAppSheet')}
+  $('gaBody').innerHTML=getAppHTML();openSheet('getAppSheet');sfx('pop')}
+let gaTries=0;function maybeGetApp(force){if(!force&&sessionStorage.getItem('platescan.ga'))return;const st=needGetApp();if(!st.need)return;
+  if(document.querySelector('.sheet.on')||$('loginSheet').classList.contains('on')||$('tour').classList.contains('on')||$('battle').classList.contains('on')||$('lvup').classList.contains('on')){if(gaTries++<30)setTimeout(()=>maybeGetApp(force),2500);return}
+  sessionStorage.setItem('platescan.ga','1');openGetApp()}
+document.addEventListener('click',async e=>{const t=e.target;
+  if(t.closest('#gaInstall')&&deferredInstall){deferredInstall.prompt();await deferredInstall.userChoice.catch(()=>{});deferredInstall=null;$('gaBody').innerHTML=getAppHTML();return}
+  if(t.closest('#gaNotif')){if(mode!=='cloud'){closeSheet('getAppSheet');toast('Create a free account first so reminders can reach you');showAuth('signup');return}const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}));setTimeout(()=>{if($('gaBody'))$('gaBody').innerHTML=getAppHTML()},2500);return}
+  if(t.closest('#gaCal')){closeSheet('getAppSheet');openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400);return}
+  if(t.closest('#gaDone')||t.closest('#gaLater')){closeSheet('getAppSheet');lsSet('platescan.gaLater',String(Date.now()))}});
+
+// ================= v20: daily login reward rolls over at midnight =================
+let lastDayKey=ymd(Date.now());
+function midnightCheck(){const d=ymd(Date.now());if(d===lastDayKey)return;lastDayKey=d;try{render()}catch(e){}loginTries=0;setTimeout(maybeLogin,800)}
+setInterval(midnightCheck,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)midnightCheck()});
+function untilMidnight(){const n=new Date(),m=new Date(n);m.setHours(24,0,0,0);const s=Math.max(0,Math.round((m-n)/1000)),h=Math.floor(s/3600),mi=Math.floor(s%3600/60);return h?`${h}h ${mi}m`:`${mi}m`}
+{const _rl=renderLogin;renderLogin=function(claimed){_rl(claimed);const st=loginState();if(!st.ready||claimed){$('lgSub').textContent=`Next reward unlocks at midnight (in ${untilMidnight()}). Day ${(claimed?st.day:st.day)%7+1} of 7.`}}}
+
+// ================= v20: referrals give eggs + referral badges =================
+EXB.refer={n:'Referrals',noun:'Recruiter',u:'friends',th:[1,3,5,10,15,20],top:'Legendary Ambassador',ic:'<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M19 8v6M16 11h6"/>'};
+{const _gr=grantRef;grantRef=function(why,noXP){S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggs.basic++;if(!noXP)S.refN=(S.refN||0)+1;_gr(why+' Plus a Basic Egg 🥚',noXP);try{checkBadges()}catch(e){}}}
+
+// ================= v20: food pictures for meals without a photo =================
+const FPIC=[[/sushi|sashimi|roll\b/,'🍣','#ffd6cc'],[/pizza/,'🍕','#ffe0b3'],[/burger|cheeseburger|whopper|big mac/,'🍔','#ffe0b3'],[/hot ?dog/,'🌭','#ffe0b3'],[/taco/,'🌮','#fff0b3'],[/burrito|wrap/,'🌯','#fff0b3'],[/fries|french fry/,'🍟','#fff3b0'],[/salad|greens|lettuce|spinach|kale/,'🥗','#d9f2c8'],[/broccoli|vegetable|veggie|green bean|asparagus/,'🥦','#d9f2c8'],[/carrot/,'🥕','#ffe0c7'],[/corn\b/,'🌽','#fff3b0'],[/potato|hash brown/,'🥔','#f2e2c4'],
+  [/steak|beef|brisket|rib/,'🥩','#ffd6d6'],[/bacon/,'🥓','#ffd6d6'],[/chicken|wing|nugget|tender|turkey/,'🍗','#ffe6c7'],[/salmon|tuna|fish|cod|tilapia|halibut/,'🐟','#d6ecff'],[/shrimp|prawn|lobster|crab/,'🍤','#ffd6cc'],[/egg|omelet|omelette/,'🍳','#fff6d6'],[/pancake|waffle/,'🥞','#ffe9c2'],[/oat|cereal|granola|porridge/,'🥣','#f2e6d6'],[/yogurt|parfait/,'🍨','#f0e6ff'],
+  [/rice|bowl|poke/,'🍚','#f4f1ea'],[/pasta|spaghetti|noodle|ramen|mac/,'🍝','#ffe9c2'],[/soup|chili|stew|broth/,'🍲','#ffe0c7'],[/sandwich|sub\b|panini|toast/,'🥪','#f6e6c8'],[/bread|bagel|croissant|muffin|bun/,'🥐','#f6e6c8'],[/cheese/,'🧀','#fff3b0'],[/nut|almond|peanut|cashew|pistachio|walnut/,'🥜','#f2e2c4'],[/avocado|guac/,'🥑','#e2f2c8'],
+  [/apple/,'🍎','#ffd6d6'],[/banana/,'🍌','#fff3b0'],[/berr|blueberr|strawberr|raspberr/,'🫐','#e6e0ff'],[/orange|clementine|citrus/,'🍊','#ffe0c7'],[/grape/,'🍇','#ece0ff'],[/watermelon|melon/,'🍉','#ffd6dc'],[/pineapple/,'🍍','#fff3b0'],[/peach|mango/,'🥭','#ffe0c7'],[/cherr/,'🍒','#ffd6dc'],[/lemon|lime/,'🍋','#fff6c2'],
+  [/protein shake|shake|smoothie|fairlife|protein drink/,'🥤','#e0f0ff'],[/coffee|latte|espresso|cappuccino|frappuccino/,'☕','#f0e2d6'],[/tea\b|matcha/,'🍵','#e2f2c8'],[/milk/,'🥛','#f4f6fb'],[/beer/,'🍺','#fff0b3'],[/wine/,'🍷','#f6d6e6'],[/soda|cola|sprite|pepsi/,'🥤','#ffd6d6'],[/water/,'💧','#d6ecff'],
+  [/donut|doughnut/,'🍩','#ffd6ec'],[/cookie/,'🍪','#f2e2c4'],[/cake|cupcake|brownie/,'🍰','#ffe0ec'],[/ice cream|gelato|frozen yogurt/,'🍦','#ffe0ec'],[/chocolate|candy/,'🍫','#f0e2d6'],[/popcorn/,'🍿','#fff3b0'],[/chip|crisp|pretzel/,'🥨','#f6e6c8'],[/bar\b|protein bar/,'🍫','#f0e2d6'],[/tofu|tempeh|bean|lentil|hummus|chickpea/,'🫘','#efe6d6']];
+function foodPic(items){const names=(items||[]).slice().sort((a,b)=>(b.k*(b.q||1))-(a.k*(a.q||1))).map(i=>String(i.n||'').toLowerCase()),out=[];
+  for(const n of names){for(const [re,em,bg] of FPIC){if(re.test(n)){if(!out.find(o=>o[0]===em))out.push([em,bg]);break}}if(out.length>=2)break}
+  if(!out.length)out.push(['🍽️','#e8efe9']);const [a,b]=out;return `<div class="th fp" style="background:radial-gradient(circle at 30% 25%,#fff8,transparent 60%),${a[1]}"><span class="e1">${a[0]}</span>${b?`<span class="e2">${b[0]}</span>`:''}</div>`}
+
+// ================= v20: health score + goal fit for meals =================
+const H_GOOD=/salad|broccoli|spinach|kale|vegetable|veggie|green bean|asparagus|carrot|pepper|tomato|cucumber|zucchini|cauliflower|apple|banana|berr|orange|grape|melon|pineapple|peach|mango|cherr|kiwi|\bpears?\b|\boat|quinoa|brown rice|sweet potato|lentil|bean|chickpea|hummus|tofu|tempeh|salmon|tuna|cod|tilapia|shrimp|fish|chicken breast|turkey|egg white|greek|cottage|almond|walnut|cashew|pecan|\bnuts?\b|\bseeds?\b|avocado|whole wheat|whole grain|edamame/;
+const H_BAD=/fried|fries|chips|nacho|donut|doughnut|cookie|cake|cupcake|brownie|ice cream|candy|chocolate bar|soda|cola|sprite|pepsi|frappuccino|milkshake|syrup|frosting|bacon|sausage|hot dog|pepperoni|salami|nugget|mcdonald|burger king|wendy|taco bell|kfc|popeyes|pizza|beer|wine|cocktail|margarita|pastry|croissant|churro|white bread/;
+function mealHealth(items){const T=sumItems(items);if(!T.k)return null;let s=60;const R=[];
+  const pd=T.p*4/T.k,fd=T.f*9/T.k;s+=Math.min(24,pd*80);if(pd>=.3)R.push(['💪',`High protein: ${r0(T.p)}g (${Math.round(pd*100)}% of calories)`,1]);else if(T.p<10&&T.k>250)R.push(['🥚',`Low protein: only ${r0(T.p)}g`,-1]);
+  if(fd>.45){s-=(fd-.45)*80;R.push(['🧈',`High fat: ${Math.round(fd*100)}% of calories`,-1])}
+  let good=[],bad=[],gw=0,bw=0;for(const i of items){const n=String(i.n||'').toLowerCase(),w=(i.k*(i.q||1))/T.k;if(H_GOOD.test(n)){gw+=w;good.push(i.n)}if(H_BAD.test(n)){bw+=w;bad.push(i.n)}}
+  s+=gw*18-bw*30;if(good.length)R.push(['🥦',`Whole foods: ${good.slice(0,3).join(', ')}`,1]);if(bad.length)R.push(['🍟',`Processed or sugary: ${bad.slice(0,3).join(', ')}`,-1]);
+  if(T.k>1600){s-=18;R.push(['⚠️',`Very large meal: ${fmt(T.k)} kcal`,-1])}else if(T.k>1100){s-=8;R.push(['🍽️',`Big meal: ${fmt(T.k)} kcal`,-1])}
+  s=Math.max(5,Math.min(99,Math.round(s)));const gr=s>=85?'A':s>=70?'B':s>=55?'C':s>=40?'D':'F';return {s,gr,R,T,pd}}
+function goalFit(h){const g=game(),t=g.todayT;if(!t||!h)return null;const d=byDay()[ymd(Date.now())]||{k:0,p:0},rem=t.kcal-d.k,remP=t.pro-d.p,ch=+S.profile.change||0,T=h.T,R=[];let fit=2;
+  const goal=ch<0?'lose':ch>0?'gain':'keep';
+  if(rem>0){const pct=T.k/rem;if(T.k>rem+80){fit-=2;R.push(['📈',`Puts you about ${fmt(T.k-rem)} kcal over today`,-1])}else if(goal==='lose'&&pct>.75&&rem>500){fit-=1;R.push(['⏳',`Uses ${Math.round(pct*100)}% of your remaining calories`,-1])}else R.push(['✅',`Fits your calories: ${fmt(T.k)} of ${fmt(rem)} left`,1])}
+  else if(T.k>150){fit-=2;R.push(['📈',`You’re already at your calorie goal today`,-1])}
+  if(remP>0){const pp=Math.min(100,Math.round(T.p/remP*100));if(pp>=35){fit+=1;R.push(['🎯',`Covers ${pp}% of the protein you still need`,1])}else if(goal!=='keep'&&T.p<15)R.push(['🎯','Add some protein to help '+(goal==='lose'?'keep you full and save muscle':'build muscle'),-1])}
+  if(goal==='lose'&&h.pd>=.3)fit+=1;if(goal==='gain'&&T.k<300)R.push(['🍌','Light for a muscle-gain goal. Add a carb or a shake',-1]);
+  fit=Math.max(0,Math.min(3,fit));return {lab:['Poor','Okay','Good','Great'][fit],fit,goal,R}}
+function healthHTML(items,compact){const h=mealHealth(items);if(!h)return '';const f=goalFit(h),gn={lose:'losing weight',gain:'gaining muscle',keep:'maintaining'}[f?f.goal:'keep'];
+  return `<div class="hBox"><div class="hTop"><span class="hGr g${h.gr}">${h.gr}</span><div><b>Health ${h.s}/100</b>${f?`<div class="sm">Goal fit: <b class="fit${f.fit}">${f.lab}</b> for ${gn}</div>`:''}</div></div>
+   <ul class="hWhy">${[...h.R,...(f?f.R:[])].slice(0,compact?3:5).map(([e,t,v])=>`<li class="${v>0?'hPos':'hNeg'}"><span>${e}</span><span class="tx">${esc(t)}</span></li>`).join('')}</ul></div>`}
+function renderHealth(){let el=$('healthBox');if(!el){const it=$('items');if(!it)return;it.insertAdjacentHTML('afterend','<div id="healthBox"></div>');el=$('healthBox')}el.innerHTML=meal.length?healthHTML(meal.map(i=>({...i,k:i.k*(i.q||1),p:i.p*(i.q||1),f:i.f*(i.q||1),c:i.c*(i.q||1),q:1}))):''}
+{const _mt=mealTotals;mealTotals=function(){_mt();try{renderHealth()}catch(e){}}}
+const mealGrade=m=>{try{const h=mealHealth(m.items.map(i=>({...i,k:i.k*(i.q||1),p:i.p*(i.q||1),f:i.f*(i.q||1),c:i.c*(i.q||1),q:1})));return h?h.gr:''}catch(e){return ''}};
+
+// ================= v20: custom badges from developers =================
+const CB_SYM={crown:'<path d="M3 18h18l-2-10-4 4-3-7-3 7-4-4z"/>',bolt:'<path d="M13 2L4 14h6l-1 8 9-12h-6z"/>',flame:'<path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 2-7 1.6 1.2 2.4 2.4 2.4 3.6C10.4 7.8 11 5 12 2z"/>',star:'<path d="M12 2l3 6.5 7 .9-5.1 4.8 1.3 7L12 17.8 5.8 21.2l1.3-7L2 9.4l7-.9z"/>',
+  gem:'<path d="M6 3h12l4 6-10 13L2 9z"/>',shield:'<path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/>',rocket:'<path d="M12 2c4 3 6 7 6 12l-3 3H9l-3-3c0-5 2-9 6-12zM9 18l-3 4 1-5M15 18l3 4-1-5"/><circle cx="12" cy="10" r="2" fill="#0003"/>',heart:'<path d="M12 21C5 15 2 11.5 2 8a5 5 0 0 1 10-1 5 5 0 0 1 10 1c0 3.5-3 7-10 13z"/>',
+  trophy:'<path d="M7 3h10v5a5 5 0 0 1-10 0zM5 4H2v2a4 4 0 0 0 5 4M19 4h3v2a4 4 0 0 1-5 4M10 13h4v4h3v4H7v-4h3z"/>',dumbbell:'<path d="M2 9h3v6H2zM5 7h3v10H5zM8 11h8v2H8zM16 7h3v10h-3zM19 9h3v6h-3z"/>',infinity:'<path d="M7 8a4 4 0 1 0 0 8c3 0 7-8 10-8a4 4 0 1 1 0 8c-3 0-7-8-10-8z" fill="none" stroke="#fff" stroke-width="2.6"/>',
+  leaf:'<path d="M4 20C4 9 10 4 21 3c0 11-5 17-15 17zM4 20l9-9"/>',moon:'<path d="M20 15A9 9 0 1 1 9 4a7 7 0 0 0 11 11z"/>',planet:'<circle cx="12" cy="12" r="6"/><path d="M2 15c3 1 17-3 20-8" fill="none" stroke="#fff" stroke-width="2"/>',wings:'<path d="M12 8c-3-4-8-5-10-4 1 5 4 8 10 9 6-1 9-4 10-9-2-1-7 0-10 4zM12 13v8"/>',paw:'<ellipse cx="12" cy="16" rx="5" ry="4"/><circle cx="5.5" cy="10.5" r="2.2"/><circle cx="18.5" cy="10.5" r="2.2"/><circle cx="9" cy="6.5" r="2.2"/><circle cx="15" cy="6.5" r="2.2"/>'};
+const CB_STY={gold:['#fff3b0','#f2c230','#a8730a','Gold'],holo:['#ff9ad5','#8fe8ff','#b48bff','Holographic'],ruby:['#ff9aa8','#e5243b','#7a0f1f','Ruby'],emerald:['#b8ffcf','#1fbf6a','#0b5a32','Emerald'],sapphire:['#b8dcff','#2f6bff','#0b2a7a','Sapphire'],obsidian:['#6b5a8a','#1b1430','#05030c','Obsidian'],rose:['#ffe0ec','#ff7aa8','#a8325a','Rose gold'],ice:['#ffffff','#9fe3ff','#3d8fd8','Frost']};
+let cbN=0;
+function cbSVG(b,cls=''){const id='cb'+(++cbN),st=CB_STY[b.sty]||CB_STY.gold,sym=CB_SYM[b.sym]||CB_SYM.star;
+  return `<svg class="cbadge ${b.sty==='holo'?'holo':''} ${cls}" viewBox="0 0 48 56" aria-label="${esc(b.n||'Special badge')}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${st[0]}"/><stop offset=".5" stop-color="${st[1]}"/><stop offset="1" stop-color="${st[2]}"/></linearGradient></defs>
+   <path d="M24 2l20 11v24c0 7-9 13-20 17C13 50 4 44 4 37V13z" fill="url(#${id})" stroke="${st[2]}" stroke-width="2"/><path d="M24 7l15 8v20c0 5-7 10-15 13-8-3-15-8-15-13V15z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4"/>
+   <g transform="translate(12 15)" fill="#fff" style="filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))">${sym}</g><path d="M10 12l6-3" stroke="#fff" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/></svg>`}
+const cbRow=list=>list&&list.length?`<div class="cbRow">${list.slice(0,6).map(b=>`<span class="cbIt" title="${esc(b.n)}${b.d?': '+esc(b.d):''}">${cbSVG(b)}<small>${esc(b.n)}</small></span>`).join('')}</div>`:'';
+let grantUnsub=null;
+function grantStart(){if(grantUnsub){grantUnsub();grantUnsub=null}if(mode!=='cloud'||!user||!FB)return;const fs=FB.fs;
+  grantUnsub=fs.onSnapshot(fs.query(fs.collection(FB.db,'grants'),fs.where('uid','==',user.uid)),q=>{const list=q.docs.map(d=>({...d.data().b,bid:d.data().bid,ts:d.data().ts})).sort((a,b)=>a.ts-b.ts);
+    const had=new Set((S.cb||[]).map(b=>b.bid)),fresh=list.filter(b=>!had.has(b.bid));S.cb=list.map(({n,d,sym,sty,bid})=>({n,d:d||'',sym,sty,bid}));store.saveMeta();
+    if(fresh.length&&had.size+fresh.length>0&&S.cbSeen)for(const b of fresh){enqueue({type:'ach',k:'Special badge!',name:`You received “${b.n}”${b.d?': '+b.d:''}`});postEvent('cb:'+b.bid,`received the special badge “${b.n}”`)}
+    S.cbSeen=1;render()},e=>console.warn('grants',e.code))}
+
+// ================= v20: developer tools (admins only) =================
+let cbDraft={n:'',d:'',sym:'crown',sty:'holo'};
+function devHTML(){return `<div class="devBox"><h3 style="margin:0 0 4px">Developer tools</h3><p class="muted sm" style="margin:0 0 8px">Only admins see this.</p>
+  <div class="devGrid"><button data-dev="sandbox">🧪 Sign up as a fake new user</button><button data-dev="gold">💰 +5,000 gold</button><button data-dev="eggs">🥚 +1 of each egg</button><button data-dev="hearts">❤️ Refill hearts</button>
+   <button data-dev="hatch">🌌 Preview Mythic hatch</button><button data-dev="login">📅 Reset today’s login reward</button><button data-dev="level">🎉 Preview level-up</button><button data-dev="tour">🧭 Replay the tour</button><button data-dev="getapp">📲 Show “Get the app”</button><button data-dev="news">📰 Show patch notes</button></div>
+  <h3 style="margin:14px 0 4px">Custom badge</h3><p class="muted sm" style="margin:0 0 8px">Design a badge and give it to anyone by their friend code (like MIKE-1234) or user ID. They get a popup and friends see it on their profile.</p>
+  <div class="cbEd"><div class="cbPrev" id="cbPrev"></div><div style="flex:1;min-width:0"><label class="f"><span>Name</span><input id="cbN" maxlength="24" placeholder="Founding Member" value="${esc(cbDraft.n)}"></label><label class="f"><span>Description</span><input id="cbD" maxlength="60" placeholder="One of the first 10 PlateScan users" value="${esc(cbDraft.d)}"></label></div></div>
+  <div class="lbl">Symbol</div><div class="cbPick">${Object.keys(CB_SYM).map(k=>`<button data-cbsym="${k}" class="${cbDraft.sym===k?'on':''}" aria-label="${k}"><svg viewBox="0 0 24 24" fill="currentColor">${CB_SYM[k].replace(/#fff/g,'currentColor')}</svg></button>`).join('')}</div>
+  <div class="lbl">Finish</div><div class="cbPick sty">${Object.entries(CB_STY).map(([k,v])=>`<button data-cbsty="${k}" class="${cbDraft.sty===k?'on':''}" style="--g:linear-gradient(135deg,${v[0]},${v[1]},${v[2]})" title="${v[3]}"><span>${v[3]}</span></button>`).join('')}</div>
+  <div class="row" style="gap:8px;margin-top:10px"><input id="cbTo" placeholder="Friend code or user ID" style="flex:1"><button class="small red" id="cbGive">Give badge</button></div><div id="cbList" style="margin-top:10px"></div></div>`}
+function renderDev(){const box=$('adminBox');if(!box||!isAdmin)return;let d=$('devTools');if(!d){box.insertAdjacentHTML('beforeend','<div id="devTools"></div>');d=$('devTools')}d.innerHTML=devHTML();cbPreview();loadGrants()}
+function cbPreview(){const p=$('cbPrev');if(p)p.innerHTML=cbSVG({n:cbDraft.n||'Badge',sym:cbDraft.sym,sty:cbDraft.sty},'big')}
+async function loadGrants(){const el=$('cbList');if(!el||!FB)return;try{const q=await FB.fs.getDocs(FB.fs.query(FB.fs.collection(FB.db,'grants'),FB.fs.where('by','==',user.uid)));const L=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts).slice(0,12);
+  el.innerHTML=L.length?`<div class="lbl">Given</div>`+L.map(g=>`<div class="row between cbG"><span class="row" style="gap:8px">${cbSVG(g.b,'sm')}<span><b>${esc(g.b.n)}</b><div class="muted sm">to ${esc(g.toName||g.uid.slice(0,8))}</div></span></span><button class="chip" data-cbrev="${g.id}">Take back</button></div>`).join(''):''}catch(e){el.innerHTML=''}}
+async function giveBadge(){const n=$('cbN').value.trim(),d=$('cbD').value.trim(),to=$('cbTo').value.trim();if(!n)return toast('Give the badge a name');if(!to)return toast('Enter a friend code or user ID');
+  const fs=FB.fs;let uid=to,toName='';try{if(/^[A-Za-z0-9]+-\d{4}$/.test(to)){const t=await fs.getDoc(fs.doc(FB.db,'tags',to.toUpperCase()));if(!t.exists())return toast('No one has that friend code');uid=t.data().uid}
+    const p=await fs.getDoc(fs.doc(FB.db,'profiles',uid));toName=p.exists()?p.data().name||'':'';
+    const bid=Date.now().toString(36);await fs.setDoc(fs.doc(FB.db,'grants',uid+'_'+bid),{uid,bid,by:user.uid,toName,ts:Date.now(),b:{n:n.slice(0,24),d:d.slice(0,60),sym:cbDraft.sym,sty:cbDraft.sty}});
+    sfx('chest');toast(`Badge given to ${toName||'them'} 🏅`);$('cbTo').value='';loadGrants()}catch(e){toast('Couldn’t give it: '+(e.code||e.message)+'. Did you publish the new rules?')}}
+function sandboxEnter(){try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith('sbx.'))localStorage.removeItem(k)}sessionStorage.setItem('platescan.sbx','1')}catch(e){}location.reload()}
+function sandboxExit(){try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith('sbx.'))localStorage.removeItem(k)}sessionStorage.removeItem('platescan.sbx')}catch(e){}location.reload()}
+function sandboxAuth(){const email=$('aEmail').value.trim(),nm=($('aName')&&$('aName').value.trim())||email.split('@')[0]||'Test User';S.name=nm;lsSet('platescan.guest','1');store.saveMeta();$('aSubmit').disabled=false;closeSheet('auth');justSignedUp=true;fillFields();render();
+  toast(authMode==='signup'?'Fake account created (sandbox)':'Signed in (sandbox)');maybeOnboard();setTimeout(maybeLogin,2600);sessionStorage.removeItem('platescan.ga');setTimeout(()=>maybeGetApp(true),4000)}
+if(SBX){document.body.insertAdjacentHTML('afterbegin','<div class="sbxBar">🧪 Developer sandbox: fake new account, nothing is saved online <button id="sbxExit">Exit</button></div>');document.body.classList.add('sbx')}
+document.addEventListener('click',e=>{const t=e.target;if(t.closest('#sbxExit')){sandboxExit();return}
+  const dv=t.closest('[data-dev]');if(dv&&isAdmin){const k=dv.dataset.dev;
+    if(k==='sandbox'){if(confirm('Open a sandbox that walks through sign-up as a brand-new user? Your real account stays safe. Use Exit at the top to come back.'))sandboxEnter()}
+    if(k==='gold'){S.gold=(S.gold||0)+5000;store.saveMeta();render();toast('+5,000 gold')}
+    if(k==='eggs'){S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggs.basic++;S.eggs.gym++;S.eggs.gold++;store.saveMeta();render();toast('+1 Basic, Gym and Golden Egg')}
+    if(k==='hearts'){heartsAdd(HEART_MAX);store.saveMeta();render();toast('Hearts refilled')}
+    if(k==='hatch'){closeSheet('setSheet');showHatch('gold','celestial','mythic',true,0)}
+    if(k==='login'){S.login=Object.assign({},S.login,{last:addDays(ymd(Date.now()),-1)});lsDel('platescan.loginShown');store.saveMeta();closeSheet('setSheet');loginTries=0;setTimeout(maybeLogin,500)}
+    if(k==='level'){closeSheet('setSheet');const L=game().lv.L;showLevel({L,from:L-1})}
+    if(k==='tour'){closeSheet('setSheet');startTour(false)}
+    if(k==='getapp'){closeSheet('setSheet');setTimeout(openGetApp,350)}
+    if(k==='news'){closeSheet('setSheet');showNews()}
+    return}
+  const sy=t.closest('[data-cbsym]');if(sy){cbDraft.sym=sy.dataset.cbsym;document.querySelectorAll('[data-cbsym]').forEach(b=>b.classList.toggle('on',b===sy));cbPreview();return}
+  const ss=t.closest('[data-cbsty]');if(ss){cbDraft.sty=ss.dataset.cbsty;document.querySelectorAll('[data-cbsty]').forEach(b=>b.classList.toggle('on',b===ss));cbPreview();return}
+  if(t.closest('#cbGive')){giveBadge();return}
+  const rv=t.closest('[data-cbrev]');if(rv){FB.fs.deleteDoc(FB.fs.doc(FB.db,'grants',rv.dataset.cbrev)).then(()=>{toast('Badge taken back');loadGrants()}).catch(er=>toast('Couldn’t: '+(er.code||'error')))}});
+document.addEventListener('input',e=>{if(e.target.id==='cbN'){cbDraft.n=e.target.value;cbPreview()}if(e.target.id==='cbD')cbDraft.d=e.target.value});
+{const _rh=renderHelp;renderHelp=function(){_rh();if(isAdmin&&!$('devTools'))renderDev()}}
+
+// ================= v20: smart reminders settings + status =================
+function mbStatus(){const I=mbInfo();if(!I)return null;return {n:eventBoss().n,d:ymd(Date.now()),behind:Math.max(0,-I.ahead),rec:I.rec,mine:I.mine,won:!!I.m.won,hfull:heartsNow().n>=HEART_MAX}}
+const SMC={streak:'Streak saves',battle:'Boss battles',log:'Logging',pet:'Pet'};
+document.addEventListener('click',e=>{const c=e.target.closest('[data-smc]');if(!c||!S.reminder)return;const m=remMore();m.smart=Object.assign({on:true},m.smart);m.smart.cats=Object.assign({pet:true,log:true,streak:true,battle:true},m.smart.cats);const k=c.dataset.smc;m.smart.cats[k]=!m.smart.cats[k];S.reminder=Object.assign({},S.reminder,{more:m});store.saveMeta();renderMoreRem()});
+
+// ================= v20: guide + patch notes =================
+GUIDE.unshift(['Live workouts','When you fight or work out, friends can watch your hero move in real time (never your camera) and send emoji cheers. Each cheer gives you +5% damage for 10 seconds, up to +25%. Friends get a heads-up when you go live, and a Watch button shows on Today and Friends. Turn it off on the workout setup screen.'],
+  ['Smart reminders','Up to 3 helpful notifications a day (around noon, 4 PM and 8 PM), only when they matter: save your streak, catch up on your monthly boss, log a meal, or check on your pet. Pick the kinds you want in Settings → Reminders.'],
+  ['Meal health score','When you build a meal, PlateScan grades it A to F with a health score out of 100, shows how well it fits your goal (Great, Good, Okay or Poor) and explains why. Logged meals show their grade and a food picture in your history.']);
+CHANGELOG.unshift({v:'20',d:'Nov 23, 2026',t:'Live workouts, health scores and smart reminders',items:['Live workouts: friends can watch your hero move as you work out (never your real camera) and send emoji cheers. Cheers give +5% damage for 10 seconds, up to +25%.','A “just went live” alert, a Watch button on Today and Friends, and a push notification for friends.','Meal health score: every meal gets an A to F grade, a score out of 100, how well it fits your goal and why.','Meals without a photo now get a food picture based on what’s in them, plus their grade.','Smart reminders: up to 3 a day, only when needed, for streaks, boss battles, logging and your pet. Choose the kinds in Settings → Reminders.','After you sign in, a quick “Get the full PlateScan” screen helps you add the app to your Home Screen and turn on notifications.','The daily login reward now resets at midnight and pops up right away, with a countdown to the next one.','Referrals now give a Basic Egg to you and your friend, and new Referral badges go from Bronze Recruiter up to Legendary Ambassador.','Special badges: the PlateScan team can now award one-of-a-kind badges, which show on your profile.']});
+
+{const _rb=renderBadges;renderBadges=function(){_rb();const b=$('exBadges');if(b&&(S.cb||[]).length)b.insertAdjacentHTML('afterbegin',`<div class="cbSec"><div class="lbl">Special badges</div>${cbRow(S.cb)}</div>`)}}
+{const _rd=render;render=function(...a){const r=_rd(...a);try{renderLiveBanner()}catch(e){}return r}}
+
 // ================= start =================
 setMealType(defaultMealType());
-if(CLOUD_OK){
+if(CLOUD_OK&&!SBX){
   try{
     const base='https://www.gstatic.com/firebasejs/13.2.0/';
     const [A,au,fs]=await Promise.all([import(base+'firebase-app.js'),import(base+'firebase-auth.js'),import(base+'firebase-firestore.js')]);

@@ -87,19 +87,36 @@ for (const doc of snap.docs) {
     const last = st.lastWeigh ? new Date(st.lastWeigh + 'T12:00:00Z') : null, days = last ? (new Date(today + 'T12:00:00Z') - last) / 864e5 : 99;
     if (days >= 6) { key = `${today}-weigh`; msg = { title: 'Weekly weigh-in ⚖️', body: 'Step on the scale and log it in PlateScan to keep your trend accurate.' }; }
   }
-  // pet alerts (on unless turned off): thirsty, wants to train, feeling down, egg ready
-  const pet = st.pet, petOn = !(m.pet && m.pet.on === false);
-  if (!msg && petOn && pet && pet.n) {
+  // smart reminders: up to 3 a day (noon, 4 PM, 8 PM), only when something needs attention
+  let extraKey = null;
+  const sm = m.smart || {}, smartOn = sm.on !== false && !(m.pet && m.pet.on === false && !m.smart);
+  if (!msg && smartOn && [12, 16, 20].includes(hour) && !sentKeys.includes(`${today}-smart-${hour}`)) {
+    const cats = Object.assign({ pet: true, log: true, streak: true, battle: true }, sm.cats || {});
     const goal = st.waterGoal || 8, had = isToday ? (st.water || 0) : 0, reps = isToday ? (st.reps || 0) : 0;
-    if ((hour === 13 && had < goal * 0.35) || (hour === 16 && had < goal * 0.6)) { key = `${today}-pthirst-${hour}`; msg = { title: `${pet.n} is thirsty 💧`, body: `You've had ${had} of ${goal} glasses. Drink one and log it so ${pet.n} perks up.` }; }
-    else if (hour === 18 && reps < 10) { key = `${today}-ptrain`; msg = { title: `${pet.n} wants to train 🏋️`, body: `Do 10 quick reps or fight a boss to make ${pet.n}'s day.` }; }
-    else if (hour === 12 && pet.d && pet.d >= yestOf(today) && (pet.mood ?? 100) < 40) { key = `${today}-psad`; msg = { title: `${pet.n} is feeling down 🥺`, body: 'Log a meal, drink water or finish a quest to cheer them up.' }; }
-    else if (hour >= 17 && hour <= 20 && (st.eggs || 0) > 0 && !sentKeys.includes(`egg-${st.eggN || 0}`)) { key = `egg-${st.eggN || 0}`; msg = { title: 'An egg is ready to hatch 🥚', body: `You have ${st.eggs} egg${st.eggs > 1 ? 's' : ''} waiting. Open Pets to see who's inside!` }; }
+    const nMeals = isToday ? (st.types || []).length : 0, logged = st.lastLogDay === today, mb = st.mb && st.mb.d === today ? st.mb : null, pet = st.pet;
+    const C = [];
+    if (cats.streak && hour === 20 && !logged && (st.streak || 0) > 0 && r.lastSent !== today) C.push({ p: 100, title: `🔥 Your ${st.streak}-day streak ends at midnight`, body: 'Log anything, even a snack, to keep it alive.' });
+    if (cats.battle && mb && !mb.won) {
+      if (hour >= 16 && mb.behind > 0) C.push({ p: hour === 20 ? 90 : 80, title: `⚔️ ${mb.n} attacks tonight`, body: `You're ${mb.behind} reps behind pace. Catch up before midnight to keep your hearts.` });
+      else if (hour === 12 && mb.hfull && !mb.mine) C.push({ p: 48, title: 'Your hearts are full ❤️', body: `${mb.n} is waiting. About ${mb.rec} reps today keeps you on pace.` });
+    }
+    if (cats.log && !(m.meals && m.meals.on)) {
+      if (hour === 12 && nMeals === 0) C.push({ p: 70, title: 'Nothing logged yet today 🍽️', body: 'Snap your breakfast or lunch so your bars stay accurate.' });
+      if (hour === 16 && nMeals === 1) C.push({ p: 52, title: 'Log your lunch? 📸', body: 'A quick snap keeps your calories and protein on track.' });
+      if (hour === 20 && nMeals > 0 && !(st.types || []).includes('Dinner')) C.push({ p: 55, title: 'Dinner time 🍽️', body: 'Log dinner to finish your day strong.' });
+    }
+    if (cats.pet && pet && pet.n) {
+      if (hour <= 16 && had < goal * (hour === 12 ? 0.3 : 0.55)) C.push({ p: 65, title: `${pet.n} is thirsty 💧`, body: `You've had ${had} of ${goal} glasses. Drink one and log it so ${pet.n} perks up.` });
+      if (hour >= 16 && reps < 10) C.push({ p: 58, title: `${pet.n} wants to train 🏋️`, body: `Do 10 quick reps or fight a boss to make ${pet.n}'s day.` });
+      if ((pet.mood ?? 100) < 40 && pet.d >= yestOf(today)) C.push({ p: 62, title: `${pet.n} is feeling down 🥺`, body: 'Log a meal, drink water or finish a quest to cheer them up.' });
+      if ((st.eggs || 0) > 0 && !sentKeys.includes(`egg-${st.eggN || 0}`)) C.push({ p: 45, k2: `egg-${st.eggN || 0}`, title: 'An egg is ready to hatch 🥚', body: `You have ${st.eggs} egg${st.eggs > 1 ? 's' : ''} waiting. Open Pets to see who's inside!` });
+    }
+    if (C.length) { C.sort((a, b) => b.p - a.p); const c = C[0]; key = `${today}-smart-${hour}`; extraKey = c.k2 || null; msg = { title: c.title, body: c.body }; }
   }
   if (!msg || sentKeys.includes(key)) continue;
   try {
     await pushAll(r, JSON.stringify({ ...msg, url: r.url || './', tag: key }), { TTL: 3600 });
-    await doc.ref.update({ 'reminder.sentKeys': [...sentKeys, key].slice(-12) });
+    await doc.ref.update({ 'reminder.sentKeys': [...sentKeys, key, ...(extraKey ? [extraKey] : [])].slice(-16) });
     extra++;
   } catch (e) { console.error('extra', doc.id, e.statusCode, e.body || e.message); }
 }
@@ -136,6 +153,28 @@ for (const doc of snap.docs) {
   } catch (e) { console.error('fstreak', doc.id, e.statusCode, e.body || e.message); }
 }
 console.log(`Friend streak alerts: ${fsSent}`);
+
+// ---- friend went live ----
+const pings = await db.collection('livePings').where('sent', '==', false).limit(200).get();
+let lSent = 0;
+for (const doc of pings.docs) {
+  const pg = doc.data();
+  try {
+    const lv = await db.collection('lives').doc(pg.from).get(), L = lv.exists ? lv.data() : null;
+    const still = L && L.on && Date.now() - (L.ts || 0) < 120000 && Date.now() - (pg.ts || 0) < 20 * 60000;
+    if (still) {
+      const fr = await db.collection('friendships').where('members', 'array-contains', pg.from).get();
+      for (const f of fr.docs) {
+        const other = f.data().members.find(x => x !== pg.from);
+        const u = await db.collection('users').doc(other).get(), r = (u.exists && u.data().reminder) || {};
+        if (!r.on || !hasSub(r)) continue;
+        await pushAll(r, JSON.stringify({ title: `🔴 ${(pg.name || 'A friend').slice(0, 30)} is working out live`, body: 'Tap to watch and send some cheers 🔥', url: (r.url || './') + '#live-' + pg.from, tag: 'live-' + pg.from }), { TTL: 1200 }).then(() => lSent++).catch(() => {});
+      }
+    }
+  } catch (e) { console.error('live', doc.id, e.message); }
+  await doc.ref.update({ sent: true });
+}
+console.log(`Live alerts sent: ${lSent}`);
 
 // ---- friend nudges ----
 const nudges = await db.collection('nudges').where('sent', '==', false).limit(500).get();
