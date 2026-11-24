@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (v16: monthly boss parties, hearts, hero avatars, pets, notification box, friend codes, portions, water sizes), do **Upload the update**, then **step 4: publish the new database rules (required for parties and friend codes)**. Full patch notes are in `CHANGELOG.md` and in the app under Settings → Help → Patch notes. The in-app **Guide** (Settings → Help → Guide) explains every feature.
+Steps 1–3 are already done if your app and accounts work. For this update (v18: holiday monthly bosses with one total health pool, live friends leaderboard, choose-what-friends-see progress, Fill your bars food suggestions), just do **Upload the update**. No database rule changes. If you skipped v17, make sure `reminders/send.mjs` is replaced too; if you skipped v16, publish the rules in step 4. Full patch notes are in `CHANGELOG.md` and in the app under Settings → Help → Patch notes. The in-app **Guide** (Settings → Help → Guide) explains every feature.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -249,10 +249,16 @@ Keep the `.json` file and `reminder-keys.txt` private. Never upload them to the 
 1. Open the **Actions** tab. If GitHub asks, click to enable workflows.
 2. Click **Streak reminders and nudges → Run workflow**. A green check means it worked. After that it runs by itself every 15 minutes.
 
-**d. Turn it on in the app (on your iPhone)**
-1. Open PlateScan **from your Home Screen icon**. Notifications only work there, not in a Safari tab.
-2. Tap your initial (top right) → **Alerts** → turn on **Streak reminder**, choose a time, and tap **Allow**.
-3. Tap **Send a test notification** to check.
+**d. Turn it on in the app**
+1. Open the menu (☰) → **Reminders** (or tap your initial → **Alerts**).
+2. Turn on **Streak reminder**, choose a time, and tap **Allow**. Then tap **Send a test notification** to check.
+
+Where notifications work:
+- **Computer (Chrome, Edge, Firefox, Safari on Mac) and Android:** right from the website. No install needed.
+- **iPhone/iPad:** Apple only allows notifications from the Home Screen app, not a Safari tab. On the website, use **Calendar reminders** instead (below).
+- Each device you turn it on for gets its own notifications (for example your phone app *and* your work computer).
+
+**Calendar reminders (any device, no app or setup needed):** in **Reminders**, tick meals, workout, water and/or weekly weigh-in, pick times, then tap **Add to Apple / Outlook calendar** (on iPhone tap the file, then **Add All**) or the **Google Calendar** links. They repeat daily with an alert. These don't need the GitHub job at all.
 
 If you haven't logged a meal by your chosen time, you'll get a lock screen notification. When a friend nudges you, you get a notification within about 15 minutes (GitHub can run it a little late). Friends who haven't turned on reminders see the nudge the next time they open PlateScan. GitHub also pauses scheduled jobs if a repository has no changes for 60 days. If reminders stop, open **Actions** and turn the workflow back on.
 
@@ -289,13 +295,24 @@ A day counts toward your streak with a friend when you **both** do 10+ good trac
 Each friend's profile shows your mutual friends. **Friends → Friends → People you may know** suggests friends of your friends; tap **Add** to send a request, and they accept from **Friend requests**.
 
 ## Monthly boss and hearts
-Quest → Bosses → **Monthly boss**. Pick a difficulty for the month: Easy 5, Normal 10, Hard 15 or Legend 20 reps a day. The boss has a whole month of health. Each day you do fewer reps than that, it attacks overnight and you lose a heart; if you stop repping during a fight it attacks too.
+Quest → Bosses → **Monthly boss**. Each month's boss is themed on that month's biggest holiday (🎃 Halloween, 🦃 Thanksgiving, 🎄 Christmas, 💘 Valentine's Day and so on). Pick a difficulty: the boss gets one big **total** health pool for the rest of the month (about 10, 20, 30 or 40 reps a day's worth). Beat it however you like: a little every day or a few big sessions. **Recommended today** is only a guide and adjusts as you go; the pace bar shows if you're ahead or behind.
+**Hearts:** up to 5. The boss attacks overnight (-1 ❤) only if you fall more than a full day behind pace, and it hits you during fights if you stop repping or don't block a ⚡ charge attack. Get hearts back: 1 every 45 minutes, 1 per daily quest, or buy them in the Shop.
+**Parties:** tap **+ Invite friends**. Each friend adds 80% HP, everyone shares the pace, and rewards are +50% (gold, XP, an exclusive badge and an Elixir of Legends). Each member's total reps for the month are shown.
 
-**Charge attacks (all bosses):** bosses also strike on a timer even while you're repping: every 60 s on Easy, 45 s on Normal, 35 s on Hard, 28 s on Legend. When the boss glows and the ⚡ bar appears, do 3 quick reps within 6 seconds (or keep holding a plank or wall sit) to block. Miss it and you take a hit. The training dummy and duels don't charge. Tap **+ Invite friends** to make a party: each friend adds 80% HP and everyone earns +50% rewards (gold, XP, an exclusive badge and an Elixir of Legends).
-Hearts: up to 5. You get one back every 45 minutes, one for each daily quest you finish, or buy them in the Shop.
+## Fill your bars (food suggestions)
+On Today, **Fill your bars** suggests foods that best fit what's left of your calories, protein, carbs and fat, favoring healthy whole foods, plus a combo that finishes the day. Tap a food (or **Add all**) to put it in a new meal, then confirm. Tap ✕ to stop seeing a food. With a free AI key, **✨ AI meal ideas** suggests whole meals.
+
+## Friends: live leaderboard and shared progress
+The weekly leaderboard updates live (watch for the red **LIVE** dot), and you get a heads-up when a friend passes you. In **Locker → Profile → What friends can see**, choose what to share: workouts this week, monthly boss, water today, food today (only % of goals, never what you ate), weight progress and your goal. Workouts, boss and water are on by default; food, weight and goal are off. Tap a friend to see what they share.
+
+## The menu
+The tabs moved from the bottom to a side menu. On a phone tap **☰** (top left) or swipe in from the left edge; tap outside, ×, or swipe left to close. On a computer or iPad it stays open on the left, and **Collapse** shrinks it to icons. **Scan** stays in the middle at the bottom.
+
+## Locker (hero, pet, profile, frames, themes)
+Menu → **Locker** (or tap the hero card on Today). The card at the top shows how friends see you. Tabs: **Hero**, **Pet**, **Profile**, **Frames**, **Themes**. New fitness items: race singlet, compression gear, martial arts gi, champion robe, coach whistle, gym towel, gold medal, title belt; backgrounds like running track, lap pool, veggie garden, mountain trail, court, yoga sunrise, stadium lights and champion podium; 12 new banners; 4 frames; 4 themes. Items marked 🔒 unlock by doing reps, reaching a level, keeping a streak or beating bosses, and some also cost gold.
 
 ## Your hero, pet and profile
-Tap the hero card on Today. **Avatar**: skin, hair, hair color, facial hair, outfits, gear and backgrounds; expensive items shimmer. Your hero gets more muscular as you log reps and leaner as you approach your weight goal. **Pet**: adopt one; it's happy when you log meals, hit protein, drink water, finish quests and work out. Treats, toys and a cozy bed (gold) keep it happy. **Profile**: motto, title, favorite exercise and banner. Friends see all of this.
+In the Locker. **Avatar**: skin, hair, hair color, facial hair, outfits, gear and backgrounds; expensive items shimmer. Your hero gets more muscular as you log reps and leaner as you approach your weight goal. **Pet**: adopt one; it's happy when you log meals, hit protein, drink water, finish quests and work out. Treats, toys and a cozy bed (gold) keep it happy. **Profile**: motto, title, favorite exercise and banner. Friends see all of this.
 
 ## Notification box and friend codes
 Tap the bell at the top. Friend requests, duel challenges and party invites all land here. Your friend code (like MIKE-4821) is at the top; type someone else's code to send them a request. When you send requests, duels or invites you can turn the push notification off and it will only go to their notification box.
@@ -334,6 +351,7 @@ Add your free Google AI key once (coach ⚙ → Smart answers). Then after you t
 ## Troubleshooting
 - **Friends, groups or nudges say "Couldn't…" or stay empty:** publish the rules from step 4 again.
 - **Old version still showing:** close the app fully and reopen it, or wait a few minutes.
-- **Reminder switch is grayed out:** open PlateScan from the Home Screen icon and make sure you're signed in.
+- **Reminder switch is grayed out:** make sure you're signed in. On iPhone in Safari, use Calendar reminders, or open PlateScan from the Home Screen icon.
+- **Can't find a tab:** they're in the side menu (☰ top left).
 - **No notification arrives:** check iPhone **Settings → Notifications → PlateScan**, and the job's latest run in the **Actions** tab.
 - **Widget shows 0 or nothing:** check that the rules from step 4 are published, then open PlateScan once so it saves your latest streak.

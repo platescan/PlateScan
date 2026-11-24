@@ -13,6 +13,25 @@ initializeApp({ credential: cert(sa) });
 const db = getFirestore();
 webpush.setVapidDetails('mailto:' + (process.env.CONTACT_EMAIL || 'reminders@platescan.app'), process.env.VAPID_PUBLIC_KEY, process.env.VAPID_PRIVATE_KEY);
 
+
+// Each device (phone app, computer browser, etc.) has its own push subscription.
+// reminder.subs holds all of them; reminder.sub is the older single-device field.
+const subsOf = r => { const a = Array.isArray(r.subs) ? r.subs.filter(x => x && x.endpoint) : []; if (r.sub && r.sub.endpoint && !a.some(x => x.endpoint === r.sub.endpoint)) a.push(r.sub); return a; };
+const hasSub = r => subsOf(r).length > 0;
+async function pushAll(r, body, opts, ref) {
+  let ok = 0; const dead = [];
+  for (const s of subsOf(r)) {
+    try { await webpush.sendNotification(s, body, opts); ok++; }
+    catch (e) { console.error('push', e.statusCode, e.body || e.message); if (e.statusCode === 404 || e.statusCode === 410) dead.push(s.endpoint); }
+  }
+  if (dead.length && ref) {
+    const left = subsOf(r).filter(x => !dead.includes(x.endpoint));
+    await ref.update({ 'reminder.subs': left, 'reminder.sub': left[0] || null, ...(left.length ? {} : { 'reminder.on': false }) }).catch(() => {});
+  }
+  if (!ok) { const err = new Error('no device accepted the push'); err.statusCode = dead.length ? 410 : 0; throw err; }
+  return ok;
+}
+
 function localNow(tz) {
   let p;
   try { p = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()); }
@@ -27,7 +46,7 @@ const snap = await db.collection('users').where('reminder.on', '==', true).get()
 let sent = 0, skipped = 0;
 for (const doc of snap.docs) {
   const u = doc.data(), r = u.reminder || {};
-  if (!r.sub || !r.sub.endpoint) { skipped++; continue; }
+  if (!hasSub(r)) { skipped++; continue; }
   const { today, yest, hour } = localNow(r.tz || 'America/Phoenix');
   const st = u.status || {};
   if (hour < (r.hour ?? 19) || r.lastSent === today || st.lastLogDay === today) { skipped++; continue; }
@@ -36,12 +55,11 @@ for (const doc of snap.docs) {
     ? { title: `Keep your ${streak}-day streak going`, body: 'Log a meal in PlateScan before midnight to keep it alive.' }
     : { title: 'Time to log today’s meals', body: 'Snap a meal in PlateScan to start a new streak.' };
   try {
-    await webpush.sendNotification(r.sub, JSON.stringify({ ...payload, url: r.url || './' }), { TTL: 3600 });
+    await pushAll(r, JSON.stringify({ ...payload, url: r.url || './' }), { TTL: 3600 }, doc.ref);
     await doc.ref.update({ 'reminder.lastSent': today });
     sent++;
   } catch (e) {
     console.error(doc.id, e.statusCode, e.body || e.message);
-    if (e.statusCode === 404 || e.statusCode === 410) await doc.ref.update({ 'reminder.on': false, 'reminder.sub': null });
   }
 }
 console.log(`Reminders sent: ${sent}, skipped: ${skipped}`);
@@ -50,7 +68,7 @@ console.log(`Reminders sent: ${sent}, skipped: ${skipped}`);
 let extra = 0;
 for (const doc of snap.docs) {
   const u = doc.data(), r = u.reminder || {}, m = r.more;
-  if (!m || !r.sub || !r.sub.endpoint) continue;
+  if (!m || !hasSub(r)) continue;
   const { today, hour } = localNow(r.tz || 'America/Phoenix');
   const dow = new Date(today + 'T12:00:00Z').getUTCDay();
   const st = u.status || {}, isToday = st.day === today, sentKeys = r.sentKeys || [];
@@ -70,7 +88,7 @@ for (const doc of snap.docs) {
   }
   if (!msg || sentKeys.includes(key)) continue;
   try {
-    await webpush.sendNotification(r.sub, JSON.stringify({ ...msg, url: r.url || './', tag: key }), { TTL: 3600 });
+    await pushAll(r, JSON.stringify({ ...msg, url: r.url || './', tag: key }), { TTL: 3600 });
     await doc.ref.update({ 'reminder.sentKeys': [...sentKeys, key].slice(-12) });
     extra++;
   } catch (e) { console.error('extra', doc.id, e.statusCode, e.body || e.message); }
@@ -82,7 +100,7 @@ let fsSent = 0;
 const dayBefore = d => { const x = new Date(d + 'T12:00:00Z'); x.setUTCDate(x.getUTCDate() - 1); return x.toISOString().slice(0, 10); };
 for (const doc of snap.docs) {
   const r = (doc.data().reminder) || {};
-  if (!r.sub || !r.sub.endpoint) continue;
+  if (!hasSub(r)) continue;
   const { today, hour } = localNow(r.tz || 'America/Phoenix');
   const key = `${today}-fstreak`;
   if (hour !== 19 || (r.sentKeys || []).includes(key)) continue;
@@ -101,7 +119,7 @@ for (const doc of snap.docs) {
       if (n >= 2 && (!best || n > best.n)) best = { n, name: p.data().name || 'your friend' };
     }
     if (!best) continue;
-    await webpush.sendNotification(r.sub, JSON.stringify({ title: `⏳ Your ${best.n}-day streak with ${best.name} ends tonight`, body: 'Do 10+ good reps in PlateScan to keep it alive.', url: (r.url || './') + '#friends', tag: 'fstreak' }), { TTL: 4 * 3600 });
+    await pushAll(r, JSON.stringify({ title: `⏳ Your ${best.n}-day streak with ${best.name} ends tonight`, body: 'Do 10+ good reps in PlateScan to keep it alive.', url: (r.url || './') + '#friends', tag: 'fstreak' }), { TTL: 4 * 3600 });
     const fresh = ((await doc.ref.get()).data().reminder || {}).sentKeys || [];
     await doc.ref.update({ 'reminder.sentKeys': [...fresh, key].slice(-12) });
     fsSent++;
@@ -117,8 +135,8 @@ for (const doc of nudges.docs) {
   try {
     const to = await db.collection('users').doc(n.to).get();
     const r = (to.exists && to.data().reminder) || {};
-    if (r.on && r.sub && r.sub.endpoint && Date.now() - (n.ts || 0) < 864e5) {
-      await webpush.sendNotification(r.sub, JSON.stringify({
+    if (r.on && hasSub(r) && Date.now() - (n.ts || 0) < 864e5) {
+      await pushAll(r, JSON.stringify({
         title: `${(n.fromName || 'A friend').slice(0, 30)} nudged you 👊`,
         body: 'Time to get a workout in! Fight a boss or log your meals in PlateScan.',
         url: (r.url || './') + '#friends', tag: 'nudge'
@@ -139,12 +157,12 @@ for (const side of ['a', 'b']) {
     const d = doc.data(), to = side === 'a' ? d.a : d.b;
     try {
       const u = await db.collection('users').doc(to).get(), r = (u.exists && u.data().reminder) || {};
-      if (r.on && r.sub && r.sub.endpoint) {
+      if (r.on && hasSub(r)) {
         const msg = side === 'b'
           ? { title: `⚔️ ${d.aName} challenged you to a duel`, body: `${d.stake * 2} gold pot. Beat ${d.aScore} reps in 60 seconds!` }
           : d.status === 'declined' ? { title: 'Duel declined', body: `${d.bName} passed. Your ${d.stake} gold is back.` }
           : { title: d.bScore > d.aScore ? `${d.bName} won the duel` : d.bScore === d.aScore ? 'Duel tied!' : `You won the duel! 🏆`, body: `Final score: you ${d.aScore}, ${d.bName} ${d.bScore}.` };
-        await webpush.sendNotification(r.sub, JSON.stringify({ ...msg, url: (r.url || './') + '#friends', tag: 'duel-' + doc.id }), { TTL: 6 * 3600 });
+        await pushAll(r, JSON.stringify({ ...msg, url: (r.url || './') + '#friends', tag: 'duel-' + doc.id }), { TTL: 6 * 3600 });
       }
     } catch (e) { console.error('duel', doc.id, e.statusCode, e.body || e.message); }
     await doc.ref.update({ ping: null });
@@ -157,7 +175,7 @@ for (const doc of reqs.docs) {
   const q = doc.data();
   try {
     const u = await db.collection('users').doc(q.to).get(), r = (u.exists && u.data().reminder) || {};
-    if (r.on && r.sub && r.sub.endpoint) await webpush.sendNotification(r.sub, JSON.stringify({ title: `${q.fromName || 'Someone'} wants to be friends`, body: q.mutual ? `${q.mutual} mutual friend${q.mutual > 1 ? 's' : ''}. Tap to accept in PlateScan.` : 'Tap to accept in PlateScan.', url: (r.url || './') + '#friends', tag: 'req-' + doc.id }), { TTL: 24 * 3600 });
+    if (r.on && hasSub(r)) await pushAll(r, JSON.stringify({ title: `${q.fromName || 'Someone'} wants to be friends`, body: q.mutual ? `${q.mutual} mutual friend${q.mutual > 1 ? 's' : ''}. Tap to accept in PlateScan.` : 'Tap to accept in PlateScan.', url: (r.url || './') + '#friends', tag: 'req-' + doc.id }), { TTL: 24 * 3600 });
   } catch (e) { console.error('req', doc.id, e.statusCode, e.body || e.message); }
   await doc.ref.update({ ping: false });
 }
@@ -168,7 +186,7 @@ for (const doc of pinv.docs) {
   const q = doc.data();
   try {
     const u = await db.collection('users').doc(q.to).get(), r = (u.exists && u.data().reminder) || {};
-    if (r.on && r.sub && r.sub.endpoint) await webpush.sendNotification(r.sub, JSON.stringify({ title: `${q.fromName || 'A friend'} invited you to a boss party 🐲`, body: `Team up against ${q.boss} this month. Open PlateScan to join.`, url: (r.url || './') + '#friends', tag: 'party-' + doc.id }), { TTL: 24 * 3600 });
+    if (r.on && hasSub(r)) await pushAll(r, JSON.stringify({ title: `${q.fromName || 'A friend'} invited you to a boss party 🐲`, body: `Team up against ${q.boss} this month. Open PlateScan to join.`, url: (r.url || './') + '#friends', tag: 'party-' + doc.id }), { TTL: 24 * 3600 });
   } catch (e) { console.error('party', doc.id, e.statusCode, e.body || e.message); }
   await doc.ref.update({ ping: false });
 }

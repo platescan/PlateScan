@@ -2,6 +2,25 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v18: Holiday bosses, live leaderboard and Fill your bars (Nov 23, 2026)
+- Monthly bosses are now themed on each month’s biggest holiday (Halloween, Thanksgiving, Christmas and more).
+- Monthly boss health is one big total. Beat it however you like; the daily reps are just a recommended pace. A pace bar shows if you’re ahead or behind.
+- Hearts: the boss only attacks overnight if you fall more than a full day behind pace, so big catch-up days count. Monthly bosses have more health: about 10, 20, 30 or 40 reps a day by difficulty.
+- The friends leaderboard now updates live, and you get a heads-up when a friend passes you.
+- Choose what friends can see (Locker → Profile): workouts, monthly boss, water, food as % of goals, weight progress and your goal. Tap a friend to see their progress.
+- New Fill your bars card on Today: food suggestions that fit what’s left of your calories and macros, a one-tap combo to finish the day, and ✨ AI meal ideas with your free key.
+- Party members on the monthly boss now show their total reps for the month.
+
+## v17: Side menu, Locker and reminders on the web (Nov 23, 2026)
+- New side menu: tap ☰ or swipe from the left edge. On computers and iPads it stays on the left and can be collapsed to icons. Scan stays in the middle at the bottom.
+- New Locker tab: hero, pet, profile, frames and themes in one place, with a card that shows how friends see you.
+- Reminders now work from the website: turn on notifications in your browser on a computer or Android, or add Calendar reminders (meals, workout, water, weigh-in) on any device, including iPhone Safari.
+- Reminders go to every device you turn them on for, not just the last one.
+- New fitness gear: race singlet, compression gear, martial arts gi, champion robe, coach whistle, gym towel, gold medal and a title belt.
+- New hero backgrounds: running track, lap pool, veggie garden, mountain trail, court, yoga sunrise, stadium lights and champion podium.
+- 12 new profile banners (Heartbeat, Hydrate, Fresh greens, Iron, Summit and more), 4 new avatar frames and 4 new app themes.
+- Some of the best items unlock with workouts, levels, streaks and boss wins, not just gold.
+
 ## v16: Monthly boss, heroes and pets (Nov 23, 2026)
 - Bosses now fight back on a timer, even while you rep. When it starts charging (the boss glows and a ⚡ bar appears), do 3 quick reps in 6 seconds, or hold your plank or wall sit, to block. Miss it and you take a hit. Easy every 60s, Normal 45s, Hard 35s, Legend 28s.
 - Fixed: your hero now fills its circle on wider screens (computers and iPads) instead of showing up small in the corner.

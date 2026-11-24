@@ -1,5 +1,5 @@
 // PlateScan service worker: offline caching, streak reminders, friend nudges and the app icon badge.
-const V = 'platescan-v16';
+const V = 'platescan-v18';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-180.png'];
 // Libraries and models with a version in their URL never change, so they're served from cache after the first download.
 const IMMUTABLE = [/^https:\/\/cdn\.jsdelivr\.net\/npm\/[^/]+@\d/, /^https:\/\/www\.gstatic\.com\/firebasejs\/\d/, /^https:\/\/storage\.googleapis\.com\/mediapipe-models\//, /^https:\/\/fonts\.(googleapis|gstatic)\.com\//];
