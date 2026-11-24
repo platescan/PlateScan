@@ -2,6 +2,14 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v21: Safety, weekly recap 2.0 and a faster app (Nov 23, 2026)
+- Block and report: from a friend’s profile, a group message (tap it) or a live workout. Blocked people can’t friend, nudge, duel, invite or cheer you, and their messages are hidden.
+- Download all your data or permanently delete your account in Settings → Account.
+- A plain-language privacy notice, and new accounts confirm they’re 13 or older.
+- Weekly recap 2.0: a shareable card with your hero and pet, reps, workout days, average meal grade, ▲▼ versus last week and your top wins.
+- Faster: smoother tab switching (up to 2x quicker on older phones), quicker number formatting, and the app now opens instantly from cache and updates in the background.
+- Starts faster on slow connections: the app’s Firebase files begin downloading right away instead of waiting.
+
 ## v20: Live workouts, health scores and smart reminders (Nov 23, 2026)
 - Live workouts: friends can watch your hero move as you work out (never your real camera) and send emoji cheers. Cheers give +5% damage for 10 seconds, up to +25%.
 - A “just went live” alert, a Watch button on Today and Friends, and a push notification for friends.

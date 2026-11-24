@@ -1,6 +1,6 @@
 # PlateScan setup
 
-Steps 1–3 are already done if your app and accounts work. For this update (v20: live workouts with emoji cheers, meal health scores, food pictures, smart reminders, special badges and developer tools), do **Upload the update** (including `reminders/send.mjs`), then **step 4: publish the new database rules (required for live workouts and special badges)**.
+Steps 1–3 are already done if your app and accounts work. For this update (v21: block and report, account deletion and data download, privacy notice and 13+ check, weekly recap 2.0, and a faster app), do **Upload the update** (including the new `sw.js`), then **step 4: publish the new database rules (required for blocking, reports and bans)**.
 
 **New icon:** iPhone keeps the old Home Screen icon until you remove PlateScan from your Home Screen (press and hold → Remove App → Delete from Home Screen) and add it again from Safari. Your data is safe because it's in your account.
 
@@ -123,7 +123,8 @@ service cloud.firestore {
         allow read: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members;
         allow create: if signedIn() && me() in get(/databases/$(database)/documents/groups/$(gid)).data.members
           && request.resource.data.uid == me()
-          && request.resource.data.t is string && request.resource.data.t.size() <= 500;
+          && request.resource.data.t is string && request.resource.data.t.size() <= 500
+          && !exists(/databases/$(database)/documents/bans/$(me()));
       }
     }
 
@@ -134,6 +135,7 @@ service cloud.firestore {
         && request.resource.data.sent == false
         && request.resource.data.hr == math.floor(request.time.toMillis() / 3600000)
         && nid == me() + '_' + request.resource.data.to + '_' + string(request.resource.data.hr)
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + me())) && !exists(/databases/$(database)/documents/bans/$(me()))
         && (exists(/databases/$(database)/documents/friendships/$(me() + '_' + request.resource.data.to))
             || exists(/databases/$(database)/documents/friendships/$(request.resource.data.to + '_' + me())));
       allow get: if signedIn() && (resource == null || resource.data.from == me() || resource.data.to == me());
@@ -170,6 +172,7 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.a == me()
         && request.resource.data.status == 'open'
         && request.resource.data.stake is int && request.resource.data.stake >= 10 && request.resource.data.stake <= 500
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.b + '_' + me()))
         && (exists(/databases/$(database)/documents/friendships/$(me() + '_' + request.resource.data.b))
             || exists(/databases/$(database)/documents/friendships/$(request.resource.data.b + '_' + me())));
       allow read: if signedIn() && (resource.data.a == me() || resource.data.b == me());
@@ -181,7 +184,8 @@ service cloud.firestore {
     // Friend requests (from "People you may know")
     match /friendReqs/{rid} {
       allow create: if signedIn() && request.resource.data.from == me()
-        && rid == me() + '_' + request.resource.data.to && request.resource.data.to != me();
+        && rid == me() + '_' + request.resource.data.to && request.resource.data.to != me()
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + me())) && !exists(/databases/$(database)/documents/bans/$(me()));
       allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
       allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
     }
@@ -205,18 +209,20 @@ service cloud.firestore {
     match /mpInv/{iid} {
       allow create: if signedIn() && request.resource.data.from == me()
         && iid == request.resource.data.pid + '_' + request.resource.data.to
+        && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + me()))
         && me() in get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.members;
       allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
       allow delete: if signedIn() && (resource.data.to == me() || resource.data.from == me());
     }
       // v20: live workouts (avatar motion only, never video)
     match /lives/{uid} {
-      allow read: if signedIn();
-      allow write: if signedIn() && me() == uid;
+      allow read: if signedIn() && !exists(/databases/$(database)/documents/blocks/$(uid + '_' + me()));
+      allow write: if signedIn() && me() == uid && !exists(/databases/$(database)/documents/bans/$(me()));
       match /cheers/{cid} {
         allow read: if signedIn();
         allow create: if signedIn() && request.resource.data.from == me()
-          && request.resource.data.e is string && request.resource.data.e.size() <= 8;
+          && request.resource.data.e is string && request.resource.data.e.size() <= 8
+          && !exists(/databases/$(database)/documents/blocks/$(uid + '_' + me())) && !exists(/databases/$(database)/documents/bans/$(me()));
         allow delete: if signedIn() && me() == uid;
       }
       match /viewers/{vid} {
@@ -232,6 +238,22 @@ service cloud.firestore {
     match /grants/{gid} {
       allow read: if signedIn() && (resource.data.uid == me() || exists(/databases/$(database)/documents/admins/$(me())));
       allow create, delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+      // v21: blocking, reports and bans
+    match /blocks/{bid} {
+      allow create: if signedIn() && request.resource.data.by == me() && bid == me() + '_' + request.resource.data.uid;
+      allow read, delete: if signedIn() && resource.data.by == me();
+    }
+    match /reports/{rid} {
+      allow create: if signedIn() && request.resource.data.by == me() && request.resource.data.status == 'new'
+        && request.resource.data.reason is string && request.resource.data.reason.size() <= 20
+        && request.resource.data.details is string && request.resource.data.details.size() <= 500
+        && request.resource.data.ctx is string && request.resource.data.ctx.size() <= 300;
+      allow read, update, delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+    match /bans/{uid} {
+      allow get: if signedIn() && (me() == uid || exists(/databases/$(database)/documents/admins/$(me())));
+      allow write: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
     }
   }
 }
@@ -322,6 +344,24 @@ Each friend's profile shows your mutual friends. **Friends → Friends → Peopl
 Quest → Bosses → **Monthly boss**. Each month's boss is themed on that month's biggest holiday (🎃 Halloween, 🦃 Thanksgiving, 🎄 Christmas, 💘 Valentine's Day and so on). Pick a difficulty: the boss gets one big **total** health pool for the rest of the month (about 10, 20, 30 or 40 reps a day's worth). Beat it however you like: a little every day or a few big sessions. **Recommended today** is only a guide and adjusts as you go; the pace bar shows if you're ahead or behind.
 **Hearts:** up to 5. The boss attacks overnight (-1 ❤) only if you fall more than a full day behind pace, and it hits you during fights if you stop repping or don't block a ⚡ charge attack. Get hearts back: 1 every 45 minutes, 1 per daily quest, or buy them in the Shop.
 **Parties:** tap **+ Invite friends**. Each friend adds 80% HP, everyone shares the pace, and rewards are +50% (gold, XP, an exclusive badge and an Elixir of Legends). Each member's total reps for the month are shown.
+
+## Safety: block, report and ban
+- **Block:** tap a friend → **🚫 Block**, or tap someone's group message → **Block**. They're removed from your friends and can't send you friend requests, nudges, duels, party invites or cheers, or watch you live. Their group messages are hidden for you. They aren't told. Unblock in Settings → Account.
+- **Report:** tap a friend → **🚩 Report**, tap a group message, or tap 🚩 while watching someone live. Pick a reason, add details, and optionally block them too.
+- **For you (admin):** reports show at the top of Settings → Help under **Reports**. Mark them Reviewing or Close. **Ban** stops someone from going live, cheering, chatting, nudging and sending friend requests (they can still log food). **Unban** undoes it. Bans are enforced by the database rules, so they can't be bypassed.
+
+## Your data, privacy and age
+- **Settings → Account → Download my data** saves everything as a file.
+- **Delete my account** permanently removes the account, meals, weight log, progress, pets, friendships and public card (asks for the password and the word DELETE).
+- **Privacy notice** (Settings → Help or Account) explains in plain words what's stored, what stays on the phone, and that there are no ads and no data selling.
+- New accounts must tick **I'm 13 or older and agree to the privacy notice**.
+
+## Weekly recap
+From Sunday to Tuesday, Today shows **Your week in review** (also any time from Progress → See your weekly recap). It's a shareable image card with your hero and pet, days logged, average calories and protein, reps and workout days, average meal grade, weight change, streak and XP, with ▲▼ compared to last week and your top 3 wins. Tap **Share** to send it or save it.
+
+## Speed
+- The app now opens **instantly from your phone's cache** and quietly downloads updates in the background. When a new version is ready you'll see "A new version of PlateScan is ready" with a **Refresh** button.
+- Tab switching is smoother (no more repeated layout work while drawing screens), and the database files start downloading the moment the app opens.
 
 ## Live workouts (avatar cam) and cheers
 When you start a fight or workout, friends can watch **live**. They see your hero moving along with your body (from the rep tracker), your rep count and the boss's health, never your real camera. They tap emojis (🔥 💪 👏 😤 🏆 🚀) that fly up on your screen. Each cheer gives **+5% damage for 10 seconds** (up to +25%). Friends get a "just went live" alert in the app, a **Watch** button on Today and Friends, and a push notification (sent by the reminder job, so it can arrive a few minutes late). Turn it off with **Let friends watch live** on the workout setup screen. Needs the v20 rules.

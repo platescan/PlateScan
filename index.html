@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="ps-version" content="21">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js" crossorigin>
+<link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -933,6 +939,18 @@ body.sbx header{margin-top:30px}
 .hWhy .tx{flex:1;min-width:0}
 .cbPick:not(.sty) button{background:var(--sunk)!important}.cbPick.sty button{background:var(--g)!important;opacity:1!important}
 .fCode b{font-size:17px;letter-spacing:.03em}
+#rDet{width:100%}
+.rCtx{background:var(--sunk);border-radius:12px;padding:8px 10px;font-size:13px;margin:8px 0;max-height:120px;overflow:auto;white-space:pre-wrap}
+.rReasons{display:flex;flex-wrap:wrap;gap:6px}
+.chip.danger,.ghost.danger{color:#e5432d!important}
+.priv h3{margin:14px 0 4px;font-size:16px}.priv ul{margin:4px 0;padding-left:18px;font-size:14px;display:block}.priv li{margin:4px 0}
+.shake{animation:shake .4s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fSafe{display:flex;gap:8px;justify-content:center;margin:4px 0 10px}
+.fSafe button{min-height:0;padding:6px 12px;font-size:13px;background:transparent!important;color:var(--mute)!important}
+.rcImg{width:100%;display:block;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.rc:has(.rcImg),.rc:has(.rcLoad){background:none!important;padding:0!important;box-shadow:none!important}
+.rcLoad{padding:60px 0;text-align:center;color:var(--mute);font-weight:700}
+.col{display:flex;flex-direction:column}
 </style>
 </head>
 <body>
@@ -1245,7 +1263,7 @@ body.sbx header{margin-top:30px}
       <div class="card" id="adminBox" style="display:none"><div class="row between"><h3 style="margin:0">Suggestions inbox</h3><span class="pill" id="inboxN"></span></div><p class="muted sm" style="margin:4px 0 8px">Only you can see this. Mark ideas as planned or done and the sender sees the status.</p><div id="inbox"></div>
         <div class="row between" style="margin-top:14px"><h3 style="margin:0">Owner dashboard</h3><button class="small ghost" id="dashBtn">Load stats</button></div><div id="dash"></div></div>
       <div class="card" id="installBox"></div>
-      <div class="row" style="flex-wrap:wrap;margin-bottom:10px"><button class="ghost small" id="newsBtn">What’s new</button><button class="ghost small" data-changelog>Patch notes</button><button class="ghost small" data-guide>Guide</button><button class="ghost small" id="replayTour">Replay the app tour</button></div>
+      <div class="row" style="flex-wrap:wrap;margin-bottom:10px"><button class="ghost small" id="newsBtn">What’s new</button><button class="ghost small" data-changelog>Patch notes</button><button class="ghost small" data-guide>Guide</button><button class="ghost small" data-privacy>Privacy</button><button class="ghost small" id="replayTour">Replay the app tour</button></div>
       <p class="muted sm" id="uidLine"></p>
     </div>
 
@@ -1634,7 +1652,7 @@ const FOODS = [
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ymd=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
-const r0=n=>Math.round(n),fmt=n=>r0(n).toLocaleString();
+const r0=n=>Math.round(n),fmt=(()=>{const NF=new Intl.NumberFormat();return n=>NF.format(r0(n))})();
 const dayOffset=(n)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-n);return d};
 const SBX=(()=>{try{return sessionStorage.getItem('platescan.sbx')==='1'}catch(e){return false}})(),SK=k=>SBX?'sbx.'+k:k;
 const lsGet=k=>{try{return localStorage.getItem(SK(k))}catch(e){return null}};
@@ -1767,8 +1785,11 @@ const NAVI={today:0,log:1,stats:1,body:1,plan:1,level:3,friends:4,locker:5,pets:
 function moveInd(){$('navInd').style.transform=`translateX(${(NAVI[view]||0)*100}%)`}
 function go(v){if(v!==view)sfx('tap');const back=(NAVI[v]??0)<(NAVI[view]??0)||(v in PORD&&view in PORD&&PORD[v]<PORD[view]);view=v;animNext=true;document.querySelectorAll('main section').forEach(s=>{s.classList.remove('on','from-l');if(s.id==='v-'+v){void s.offsetWidth;s.classList.add('on');if(back)s.classList.add('from-l')}});moveInd();document.querySelectorAll('nav button[data-go]').forEach(b=>b.classList.toggle('on',NAVI[b.dataset.go]===NAVI[v]));window.scrollTo(0,scrollMem[v]||0);render()}
 function openSheet(id){$(id).classList.add('on');document.body.classList.add('lock');requestAnimationFrame(segAll)}
-function segInd(seg){let si=seg.querySelector(':scope>.si');if(!si){si=document.createElement('span');si.className='si';seg.prepend(si)}const b=seg.querySelector('button.on');if(!b||!b.offsetWidth){si.style.opacity=0;return}si.style.opacity=1;si.style.width=b.offsetWidth+'px';si.style.transform=`translateX(${b.offsetLeft}px)`}
-function segAll(){document.querySelectorAll('.seg').forEach(segInd)}
+function segInd(seg){segMeasure([seg])}
+function segHidden(seg){return !!seg.closest('main section:not(.on), .sheet:not(.on), [hidden]')||seg.closest('[style*="display:none"],[style*="display: none"]')}
+function segMeasure(list){const work=[];for(const seg of list){if(!seg.isConnected)continue;let si=seg.querySelector(':scope>.si');if(!si){si=document.createElement('span');si.className='si';seg.prepend(si)}work.push([seg,si,seg.querySelector('button.on')])}
+  const m=work.map(([seg,si,b])=>b?[b.offsetWidth,b.offsetLeft]:null);work.forEach(([seg,si,b],i)=>{const v=m[i];if(!v||!v[0]){si.style.opacity=0;return}si.style.opacity=1;si.style.width=v[0]+'px';si.style.transform=`translateX(${v[1]}px)`})}
+let segRAF=0;function segAll(){if(segRAF)return;segRAF=requestAnimationFrame(()=>{segRAF=0;segMeasure([...document.querySelectorAll('.seg')].filter(x=>!segHidden(x)))})}
 new ResizeObserver(segAll).observe(document.body);
 function closeSheet(id){$(id).classList.remove('on');if(!document.querySelector('.sheet.on'))document.body.classList.remove('lock')}
 document.addEventListener('click',e=>{
@@ -1835,8 +1856,9 @@ $('riskBtn').onclick=()=>openScan();
 let popDrop=-1;
 $('water').addEventListener('click',e=>{const b=e.target.closest('[data-w]');if(!b)return;const k=ymd(Date.now()),i=+b.dataset.w;S.water=S.water||{};const cur=S.water[k]||0;S.water[k]=i+1===cur?i:i+1;popDrop=i;store.saveMeta();render();sfx('water');burstAt($('water').children[i],{n:14,speed:3,colors:['#3aa0e8','#7fc8f5','#bfe6ff'],shape:'circle',g:.22})});
 $('dtype').onclick=()=>{const k=ymd(Date.now()),kind=dayKind(k);S.dayType=S.dayType||{};S.dayType[k]=kind==='train'?'rest':'train';store.saveMeta();render();const tt=dayT(calc(),k);toast(`Today is a ${S.dayType[k]==='train'?'training':'rest'} day${tt?': '+fmt(tt.kcal)+' kcal':''}`)};
-function setBar(el,pct){const prev=el._p;el._p=pct;if(prev!=null&&pct>prev+.5&&!animNext&&lsGet('platescan.fx')!=='0'){el.classList.remove('shine');void el.offsetWidth;el.classList.add('shine')}if(animNext){el.style.transition='none';el.style.width='0';void el.offsetWidth;el.style.transition=''}requestAnimationFrame(()=>{el.style.width=pct+'%'})}
-function stag(el){if(!animNext)return;el.classList.remove('stagger');void el.offsetWidth;[...el.children].forEach((c,i)=>c.style.setProperty('--i',i));el.classList.add('stagger')}
+let fxBar=null;function setBar(el,pct){const prev=el._p;el._p=pct;if(fxBar===null)fxBar=lsGet('platescan.fx')!=='0';if(prev!=null&&pct>prev+.5&&!animNext&&fxBar){el.classList.remove('shine');requestAnimationFrame(()=>el.classList.add('shine'))}
+  if(animNext){el.style.transition='none';el.style.width='0';requestAnimationFrame(()=>requestAnimationFrame(()=>{el.style.transition='';el.style.width=pct+'%'}))}else if(el.style.width!==pct+'%')requestAnimationFrame(()=>{el.style.width=pct+'%'})}
+function stag(el){if(!animNext)return;el.classList.remove('stagger');[...el.children].forEach((c,i)=>c.style.setProperty('--i',i));requestAnimationFrame(()=>el.classList.add('stagger'))}
 function countTo(el,to,fromZero){const from=fromZero?0:(el._v??0);el._v=to;if(matchMedia('(prefers-reduced-motion: reduce)').matches||from===to){el.textContent=fmt(to);return}const t0=performance.now(),D=900;cancelAnimationFrame(el._raf);const step=t=>{const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)el._raf=requestAnimationFrame(step)};el._raf=requestAnimationFrame(step)}
 function deleteMeal(id){sfx('swoosh');const i=S.meals.findIndex(m=>m.id===id);if(i<0)return;const [m]=S.meals.splice(i,1);store.delMeal(id);render();toast('Meal deleted',()=>{S.meals.push(m);store.putMeal(m);render()})}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(b)deleteMeal(b.dataset.del)});
@@ -2719,7 +2741,7 @@ $('chClear').onclick=()=>{chat=[];saveChat();toast('Chat cleared');closeSheet('c
 // sound & effects switches
 function renderFxSwitches(){$('sndOn').checked=sndOn();$('fxOn').checked=lsGet('platescan.fx')!=='0'}
 $('sndOn').addEventListener('change',e=>{lsSet('platescan.sound',e.target.checked?'1':'0');if(e.target.checked){ac();sfx('quest')}});
-$('fxOn').addEventListener('change',e=>{lsSet('platescan.fx',e.target.checked?'1':'0');if(e.target.checked)burstAt(e.target.closest('.switch'),{n:20,speed:4})});
+$('fxOn').addEventListener('change',e=>{lsSet('platescan.fx',e.target.checked?'1':'0');fxBar=e.target.checked;if(e.target.checked)burstAt(e.target.closest('.switch'),{n:20,speed:4})});
 
 /*REPS_START*/
 // Rep counter: turns pose landmarks (MediaPipe, 33 points, x/y normalized 0-1) into verified reps.
@@ -3206,6 +3228,7 @@ function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey
    ${p.tag||isAdmin?`<div class="card fCode"><div class="row between" style="gap:8px"><div><span class="muted sm">Friend code</span><div><b>${esc(p.tag||'Not set yet')}</b></div></div><div class="row" style="gap:6px">${p.tag?`<button class="chip" data-fcopy="${esc(p.tag)}">Copy</button>`:''}${isAdmin?`<button class="small red" data-fbadge="${esc(p.tag||uid)}">🏅 Give badge</button>`:''}</div></div></div>`:''}
    ${sharedHTML(p)}
    ${p.cb&&p.cb.length?`<div class="card"><h3>Special badges</h3>${cbRow(p.cb)}</div>`:''}
+   <div class="fSafe"><button data-report="${uid}" data-rname="${esc(p.name||'')}" data-rctx="Profile">🚩 Report</button><button data-block="${uid}" data-bname="${esc(p.name||'')}">🚫 Block</button></div>
    <div class="g3 btInfo"><div><b>📅 ${p.streak||0}</b><span>logging streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
    <div class="card"><div class="row between"><h3 style="margin:0">This week</h3><b>${p.wk===wk?p.wp||0:0} pts</b></div><div class="chDays">${wd.map((v,i)=>`<div class="cd"><i style="--h:${(v/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('')}</div><p class="muted sm" style="margin:6px 0 0">${esc(ago(p.last))} · boss stage ${(p.stage||0)+1}</p></div>
    ${p.ex&&Object.keys(p.ex).length?`<div class="card"><h3>Workout stats</h3><div class="exStats">${Object.entries(EXB).filter(([k])=>p.ex[k]).map(([k,e])=>`<div>${badgeSVG(k,exTier(k,p.ex[k]))}<b>${fmtEx(k,p.ex[k])}</b><span class="muted sm">${e.n}</span></div>`).join('')}</div></div>`:''}
@@ -3260,7 +3283,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='20';
+const APP_VERSION='21';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3290,9 +3313,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('nav button[data-
 addEventListener('scroll',()=>{scrollMem[view]=scrollY},{passive:true});
 // offline + new-version banners
 function netBanner(){$('netBar').classList.toggle('on',!navigator.onLine)}addEventListener('online',()=>{netBanner();toast('Back online. Syncing…')});addEventListener('offline',netBanner);netBanner();
-async function checkUpdate(){if(!navigator.onLine||location.protocol==='file:')return;try{const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/const APP_VERSION='([^']+)'/);if(m&&m[1]!==APP_VERSION)$('updBar').classList.add('on')}catch(e){}}
+async function checkUpdate(){if(!navigator.onLine||location.protocol==='file:')return;try{const r=await fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'});const t=await r.text();const m=t.match(/name="ps-version" content="([^"]+)"/)||t.match(/const APP_VERSION='([^']+)'/);if(m&&m[1]!==APP_VERSION)$('updBar').classList.add('on')}catch(e){}}
 setInterval(checkUpdate,10*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkUpdate()});
-$('updBtn').onclick=async()=>{try{const rs=await navigator.serviceWorker?.getRegistrations?.();for(const r of rs||[])await r.update()}catch(e){}location.reload()};
+$('updBtn').onclick=async()=>{$('updBtn').disabled=true;$('updBtn').textContent='Updating…';try{const rs=await navigator.serviceWorker?.getRegistrations?.();for(const r of rs||[])await r.update();const c=navigator.serviceWorker&&navigator.serviceWorker.controller;if(c)await new Promise(res=>{const t=setTimeout(res,4000);navigator.serviceWorker.addEventListener('message',e=>{if(e.data==='refreshed'){clearTimeout(t);res()}},{once:true});c.postMessage('refresh')})}catch(e){}location.reload()};
 // what's new
 
 function showNews(){const c=CHANGELOG[0];$('newsList').innerHTML=`<p class="muted sm" style="text-align:center;margin:-6px 0 6px">Version ${esc(c.v)} · ${esc(c.d)} · ${esc(c.t)}</p>`+c.items.map((d,i)=>`<div class="news" style="--i:${i}"><span class="nb">${i+1}</span><div class="sm">${esc(d)}</div></div>`).join('');openSheet('newsSheet')}
@@ -3363,7 +3386,7 @@ function myBadges(){const all=Object.keys(EXB).map(k=>[k,exTier(k)]).filter(x=>x
 const badgeRow=(list,cls='')=>list&&list.length?`<span class="bRow ${cls}">${list.map(([k,t])=>badgeSVG(k,t)).join('')}</span>`:'';
 function checkBadges(){const key='platescan.bt.'+(user?user.uid:'guest');let st={};try{st=JSON.parse(lsGet(key)||'{}')}catch(e){}const first=!lsGet(key);
   for(const k in EXB){const t=exTier(k);if(t>(st[k]??-1)&&!first){enqueue({type:'ach',k:t>=5?'MYTHIC BADGE':'New badge',name:`${badgeTitle(k,t)} · ${fmtEx(k,EXB[k].th[t])} ${EXB[k].n.toLowerCase()}`});postEvent('badge:'+k+':'+t,`earned the ${badgeTitle(k,t)} badge (${fmtEx(k,EXB[k].th[t])} ${EXB[k].n.toLowerCase()})`)}st[k]=t}
-  lsSet(key,JSON.stringify(st))}
+  const js=JSON.stringify(st);if(js!==lsGet(key))lsSet(key,js)}
 function renderBadges(){const box=$('exBadges');if(!box)return;const sc=new Set((S.showcase||[]));
   box.innerHTML=Object.entries(EXB).map(([k,e])=>{const v=exTot(k),t=exTier(k,v),nx=e.th[t+1],pct=nx?Math.min(100,(v-(t>=0?e.th[t]:0))/(nx-(t>=0?e.th[t]:0))*100):100;
     return `<button class="exb${sc.has(k)?' show':''}${t<0?' locked':''}" data-showcase="${k}">${badgeSVG(k,t,t>=5?'glow':'')}<div class="exm"><b>${t>=0?esc(badgeTitle(k,t)):esc(e.n)}</b><span class="muted sm">${fmtEx(k,v)} ${e.u==='sec'?'held':e.u==='wins'?'wins':'reps'}${nx?` · next at ${fmtEx(k,nx)}`:' · maxed'}</span><div class="track"><i style="width:${pct}%;background:linear-gradient(90deg,${TIERS[BTIERS[Math.min(5,t+1)]][1]},${TIERS[BTIERS[Math.min(5,t+1)]][0]})"></i></div></div>${sc.has(k)?'<span class="pill">Shown</span>':''}</button>`}).join('')+
@@ -4574,7 +4597,7 @@ function BGX2(k,id){
 GUIDE.unshift(['Pets and eggs','Menu → Pets → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
 CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
 
-const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn'];
+const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn','blocks'];
 function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
 function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
 
@@ -4622,7 +4645,7 @@ function petStatus(){const ps=S.pet?petState():null,eg=S.eggs||{};return {pet:ps
 const LV={on:false,t0:0,buf:[],last:0,flushT:0,lastFlush:0,unsubs:[],viewers:{},seen:new Set(),boost:[],cheerN:0};
 const LIVE_PTS=[0,11,12,13,14,15,16,23,24,25,26,27,28];
 const CHEERS=['🔥','💪','👏','😤','🏆','🚀'];
-const liveOK=()=>mode==='cloud'&&user&&FB&&FB.fs&&S.liveOn!==false&&!SBX;
+const liveOK=()=>mode==='cloud'&&user&&FB&&FB.fs&&S.liveOn!==false&&!SBX&&!isBanned;
 const liveWatchers=()=>Object.values(LV.viewers).filter(v=>Date.now()-(v.ts||0)<45000).length;
 function liveDoc(){const b=BT&&BT.b;return {uid:user.uid,name:(S.name||'Friend').slice(0,30),on:LV.on,t0:LV.t0,ts:Date.now(),ex:BT?BT.ex:'',exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):'',boss:b&&!b.dummy?{n:b.n,hp:Math.max(0,Math.round(BT.hp||0)),max:Math.round(BT.max||1)}:null,reps:BT?BT.reps:0,mir:!!(BT&&BT.cam==='user'),fr:LV.buf.join(';'),cheers:LV.cheerN,av:S.av||null,build:myBuild()}}
 const liveProf=()=>LV.on?{on:true,t0:LV.t0,exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):''}:null;
@@ -4651,7 +4674,7 @@ document.addEventListener('change',e=>{if(e.target.id==='liveSw'){S.liveOn=e.tar
 const LW={uid:null,unsubs:[],q:[],raf:0,hb:0,doc:null,lastFr:'',img:null,imgKey:'',last:0,frame:null,seen:new Set(),lastCheer:0};
 const LSEG=[[1,2],[1,3],[3,5],[2,4],[4,6],[1,7],[2,8],[7,8],[7,9],[9,11],[8,10],[10,12]];
 function openWatch(uid){if(mode!=='cloud'||!FB||!user)return toast('Sign in to watch friends');closeWatch();LW.uid=uid;LW.q=[];LW.doc=null;LW.lastFr='';LW.frame=null;LW.seen=new Set();
-  let sh=$('watchSheet');if(!sh){document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="watchSheet" role="dialog" aria-label="Watching live"><div class="sh"><h2 id="wtTitle">Live</h2><button class="x" id="wtClose" aria-label="Close">×</button></div><div class="sb"><div class="wtStage"><canvas id="wtC" width="720" height="540"></canvas><div class="wtTop"><span class="livePill"><i></i>LIVE</span><span id="wtView"></span></div><div class="wtFly" id="wtFly"></div><div class="wtEnd" id="wtEnd"></div></div><div class="wtStats" id="wtStats"></div><div class="wtBar">${CHEERS.map(c=>`<button data-cheer="${c}" aria-label="Cheer ${c}">${c}</button>`).join('')}</div><p class="muted sm" style="text-align:center;margin:6px 0 0">Every cheer gives them +5% damage for 10 seconds (up to +25%).</p></div></div>`);sh=$('watchSheet')}
+  let sh=$('watchSheet');if(!sh){document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="watchSheet" role="dialog" aria-label="Watching live"><div class="sh"><h2 id="wtTitle">Live</h2><button class="x" id="wtRep" aria-label="Report" style="font-size:16px">🚩</button><button class="x" id="wtClose" aria-label="Close">×</button></div><div class="sb"><div class="wtStage"><canvas id="wtC" width="720" height="540"></canvas><div class="wtTop"><span class="livePill"><i></i>LIVE</span><span id="wtView"></span></div><div class="wtFly" id="wtFly"></div><div class="wtEnd" id="wtEnd"></div></div><div class="wtStats" id="wtStats"></div><div class="wtBar">${CHEERS.map(c=>`<button data-cheer="${c}" aria-label="Cheer ${c}">${c}</button>`).join('')}</div><p class="muted sm" style="text-align:center;margin:6px 0 0">Every cheer gives them +5% damage for 10 seconds (up to +25%).</p></div></div>`);sh=$('watchSheet')}
   $('wtTitle').textContent='Connecting…';$('wtEnd').textContent='';openSheet('watchSheet');const fs=FB.fs;
   fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{});
   LW.hb=setInterval(()=>fs.setDoc(fs.doc(FB.db,'lives',uid,'viewers',user.uid),{name:(S.name||'Friend').slice(0,30),ts:Date.now()}).catch(()=>{}),20000);
@@ -4679,6 +4702,7 @@ function drawWatch(){const cv=$('wtC');if(!cv)return;const c=cv.getContext('2d')
 function flyW(e,name){const f=$('wtFly');if(!f)return;const d=document.createElement('div');d.className='cheerFly';d.style.left=(8+Math.random()*75)+'%';d.innerHTML=`<span>${esc(e||'🔥')}</span>${name?`<small>${esc(String(name).split(' ')[0])}</small>`:''}`;f.appendChild(d);setTimeout(()=>d.remove(),2600)}
 document.addEventListener('click',e=>{const t=e.target;
   if(t.closest('#wtClose')){closeWatch();return}
+  if(t.closest('#wtRep')&&LW.uid){openReport(LW.uid,LW.doc&&LW.doc.name,'Live workout');return}
   const ch=t.closest('[data-cheer]');if(ch&&LW.uid){const now=Date.now();if(now-LW.lastCheer<1100)return;LW.lastCheer=now;if(liveStale(LW.doc))return toast('Their workout already ended');
     FB.fs.addDoc(FB.fs.collection(FB.db,'lives',LW.uid,'cheers'),{e:ch.dataset.cheer,from:user.uid,name:(S.name||'Friend').slice(0,30),ts:now}).catch(er=>toast('Couldn’t send: '+(er.code||'error')));flyW(ch.dataset.cheer,'You');sfx('pop');ch.classList.remove('pop');void ch.offsetWidth;ch.classList.add('pop');return}
   const w=t.closest('[data-watch]');if(w){e.preventDefault();document.querySelectorAll('.sheet.on').forEach(x=>{if(x.id!=='watchSheet')closeSheet(x.id)});openWatch(w.dataset.watch);return}
@@ -4845,6 +4869,155 @@ document.addEventListener('click',async e=>{const t=e.target;
   const c=t.closest('[data-fcopy]');if(c){try{await navigator.clipboard.writeText(c.dataset.fcopy);toast('Friend code copied')}catch(er){prompt('Friend code:',c.dataset.fcopy)}return}
   const b=t.closest('[data-fbadge]');if(b&&isAdmin){const code=b.dataset.fbadge;document.querySelectorAll('.sheet.on').forEach(x=>closeSheet(x.id));openSettings('help');
     setTimeout(()=>{if(!$('devTools'))renderDev();const to=$('cbTo');if(to){to.value=code;const n=$('cbN');(n||to).scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>(n&&!n.value?n:to).focus(),400)}},450)}});
+
+// ================= v21: trust & safety (block, report, ban, privacy, age check, data download, account deletion) =================
+const isBlocked=uid=>!!uid&&(S.blocks||[]).some(b=>b.uid===uid);
+const RREASONS=[['harass','Bullying or harassment'],['hate','Hate or offensive content'],['sexual','Sexual or inappropriate content'],['spam','Spam or scam'],['unsafe','Unsafe or harmful advice'],['minor','Seems to be under 13'],['other','Something else']];
+let isBanned=false;
+function miniSheet(id,html){let sh=$(id);if(!sh){document.body.insertAdjacentHTML('beforeend',`<div class="sheet" id="${id}" role="dialog" style="z-index:45"><div class="sb"></div></div>`);sh=$(id)}sh.querySelector('.sb').innerHTML=html;openSheet(id);return sh}
+async function blockUser(uid,name){if(!uid||uid===(user&&user.uid))return;name=name||'this person';
+  if(!confirm(`Block ${name}?\n\nThey’ll be removed from your friends, and they can’t send you friend requests, nudges, duels, party invites or cheers. Their group messages are hidden for you. They aren’t told.`))return;
+  S.blocks=[...(S.blocks||[]).filter(b=>b.uid!==uid),{uid,name:String(name).slice(0,30),ts:Date.now()}];store.saveMeta();
+  if(mode==='cloud'&&FB&&user){const fs=FB.fs,me=user.uid,fid=[me,uid].sort().join('_');
+    await fs.setDoc(fs.doc(FB.db,'blocks',me+'_'+uid),{by:me,uid,ts:Date.now()}).catch(e=>console.warn('block',e.code));
+    await fs.deleteDoc(fs.doc(FB.db,'friendships',fid)).catch(()=>{});
+    for(const r of [me+'_'+uid,uid+'_'+me])await fs.deleteDoc(fs.doc(FB.db,'friendReqs',r)).catch(()=>{})}
+  document.querySelectorAll('.sheet.on').forEach(x=>closeSheet(x.id));sfx('swoosh');toast(`${name} is blocked`);render()}
+async function unblockUser(uid){const b=(S.blocks||[]).find(x=>x.uid===uid);S.blocks=(S.blocks||[]).filter(x=>x.uid!==uid);store.saveMeta();
+  if(mode==='cloud'&&FB&&user)await FB.fs.deleteDoc(FB.fs.doc(FB.db,'blocks',user.uid+'_'+uid)).catch(()=>{});toast(`${b?b.name:'They'} unblocked`);renderAccount()}
+let rpt={uid:null,name:'',ctx:'',reason:''};
+function openReport(uid,name,ctx){if(mode!=='cloud'||!user)return toast('Sign in to report');rpt={uid,name:name||'Someone',ctx:(ctx||'').slice(0,300),reason:''};
+  miniSheet('reportSheet',`<div class="row between"><h2 style="margin:0">Report ${esc(rpt.name)}</h2><button class="x" data-close="reportSheet" aria-label="Close">×</button></div>
+   <p class="muted sm">Reports go to the PlateScan team. ${esc(rpt.name)} won’t know who reported them.</p>${rpt.ctx?`<div class="rCtx">${esc(rpt.ctx)}</div>`:''}
+   <div class="lbl">What’s wrong?</div><div class="rReasons">${RREASONS.map(([k,n])=>`<button class="chip" data-rreason="${k}">${n}</button>`).join('')}</div>
+   <label class="f" style="margin-top:10px"><span>Anything else? (optional)</span><textarea id="rDet" rows="3" maxlength="500"></textarea></label>
+   <label class="row sm" style="gap:8px;margin:6px 0 12px;font-weight:600"><input type="checkbox" id="rBlock" checked style="width:20px;min-height:20px;flex:none"> Also block ${esc(rpt.name)}</label>
+   <button class="wide red" id="rSend" disabled>Send report</button>
+   <p class="muted sm" style="margin-top:10px">If someone is in danger right now, contact local emergency services.</p>`)}
+async function sendReport(){if(!rpt.reason)return;const btn=$('rSend');btn.disabled=true;const det=$('rDet').value.trim().slice(0,500),blk=$('rBlock').checked;
+  try{await FB.fs.addDoc(FB.fs.collection(FB.db,'reports'),{by:user.uid,byName:(S.name||'').slice(0,30),uid:rpt.uid,name:rpt.name.slice(0,30),reason:rpt.reason,details:det,ctx:rpt.ctx,ts:Date.now(),status:'new'});
+    closeSheet('reportSheet');toast('Thanks. The team will review it.');sfx('send');if(blk){const u=rpt.uid,n=rpt.name;setTimeout(()=>blockUser(u,n),400)}}catch(e){btn.disabled=false;toast('Couldn’t send: '+(e.code||'error')+'. Did you publish the new rules?')}}
+function msgActions(uid,name,text){miniSheet('msgSheet',`<div class="row between"><h2 style="margin:0">${esc(name||'Message')}</h2><button class="x" data-close="msgSheet" aria-label="Close">×</button></div>
+  <div class="rCtx">${esc(text||'')}</div><div class="col" style="gap:8px;margin-top:10px"><button class="wide ghost" data-report="${uid}" data-rname="${esc(name||'')}" data-rctx="${esc('Group message: '+(text||''))}">🚩 Report message</button><button class="wide ghost" data-block="${uid}" data-bname="${esc(name||'')}">🚫 Block ${esc(name||'them')}</button></div>`)}
+// privacy notice
+const PRIVACY=`<h2 style="margin:0 0 6px">Privacy, in plain words</h2><p class="muted sm">Last updated November 2026</p>
+<h3>What PlateScan keeps</h3><ul><li><b>Your account:</b> name, email and password sign-in (handled by Google Firebase).</li><li><b>Your log:</b> meals, weight, water, workouts, goals, game progress and settings, stored in your private part of the database. Only you can read it.</li><li><b>Your public card:</b> name, level, streaks, weekly points, badges, hero, pet and anything you choose to share in Locker → Profile. Only signed-in people who have your link or code can see it, mainly your friends.</li></ul>
+<h3>What stays on your phone</h3><ul><li>Food photos are recognized <b>on your phone</b>. Photos aren’t uploaded unless you add your own AI key, then the photo is sent to Google Gemini only to estimate portions.</li><li>Progress photos never leave your phone.</li><li>The camera for workouts only tracks body points on your phone. Live workouts share those moving points, never video.</li></ul>
+<h3>What we never do</h3><ul><li>No ads, and we never sell your data.</li><li>Food, calories and weight stay private unless you turn on sharing.</li></ul>
+<h3>Your choices</h3><ul><li>Download your data or delete your account anytime in Settings → Account.</li><li>Block or report anyone from their profile, a group message or a live workout.</li><li>Turn off live sharing, reminders or sharing settings whenever you like.</li></ul>
+<h3>Age</h3><p class="sm">You need to be 13 or older to create an account.</p><h3>Questions</h3><p class="sm">Use the suggestions box in Settings → Help.</p>`;
+function openPrivacy(){miniSheet('privSheet',`<div class="row between" style="justify-content:flex-end"><button class="x" data-close="privSheet" aria-label="Close">×</button></div><div class="priv">${PRIVACY}</div>`)}
+// sign-up: 13+ and privacy
+{const f=$('aSubmit');if(f)f.insertAdjacentHTML('beforebegin','<label class="row sm" id="aAgeF" style="gap:8px;margin:2px 0 10px;font-weight:600;align-items:flex-start"><input type="checkbox" id="aAge" style="width:20px;min-height:20px;flex:none;margin-top:1px"><span>I’m 13 or older and agree to the <a href="#" data-privacy>privacy notice</a></span></label>')}
+{const _sa=showAuth;showAuth=function(m,b){_sa(m,b);const r=$('aAgeF');if(r)r.style.display=m==='signup'?'':'none'}}
+$('aForm').addEventListener('submit',e=>{if(authMode==='signup'&&!$('aAge').checked){e.stopImmediatePropagation();e.preventDefault();$('aErr').textContent='Please confirm you’re 13 or older to create an account.';$('aAgeF').classList.remove('shake');requestAnimationFrame(()=>$('aAgeF').classList.add('shake'))}},true);
+// account: data + delete + blocked list
+function acctExtraHTML(){const bl=S.blocks||[];return `<div class="card acctX"><h3 style="margin:0 0 6px">Your data and privacy</h3>
+  <div class="col" style="gap:8px"><button class="ghost small" id="dlData">⬇️ Download my data</button><button class="ghost small" data-privacy>🔒 Privacy notice</button>
+  ${bl.length?`<div class="lbl">Blocked (${bl.length})</div>${bl.map(b=>`<div class="row between sm"><span>${esc(b.name||'Someone')}</span><button class="chip" data-unblock="${b.uid}">Unblock</button></div>`).join('')}`:''}
+  ${mode==='cloud'&&user?`<button class="ghost small danger" id="delAcct">Delete my account</button>`:''}</div></div>`}
+{const _ra=renderAccount;renderAccount=function(){_ra();const box=$('acctBox');if(!box)return;let x=$('acctX');if(!x){box.insertAdjacentHTML('afterend','<div id="acctX"></div>');x=$('acctX')}x.innerHTML=acctExtraHTML()}}
+function downloadData(){const data={app:'PlateScan',version:APP_VERSION,exported:new Date().toISOString(),account:user?{uid:user.uid,email:user.email}:null,data:JSON.parse(JSON.stringify(S))};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`platescan-data-${ymd(Date.now())}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000);toast('Your data was downloaded')}
+function openDelete(){miniSheet('delSheet',`<div class="row between"><h2 style="margin:0">Delete account</h2><button class="x" data-close="delSheet" aria-label="Close">×</button></div>
+  <p class="sm">This permanently deletes your account, meals, weight log, game progress, pets, friends and public card. It can’t be undone.</p><p class="muted sm">Tip: download your data first.</p>
+  <label class="f"><span>Password</span><input id="delPw" type="password" autocomplete="current-password"></label><label class="f"><span>Type DELETE to confirm</span><input id="delCf" autocomplete="off" autocapitalize="characters"></label>
+  <div class="err" id="delErr"></div><button class="wide red" id="delGo">Delete everything</button>`)}
+async function deleteAccount(){const pw=$('delPw').value,cf=$('delCf').value.trim().toUpperCase(),err=$('delErr');if(cf!=='DELETE'){err.textContent='Type DELETE to confirm.';return}
+  const btn=$('delGo');btn.disabled=true;btn.textContent='Deleting…';const fs=FB.fs,me=user.uid,au=FB.au;
+  try{if(pw&&au.EmailAuthProvider&&au.reauthenticateWithCredential)await au.reauthenticateWithCredential(FB.auth.currentUser,au.EmailAuthProvider.credential(user.email,pw))}catch(e){btn.disabled=false;btn.textContent='Delete everything';err.textContent=e.code==='auth/wrong-password'||e.code==='auth/invalid-credential'?'That password isn’t right.':'Couldn’t confirm your password ('+(e.code||'error')+').';return}
+  const del=r=>fs.deleteDoc(r).catch(()=>{});
+  try{const ms=await fs.getDocs(fs.collection(FB.db,'users',me,'meals'));await Promise.all(ms.docs.map(d=>del(fs.doc(FB.db,'users',me,'meals',d.id))));
+    const fr=await fs.getDocs(fs.query(fs.collection(FB.db,'friendships'),fs.where('members','array-contains',me))).catch(()=>({docs:[]}));await Promise.all(fr.docs.map(d=>del(fs.doc(FB.db,'friendships',d.id))));
+    for(const g of SOC.groups||[])await fs.updateDoc(fs.doc(FB.db,'groups',g.id),{members:fs.arrayRemove(me)}).catch(()=>{});
+    const ev=await fs.getDocs(fs.collection(FB.db,'profiles',me,'events')).catch(()=>({docs:[]}));await Promise.all(ev.docs.map(d=>del(fs.doc(FB.db,'profiles',me,'events',d.id))));
+    await del(fs.doc(FB.db,'profiles',me));await del(fs.doc(FB.db,'lives',me));if(S.widgetToken)await del(fs.doc(FB.db,'widgets',S.widgetToken));if(S.tag)await del(fs.doc(FB.db,'tags',S.tag));
+    await del(fs.doc(FB.db,'users',me));
+    try{socStop()}catch(e){}await FB.auth.currentUser.delete()}
+  catch(e){btn.disabled=false;btn.textContent='Delete everything';err.textContent=e.code==='auth/requires-recent-login'?'For safety, enter your password and try again.':'Something went wrong ('+(e.code||e.message)+'). Some data may already be deleted. Try again.';return}
+  try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&k.startsWith('platescan.'))localStorage.removeItem(k)}indexedDB.deleteDatabase('platescan-photos')}catch(e){}
+  closeSheet('delSheet');closeSheet('setSheet');toast('Your account was deleted. Take care!');setTimeout(()=>location.reload(),1600)}
+// moderation (admins): reports + bans
+let reportsUnsub=null,REPORTS=[];
+function reportsStart(){if(reportsUnsub){reportsUnsub();reportsUnsub=null}if(!isAdmin||!FB)return;reportsUnsub=FB.fs.onSnapshot(FB.fs.query(FB.fs.collection(FB.db,'reports')),q=>{REPORTS=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts);renderReports()},()=>{})}
+function renderReports(){const box=$('adminBox');if(!box||!isAdmin)return;let r=$('modBox');if(!r){box.insertAdjacentHTML('afterbegin','<div id="modBox"></div>');r=$('modBox')}const open=REPORTS.filter(x=>x.status!=='closed');
+  r.innerHTML=`<div class="row between"><h3 style="margin:0">Reports</h3><span class="pill">${open.length?open.length+' open':'none open'}</span></div><p class="muted sm" style="margin:4px 0 8px">People flagged by users. Ban stops them from going live, cheering, chatting, nudging and sending friend requests.</p>
+   ${REPORTS.slice(0,15).map(x=>`<div class="sg${x.status==='new'?' unread':''}"><div class="row between"><span class="stag ${x.status==='closed'?'done':x.status==='new'?'new':'planned'}">${esc((RREASONS.find(r=>r[0]===x.reason)||[0,'Report'])[1])}</span><span class="muted sm">${new Date(x.ts).toLocaleDateString(undefined,{month:'short',day:'numeric'})}</span></div>
+    <div class="sm" style="margin:4px 0"><b>${esc(x.name||'Someone')}</b> reported by ${esc(x.byName||'a user')}</div>${x.ctx?`<div class="rCtx">${esc(x.ctx)}</div>`:''}${x.details?`<div class="sm">${esc(x.details)}</div>`:''}
+    <div class="row" style="gap:6px;flex-wrap:wrap;margin-top:6px"><button class="chip" data-rst="reviewing" data-rid="${x.id}">Reviewing</button><button class="chip" data-rst="closed" data-rid="${x.id}">Close</button><button class="chip danger" data-ban="${x.uid}" data-bname="${esc(x.name||'')}">Ban</button><button class="chip" data-unban="${x.uid}">Unban</button></div></div>`).join('')||'<div class="empty sm">No reports. 🎉</div>'}`}
+async function banUser(uid,name){if(!confirm(`Ban ${name||'this user'}? They can still log food, but can’t go live, cheer, chat, nudge or send friend requests.`))return;try{await FB.fs.setDoc(FB.fs.doc(FB.db,'bans',uid),{by:user.uid,name:name||'',ts:Date.now()});toast('Banned')}catch(e){toast('Couldn’t ban: '+(e.code||'error'))}}
+async function checkBan(){if(mode!=='cloud'||!FB||!user)return;try{const b=await FB.fs.getDoc(FB.fs.doc(FB.db,'bans',user.uid));isBanned=b.exists();if(isBanned)S.liveOn=false}catch(e){}}
+{const _ss=suggStart;suggStart=async function(){await _ss();reportsStart();checkBan();if(isAdmin)renderReports()}}
+// filtering blocked people
+{const _ii=inboxItems;inboxItems=function(){return _ii().filter(x=>!isBlocked(x.r&&x.r.from||x.d&&x.d.a||x.i&&x.i.from||x.n&&(x.n.from||x.n.uid)))}}
+{const _r2=renderChat2;renderChat2=function(p){if(!(S.blocks||[]).length)return _r2(p);const keep=gMsgs;gMsgs=keep.filter(m=>!isBlocked(m.uid));try{_r2(p)}finally{gMsgs=keep}}}
+{const _ci=cheerIn;cheerIn=function(c){if(isBlocked(c.from))return;_ci(c)}}
+{const _lf=liveFriends;liveFriends=function(){return _lf().filter(([u])=>!isBlocked(u))}}
+// events
+document.addEventListener('click',e=>{const t=e.target;
+  if(t.closest('[data-privacy]')){e.preventDefault();openPrivacy();return}
+  const rp=t.closest('[data-report]');if(rp){e.preventDefault();openReport(rp.dataset.report,rp.dataset.rname,rp.dataset.rctx);return}
+  const bk=t.closest('[data-block]');if(bk){e.preventDefault();blockUser(bk.dataset.block,bk.dataset.bname);return}
+  const ub=t.closest('[data-unblock]');if(ub){unblockUser(ub.dataset.unblock);return}
+  const rr=t.closest('[data-rreason]');if(rr){rpt.reason=rr.dataset.rreason;document.querySelectorAll('[data-rreason]').forEach(b=>b.classList.toggle('on',b===rr));$('rSend').disabled=false;return}
+  if(t.closest('#rSend')){sendReport();return}
+  if(t.closest('#dlData')){downloadData();return}
+  if(t.closest('#delAcct')){openDelete();return}
+  if(t.closest('#delGo')){deleteAccount();return}
+  const gm=t.closest('.gm:not(.me) .bub');if(gm){const row=gm.closest('.gm'),i=[...$('gChat').children].indexOf(row);const vis=gMsgs.filter(m=>!isBlocked(m.uid)),m=vis[i]||{};if(m.uid&&m.uid!==user.uid){const p=SOC.profiles[m.uid]||{};msgActions(m.uid,m.name||p.name,m.t)}return}
+  const rs=t.closest('[data-rst]');if(rs&&isAdmin){FB.fs.updateDoc(FB.fs.doc(FB.db,'reports',rs.dataset.rid),{status:rs.dataset.rst}).catch(er=>toast(er.code||'error'));return}
+  const bn=t.closest('[data-ban]');if(bn&&isAdmin){banUser(bn.dataset.ban,bn.dataset.bname);return}
+  const un=t.closest('[data-unban]');if(un&&isAdmin){FB.fs.deleteDoc(FB.fs.doc(FB.db,'bans',un.dataset.unban)).then(()=>toast('Unbanned')).catch(er=>toast(er.code||'error'));return}});
+
+// ================= v21: weekly recap card 2.0 =================
+function weekKeys(off=0){const {start,end}=weekRange(),s=new Date(start),e=new Date(end);s.setDate(s.getDate()-7*off);e.setDate(e.getDate()-7*off);const keys=[];for(const d=new Date(s);d<=e;d.setDate(d.getDate()+1))keys.push(ymd(d));return {keys,start:s,end:e}}
+const GPTS={A:4,B:3,C:2,D:1,F:0};
+function weekStats(g,off){const {keys,start,end}=weekKeys(off),days=byDay(),logged=keys.filter(k=>days[k]&&days[k].n),n=logged.length||1,avg=f=>logged.reduce((a,k)=>a+days[k][f],0)/n,reps=S.reps||{};
+  const repDays=keys.map(k=>[k,reps[k]||0]),totReps=repDays.reduce((a,x)=>a+x[1],0),woDays=repDays.filter(x=>x[1]>=WO_MIN).length;
+  let gp=0,gn=0;const cnt={};for(const k of logged)for(const m of days[k].meals){const gr=mealGrade(m);if(gr){gp+=GPTS[gr];gn++}for(const i of m.items)cnt[i.n]=(cnt[i.n]||0)+1}
+  const avgG=gn?['F','D','C','B','A'][Math.round(gp/gn)]:null,top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0];
+  const onT=g.t?logged.filter(k=>{const tt=dayT(g.t,k);return Math.abs(days[k].k-tt.kcal)<=tt.kcal*0.1}).length:0;
+  const proHit=g.t?logged.filter(k=>days[k].p>=dayT(g.t,k).pro*.9).length:0;
+  const ws=(S.weights||[]).filter(w=>keys.includes(w.d)).sort((a,b)=>a.d<b.d?-1:1);
+  const bestP=logged.slice().sort((a,b)=>days[b].p-days[a].p)[0],bestR=repDays.slice().sort((a,b)=>b[1]-a[1])[0];
+  const water=keys.reduce((a,k)=>a+(((S.water||{})[k]||0)>=(g.wg||8)?1:0),0);
+  return {keys,start,end,range:`${fmtD(start)} – ${fmtD(end)}`,logged:logged.length,avgK:logged.length?avg('k'):0,avgP:logged.length?avg('p'):0,goal:g.t&&g.t.kcal,pro:g.t&&g.t.pro,onT,proHit,reps:totReps,woDays,avgG,
+    xp:keys.reduce((a,k)=>a+(g.dayXp[k]||0),0),wch:ws.length>=2?ws.at(-1).lb-ws[0].lb:null,top:top&&top[0],streak:g.curStreak,name:first(),water,
+    bestP:bestP?{d:bestP,p:days[bestP].p}:null,bestR:bestR&&bestR[1]?{d:bestR[0],n:bestR[1]}:null}}
+recapData=function(g){const r=weekStats(g,0),p=weekStats(g,1);r.prev=p;return r};
+const dayName=k=>new Date(k+'T12:00').toLocaleDateString(undefined,{weekday:'long'});
+const trend=(a,b,inv)=>b==null||a===b?'':((a>b)!==!!inv?'▲':'▼');
+recapTiles=function(r){const p=r.prev||{};return [[`${r.logged}/7`,'days logged',trend(r.logged,p.logged)],[r.logged?fmt(r.avgK):'—',r.goal?`avg kcal · goal ${fmt(r.goal)}`:'avg kcal',''],[r.logged?Math.round(r.avgP)+'g':'—',r.pro?`avg protein · goal ${Math.round(r.pro)}g`:'avg protein',trend(Math.round(r.avgP),Math.round(p.avgP||0))],[fmt(r.reps),`reps · ${r.woDays} workout day${r.woDays===1?'':'s'}`,trend(r.reps,p.reps)],
+  [r.avgG||'—','average meal grade',''],[r.wch==null?'—':`${r.wch>=0?'+':'−'}${Math.abs(r.wch).toFixed(1)} lb`,'weight change',''],[`${r.streak} day${r.streak===1?'':'s'}`,'current streak',''],[`+${fmt(r.xp)}`,'XP earned',trend(r.xp,p.xp)]]};
+function recapWins(r){const w=[];if(r.bestR)w.push(['💪',`Most reps: ${fmt(r.bestR.n)} on ${dayName(r.bestR.d)}`]);if(r.bestP)w.push(['🥩',`Best protein: ${Math.round(r.bestP.p)}g on ${dayName(r.bestP.d)}`]);
+  if(r.onT)w.push(['🎯',`On calorie target ${r.onT} day${r.onT===1?'':'s'}`]);if(r.water)w.push(['💧',`Hit your water goal ${r.water} day${r.water===1?'':'s'}`]);if(r.top)w.push(['⭐',`Most logged: ${r.top}`]);
+  const p=r.prev||{};if(p.logged!=null&&r.logged>p.logged)w.unshift(['📈',`Logged ${r.logged-p.logged} more day${r.logged-p.logged===1?'':'s'} than last week`]);return w.slice(0,3)}
+function recapHeadline(r){if(r.logged>=7)return ['Perfect week','7/7 days logged'];if(r.reps>=200)return [fmt(r.reps)+' reps','crushed it this week'];if(r.avgG==='A')return ['Grade A eating','your meals averaged an A'];if(r.logged>=5)return ['Strong week',`${r.logged}/7 days logged`];if(r.logged)return ['Nice work','every logged day counts'];return ['Fresh start','a new week is ready for you']}
+function svgImg(svg){return new Promise(res=>{try{let s=svg.replace(/url\(#hgGold\)/g,'#f2c230');if(!/xmlns=/.test(s.slice(0,200)))s=s.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');const im=new Image();im.onload=()=>res(im);im.onerror=()=>res(null);im.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s)}catch(e){res(null)}})}
+recapImage=async function(r){const c=document.createElement('canvas');c.width=1080;c.height=1350;const x=c.getContext('2d'),F='Figtree, system-ui, -apple-system, sans-serif';
+  let gr=x.createLinearGradient(0,0,1080,1350);gr.addColorStop(0,'#123526');gr.addColorStop(.55,'#1d4a37');gr.addColorStop(1,'#2c6d4d');x.fillStyle=gr;x.fillRect(0,0,1080,1350);
+  gr=x.createRadialGradient(960,40,0,960,40,640);gr.addColorStop(0,'rgba(242,194,48,.45)');gr.addColorStop(1,'rgba(242,194,48,0)');x.fillStyle=gr;x.fillRect(0,0,1080,1350);
+  const rr=(X,Y,W,H,R)=>{x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H)};
+  const hero=await svgImg(heroSVG(S.av||{},myBuild()));if(hero){x.save();x.beginPath();x.arc(150,150,84,0,7);x.clip();x.drawImage(hero,66,66,168,168);x.restore();x.strokeStyle='#f2c230';x.lineWidth=6;x.beginPath();x.arc(150,150,84,0,7);x.stroke()}
+  x.fillStyle='rgba(255,255,255,.8)';x.font=`600 34px ${F}`;x.fillText('PlateScan · weekly recap',265,120);x.fillStyle='#fff';x.font=`800 60px ${F}`;x.fillText(r.name?`${r.name}’s week`:'Your week',265,188);x.fillStyle='rgba(255,255,255,.75)';x.font=`600 32px ${F}`;x.fillText(r.range,265,232);
+  const [h1,h2]=recapHeadline(r);rr(70,280,940,150,32);x.fillStyle='rgba(242,194,48,.18)';x.fill();x.fillStyle='#ffe58a';let fs=78;x.font=`900 ${fs}px ${F}`;while(x.measureText(h1).width>880&&fs>40){fs-=4;x.font=`900 ${fs}px ${F}`}x.fillText(h1,105,368);x.fillStyle='rgba(255,255,255,.85)';x.font=`600 32px ${F}`;x.fillText(h2,105,410);
+  recapTiles(r).forEach(([b,s,tr],i)=>{const cx=70+(i%2)*475,cy=455+Math.floor(i/2)*170;rr(cx,cy,465,155,26);x.fillStyle='rgba(255,255,255,.1)';x.fill();
+    x.fillStyle='#fff';let f2=58;x.font=`800 ${f2}px ${F}`;while(x.measureText(b).width>330&&f2>28){f2-=4;x.font=`800 ${f2}px ${F}`}x.fillText(b,cx+28,cy+78);
+    if(tr){const w=x.measureText(b).width;x.fillStyle=tr==='▲'?'#7ee787':'#ffb4a8';x.font=`800 32px ${F}`;x.fillText(tr,cx+28+w+14,cy+74)}
+    x.fillStyle='rgba(255,255,255,.75)';x.font=`500 27px ${F}`;let sl=s;while(x.measureText(sl).width>420&&sl.length>4)sl=sl.slice(0,-2);x.fillText(sl,cx+28,cy+122)});
+  const wins=recapWins(r);let wy=1150;x.font=`600 30px ${F}`;wins.forEach(([e,t])=>{x.fillStyle='#fff';let tt=t;while(x.measureText(tt).width>780&&tt.length>4)tt=tt.slice(0,-2);x.fillText(e+'  '+tt,80,wy);wy+=46});
+  if(S.pet){const pi=await svgImg(petSVG(S.pet.k,(petState()||{}).mood||70,S.pet.acc));if(pi)x.drawImage(pi,870,1120,170,156)}
+  x.fillStyle='#f2c230';x.font=`700 30px ${F}`;x.fillText('Snap your plate. Hit your numbers.',80,1300);
+  return new Promise(res=>c.toBlob(res,'image/png'))};
+let recapURL=null;
+openRecap=async function(g){const r=lastRecap=recapData(g);lsSet(recapKey(),'1');$('rc').innerHTML='<div class="rcLoad">Making your card…</div>';openSheet('recapSheet');showRecapCard(g);
+  const blob=await recapImage(r);if(recapURL)URL.revokeObjectURL(recapURL);recapURL=URL.createObjectURL(blob);
+  $('rc').innerHTML=`<img class="rcImg" src="${recapURL}" alt="Your weekly recap card">`;const b=$('recapSave');if(b)b.textContent=navigator.canShare?'Share':'Save as image'};
+
+// ================= v21: guide + patch notes =================
+GUIDE.unshift(['Safety and privacy','Tap a friend, a group message or the 🚩 on a live workout to Report or Block someone. Blocked people are removed from your friends and can’t send you requests, nudges, duels, invites or cheers. Settings → Account lets you download your data or delete your account, and Settings → Help has the privacy notice.'],
+  ['Weekly recap','Every Sunday to Tuesday, Today shows your weekly recap: days logged, calories, protein, reps, workout days, average meal grade, weight change and XP, with ▲▼ compared to last week, your top wins, your hero and your pet. Tap Share to send the card anywhere. You can open it anytime from Progress.']);
+CHANGELOG.unshift({v:'21',d:'Nov 23, 2026',t:'Safety, weekly recap 2.0 and a faster app',items:['Block and report: from a friend’s profile, a group message (tap it) or a live workout. Blocked people can’t friend, nudge, duel, invite or cheer you, and their messages are hidden.','Download all your data or permanently delete your account in Settings → Account.','A plain-language privacy notice, and new accounts confirm they’re 13 or older.','Weekly recap 2.0: a shareable card with your hero and pet, reps, workout days, average meal grade, ▲▼ versus last week and your top wins.','Faster: smoother tab switching (up to 2x quicker on older phones), quicker number formatting, and the app now opens instantly from cache and updates in the background.','Starts faster on slow connections: the app’s Firebase files begin downloading right away instead of waiting.']});
 
 // ================= start =================
 setMealType(defaultMealType());
