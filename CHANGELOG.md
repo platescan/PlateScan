@@ -2,6 +2,9 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.3: Pull-ups that actually count (Nov 24, 2026)
+- Pull-ups rebuilt: the counter now watches how far your shoulders rise toward your hands on the bar, so it works from behind, from far away and with .5× zoom. It no longer resets at the top when your shoulders reach the bar, and it still counts if your hands briefly drop out of view at the top. Half reps still don’t count.
+
 ## v22.2: Pull-ups from behind (Nov 24, 2026)
 - Pull-ups now count with your back to the camera too. Turn around so the camera sees your back, hands and shoulders; it checks that your head clears the bar and your arms bend, the same as facing it.
 
