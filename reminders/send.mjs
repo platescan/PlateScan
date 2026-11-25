@@ -176,6 +176,27 @@ for (const doc of pings.docs) {
 }
 console.log(`Live alerts sent: ${lSent}`);
 
+// ---- boss reward cap reset (1 hour after hitting 5 rewarded replays of a boss) ----
+let caps = 0;
+for (const doc of snap.docs) {
+  const u = doc.data(), r = u.reminder || {}, sm = (r.more || {}).smart || {};
+  if (!hasSub(r) || (sm.cats && sm.cats.battle === false)) continue;
+  const B = u.boss || {}, rc = B.rc || {}, rcT = B.rcT || {}, now = Date.now();
+  const due = Object.keys(rcT).filter(k => (rc[k] || 0) >= 5 && now - rcT[k] >= 3600000);
+  if (!due.length) continue;
+  const { hour } = localNow(r.tz || 'America/Phoenix');
+  if (hour < 7 || hour >= 22) continue; // quiet hours: it goes out in the morning instead
+  const key = 'cap-' + due.map(k => k + ':' + rcT[k]).join(',');
+  const fresh = ((await doc.ref.get()).data().reminder || {}).sentKeys || [];
+  if (fresh.includes(key)) continue;
+  try {
+    await pushAll(r, JSON.stringify({ title: 'Boss rewards are back ⚔️', body: due.length > 1 ? `Your reward cap reset for ${due.length} bosses. Replay them for gold and XP!` : 'Your reward cap reset. Replay that boss for gold and XP!', url: r.url || './', tag: 'bosscap' }), { TTL: 3600 }, doc.ref);
+    await doc.ref.update({ 'reminder.sentKeys': [...fresh, key].slice(-16) });
+    caps++;
+  } catch (e) { console.error('cap', doc.id, e.statusCode, e.body || e.message); }
+}
+console.log(`Boss cap pushes: ${caps}`);
+
 // ---- friend nudges ----
 const nudges = await db.collection('nudges').where('sent', '==', false).limit(500).get();
 let nSent = 0;
