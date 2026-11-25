@@ -203,6 +203,7 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.owner == me() && request.resource.data.members == [me()];
       allow update: if signedIn() && (me() in resource.data.members
         || (exists(/databases/$(database)/documents/mpInv/$(pid + '_' + me()))
+            && resource.data.won != true && resource.data.hp > 0
             && request.resource.data.members.toSet() == resource.data.members.toSet().union([me()].toSet())
             && request.resource.data.members.size() <= 10));
     }
@@ -210,7 +211,8 @@ service cloud.firestore {
       allow create: if signedIn() && request.resource.data.from == me()
         && iid == request.resource.data.pid + '_' + request.resource.data.to
         && !exists(/databases/$(database)/documents/blocks/$(request.resource.data.to + '_' + me()))
-        && me() in get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.members;
+        && me() in get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.members
+        && get(/databases/$(database)/documents/mparty/$(request.resource.data.pid)).data.won != true;
       allow read: if signedIn() && (resource == null || resource.data.to == me() || resource.data.from == me());
       allow update: if signedIn() && resource.data.from == me() && request.resource.data.from == me()
         && request.resource.data.to == resource.data.to && request.resource.data.pid == resource.data.pid;
@@ -361,6 +363,13 @@ On **Sign in**: **Forgot password?** sends a reset email (tell users to check sp
 
 ## Live workouts: smoother playback (v22)
 Live workouts now send 15 frames a second with finer positions and the real camera shape, and viewers' phones buffer about a second and smooth between frames, so movement looks fluid instead of jumpy. Uses about the same database writes as before.
+
+## Levels and boss rewards (v22.6)
+- **Levels stay put**: once a day is over, the XP it earned is locked. Changing your goal, weight or calorie targets no longer rewrites old days. Logging more food for a past day, or a weigh-in or water for it, still updates that day. Friends see your level update within a couple of seconds of earning it, and get a pop-up when you level up.
+- **Replay cap**: a boss pays full rewards the first time, then 40%, 30%, 25%, 20% and 15% for the next 5 replays, then nothing (practice). The once-a-day limit per boss still applies. Only rewarded wins count toward boss totals, eggs and unlocks.
+- **Boss XP** is about 20% lower: regular bosses 75 + 30 per stage (times difficulty), event bosses 240 (times difficulty), and monthly bosses 480 / 800 / 1,280 / 2,000.
+- **Monthly boss parties**: joining is blocked when the party already won, the invite is from another month, or you already beat this month's boss. The database rules enforce this too (publish the v22.6 rules).
+- **If data fails to load**: the app retries 3 times, then every 15 seconds, and doesn't save until your data loads, so a bad connection can't wipe your progress.
 
 ## Weight goals (v22.5)
 Settings (tap your avatar) → **Goal**: pick **Lose weight**, **Maintain** or **Gain weight**, then type the pounds and weeks. The app stores losses as a negative change behind the scenes, so older goals carry over unchanged. Weight changes on the chart and recaps show + or −.

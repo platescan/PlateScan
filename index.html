@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22.5">
+<meta name="ps-version" content="22.6">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -1721,13 +1721,16 @@ $('toastUndo').onclick=()=>{if(undoFn)undoFn();$('toast').style.display='none';u
 // mode: 'guest' keeps data in this browser; 'cloud' keeps it in your Firebase account (with offline cache)
 const GKEY='platescan.v1';
 const blank=()=>({name:'',profile:{act:'1.55'},meals:[],weights:[],reminder:null,widgetToken:null,favs:[],myFoods:[],scans:[],water:{},dayType:{},widgetCfg:null,coach:null,freeze:{owned:0,spent:0,used:[]},potions:[],bonus:[],inv:{shield:0,gloves:0},boss:null,reps:{},hero:null,chest:null,invite:null,ex:{},showcase:[],evWins:{},owned:[],frame:null,skin:null,plan:{},got:{},recipes:{},created:null,circ:null});
+// old bonus XP is merged per day instead of thrown away, so your level never drops
+function compactBonus(a){if(a.length<=400)return a;const keep=a.slice(-250),by={};for(const b of a.slice(0,-250))by[b.d]=(by[b.d]||0)+(b.xp||0);return Object.entries(by).map(([d,xp])=>({d,xp,src:'past'})).concat(keep)}
 const trimMap=m=>{const cut=ymd(dayOffset(180)),o={};for(const k in (m||{}))if(k>=cut)o[k]=m[k];return o};
 let S=blank(),mode='guest',user=null,FB=null;
 function loadGuest(){DV++;base=null;chat=[];S=blank();try{const raw=lsGet(GKEY);if(raw)S=Object.assign(blank(),JSON.parse(raw))}catch(e){}}
-let metaT=null,DV=0;
+let metaT=null,DV=0,cloudOK=false;
 const store={
   saveMeta(){ DV++;if(mode==='guest'){if(!lsSet(GKEY,JSON.stringify(S)))toast('Phone storage is full. Save a backup.');return}
-    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:(S.bonus||[]).slice(-400),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,login:S.login||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,circ:S.circ||null,...xkSave(),...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
+    if(!cloudOK)return; // your data hasn’t loaded yet: saving now would overwrite it with a blank copy
+    clearTimeout(metaT);metaT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid),{name:S.name,profile:S.profile,weights:S.weights,widgetToken:S.widgetToken||null,favs:S.favs,myFoods:S.myFoods,scans:S.scans,water:trimMap(S.water),dayType:trimMap(S.dayType),freeze:S.freeze,widgetCfg:S.widgetCfg||null,coach:S.coach||null,gold:S.gold??null,potions:S.potions||[],bonus:compactBonus(S.bonus||[]),inv:S.inv||null,boss:S.boss||null,reps:trimMap(S.reps),hero:S.hero||null,chest:S.chest||null,login:S.login||null,invite:S.invite||null,ex:S.ex||{},showcase:S.showcase||[],evWins:S.evWins||{},owned:S.owned||[],frame:S.frame||null,skin:S.skin||null,plan:trimMap(S.plan),got:S.got||{},recipes:S.recipes||{},created:S.created||null,circ:S.circ||null,...xkSave(),...(S.reminder?{reminder:remClean()}:{}),updated:Date.now()},{merge:true}).catch(e=>toast('Couldn’t sync: '+e.code)),600)},
   putMeal(m){ DV++;if(mode==='guest')return this.saveMeta();
     FB.fs.setDoc(FB.fs.doc(FB.db,'users',user.uid,'meals',m.id),m).catch(e=>toast('Couldn’t sync meal: '+e.code))},
   delMeal(id){ DV++;if(mode==='guest')return this.saveMeta();
@@ -1786,16 +1789,18 @@ function game0(){
   const t=calc(),days=byDay(),wset=new Set(S.weights.map(w=>w.d)),frozen=new Set((S.freeze&&S.freeze.used)||[]),wg=+S.profile.waterGoal||8,wat=S.water||{};
   const all=[...new Set([...Object.keys(days),...wset,...frozen,...Object.keys(wat)])].sort();
   let xp=0,streak=0,best=0,prev=null,pDays=0,tDays=0,hDays=0,today=null;const todayKey=ymd(Date.now()),dayXp={};
+  const lockCut=todayKey,canLock=mode==='guest'||cloudOK,XL=S.xpLock||(S.xpLock={});let newLock=false;
   for(const d of all){
     const s=days[d],cont=!!prev&&(new Date(d+'T12:00')-new Date(prev+'T12:00'))<=864e5*1.01;
     if(s&&s.n){streak=cont?streak+1:1;prev=d;best=Math.max(best,streak)}else if(frozen.has(d)&&cont){prev=d}
-    const q=dayXP(s,dayT(t,d),wset.has(d),streak,(wat[d]||0)>=wg);const pm=potionMult(d);q.base=q.total;q.total=Math.round(q.total*pm);q.pm=pm;xp+=q.total;dayXp[d]=q.total;if(q.protein)pDays++;if(q.target)tDays++;if(q.water)hDays++;
+    const q=dayXP(s,dayT(t,d),wset.has(d),streak,(wat[d]||0)>=wg);const pm=potionMult(d);q.base=q.total;q.total=Math.round(q.total*pm);q.pm=pm;if(d<lockCut){/* finished days keep their XP; only logging more for that day (or a weigh-in, water, a freeze) changes it, never a new goal */const sig=(s?s.n+'.'+Math.round(s.k)+'.'+Math.round(s.p):'0')+'.'+(wset.has(d)?1:0)+'.'+(wat[d]||0)+'.'+(frozen.has(d)?1:0),L0=XL[d],lk=typeof L0==='string'?L0.split(':'):null;if(lk&&lk[1]===sig)q.total=+lk[0];else if(canLock){if(lk&&+lk[0]>q.total&&s&&s.n)q.total=+lk[0];XL[d]=q.total+':'+sig;newLock=true}}xp+=q.total;dayXp[d]=q.total;if(q.protein)pDays++;if(q.target)tDays++;if(q.water)hDays++;
     if(d===todayKey)today=q;
   }
   // current streak only counts if the last logged day is today or yesterday
   let tb=0;for(const b of (S.bonus||[])){xp+=b.xp||0;dayXp[b.d]=(dayXp[b.d]||0)+(b.xp||0);if(b.d===todayKey)tb+=b.xp||0}
   if(!today)today=dayXP(null,dayT(t,todayKey),false,0,false);today.bonus=tb;today.total+=tb;
   const curStreak=prev&&(prev===todayKey||prev===ymd(dayOffset(1)))?streak:0;
+  if(newLock)setTimeout(()=>store.saveMeta(),60);
   const lv=levelInfo(xp);
   const ach=[
     ['First bite','Log your first meal',S.meals.length>=1],['Snapshot','Scan a meal with the camera',S.meals.some(m=>m.scanned)],
@@ -2244,7 +2249,7 @@ async function loadCloud(){
 }
 async function onUser(u){
   base=null;lastWidget='';
-  if(u){user=u;mode='cloud';try{await loadCloud()}catch(e){toast('Couldn’t load your data: '+(e.code||e.message))}closeSheet('auth');closeSheet('setSheet');
+  if(u){user=u;mode='cloud';cloudOK=false;for(let i=0;i<3&&!cloudOK;i++){try{await loadCloud();cloudOK=true}catch(e){if(i<2)await new Promise(r=>setTimeout(r,1200*(i+1)));else{toast('Couldn’t load your data ('+(e.code||e.message)+'). Nothing will be saved until it loads; retrying…');setTimeout(retryCloud,8000)}}}closeSheet('auth');closeSheet('setSheet');
     const k='platescan.lvl.'+u.uid;if(!lsGet(k))lsSet(k,String(game().lv.L)); // no level-up popup for existing progress on a new device
     fillFields();render();maybeOnboard();socStart();suggStart();refStart();maybeNews();setTimeout(maybeLogin,2600);setTimeout(maybeGetApp,5000);grantStart();setTimeout(liveDeepLink,2500)}
   else{socStop();user=null;mode='guest';loadGuest();fillFields();render();suggStart();if(refUnsub){refUnsub();refUnsub=null}maybeNews();setTimeout(maybeLogin,2600);if(lsGet('platescan.pending'))setTimeout(processInvites,900);if(lsGet('platescan.guest')!=='1')showAuth('welcome',true);else maybeOnboard()}
@@ -3003,9 +3008,10 @@ const DIFF={easy:{n:'Easy',dmg:10,mult:1,atk:30,hpx:1},normal:{n:'Normal',dmg:7,
 const hpFor=(b,diff)=>Math.round(b.hp*((DIFF[diff]||DIFF.normal).hpx));
 const stageReq=s=>1+(s-1)*2;
 function stageState(s,L){const B=S.boss||bossBlank();if(s<=B.beat)return 'beat';if(s===B.beat+1)return L>=stageReq(s)?'open':'lvl';return 'lock'}
-function rewardFor(s,diff){const B=S.boss||bossBlank(),today=ymd(Date.now()),d=DIFF[diff];if(s==='event'||s==='ev'){const k=eventBoss().key;if((S.evWins||{})[k])return {xp:0,gold:0,note:'You already earned this month’s event badge. Practice round.'};return {xp:Math.round(300*d.mult*potionMult(today)),gold:Math.round(200*d.mult),note:'Plus an exclusive event badge'}}let xp=(100+40*s)*d.mult,gold=(15+8*s)*d.mult,note='';
+const REPLAY_CAP=5,REPLAY_M=[.4,.3,.25,.2,.15];
+function rewardFor(s,diff){const B=S.boss||bossBlank(),today=ymd(Date.now()),d=DIFF[diff];if(s==='event'||s==='ev'){const k=eventBoss().key;if((S.evWins||{})[k])return {xp:0,gold:0,note:'You already earned this month’s event badge. Practice round.'};return {xp:Math.round(240*d.mult*potionMult(today)),gold:Math.round(200*d.mult),note:'Plus an exclusive event badge'}}let xp=(75+30*s)*d.mult,gold=(15+8*s)*d.mult,note='';
   if(B.wins&&B.wins[s]===today)return {xp:0,gold:0,note:'Already rewarded today. Practice only.'};
-  if(s<=B.beat){xp*=.4;gold*=.4;note='Replay: 40% rewards'}
+  if(s<=B.beat){const k=(B.rc||{})[s]||0;if(k>=REPLAY_CAP)return {xp:0,gold:0,capped:true,note:`Reward cap reached: you’ve been rewarded for ${REPLAY_CAP} replays of this boss. Practice only. Beat the next boss for full rewards!`};const m=REPLAY_M[k];xp*=m;gold*=m;note=`Replay ${k+1} of ${REPLAY_CAP}: ${Math.round(m*100)}% rewards`}
   const pm=potionMult(today);if(pm>1)note=(note?note+' · ':'')+`Potion: ×${pm} XP`;
   return {xp:Math.round(xp*pm),gold:Math.round(gold),note}}
 
@@ -3162,8 +3168,8 @@ function finishDummy(){const n=BT.reps,d=ymd(Date.now());stopCam();BT.phase='don
 function endFight(win,why){if(!BT||BT.phase==='done')return;BT.phase='done';stopCam();const {s,b}=BT,secs=Math.round((Date.now()-(BT.t0||Date.now()))/1000);logReps(BT.reps);
   const B=S.boss=Object.assign(bossBlank(),S.boss);let rw={xp:0,gold:0};
   if(win&&BT.mb){const r=mbWin()||{g:0,xp:0};rw={xp:r.xp,gold:r.g,note:'Exclusive badge + Elixir of Legends'};B.n++}
-  else if(win){rw=rewardFor(s,BT.diff);const team=BT.rd&&Object.keys(BT.rd.m||{}).length>1;if(team){rw.xp=Math.round(rw.xp*1.25);rw.gold=Math.round(rw.gold*1.25);if(rw.xp)rw.note='Team bonus +25%'}const today=ymd(Date.now());if(b.ev&&rw.xp){S.evWins=Object.assign({},S.evWins,{[b.key]:1});postEvent('event:'+b.key,`defeated the ${b.n} event boss and earned its badge`)}if(rw.xp){S.bonus=(S.bonus||[]).concat([{d:today,xp:rw.xp,src:'boss'}]).slice(-400);S.gold=(S.gold||0)+rw.gold}
-    if(!b.ev){B.byDiff=Object.assign({},B.byDiff);B.byDiff[BT.diff]=(B.byDiff[BT.diff]||0)+1;B.wins=Object.assign({},B.wins,{[s]:today});if(s<=B.beat+1)B.beat=Math.max(B.beat,s)}B.n++;postEvent('boss:'+s+':'+today,`defeated ${b.n}${BT.rd&&Object.keys(BT.rd.m).length>1?' with their team':''} on ${DIFF[BT.diff].n} ⚔️`);if(BT.diff==='legend')B.legend++;
+  else if(win){const wasReplay=!b.ev&&typeof s==='number'&&s<=B.beat;rw=rewardFor(s,BT.diff);const team=BT.rd&&Object.keys(BT.rd.m||{}).length>1;if(team){rw.xp=Math.round(rw.xp*1.25);rw.gold=Math.round(rw.gold*1.25);if(rw.xp)rw.note='Team bonus +25%'}const today=ymd(Date.now());if(b.ev&&rw.xp){S.evWins=Object.assign({},S.evWins,{[b.key]:1});postEvent('event:'+b.key,`defeated the ${b.n} event boss and earned its badge`)}if(rw.xp){S.bonus=compactBonus((S.bonus||[]).concat([{d:today,xp:rw.xp,src:'boss'}]));S.gold=(S.gold||0)+rw.gold}
+    if(!b.ev){B.byDiff=Object.assign({},B.byDiff);B.byDiff[BT.diff]=(B.byDiff[BT.diff]||0)+1;B.wins=Object.assign({},B.wins,{[s]:today});if(wasReplay&&rw.xp)B.rc=Object.assign({},B.rc,{[s]:((B.rc||{})[s]||0)+1});if(s<=B.beat+1)B.beat=Math.max(B.beat,s)}if(rw.xp||rw.gold)B.n++;postEvent('boss:'+s+':'+today,`defeated ${b.n}${BT.rd&&Object.keys(BT.rd.m).length>1?' with their team':''} on ${DIFF[BT.diff].n} ⚔️`);if(BT.diff==='legend')B.legend++;
     postGroups(`⚔️ ${first()||'A friend'} defeated ${b.n} on ${DIFF[BT.diff].n} with ${BT.reps} ${EX[BT.ex].name.toLowerCase()}!`)}
   else{const g=Math.min(5,Math.floor(BT.reps/10));if(g){S.gold=(S.gold||0)+g;rw.gold=g}}
   store.saveMeta();
@@ -3197,7 +3203,7 @@ const appURL=()=>location.origin+location.pathname;
 const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
-function syncProfile(g){if(mode!=='cloud'||!user||!FB)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
+function syncProfile(g){if(mode!=='cloud'||!user||!FB||!cloudOK)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
   const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
   SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
   clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
@@ -3355,7 +3361,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22.5';
+const APP_VERSION='22.6';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3971,7 +3977,7 @@ ITEMSVG.heart=ITEMSVG.heal='<svg viewBox="0 0 24 24" fill="#ff4d5e" stroke="#b81
 
 // ================= monthly boss: a whole month of health =================
 const MB_QUOTA={easy:10,normal:20,hard:30,legend:40};
-const MB_REW={easy:{g:150,xp:600},normal:{g:250,xp:1000},hard:{g:400,xp:1600},legend:{g:600,xp:2500}};
+const MB_REW={easy:{g:150,xp:480},normal:{g:250,xp:800},hard:{g:400,xp:1280},legend:{g:600,xp:2000}};
 const monthKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
 const daysLeftInMonth=()=>{const d=new Date(),end=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();return end-d.getDate()+1};
 function mbNow(){const k=monthKey();return S.mb&&S.mb.key===k?S.mb:null}
@@ -3996,7 +4002,13 @@ document.addEventListener('click',async e=>{const b=e.target.closest('[data-mbin
     b.textContent='Invited';sfx('send')}
   catch(er){b.disabled=false;console.warn('party invite',er);toast(er.code==='permission-denied'?'Couldn’t invite: the database said no. Make sure the rules from this update are published, then try again.':'Couldn’t invite: '+(er.code||er.message||'error'))}});
 async function joinParty(inv){const fs=FB.fs,me=user.uid;try{const ref=fs.doc(FB.db,'mparty',inv.pid);
-  const d=await fs.getDoc(ref).catch(()=>null);const base=d&&d.exists()?d.data().base:mbBase(inv.diff);
+  const drop=msg=>{fs.deleteDoc(fs.doc(FB.db,'mpInv',inv.pid+'_'+me)).catch(()=>{});toast(msg);sfx('miss')},mine=mbNow();
+  if(mine&&mine.won)return drop('You already beat this month’s boss. Invite removed.');
+  const d=await fs.getDoc(ref).catch(()=>null);if(!d||!d.exists())return drop('That party doesn’t exist anymore. Invite removed.');
+  const pd=d.data();if(pd.key&&pd.key!==monthKey())return drop('That invite was for last month’s boss. Invite removed.');
+  if(pd.won||pd.hp<=0)return drop(`${inv.fromName||'Your friend'}’s party already defeated ${inv.boss||'this boss'}. Invite removed.`);
+  if((pd.members||[]).includes(me))return drop('You’re already in this party.');
+  const base=pd.base||mbBase(inv.diff);
   await fs.updateDoc(ref,{members:fs.arrayUnion(me),['names.'+me]:(S.name||'Friend').slice(0,30),hp:fs.increment(Math.round(base*.8)),max:fs.increment(Math.round(base*.8))});
   await fs.deleteDoc(fs.doc(FB.db,'mpInv',inv.pid+'_'+me)).catch(()=>{});
   S.mb={key:monthKey(),diff:inv.diff,start:ymd(Date.now()),checked:ymd(dayOffset(1)),hp:0,max:1,reps:(mbNow()||{}).reps||{},won:false,pid:inv.pid};store.saveMeta();mbPartyWatch();closeSheet('inboxSheet');goSub('level','bosses');enqueue({type:'ach',k:'Party joined',name:`You’re fighting ${inv.boss} with ${inv.fromName}!`})}
@@ -4013,7 +4025,7 @@ function mbWin(silent){const m=mbNow();if(!m||m.won)return null;m.won=true;const
 let MPINV=[],mpiUnsub=null;
 function inboxStart(){if(mpiUnsub){mpiUnsub();mpiUnsub=null}if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return;
   mpiUnsub=FB.fs.onSnapshot(FB.fs.query(FB.fs.collection(FB.db,'mpInv'),FB.fs.where('to','==',user.uid)),q=>{MPINV=q.docs.map(d=>({id:d.id,...d.data()}));inboxBadge()},e=>console.warn('mpinv',e.code));ensureTag()}
-function inboxItems(){const out=[];for(const r of REQS)out.push({k:'req',ts:r.ts,r});for(const d of DUELS.b.filter(d=>d.status==='open'))out.push({k:'duel',ts:d.ts,d});for(const i of MPINV)out.push({k:'party',ts:i.ts,i});for(const n of (SOC.inbox||[]).filter(n=>Date.now()-n.ts<3*864e5))out.push({k:'nudge',ts:n.ts,n});return out.sort((a,b)=>b.ts-a.ts)}
+function inboxItems(){const out=[];for(const r of REQS)out.push({k:'req',ts:r.ts,r});for(const d of DUELS.b.filter(d=>d.status==='open'))out.push({k:'duel',ts:d.ts,d});for(const i of MPINV){const m=mbNow();if(m&&m.won)continue;if(i.ts){const d=new Date(i.ts);if(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')!==monthKey())continue}out.push({k:'party',ts:i.ts,i})}for(const n of (SOC.inbox||[]).filter(n=>Date.now()-n.ts<3*864e5))out.push({k:'nudge',ts:n.ts,n});return out.sort((a,b)=>b.ts-a.ts)}
 function inboxBadge(){const n=inboxItems().filter(x=>x.k!=='nudge').length,b=$('bellN');if(b){b.textContent=n;b.style.display=n?'':'none'}if($('inboxSheet')&&$('inboxSheet').classList.contains('on'))renderInbox()}
 function renderInbox(){const it=inboxItems();$('myTag').textContent=S.tag||'…';
   $('inboxList').innerHTML=it.length?it.map(x=>{if(x.k==='req')return `<div class="ib"><span class="ibI">👋</span><div class="fmid"><b>${esc(x.r.fromName||'Someone')}</b> wants to be friends<div class="muted sm">${x.r.mutual?x.r.mutual+' mutual · ':''}${agoT(x.ts)}</div></div><button class="small" data-racc="${x.r.id}">Accept</button><button class="x" data-rdec="${x.r.id}" aria-label="Decline">×</button></div>`;
@@ -4678,7 +4690,7 @@ function BGX2(k,id){
 GUIDE.unshift(['Pets and eggs','Menu → Pets → Eggs. Hatch Basic, Gym or Golden eggs to collect 36 pets across Common, Rare, Epic, Legendary and one Mythic: the Celestial Swole Dragon, which only hatches from Golden Eggs (2%). Gym-themed pets include the Kettlebell Kraken, Barbell Bear, Cardio Cheetah, Yoga Yeti, Protein Shake Slime, Spin-Class Unicorn, Gym Gorilla, Deadlift Bulldog, Protein Phoenix, Gainz Griffin and Titan Tiger. Earn free eggs with reps, boss wins, streaks and the monthly boss. Duplicates add stars and give gold back. Dress your pet in Gear and pick its Habitat.']);
 CHANGELOG.unshift({v:'19',d:'Nov 23, 2026',t:'Pet eggs and 36 pets',items:['Pet eggs! Hatch Basic, Gym and Golden eggs in the new Pets tab (side menu), with a hatching animation and odds shown on every egg.','36 pets in 5 rarities, including 11 gym-themed originals like the Kettlebell Kraken, Barbell Bear, Protein Shake Slime, Gym Gorilla and Protein Phoenix.','The rarest pet: the Mythic Celestial Swole Dragon, 2% from Golden Eggs only.','Free eggs: a Basic Egg every 1,000 reps, a Gym Egg every 5 bosses and every 7-day streak, and a Golden Egg for beating the monthly boss. Everyone starts with one free Basic Egg.','Duplicates raise a pet’s stars (up to ★5) and give 20% of the egg’s gold back. Lucky streak protection guarantees better pets after enough misses.','Collection book with silhouettes of pets you haven’t found yet.','Pet gear (bandana, sweatband, shades, cap, gold chain, medal, cape, tiny crown, halo) and 9 pet habitats from Sunny park to Mount Olympus.','More to work for: Neon tracksuit, Beastmaster armor, a Shoulder dragon, 5 new hero backgrounds (Neon gym, Volcano forge, Aurora peaks, Beast sanctuary, Hall of Fame), new banners and collector titles.','Fixed: your hero, pet, hearts, monthly boss, profile and sharing choices now save to your account, so they stay after you reload or switch devices.']});
 
-const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn','blocks','gym','gymOwned','questN'];
+const XK=['av','hearts','mb','noSug','pet','prof','share','tag','pets','eggs','eggClaim','pity','refN','cb','cbSeen','liveOn','blocks','gym','gymOwned','questN','xpLock'];
 function xkSave(){const o={};for(const k of XK)o[k]=S[k]===undefined?null:JSON.parse(JSON.stringify(S[k]));return o}
 function xkLoad(d){for(const k of XK)if(d[k]!=null)S[k]=d[k]}
 
@@ -5113,6 +5125,8 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'22.6',d:'Nov 24, 2026',t:'Fair levels and boss rewards',items:['Friends’ levels are accurate and live: your level no longer changes when you edit your goal or weight (finished days keep the XP they earned), old boss and bonus XP is never thrown away anymore, and you get a pop-up when a friend levels up.','Boss replay cap: each boss pays rewards for 5 replays (40%, 30%, 25%, 20%, then 15%). After that it’s practice only, so beat the next boss for full rewards. Practice wins no longer count toward boss totals, eggs or unlocks.','Boss XP is about 20% lower across regular, event and monthly bosses.','Monthly boss: you can’t join a party that already beat the boss, an invite from last month, or a party when you already beat this month’s boss. Those invites are cleared automatically, and you can’t send invites after your boss is defeated.','Safety fix: if your data fails to load (bad signal), the app now retries and won’t save anything until it loads, so it can never overwrite your progress or show friends a blank profile.']});
+GUIDE.unshift(['Boss rewards','Each boss gives full rewards the first time you beat it. Replays pay less each time (40% down to 15%) for 5 replays, then it’s practice only, and you can earn from each boss once a day. Beat the next boss for full rewards.']);
 CHANGELOG.unshift({v:'22.5',d:'Nov 24, 2026',t:'Easy weight-loss goals',items:['Setting a weight-loss goal is easy now: Settings → Goal has Lose weight, Maintain and Gain weight buttons, so you just type how many pounds. No minus sign needed (the iPhone keypad doesn’t have one).','Weight changes show a plus or minus sign, like “▼ −5.0 lb” on your weight chart.']});
 GUIDE.unshift(['Weight goals','Tap your avatar (top right) → Goal. Pick Lose weight, Maintain or Gain weight, type how many pounds and how many weeks. Your calories, protein, fat and carbs update right away.']);
 CHANGELOG.unshift({v:'22.4',d:'Nov 24, 2026',t:'Cheat-proof pull-ups',items:['Pull-ups can’t be cheated: lowering your hands to your shoulders, pushing up with your legs while your feet are on the floor, or jumping to the bar doesn’t count. It plays the miss sound and tells you why.','More real reps count: it no longer needs a perfect dead hang between reps, handles fast and explosive reps, works close to or far from the camera, and doesn’t play a false “pull higher” right after a good rep.']});
@@ -5324,6 +5338,12 @@ function gaFlow(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent)
       go:()=>{done();if(iosWeb){openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400)}else if(mode!=='cloud')showAuth('signup');else{const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}))}},skip:done})};
   next()}
 openGetApp=gaFlow;
+{const _oi=openMbInvite;openMbInvite=function(){const m=mbNow();if(m&&(m.won||(MBP&&(MBP.won||MBP.hp<=0)))){toast('This month’s boss is already defeated. Invites open again with next month’s boss.');return}_oi()}}
+
+async function retryCloud(){if(cloudOK||mode!=='cloud'||!user)return;try{await loadCloud();cloudOK=true;fillFields();render();socStart();toast('Your data loaded ✓')}catch(e){setTimeout(retryCloud,15000)}}
+// friends' levels: flash and celebrate when a friend levels up (profiles already stream live)
+{const _lb=liveBump;liveBump=function(id,old,nw){_lb(id,old,nw);if(old&&nw&&(nw.L||1)>(old.L||1)){LIVE.ch[id]=Date.now();toast(`${nw.name||'A friend'} reached level ${nw.L} ⭐`)}if($('mbiSheet')&&$('mbiSheet').classList.contains('on'))openMbInvite()}}
+
 // v22.5: pick Lose / Maintain / Gain instead of typing a minus sign (iPhone number pads have no minus key)
 let gSign=null;const gDirOf=()=>{if(gSign!=null)return gSign;const c=+S.profile.change||0;return c<0?-1:c>0?1:(S.profile.gdir!=null?+S.profile.gdir:0)};
 function gDirUI(){gSign=null;const d=gDirOf();gSign=d;const seg=$('gDir');if(!seg)return;seg.querySelectorAll('[data-gdir]').forEach(b=>b.classList.toggle('on',+b.dataset.gdir===d));

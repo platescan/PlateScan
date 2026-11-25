@@ -2,6 +2,14 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.6: Fair levels and boss rewards (Nov 24, 2026)
+- Friends’ levels are accurate and live: your level no longer changes when you edit your goal or weight (finished days keep the XP they earned), old boss and bonus XP is never thrown away anymore, and you get a pop-up when a friend levels up.
+- Boss replay cap: each boss pays rewards for 5 replays (40%, 30%, 25%, 20%, then 15%). After that it’s practice only, so beat the next boss for full rewards. Practice wins no longer count toward boss totals, eggs or unlocks.
+- Boss XP is about 20% lower across regular, event and monthly bosses.
+- Monthly boss: you can’t join a party that already beat the boss, an invite from last month, or a party when you already beat this month’s boss. Those invites are cleared automatically, and you can’t send invites after your boss is defeated.
+- Safety fix: if your data fails to load (bad signal), the app now retries and won’t save anything until it loads, so it can never overwrite your progress or show friends a blank profile.
+- Database rules: parties that beat the boss can’t take new members or invites. Publish the rules again.
+
 ## v22.5: Easy weight-loss goals (Nov 24, 2026)
 - Setting a weight-loss goal is easy now: Settings → Goal has Lose weight, Maintain and Gain weight buttons, so you just type how many pounds. No minus sign needed (the iPhone keypad doesn’t have one).
 - Weight changes show a plus or minus sign, like “▼ −5.0 lb” on your weight chart.
