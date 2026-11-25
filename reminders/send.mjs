@@ -1,4 +1,4 @@
-// Runs every 15 minutes on GitHub Actions.
+// Runs every 5 minutes on GitHub Actions (duel and live alerts go out on the next run).
 // 1) Delivers friend nudges (a push to the friend who was nudged).
 // 2) Sends a streak reminder to each user who:
 //  - turned reminders on, and it's at or past their chosen hour (in their time zone)

@@ -293,7 +293,7 @@ What these rules allow:
 If friends or groups show an error after the update, the rules probably weren't published. Check that the box shows the new rules and click **Publish** again.
 
 ## 5. Turn on streak reminders (free, about 10 minutes)
-Reminders and friend nudges are sent by a free job that runs on GitHub every 15 minutes.
+Reminders, friend nudges and duel alerts are sent by a free job that runs on GitHub every 5 minutes (GitHub sometimes runs it a few minutes late).
 
 **a. Get a Firebase key for the job**
 1. Firebase console → gear icon → **Project settings → Service accounts** tab.
@@ -313,7 +313,7 @@ Keep the `.json` file and `reminder-keys.txt` private. Never upload them to the 
 
 **c. Check that the job runs**
 1. Open the **Actions** tab. If GitHub asks, click to enable workflows.
-2. Click **Streak reminders and nudges → Run workflow**. A green check means it worked. After that it runs by itself every 15 minutes.
+2. Click **Streak reminders and nudges → Run workflow**. A green check means it worked. After that it runs by itself every 5 minutes.
 
 **d. Turn it on in the app**
 1. Open the menu (☰) → **Reminders** (or tap your initial → **Alerts**).
@@ -372,6 +372,7 @@ Live workouts now send 15 frames a second with finer positions and the real came
 
 ## LIVE tags, badges, difficulty and health grades (v23)
 - **Brand foods and barcodes**: about 800 foods are built in (works offline), including ~140 new brand-name items. When fewer than 4 built-in foods match what you type, the app automatically searches Open Food Facts (free, millions of products, popular US items first) and you can add a result with one tap; it's saved to My foods. For packaged food, the barcode button on the Scan screen reads the code with the camera and fills in the label's calories, protein, carbs and fat. Built-in numbers are typical values; barcode and online results use the product's label.
+- **Live sharing on/off**: Settings → Account → **Live workouts**, or the switch on the fight setup screen. Both change the same setting (`liveOn`), which syncs to the player's account; turning it off ends a live session right away.
 - **Camera interruptions**: a watchdog checks the camera every 0.7 s during fights. If the picture stops or the camera is taken (calls, FaceTime, Siri), the fight pauses, the camera reconnects automatically, and attacks wait 5 s after it's back.
 - **Tracking**: uses MediaPipe's `pose_landmarker_full` model, with joint smoothing (`lmSmooth`). If a phone averages over 55 ms per frame, it switches to the `lite` model from the next fight (`platescan.poseLite`).
 - **Glute bridges**: the bottom angle is learned from the player's own starting position; a rep needs the hips to rise at least 16° above it (and to at least 150°), then lower again.
@@ -381,11 +382,14 @@ Live workouts now send 15 frames a second with finer positions and the real came
 - **All levels and ranks**: Quest tab, under the level card. 19 ranks up to level 100 (new tiers Ruby at 50, Obsidian at 70, Celestial at 90). Edit `RANKS` in index.html.
 - **Bosses**: 16 bosses per round (6 new), then Ascended, Mythic, Eternal, Cosmic and Godlike versions. Add more by pushing to `BOSSES`.
 - **Customization**: more frames, app themes, banners, hair and outfit colors, avatar backgrounds and pet habitats. They're plain lists (`FRAMES`, `SKINS`, `BANNERS`, `HAIRC`, `OCOLS`, `BGS`, `PHAB`), so prices are easy to change.
-- **Boss reward cap reset**: after 5 rewarded replays of a boss it pays nothing for 1 hour, then resets (`RC_RESET` in index.html). The app shows a pop-up when it resets. If the app is closed, `reminders/send.mjs` sends a push ("Boss rewards are back") on its next run, for players with reminders on, skipping 10 pm–7 am. Upload the new `reminders/send.mjs`, and set the schedule in `.github/workflows/reminders.yml` to `'*/15 * * * *'` so the push arrives within about 15 minutes (the repo's copy still runs hourly).
+- **Boss reward cap reset**: after 5 rewarded replays of a boss it pays nothing for 1 hour, then resets (`RC_RESET` in index.html). The app shows a pop-up when it resets. If the app is closed, `reminders/send.mjs` sends a push ("Boss rewards are back") on its next run, for players with reminders on, skipping 10 pm–7 am. Upload the new `reminders/send.mjs`, and set the schedule in `.github/workflows/reminders.yml` to `'*/5 * * * *'` so the push arrives within about 5 minutes (the repo's copy still runs hourly).
 - **Cap timer**: capped bosses show a countdown on the map and in the Rewards box. Existing caps are reset once per player (`boss.rcV`).
 - **Friend streak rewards** are saved in the player's account (`fsm`), so they can't pay twice.
 - **Food recognizer loading**: it now starts loading only when you tap the camera (take or pick a photo), never just from opening Scan.
-- **Boss gold**: 50 + 21 per stage, times the difficulty bonus (Easy ×1, Normal ×1.4, Hard ×1.9, Legend ×2.5). Replays pay 60/50/45/35/25% gold (XP 40/30/25/20/15%), then nothing after 5. Monthly boss: 210/300/425/600 gold. Event boss: 300 × difficulty bonus. Change these in `rewardFor`, `REPLAY_G` and `MB_REW` in index.html.
+- **Boss gold**: 40 + 25 per stage, times the difficulty bonus (Easy ×1, Normal ×1.4, Hard ×1.9, Legend ×2.5). Rewarded replays pay 50% gold each (`REPLAY_G`) and XP 40/30/25/20/15%, then nothing for an hour after 5.
+- **Duel alerts**: sent by the reminder job, so they arrive on its next run (about every 5 minutes). The friend you challenge must have notifications on (Settings → Reminders). Upload `.github/workflows/reminders.yml` from this update, because the repo's copy only runs once an hour.
+- **Happy pet bonus**: pet mood 60+ gives +5% gold and XP from boss fights, the monthly boss and training (80+: +10%, 90+: +15%), plus rarity extra (Rare +2%, Epic +4%, Legendary +6%, Mythic +10%). Daily pet gift: 20/30/40/60/100 gold by rarity (+15 when thrilled), 25% chance of a Minor XP potion at 90+ mood. See `petBoost` and `claimPetGift`.
+- **Training dummy gold**: 1 per 2 good reps, up to 100 a day (`DUMMY_CAP`). Monthly boss: 210/300/425/600 gold. Event boss: 300 × difficulty bonus. Change these in `rewardFor`, `REPLAY_G` and `MB_REW` in index.html.
 - **Boss health (admins)**: Settings → Help → Developer tools → **Boss health**. Sliders from 20% to 300%: all bosses, each difficulty, and new monthly bosses. Each slider shows the real HP and reps for the first and last boss on that difficulty, and the monthly boss HP. **Save for everyone** writes `config/game` in Firestore; every signed-in player picks it up within seconds for their next fight. Requires the v23 rules (the `config` block).
 - **LIVE tag**: while a friend works out live, a red LIVE tag shows next to their name on the Friends list and leaderboard; tap it to watch. The live workout sends a small heartbeat once a minute, so the tag disappears within ~3 minutes after a workout ends or the app is closed.
 - **Badge equipping**: Locker → **Badges** tab (Quest → Badges has a shortcut button). Three Equipped slots at the top; tap **Equip** on any earned badge (exercise or event badges). Tap a slot's × to remove. With nothing equipped, your best 3 show automatically. Equipped badges appear next to your name for friends.
