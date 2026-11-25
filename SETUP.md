@@ -143,6 +143,12 @@ service cloud.firestore {
     }
 
     // Suggestion box: anyone signed in can send; only you (the admin) can read them all
+    // Game settings that admins tune for everyone (boss health)
+    match /config/{id} {
+      allow read: if true;
+      allow write: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+
     match /admins/{uid} {
       allow get: if signedIn() && me() == uid;
     }
@@ -363,6 +369,24 @@ On **Sign in**: **Forgot password?** sends a reset email (tell users to check sp
 
 ## Live workouts: smoother playback (v22)
 Live workouts now send 15 frames a second with finer positions and the real camera shape, and viewers' phones buffer about a second and smooth between frames, so movement looks fluid instead of jumpy. Uses about the same database writes as before.
+
+## LIVE tags, badges, difficulty and health grades (v23)
+- **Brand foods and barcodes**: about 800 foods are built in (works offline), including ~140 new brand-name items. When fewer than 4 built-in foods match what you type, the app automatically searches Open Food Facts (free, millions of products, popular US items first) and you can add a result with one tap; it's saved to My foods. For packaged food, the barcode button on the Scan screen reads the code with the camera and fills in the label's calories, protein, carbs and fat. Built-in numbers are typical values; barcode and online results use the product's label.
+- **Boss health (admins)**: Settings → Help → Developer tools → **Boss health**. Sliders from 20% to 300%: all bosses, each difficulty, and new monthly bosses. The preview shows reps to beat boss 1. **Save for everyone** writes `config/game` in Firestore; every signed-in player picks it up within seconds for their next fight. Requires the v23 rules (the `config` block).
+- **LIVE tag**: while a friend works out live, a red LIVE tag shows next to their name on the Friends list and leaderboard; tap it to watch. The live workout sends a small heartbeat once a minute, so the tag disappears within ~3 minutes after a workout ends or the app is closed.
+- **Badge equipping**: Quest → Badges. Three Equipped slots at the top; tap **Equip** on any earned badge (exercise or event badges). Tap a slot's × to remove. With nothing equipped, your best 3 show automatically. Equipped badges appear next to your name for friends.
+- **Difficulty**: reps to beat a stage-1 boss are Easy 10, Normal 14, Hard 20, Legend 26 (bosses get tougher each stage). Reward multipliers are Easy ×1, Normal ×1.4, Hard ×1.9, Legend ×2.5. Monthly boss daily targets: 10 / 14 / 18 / 24 reps. Monthly bosses already in progress keep their current health.
+- **Health grade** (A–F, on the scan result): starts at a neutral score, then whole foods add points by calories *and* by variety (so veggies count), protein adds up to +14 but isn't required, processed or sugary items subtract, a high-fat meal only loses points when the fat isn't from whole foods, and meal size is compared to your own daily calories (more room for muscle-gain goals). A plate that's mostly whole food with nothing processed is always an A; a meal that's mostly junk can't score above a D.
+
+## Potion bag and gold (v22.9)
+- **Potions**: Quest → Shop. Buying a potion puts it in your bag; it does not start on its own. Each potion card has **Buy** and a purple **Use ×N** button showing how many you hold. Use starts the boost today, or adds days if that potion is already running. Login-streak and monthly-boss potions also go to the bag. Potions you already bought before v22.9 that were active stay active.
+- **Gold sources**: daily chest 30–70 + 3 per streak day (max +30); 7-day login rewards 20 / 30 / 40 / 50 / 60 / 80 / 150 (+ a Minor potion on day 7); bosses (30 + 15 per stage) × difficulty; 1 gold per 5 good reps (max 30 a day); guided circuits 30; a lost fight up to 10; each daily quest 10.
+
+## Friend activity and update notes (v22.8)
+- **Activity** on the Friends list ("active today", "active 2 days ago") now counts workouts, boss fights, circuits, water and weigh-ins, not only food logs.
+- **"old app" tag**: shown next to friends whose PlateScan hasn't updated yet. Their level and activity refresh the next time they open the app; it updates itself.
+- **Sound after switching apps**: the app closes its sound engine when you leave and builds a new one when you come back, which avoids the iPhone bug where sound crackles, plays at the wrong pitch or goes silent after the app was in the background.
+- **No update pop-up**: after an update, the app no longer opens a "What's new" window. Patch notes are in Settings → Help → Patch notes.
 
 ## Live levels and motion tracking (v22.7)
 - **Why friends' levels were stuck**: profiles stored badges as a list inside a list, which Firestore refuses. Once a player earned a badge, every profile update they sent failed quietly, so friends kept seeing an old level and "no logs yet". Badges are now saved as text, profiles are cleaned before saving, level changes are sent right away, and failed saves retry. Friends' levels fix themselves as soon as each friend opens the updated app once.

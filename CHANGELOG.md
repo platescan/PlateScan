@@ -2,6 +2,26 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v23: LIVE tags, badge equipping, fairer grades (Nov 25, 2026)
+- Lots more brand-name foods built in (about 140 new, close to 800 total): Burger King, Domino’s, Pizza Hut, Panera, Jersey Mike’s, Jimmy John’s, Sonic, Arby’s, Whataburger, Culver’s, Shake Shack, Wingstop, Cava, Sweetgreen, Olive Garden, Costco and Kirkland, plus protein bars and shakes, yogurts, cereals, breads, chips, cookies, frozen meals, deli meats, sauces and drinks. If the built-in list has fewer than 4 matches, the app now searches the online food database on its own (popular US products first), so most packaged foods show up as you type. Scanning a barcode still fills in the exact label values.
+- Admins can change boss health for everyone: Settings → Help → Developer tools → Boss health. One slider for all bosses, one per difficulty, and one for new monthly bosses (20%–300%), with a live preview of the reps needed. Save for everyone applies it to every player within seconds. Fights already going and this month’s boss keep their health.
+- Database rules: new `config` collection (everyone can read, only admins can change). Publish the rules again.
+- LIVE badge on the Friends list: a red pulsing LIVE tag shows next to a friend’s name (friends list and leaderboard) while they work out live. Tap it to watch. It goes away within about 3 minutes if their workout ends or the app closes.
+- Badge equipping: Quest → Badges has 3 Equipped slots at the top and an Equip button on every badge you’ve earned. Equipped badges show next to your name on the leaderboard, friends list and your profile. Tap a slot’s × to remove one. If you don’t equip any, your best 3 show automatically.
+- Harder difficulties need fewer reps. To beat a stage-1 boss: Normal 14 reps (was 19), Hard 20 (was 34), Legend 26 (was 63). Their rewards are adjusted to match (Normal ×1.4, Hard ×1.9, Legend ×2.5), and bosses still attack faster on harder levels. Monthly boss daily targets: Normal 14, Hard 18, Legend 24.
+- Fairer health grades: fruit, veggies and other whole foods score well even without protein; healthy fats like nuts, salmon, avocado and olive oil aren’t marked down; meal size is judged against your own daily calories; and food words are matched properly (chocolate no longer counts as “cola”, and jelly beans and pepperoni no longer count as healthy). An apple is now an A, almonds an A (was C), jelly beans an F (was B), and sweet drinks like hot chocolate count as sugary.
+- The date in the top bar is shorter (Wed, Nov 25) so it doesn’t get cut off.
+
+## v22.9: Potion bag and more gold (Nov 25, 2026)
+- Potions don’t auto-use anymore: buying one (or getting one from a login reward or monthly boss) puts it in your bag. A purple Use button sits right next to Buy and shows how many you have (Use ×2). Drink it when you want the boost; using the same potion again adds more days.
+- Gold is easier to get. Daily chest: 30–70 plus up to 30 for your streak (was 15–35 plus 20). Login rewards are doubled (20 to 150 gold). Boss gold is about double. Workout reps pay 1 gold per 5 reps, up to 30 a day (was 1 per 10, up to 10). Guided circuits pay 30, a lost boss fight still pays up to 10, and each daily quest you finish now gives 10 gold.
+
+## v22.8: Workouts count as activity (Nov 25, 2026)
+- Fixed sound glitching after you leave the app and come back: the sound engine now shuts down cleanly when you leave and starts fresh when you return, and leftover voice counting is cleared.
+- Working out now counts as activity on the Friends list: reps, boss fights, circuits, water and weigh-ins all update “active today”, not just food logs.
+- Friends still running an older version of PlateScan show an “old app” tag. Their level catches up the next time they open the app.
+- No more “What’s new” pop-up after updates. Patch notes are still in Settings → Help → Patch notes.
+
 ## v22.7: Live levels, mythic cutscene, sharper tracking (Nov 24, 2026)
 - Friends’ levels finally update: after someone earned their first badge, the database rejected every profile update they sent (badges were saved in a format it doesn’t allow), so friends saw old levels forever. Fixed, and level changes now go out instantly, retry if the signal drops, and save when you leave the app.
 - Mythic hatch cutscene: hatching a Mythic pet plays a cinematic. The egg glows and cracks under a rush of stars, a white flash opens a rainbow portal, your pet rises as a silhouette, MYTHIC slams in, and the pet is revealed. It has sound and vibration, and you can tap to skip.

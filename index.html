@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22.7">
+<meta name="ps-version" content="23">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -1041,6 +1041,11 @@ h3.clH,b.clH{display:flex;align-items:center;gap:8px}
 .myCap.in{animation:myCap .5s forwards}@keyframes myCap{to{opacity:.95}}
 .mySkip{position:absolute;bottom:calc(5% + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:12px;opacity:.45;margin:0}
 @media (prefers-reduced-motion:reduce){#mythOv *{animation:none!important}}
+.oldApp{color:#e0a43a;font-weight:700}
+.buyUse{display:flex;gap:6px;margin-top:8px;align-self:stretch}.buyUse .buy{flex:1;margin-top:0!important}.usePot{flex:1;background:linear-gradient(135deg,#7c4dff,#c063ff)!important;color:#fff!important;font-weight:800;white-space:nowrap}.usePot:disabled{opacity:.45;background:var(--sunk)!important;color:var(--mute)!important}.usePot .qty{opacity:.85;font-size:11px}.shopIt.on{box-shadow:0 0 0 2px #c063ff inset}.potAct{color:#9b4dff!important}
+.wLive{display:inline-flex;align-items:center;gap:4px;background:#e5243b;color:#fff;font-size:10px;font-weight:900;letter-spacing:.06em;padding:2px 7px 2px 6px;border-radius:999px;vertical-align:2px;margin-right:4px;cursor:pointer;box-shadow:0 0 0 0 rgba(229,36,59,.6);animation:wLive 1.6s infinite}.wLive i{width:6px;height:6px;border-radius:50%;background:#fff;animation:wDot 1s infinite}@keyframes wLive{70%{box-shadow:0 0 0 7px rgba(229,36,59,0)}100%{box-shadow:0 0 0 0 rgba(229,36,59,0)}}@keyframes wDot{50%{opacity:.3}}@media (prefers-reduced-motion:reduce){.wLive,.wLive i{animation:none}}
+.eqWrap{flex-direction:column;align-items:flex-start;gap:6px}.eqSlots{display:flex;gap:10px}.eqSlot{position:relative;width:54px;height:62px;border-radius:14px;display:grid;place-items:center;background:var(--card);border:2px solid #f2c230;padding:0!important;min-height:0!important;box-shadow:none!important}.eqSlot svg{width:40px;height:46px}.eqSlot.auto{border-style:dashed;border-color:var(--line);opacity:.7}.eqSlot.empty{border:2px dashed var(--line);color:var(--mute);font-weight:900;font-size:20px}.eqSlot i{position:absolute;top:-7px;right:-7px;width:20px;height:20px;border-radius:50%;background:#e5243b;color:#fff;font-style:normal;font-size:14px;line-height:20px;text-align:center;font-weight:900}.eqNote{font-size:12px}.eqBtn{margin-left:auto;flex:none;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--sunk);color:var(--ink)}.eqBtn.on{background:#f2c230;color:#14201a}.exb.show{box-shadow:0 0 0 2px #f2c230 inset}
+.bhRow{display:flex;align-items:center;gap:10px}.bhRow input{flex:1}.bhRow b{width:48px;text-align:right}#bhBox .f{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -1162,11 +1167,11 @@ h3.clH,b.clH{display:flex;align-items:center;gap:8px}
     <div class="bossCard" id="bossCard"></div>
     <p class="muted sm" id="replayRow" style="display:none;margin:8px 0 0"><span></span>: tap a beaten boss on the map.</p></div>
   <div class="card" data-sp="bosses"><div class="row between"><h3 style="margin:0">Home workouts</h3><span class="muted sm">no equipment</span></div><p class="muted sm" style="margin:4px 0 8px">Guided circuits your camera counts for you. Great on rest days.</p><div id="homeWo"></div></div>
-  <div class="card" data-sp="shop"><div class="row between"><h3 style="margin:0">Shop</h3><span class="muted sm">spend gold</span></div><p class="muted sm" style="margin:4px 0 10px">Potions multiply all the XP you earn while they’re active. The strongest one counts, and buying the same potion again adds more days.</p><div class="shop" id="shop"></div>
+  <div class="card" data-sp="shop"><div class="row between"><h3 style="margin:0">Shop</h3><span class="muted sm">spend gold</span></div><p class="muted sm" style="margin:4px 0 10px">Potions go in your bag when you buy them. Tap <b>Use</b> when you want the boost: they multiply all the XP you earn while active. The strongest one counts, and using the same potion again adds more days.</p><div class="shop" id="shop"></div>
     <div style="display:none"><div class="flakes" id="flakes"></div><span id="wallet"></span><button id="buyFreeze"></button></div></div>
-  <div class="card" data-sp="badges"><div class="row between"><h3 style="margin:0">Exercise badges</h3><span class="muted sm">tap to show on profile</span></div>
-    <p class="muted sm" style="margin:4px 0 8px">Earn badges from reps tracked in workouts and boss fights, from Bronze up to a Mythic title. Pick up to 3 to show on your avatar for friends to see.</p>
-    <div class="showcase"><span class="muted sm">Your showcase</span><div id="showcasePrev"></div></div><div id="exBadges"></div></div>
+  <div class="card" data-sp="badges"><div class="row between"><h3 style="margin:0">Exercise badges</h3><span class="muted sm">tap a badge to equip</span></div>
+    <p class="muted sm" style="margin:4px 0 8px">Earn badges from reps tracked in workouts and boss fights, from Bronze up to a Mythic title. Equip up to 3. They show next to your name on the leaderboard, your friends list and your profile.</p>
+    <div class="showcase eqWrap"><span class="muted sm">Equipped</span><div id="showcasePrev"></div></div><div id="exBadges"></div></div>
   <div class="card" data-sp="shop"><div class="row between"><h3 style="margin:0">Style shop</h3><span class="muted sm">friends see your frame</span></div>
     <div class="seg" id="styleTabs" style="margin-top:8px"><button data-st="frames" class="on">Avatar frames</button><button data-st="themes">App themes</button></div><div class="styleGrid" id="styleShop"></div></div>
   <div class="card" data-sp="quests"><div class="row between"><h3>Today's quests</h3><span class="muted sm" id="qEarned"></span></div><div id="quests"></div></div>
@@ -1740,6 +1745,148 @@ const FOODS = [
 ['Egg white omelet','3 egg whites + veggies',120,16,2,6],['Breakfast tacos','2 tacos, egg and cheese',420,20,22,34],['Chia pudding','1 cup',250,7,12,28],['Smoothie bowl','1 bowl',400,10,10,70],['Cottage cheese with fruit','1 cup',220,24,4,22],['Cauliflower rice','1 cup',25,2,0,5],['Snap peas','1 cup',40,3,0,7],['Beets','1 cup',58,2,0,13],['Butternut squash','1 cup cooked',82,2,0,22],['Collard greens','1 cup cooked',63,5,1,11],['Artichoke','1 medium',64,3.5,0.4,14],['Eggplant','1 cup cooked',35,1,0,9],['Kimchi','1/2 cup',15,1,0,3],['Dragon fruit','1 cup',60,1.2,0,13],['Dried mango','1/4 cup',130,1,0,32],['Banana chips','1 oz',147,0.6,9.5,17],['Frozen banana bites','1/2 banana + chocolate',150,2,7,22],['Shrimp skewers','2 skewers',140,24,3,3],['Scallops','4 oz',125,23,1,6],['Bison burger','1 patty',230,28,12,0],['Venison','4 oz cooked',180,34,4,0],['Turkey meatballs','4 meatballs',210,20,11,6],['Seitan','3 oz',120,21,2,6],['Black bean burger','1 patty',180,10,6,22],['Ramen (instant)','1 package',380,8,14,54],['Chicken curry','1 cup + rice',600,32,22,65],['Grilled chicken salad','1 bowl',400,40,20,15],['Turkey wrap','1 wrap',400,28,14,40],['Chicken Caesar wrap','1 wrap',550,32,28,42],['Sushi roll (California)','8 pieces',260,9,7,38],['Baked potato with toppings','1 loaded potato',420,11,20,50],['Cornbread','1 piece',200,4,7,30],['Tortilla chips and salsa','1 oz + 1/4 cup',160,2,7,22],['Queso dip','1/4 cup',120,4,9,5],['Chocolate chip cookie','1 large',220,2,10,30],['Halo Top ice cream','1 pint',320,20,8,56],['Protein ice cream','1 cup',180,16,6,18],['Energy balls','2 balls',180,5,9,20],['Electrolyte drink','20 oz',50,0,0,13],['Matcha latte','16 oz',240,9,7,34],['Chai latte','16 oz',240,8,6,42],['Cold brew','16 oz',5,0,0,0],['Sparkling water','12 oz',0,0,0,0]
 ,
 ['Swiss cheese','1 oz',111,7.6,8.8,0.4],['Provolone cheese','1 oz',98,7,7.5,0.6],['Pepper jack cheese','1 oz',106,7,8.5,0.5],['Monterey jack cheese','1 oz',106,7,8.6,0.2],['Colby jack cheese','1 oz',110,7,9,0.3],['Gouda cheese','1 oz',101,7,7.8,0.6],['Brie','1 oz',95,6,7.9,0.1],['Camembert','1 oz',85,5.6,6.9,0.1],['Feta cheese','1 oz',75,4,6,1.2],['Goat cheese','1 oz',103,6,8.5,0.3],['Blue cheese','1 oz',100,6,8,0.7],['Gorgonzola','1 oz',100,6,8,0.5],['Ricotta cheese','1/2 cup',216,14,16,4],['Mascarpone','2 tbsp',120,1,13,1],['Havarti cheese','1 oz',120,7,10,0],['Muenster cheese','1 oz',104,6.6,8.5,0.3],['Asiago cheese','1 oz',110,7,8,1],['Pecorino Romano','1 oz',110,9,8,1],['Manchego','1 oz',120,7,10,0],['Halloumi','1 oz',90,6,7,0.5],['Paneer','1 oz',80,5.5,6,1],['Babybel cheese','1 piece',70,5,6,0],['American cheese','1 slice',60,3,5,1],['Cheese curds','1 oz',110,7,9,1],['Fresh mozzarella','1 oz',70,5,5,0.5],['Burrata','1 oz',70,4,6,0.4],['Velveeta','1 oz',80,4,6,3],['Nacho cheese sauce','1/4 cup',120,3,9,6],['Peanuts','1 oz',161,7,14,5],['Pecans','1 oz',196,2.6,20,4],['Macadamia nuts','1 oz',204,2,21.5,4],['Brazil nuts','1 oz',186,4,19,3.5],['Hazelnuts','1 oz',178,4,17,5],['Pine nuts','1 oz',191,4,19,4],['Honey roasted peanuts','1 oz',160,6,12,9],['Pumpkin seeds','1 oz',151,7,13,5],['Chia seeds','1 oz',138,4.7,8.7,12],['Flax seeds','1 tbsp',55,2,4,3],['Hemp hearts','3 tbsp',166,9.5,14.6,2.6],['Sesame seeds','1 tbsp',52,1.6,4.5,2],['Almond butter','2 tbsp',196,7,18,6],['Cashew butter','2 tbsp',188,5.6,16,9],['Nutella','2 tbsp',200,2,12,22],['PB2 powdered peanut butter','2 tbsp',60,6,1.5,5],['Coconut flakes','1/4 cup',90,1,9,3],['McDonald’s Quarter Pounder with Cheese','1 sandwich',520,30,26,42],['McDonald’s McChicken','1 sandwich',400,14,21,39],['McDonald’s Filet-O-Fish','1 sandwich',390,16,19,39],['McDonald’s Egg McMuffin','1 sandwich',310,17,13,30],['McDonald’s Sausage McMuffin with Egg','1 sandwich',480,20,31,30],['McDonald’s medium fries','medium',320,4,15,43],['McDonald’s Oreo McFlurry','regular',510,12,16,80],['McDonald’s Hotcakes','3 hotcakes',580,9,15,101],['Chick-fil-A Nuggets','8 count',250,27,11,11],['Chick-fil-A Grilled Nuggets','8 count',130,25,3,1],['Chick-fil-A Waffle Fries','medium',420,5,24,45],['Taco Bell Chalupa Supreme','1 item',350,13,19,30],['Wendy’s Dave’s Single','1 burger',590,29,34,39],['Wendy’s Baconator','1 burger',950,57,62,38],['Wendy’s Spicy Chicken Sandwich','1 sandwich',500,29,21,48],['Wendy’s Jr. Bacon Cheeseburger','1 burger',380,19,22,26],['Wendy’s Chili','small',250,17,7,23],['Wendy’s Frosty','small',340,9,9,56],['Burger King Whopper','1 burger',670,31,40,50],['Burger King Whopper Jr.','1 burger',330,14,19,26],['Burger King Chicken Fries','9 pieces',280,13,17,20],['Burger King Impossible Whopper','1 burger',630,25,34,58],['Subway 6" Turkey','6 inch',280,18,3.5,46],['Subway 6" Italian B.M.T.','6 inch',410,20,18,43],['Subway 6" Chicken Teriyaki','6 inch',330,25,4.5,50],['Subway Footlong Turkey','footlong',560,36,7,92],['Five Guys Little Hamburger','1 burger',540,23,26,39],['Popeyes Chicken Tenders','3 pieces',440,37,23,22],['KFC Original Recipe Breast','1 piece',390,39,21,11],['Raising Cane’s Chicken Finger','1 finger',130,13,7,6],['Raising Cane’s Texas Toast','1 slice',150,4,6,20],['Domino’s Pepperoni Pizza','1 slice (14")',300,12,13,34],['Domino’s Cheese Pizza','1 slice (14")',280,11,10,35],['Pizza Hut Pan Pepperoni Pizza','1 slice',300,12,15,29],['Little Caesars Pepperoni Pizza','1 slice',280,13,11,32],['Panera Broccoli Cheddar Soup','bowl',360,14,21,30],['Starbucks Bacon & Gruyère Egg Bites','2 bites',300,19,20,9],['Starbucks Turkey Bacon Egg White Sandwich','1 sandwich',230,17,5,28],['Starbucks Spinach Feta Wrap','1 wrap',290,20,8,34],['Dunkin’ Glazed Donut','1 donut',240,3,13,33],['Dunkin’ Boston Kreme Donut','1 donut',300,4,14,40],['Dunkin’ Plain Bagel','1 bagel',300,11,2,59],['Kodiak Cakes pancakes','1/2 cup mix',190,14,2,30],['ONE protein bar','1 bar',220,20,8,23],['Built bar','1 bar',130,17,4,14],['Pure Protein bar','1 bar',200,20,6,17],['Barebells protein bar','1 bar',200,20,8,18],['Lenny & Larry’s Complete Cookie','1 cookie',420,16,16,56],['Kirkland protein bar','1 bar',190,21,7,22],['Dave’s Killer Bread','1 slice',120,5,1.5,22],['Ezekiel bread','1 slice',80,5,0.5,15],['Mission Carb Balance tortilla','1 tortilla',70,6,3,19],['Lean Cuisine meal','1 meal',270,16,7,36],['Healthy Choice Power Bowl','1 bowl',300,18,9,37],['SmartFood popcorn','1 oz',160,3,10,15],['SkinnyPop popcorn','1 oz',150,2,10,15],['Takis','1 oz',150,2,8,17],['Flamin’ Hot Cheetos','1 oz',170,2,11,15],['Lay’s Classic chips','1 oz',160,2,10,15],['Pringles','1 oz',150,1,9,16],['Optimum Nutrition Gold Standard whey','1 scoop',120,24,1,3],['Ghost whey protein','1 scoop',130,25,1.5,4],['Olipop','12 oz',45,0,0,13],['Liquid Death water','16.9 oz',0,0,0,0]
+,
+// brand-name foods (v23)
+['Burger King Original Chicken Sandwich','1 sandwich',670,29,40,48],
+['Burger King Medium Fries','medium',380,5,17,53],
+['Burger King Hash Browns small','small',250,2,16,25],
+['Domino’s Cheese Pizza (hand tossed)','1 slice, large',260,11,10,32],
+['Domino’s Thin Crust Pepperoni','1 slice, large',210,9,12,17],
+['Domino’s Boneless Wings','8 pieces',480,28,22,38],
+['Pizza Hut Pepperoni Pan Pizza','1 slice, large',330,13,17,31],
+['Pizza Hut Cheese Hand-Tossed','1 slice, large',290,13,11,34],
+['Papa John’s Pepperoni Pizza','1 slice, large',330,13,15,36],
+['Panera Chipotle Chicken Avo Melt','whole',860,46,43,71],
+['Panera Mac & Cheese (small)','small',470,18,28,36],
+['Panera Fuji Apple Salad with Chicken','whole',570,34,33,38],
+['Panera Bagel Plain','1 bagel',280,10,2,56],
+['Jersey Mike’s #13 Original Italian (regular)','regular sub',1180,52,67,91],
+['Jersey Mike’s Turkey & Provolone (regular)','regular sub',730,42,25,83],
+['Jersey Mike’s Chipotle Cheesesteak (regular)','regular sub',1040,51,62,77],
+['Jimmy John’s Turkey Tom','8 inch',510,23,19,51],
+['Jimmy John’s Vito','8 inch',660,28,32,53],
+['Subway 6 inch Turkey Breast','6 inch',270,20,3,43],
+['Sonic Cheeseburger with Mayo','1 burger',720,30,43,51],
+['Sonic Tots medium','medium',400,4,25,43],
+['Arby’s Curly Fries medium','medium',550,7,29,65],
+['Jack in the Box Jumbo Jack','1 burger',540,25,31,42],
+['Jack in the Box Tacos (2)','2 tacos',350,12,19,33],
+['Whataburger Whataburger','1 burger',590,29,25,62],
+['Whataburger Honey Butter Chicken Biscuit','1 biscuit',600,20,33,55],
+['Culver’s ButterBurger Cheese single','1 burger',490,26,23,39],
+['Culver’s Concrete Mixer Oreo (short)','short',720,12,38,83],
+['Shake Shack ShackBurger single','1 burger',500,29,27,26],
+['Shake Shack Crinkle Fries','1 order',470,6,22,62],
+['Five Guys Little Cheeseburger','1 burger',610,32,32,40],
+['Wingstop Classic Wings Lemon Pepper','6 wings',540,42,38,0],
+['Wingstop Seasoned Fries regular','regular',370,6,17,47],
+['Buffalo Wild Wings Traditional Wings Medium','6 wings',430,38,26,4],
+['Cava Greens + Grains Bowl with Chicken','1 bowl',650,42,35,41],
+['Cava Harissa Honey Chicken Bowl','1 bowl',780,44,39,63],
+['Sweetgreen Harvest Bowl','1 bowl',705,36,38,58],
+['Sweetgreen Kale Caesar','1 bowl',430,33,26,18],
+['Qdoba Chicken Burrito Bowl','1 bowl',700,46,26,71],
+['El Pollo Loco Chicken Breast','1 breast',220,36,9,0],
+['Del Taco Del Taco','1 taco',170,9,10,12],
+['Olive Garden Chicken Alfredo','1 plate',1570,79,95,99],
+['Olive Garden Breadstick','1 breadstick',140,4,2,26],
+['Texas Roadhouse 6 oz Sirloin','6 oz',250,40,10,0],
+['Texas Roadhouse Roll with Butter','1 roll',200,5,7,30],
+['Costco Hot Dog','1 with bun',570,24,33,46],
+['Costco Chicken Bake','1 bake',840,52,36,76],
+['Costco Pepperoni Pizza','1 slice',660,38,28,62],
+['Kirkland Rotisserie Chicken','3 oz',140,19,7,1],
+['Kirkland Protein Shake Chocolate','1 bottle',160,30,3,5],
+['Krispy Kreme Original Glazed','1 doughnut',190,2,11,22],
+['Dutch Bros Golden Eagle Breve (medium)','16 oz',570,11,30,64],
+['Starbucks Bottled Frappuccino Mocha','13.7 oz',290,9,5,53],
+['Starbucks Egg Bites Bacon & Gruyere','2 bites',300,19,20,9],
+['Starbucks Grande Cold Brew','16 oz',5,0,0,0],
+['Quest Bar Chocolate Chip Cookie Dough','1 bar',190,21,8,22],
+['Quest Bar Cookies & Cream','1 bar',190,21,8,22],
+['Quest Protein Chips Nacho','1 bag',140,19,5,4],
+['Core Power Elite Chocolate','1 bottle',230,42,4,8],
+['Orgain Organic Protein Powder','2 scoops',150,21,4,15],
+['Built Bar Coconut','1 bar',140,17,4,17],
+['Nature Valley Oats ’n Honey','2 bars',190,4,7,29],
+['Kodiak Cakes Power Cakes (dry mix)','1/2 cup',190,14,2,30],
+['Kodiak Frozen Waffles','2 waffles',190,12,6,23],
+['Eggo Homestyle Waffles','2 waffles',180,4,6,27],
+['Chobani Greek Yogurt Plain Nonfat','1 cup',130,23,0,9],
+['Chobani Flip Almond Coco Loco','1 cup',190,10,8,22],
+['Oikos Triple Zero Vanilla','1 cup',90,15,0,7],
+['Oikos Pro Yogurt','1 cup',140,25,3,5],
+['Siggi’s Vanilla Skyr','1 cup',110,15,2,9],
+['Fage Total 0% Greek Yogurt','1 cup',130,23,0,8],
+['Yoplait Original Strawberry','1 cup',140,5,2,24],
+['Dannon Light + Fit Greek Vanilla','1 cup',80,12,0,8],
+['Cheerios','1.5 cups',140,5,3,29],
+['Special K Original','1.25 cups',160,7,1,30],
+['Quaker Old Fashioned Oats','1/2 cup dry',150,5,3,27],
+['Quaker Instant Oatmeal Maple & Brown Sugar','1 packet',160,4,3,32],
+['Dave’s Killer Bread 21 Whole Grains','1 slice',110,5,2,22],
+['Nature’s Own Honey Wheat Bread','1 slice',70,3,1,13],
+['Mission Flour Tortilla (soft taco)','1 tortilla',140,4,3,24],
+['Thomas’ English Muffin','1 muffin',130,5,1,26],
+['Lay’s Classic','1 oz (15 chips)',160,2,10,15],
+['Cheetos Crunchy','1 oz',160,2,10,15],
+['Goldfish Cheddar','1 oz (55 pieces)',140,3,5,20],
+['Cheez-It Original','1 oz (27 crackers)',150,3,8,17],
+['Takis Fuego','1 oz',140,2,8,17],
+['Smartfood White Cheddar Popcorn','1 oz',160,3,10,14],
+['Chips Ahoy! Original','3 cookies',160,2,8,22],
+['Pop-Tarts Frosted Strawberry','1 pastry',190,2,5,37],
+['Uncrustables Peanut Butter & Grape','1 sandwich',210,6,9,28],
+['Lunchables Turkey & Cheddar','1 pack',300,15,17,22],
+['Hot Pockets Pepperoni Pizza','1 pocket',310,11,14,36],
+['Totino’s Pizza Rolls Pepperoni','6 rolls',210,7,9,25],
+['DiGiorno Rising Crust Pepperoni','1/6 pizza',300,14,12,34],
+['Kraft Mac & Cheese (prepared)','1 cup',350,10,12,49],
+['Annie’s Shells & White Cheddar (prepared)','1 cup',360,11,13,51],
+['Lean Cuisine Chicken Fettuccini','1 meal',290,22,6,37],
+['Healthy Choice Power Bowl Chicken Feta','1 bowl',320,21,10,36],
+['Amy’s Bean & Rice Burrito','1 burrito',290,9,8,46],
+['Banquet Mega Bowl','1 bowl',660,28,32,64],
+['Tyson Any’tizers Popcorn Chicken','1 cup',220,11,13,15],
+['Tyson Grilled & Ready Chicken Strips','3 oz',110,20,3,1],
+['Jimmy Dean Sausage Egg & Cheese Croissant','1 sandwich',420,14,28,28],
+['Jimmy Dean Delights Turkey Sausage Muffin','1 sandwich',260,17,9,28],
+['Oscar Mayer Turkey Bacon','2 slices',70,5,5,0],
+['Oscar Mayer Deli Fresh Turkey','6 slices',60,10,1,2],
+['Hormel Natural Choice Ham','2 oz',60,10,1,1],
+['Ball Park Beef Hot Dog','1 frank',170,6,15,2],
+['Johnsonville Brats','1 link',260,11,23,2],
+['Chomps Beef Stick Original','1 stick',90,10,5,0],
+['Jack Link’s Beef Jerky Original','1 oz',80,15,1,3],
+['Babybel Original','1 piece',70,5,6,0],
+['Sargento String Cheese Mozzarella','1 stick',80,7,6,1],
+['Kraft American Cheese Singles','1 slice',60,3,4,2],
+['Philadelphia Cream Cheese','2 tbsp',80,1,8,1],
+['Jif Creamy Peanut Butter','2 tbsp',190,7,16,8],
+['Skippy Natural Peanut Butter','2 tbsp',190,7,16,7],
+['Smucker’s Strawberry Jam','1 tbsp',50,0,0,13],
+['Hidden Valley Ranch','2 tbsp',130,0,13,2],
+['Heinz Ketchup','1 tbsp',20,0,0,5],
+['Sweet Baby Ray’s BBQ Sauce','2 tbsp',70,0,0,17],
+['Ben & Jerry’s Chocolate Chip Cookie Dough','2/3 cup',370,5,20,44],
+['Halo Top Vanilla Bean','2/3 cup',90,6,3,19],
+['Häagen-Dazs Vanilla','2/3 cup',340,6,22,30],
+['Bang Energy','16 oz can',0,0,0,0],
+['Ghost Energy','16 oz can',10,0,0,2],
+['Vitaminwater','20 oz',120,0,0,32],
+['Chick-fil-A Cobb Salad with nuggets','1 salad',830,42,60,28],
+['Taco Bell Cantina Chicken Bowl','1 bowl',490,25,25,42],
+['Raising Cane’s 3 Finger Combo','1 combo',1240,51,62,125],
+['Trader Joe’s Mandarin Orange Chicken','1 cup',320,15,15,31],
+['Trader Joe’s Chicken Tikka Masala','1 meal',380,25,14,39],
+['Trader Joe’s Cauliflower Gnocchi','1 cup',140,2,3,22],
+['Hostess Twinkie','1 cake',130,1,4,23],
+['Little Debbie Oatmeal Creme Pie','1 pie',170,1,7,26],
+['Snickers','1 bar',250,4,12,33],
+['Reese’s Peanut Butter Cups','2 cups',210,5,13,24],
+['M&M’s Milk Chocolate','1.69 oz bag',240,2,10,34],
+['Kit Kat','1 bar',210,3,11,27],
+['Skittles','2.17 oz bag',250,0,3,56]
 ];
 
 // ================= helpers =================
@@ -1848,7 +1995,7 @@ function game0(){
     ['Protein week','Hit protein on 7 days',pDays>=7],['Bullseye week','On calorie target 7 days',tDays>=7],
     ['Scale regular','10 weigh-ins',S.weights.length>=10],['Level 5','Reach level 5',lv.L>=5],['Level 10','Reach level 10',lv.L>=10],
     ['Body check','Log a body scan',(S.scans||[]).length>=1],['Hydrated week','Hit your water goal 7 days',hDays>=7],['Saved by ice','Use a streak freeze',frozen.size>=1],
-    ['Boss slayer','Defeat your first boss',(S.boss||{}).n>=1],['Giant killer','Beat 5 boss stages',(S.boss||{}).beat>=5],['Legendary','Win a fight on Legend',(S.boss||{}).legend>=1],['Iron will','100 tracked good reps',(S.boss||{}).reps>=100],['Potion master','Buy an XP potion',(S.potions||[]).length>=1]];
+    ['Boss slayer','Defeat your first boss',(S.boss||{}).n>=1],['Giant killer','Beat 5 boss stages',(S.boss||{}).beat>=5],['Legendary','Win a fight on Legend',(S.boss||{}).legend>=1],['Iron will','100 tracked good reps',(S.boss||{}).reps>=100],['Potion master','Buy an XP potion',(S.potions||[]).length>=1||['minor','greater','elixir'].some(k=>((S.inv||{})[k]||0)>0)]];
   return {xp,lv,curStreak,best,today:today||dayXP(null,dayT(t,todayKey),false,0,false),ach,t,todayT:dayT(t,todayKey),lastLogDay:prev,lastStreak:prev?streak:0,dayXp,wallet:xp-((S.freeze&&S.freeze.spent)||0),wg};
 }
 // ---- celebrations: quest banners, achievement banners, level-up ----
@@ -2100,7 +2247,7 @@ function renderLevel(g){
 
 function render(){
   DV++;applyFreezes();applySkin();const g=game();checkBadges();if(mode==='cloud')milestones(g);
-  $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
+  $('sub').textContent=new Date().toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
   $('lvPill').textContent='Lv '+g.lv.L;$('goldTxt').textContent=fmt(S.gold||0);
   {const ab=$('avatarBtn'),k=JSON.stringify([myAvCfg(),myBuild()]);if(ab.dataset.k!==k||!ab.firstElementChild){ab.dataset.k=k;ab.innerHTML=myAv()}}
   if(view==='today'){renderToday(g);renderFill(g);const td=byDay()[ymd(Date.now())];$('todayCopy').innerHTML=td&&td.n?'':copyBtn(ymd(Date.now()))}if(view==='log')renderLog(g);if(view==='stats')renderStats(g);if(view==='body')renderBody(g);if(view==='plan')renderPlan(g);if(view==='level')renderQuest(g);if(view==='locker')renderHeroSheet();if(view==='pets')renderPets();if(view==='gym')renderGym();if(view==='friends'){renderFriends();loadProfiles()}
@@ -2169,7 +2316,7 @@ $('items').addEventListener('change',e=>{const q=e.target.closest('[data-q]');if
 $('search').addEventListener('input',()=>{const q=$('search').value.trim().toLowerCase();if(!q){$('results').innerHTML='';return}
   const words=q.split(/\s+/),match=f=>words.every(w=>f[0].toLowerCase().includes(w));
   const hits=[...(S.myFoods||[]).filter(match).map(f=>({f,mine:true})),...FOODS.filter(match).map(f=>({f}))].slice(0,7);
-  $('results').innerHTML=(hits.length?hits.map(({f,mine})=>`<div class="res"><div><b>${esc(f[0])}</b>${mine?'<span class="mine">My food</span>':''}<div class="muted sm">${esc(f[1])} · ${f[2]} kcal · P ${f[3]}g</div></div><div class="row" style="gap:4px">${mine?`<button class="x" style="min-width:32px;font-size:18px" data-delfood="${esc(f[0])}" aria-label="Remove from My foods">×</button>`:''}<button class="small" data-add="${esc(f[0])}" data-mine="${mine?1:''}">Add</button></div></div>`).join(''):'<p class="muted sm">Not in the built-in list.</p>')+(q.length>=3?'<button class="small ghost wide" data-offsearch>🔎 Search millions of foods online</button>':'')+'<div id="offRes"></div>'});
+  $('results').innerHTML=(hits.length?hits.map(({f,mine})=>`<div class="res"><div><b>${esc(f[0])}</b>${mine?'<span class="mine">My food</span>':''}<div class="muted sm">${esc(f[1])} · ${f[2]} kcal · P ${f[3]}g</div></div><div class="row" style="gap:4px">${mine?`<button class="x" style="min-width:32px;font-size:18px" data-delfood="${esc(f[0])}" aria-label="Remove from My foods">×</button>`:''}<button class="small" data-add="${esc(f[0])}" data-mine="${mine?1:''}">Add</button></div></div>`).join(''):'<p class="muted sm">Not in the built-in list.</p>')+(q.length>=3?'<button class="small ghost wide" data-offsearch>🔎 Search millions of foods online</button>':'')+'<div id="offRes"></div>';clearTimeout(window.__offT);if(q.length>=3&&hits.length<4)window.__offT=setTimeout(()=>{if($('search').value.trim().toLowerCase()===q&&$('offRes'))offSearch(q)},700)});
 $('results').addEventListener('click',e=>{const d=e.target.closest('[data-delfood]');if(d){S.myFoods=(S.myFoods||[]).filter(f=>f[0]!==d.dataset.delfood);store.saveMeta();$('search').dispatchEvent(new Event('input'));return}
   const b=e.target.closest('[data-add]');if(!b)return;const f=(b.dataset.mine?(S.myFoods||[]):FOODS).find(f=>f[0]===b.dataset.add);addFood(f);$('search').value='';$('results').innerHTML=''});
 $('cAdd').onclick=()=>{const n=$('cName').value.trim()||'Custom food';let k=parseFloat($('cK').value);if(!(k>=0)){const m=['cP','cF','cC'].map(id=>$(id)?parseFloat($(id).value)||0:0);k=m[0]*4+m[1]*9+m[2]*4;if($('cK'))$('cK').value=k?Math.round(k):''}if(!(k>0))return toast('Add calories, or protein, carbs and fat, and we’ll work out the calories');const food=[n,'1 serving',k,parseFloat($('cP').value)||0,parseFloat($('cF').value)||0,parseFloat($('cC').value)||0];saveMyFood(food);addFood(food);toast(n+' saved to My foods');['cName','cK','cP','cF','cC'].forEach(i=>$(i).value='');renderMeal()};
@@ -3031,9 +3178,7 @@ function gainGold(n,el,why){if(!(n>0))return;S.gold=(S.gold||0)+Math.round(n);st
 function buy(k,btn){const it=SHOP[k];if(!it)return;const g=S.gold||0;if(g<it.g){toast(`You need ${it.g-g} more gold. Beat a boss or open your daily chest.`);return}
   if(it.kind==='freeze'&&(S.freeze.owned||0)>=FREEZE_MAX){toast('You already hold 2 streak freezes.');return}
   S.gold=g-it.g;const today=ymd(Date.now());
-  if(it.kind==='potion'){S.potions=(S.potions||[]).filter(p=>p.e>=addDays(today,-7));const same=S.potions.find(p=>p.t===k&&p.e>=today);
-    if(same)same.e=addDays(same.e,it.days);else S.potions.push({t:k,mult:it.mult,s:today,e:addDays(today,it.days-1)});
-    toast(`${it.n} active. ${it.d.replace(/^\+/, '+')}!`)}
+  if(it.kind==='potion'){S.inv=Object.assign({shield:0,gloves:0},S.inv);S.inv[k]=(S.inv[k]||0)+1;toast(`${it.n} added to your bag. Tap Use when you’re ready.`)}
   else if(it.kind==='item'){S.inv=Object.assign({shield:0,gloves:0},S.inv);S.inv[k]++;toast(`${it.n} added to your bag`)}
   else if(it.kind==='heart'){if(heartsNow().n>=HEART_MAX){S.gold+=it.g;toast('Your hearts are already full');return}heartsAdd(1);toast('+1 ❤')}else if(it.kind==='heal'){if(heartsNow().n>=HEART_MAX){S.gold+=it.g;toast('Your hearts are already full');return}heartsAdd(HEART_MAX);toast('Hearts refilled ❤')}else{S.freeze.owned=(S.freeze.owned||0)+1;snow();toast('Streak freeze ready')}
   S.boss=Object.assign(bossBlank(),S.boss);S.boss.spent=(S.boss.spent||0)+it.g;
@@ -3041,7 +3186,7 @@ function buy(k,btn){const it=SHOP[k];if(!it)return;const g=S.gold||0;if(g<it.g){
   render()}
 // daily chest: a little gold every day you open the app
 const seedRand=s=>{let h=2166136261;for(const c of s)h=Math.imul(h^c.charCodeAt(0),16777619);return ((h>>>0)%1000)/1000};
-function openChest(el){if(!chestReady())return;const d=ymd(Date.now()),g=game(),amt=15+Math.round(seedRand(d+(user?user.uid:'g'))*20)+Math.min(g.curStreak,10)*2;S.chest=d;
+function openChest(el){if(!chestReady())return;const d=ymd(Date.now()),g=game(),amt=30+Math.round(seedRand(d+(user?user.uid:'g'))*40)+Math.min(g.curStreak,10)*3;S.chest=d;
   el.classList.add('opening');sfx('chest');setTimeout(()=>{gainGold(amt,el);el.classList.remove('opening');el.classList.add('opened');setTimeout(render,900)},650)}
 
 // ================= bosses =================
@@ -3063,12 +3208,15 @@ const DUMMY={n:'Training Dummy',t:'Practice reps. No hits back.',c:'#c9a46a',svg
 function bossFor(s){if(s==='dummy')return Object.assign({stage:0,hp:Infinity,dummy:true,asc:0},DUMMY);const i=(s-1)%10,asc=Math.floor((s-1)/10),b=BOSSES[i];
   return Object.assign({},b,{stage:s,asc,n:(asc?['','Ascended ','Mythic ','Eternal '][Math.min(asc,3)]:'')+b.n,hp:Math.round(100*Math.pow(1.12,s-1)),hue:asc*70})}
 const bossArt=(b,cls='')=>`<svg class="bossSvg ${cls}" viewBox="0 0 200 200" style="${b.hue?`filter:hue-rotate(${b.hue}deg) saturate(1.2)`:''}"><ellipse class="shadow" cx="100" cy="190" rx="60" ry="8" fill="#000" opacity=".18"/>${b.svg}</svg>`;
-const DIFF={easy:{n:'Easy',dmg:10,mult:1,atk:30,hpx:1},normal:{n:'Normal',dmg:7,mult:1.6,atk:25,hpx:1.3},hard:{n:'Hard',dmg:5,mult:2.4,atk:20,hpx:1.7},legend:{n:'Legend',dmg:3.5,mult:3.5,atk:16,hpx:2.2}};
-const hpFor=(b,diff)=>Math.round(b.hp*((DIFF[diff]||DIFF.normal).hpx));
+const DIFF={easy:{n:'Easy',dmg:10,mult:1,atk:30,hpx:1},normal:{n:'Normal',dmg:9.3,mult:1.4,atk:25,hpx:1.3},hard:{n:'Hard',dmg:8.6,mult:1.9,atk:20,hpx:1.7},legend:{n:'Legend',dmg:8.5,mult:2.5,atk:16,hpx:2.2}};
+// admin-tunable boss health, shared by everyone (Firestore: config/game). 1 = normal.
+let GCFG={hp:1,d:{easy:1,normal:1,hard:1,legend:1},mb:1};
+const gHP=diff=>Math.max(.2,Math.min(5,(+GCFG.hp||1)*(+((GCFG.d||{})[diff])||1)));
+const hpFor=(b,diff)=>Math.round(b.hp*((DIFF[diff]||DIFF.normal).hpx)*gHP(diff));
 const stageReq=s=>1+(s-1)*2;
 function stageState(s,L){const B=S.boss||bossBlank();if(s<=B.beat)return 'beat';if(s===B.beat+1)return L>=stageReq(s)?'open':'lvl';return 'lock'}
 const REPLAY_CAP=5,REPLAY_M=[.4,.3,.25,.2,.15];
-function rewardFor(s,diff){const B=S.boss||bossBlank(),today=ymd(Date.now()),d=DIFF[diff];if(s==='event'||s==='ev'){const k=eventBoss().key;if((S.evWins||{})[k])return {xp:0,gold:0,note:'You already earned this month’s event badge. Practice round.'};return {xp:Math.round(240*d.mult*potionMult(today)),gold:Math.round(200*d.mult),note:'Plus an exclusive event badge'}}let xp=(75+30*s)*d.mult,gold=(15+8*s)*d.mult,note='';
+function rewardFor(s,diff){const B=S.boss||bossBlank(),today=ymd(Date.now()),d=DIFF[diff];if(s==='event'||s==='ev'){const k=eventBoss().key;if((S.evWins||{})[k])return {xp:0,gold:0,note:'You already earned this month’s event badge. Practice round.'};return {xp:Math.round(240*d.mult*potionMult(today)),gold:Math.round(200*d.mult),note:'Plus an exclusive event badge'}}let xp=(75+30*s)*d.mult,gold=(30+15*s)*d.mult,note='';
   if(B.wins&&B.wins[s]===today)return {xp:0,gold:0,note:'Already rewarded today. Practice only.'};
   if(s<=B.beat){const k=(B.rc||{})[s]||0;if(k>=REPLAY_CAP)return {xp:0,gold:0,capped:true,note:`Reward cap reached: you’ve been rewarded for ${REPLAY_CAP} replays of this boss. Practice only. Beat the next boss for full rewards!`};const m=REPLAY_M[k];xp*=m;gold*=m;note=`Replay ${k+1} of ${REPLAY_CAP}: ${Math.round(m*100)}% rewards`}
   const pm=potionMult(today);if(pm>1)note=(note?note+' · ':'')+`Potion: ×${pm} XP`;
@@ -3093,10 +3241,11 @@ function renderQuest(g){
   const cb=bossFor(cur),cs=stageState(cur,L);
   $('bossCard').innerHTML=`<div class="bossPic">${bossArt(cb,'idle')}</div><div style="flex:1;min-width:0"><div class="k">Stage ${cur}${cb.asc?' · Ascension '+cb.asc:''}</div><b class="bn">${esc(cb.n)}</b><div class="muted sm">“${esc(cb.t)}”</div><div class="hpmini"><i></i><span>${cb.hp} HP</span></div>
     ${cs==='open'?`<button class="red small" id="fightBtn" style="margin-top:8px">Fight boss</button>`:`<div class="lockMsg sm">Reach level ${stageReq(cur)} to unlock · ${stageReq(cur)-L} to go</div>`}</div>`;
-  if(B.beat){const last=Math.max(1,B.beat);$('replayRow').style.display='';$('replayRow').querySelector('span').textContent=`Replay any beaten boss (40% rewards)`}else $('replayRow').style.display='none';
+  if(B.beat){const last=Math.max(1,B.beat);$('replayRow').style.display='';$('replayRow').querySelector('span').textContent=`Replay any beaten boss (rewards drop each replay)`}else $('replayRow').style.display='none';
   // shop
-  $('shop').innerHTML=Object.entries(SHOP).map(([k,it])=>{const own=it.kind==='item'?((S.inv||{})[k]||0):it.kind==='freeze'?(S.freeze.owned||0):0;
-    return `<div class="shopIt"><div class="ico">${it.kind==='potion'?potionSVG(it.col):ITEMSVG[k]}</div><b>${esc(it.n)}</b><span class="muted">${esc(it.d)}</span>${own?`<em>Owned: ${own}</em>`:''}<button class="small buy" data-buy="${k}" ${(S.gold||0)<it.g||(it.kind==='freeze'&&own>=FREEZE_MAX)?'disabled':''}>${COIN}${it.g}</button></div>`}).join('');
+  $('shop').innerHTML=Object.entries(SHOP).map(([k,it])=>{const pot=it.kind==='potion',own=it.kind==='item'||pot?((S.inv||{})[k]||0):it.kind==='freeze'?(S.freeze.owned||0):0,act=pot&&(S.potions||[]).find(p=>p.t===k&&p.e>=ymd(Date.now()));
+    const buyB=`<button class="small buy" data-buy="${k}" ${(S.gold||0)<it.g||(it.kind==='freeze'&&own>=FREEZE_MAX)?'disabled':''}>${COIN}${it.g}</button>`;
+    return `<div class="shopIt${act?' on':''}"><div class="ico">${pot?potionSVG(it.col):ITEMSVG[k]}</div><b>${esc(it.n)}</b><span class="muted">${esc(it.d)}</span>${act?`<em class="potAct">Active until ${esc(fmtDay(act.e))}</em>`:own&&!pot?`<em>Owned: ${own}</em>`:''}${pot?`<div class="buyUse">${buyB}<button class="small usePot" data-usepot="${k}" ${own?'':'disabled'} aria-label="Use ${esc(it.n)}, ${own} in your bag">Use <span class="qty">×${own}</span></button></div>`:buyB}</div>`}).join('');
   // quests + achievements (unchanged look)
   $('quests').innerHTML=questList(g).map(q=>`<div class="quest${q.done?' done':''}"><span class="ck">${q.done?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14201a" stroke-width="3.5" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg>':''}</span><span>${esc(q.n)}</span><span class="xp">${q.xp}</span></div>`).join('')+(g.today.streak?`<div class="quest done"><span class="ck">★</span><span>Streak bonus</span><span class="xp">${g.today.streak} XP</span></div>`:'')+(g.today.bonus?`<div class="quest done"><span class="ck">⚔</span><span>Boss rewards</span><span class="xp">${g.today.bonus} XP</span></div>`:'');
   $('qEarned').textContent=`+${g.today.total} XP today`+(ap?` (×${ap.mult})`:'');
@@ -3219,8 +3368,8 @@ function bossAttack(){BT.hearts--;if(BT.mb){heartsAdd(-1);if(BT.hearts<=0){setTi
   const hs=$('hearts').querySelectorAll('.ht:not(.lost)');const last=hs[hs.length-1];if(last){last.classList.add('lose')}setTimeout(paintHud,450);
   $('cue').textContent=BT.hearts>0?'Ouch! Keep repping or it attacks again.':'';if(BT.mb)return;if(BT.hearts<=0&&BT.raid){knockOut();return}if(BT.hearts<=0)setTimeout(()=>BT&&endFight(false,'Its attacks wore you down.'),600)}
 function logReps(n,exk){if(!(n>0))return;const d=ymd(Date.now());S.ex=Object.assign({},S.ex);const ek=exk||BT&&BT.ex||'squat';S.ex[ek]=(S.ex[ek]||0)+(EX[ek]&&EX[ek].timed?n*2:n);S.reps=Object.assign({},S.reps);S.reps[d]=(S.reps[d]||0)+n;S.boss=Object.assign(bossBlank(),S.boss);S.boss.reps=(S.boss.reps||0)+n}
-function finishDummy(){const n=BT.reps,d=ymd(Date.now());stopCam();BT.phase='done';logReps(n-(BT.logged||0));let circ=0;if(BT.plan&&BT.planDone){S.circ=S.circ&&S.circ.d===d?S.circ:{d,done:[]};if(!S.circ.done.includes(BT.plan.k)){S.circ.done.push(BT.plan.k);circ=15;S.gold=(S.gold||0)+15;S.bonus=(S.bonus||[]).concat([{d,xp:Math.round(50*potionMult(d)),src:'workout'}]);postEvent('wo:'+BT.plan.k+':'+d,`finished the ${BT.plan.n} home workout 💪`)}}
-  const B=S.boss,dg=B.dg&&B.dg.d===d?B.dg:{d,g:0},earn=Math.max(0,Math.min(10-dg.g,Math.floor(n/10)));dg.g+=earn;B.dg=dg;if(earn)S.gold=(S.gold||0)+earn;store.saveMeta();
+function finishDummy(){const n=BT.reps,d=ymd(Date.now());stopCam();BT.phase='done';logReps(n-(BT.logged||0));let circ=0;if(BT.plan&&BT.planDone){S.circ=S.circ&&S.circ.d===d?S.circ:{d,done:[]};if(!S.circ.done.includes(BT.plan.k)){S.circ.done.push(BT.plan.k);circ=30;S.gold=(S.gold||0)+30;S.bonus=(S.bonus||[]).concat([{d,xp:Math.round(50*potionMult(d)),src:'workout'}]);postEvent('wo:'+BT.plan.k+':'+d,`finished the ${BT.plan.n} home workout 💪`)}}
+  const B=S.boss,dg=B.dg&&B.dg.d===d?B.dg:{d,g:0},earn=Math.max(0,Math.min(30-dg.g,Math.floor(n/5)));dg.g+=earn;B.dg=dg;if(earn)S.gold=(S.gold||0)+earn;store.saveMeta();
   btEl(`<div class="btTop"><b style="flex:1;padding-left:6px">Workout done</b></div><div class="btSb result"><div class="bossStage">${bossArt(BT.b,'idle')}</div><h2 class="win">${BT.plan?(BT.planDone?esc(BT.plan.n)+' complete!':'Workout stopped'):''}${BT.plan?'':`${n} good rep${n===1?'':'s'}!`}</h2><p class="muted">${n} good reps · ${BT.crits} perfect · ${BT.partials} didn’t count</p>
    <div class="loot"><div class="rw gd big">${COIN}+<span data-count="${earn+circ}">0</span></div>${circ?'<div class="rw xp big">+50 XP</div>':''}</div><p class="muted sm">${n>=10?'This counts as a workout day in your weekly challenge.':'Do 10+ good reps in a day to earn workout points in the weekly challenge.'}</p><button class="wide red" id="btDone">Done</button></div>`);
   countUps();if(earn)sfx('coin');postGroups(n>=10?`💪 ${first()||'A friend'} just did ${n} ${EX[BT.ex].name.toLowerCase()}!`:null)}
@@ -3230,7 +3379,7 @@ function endFight(win,why){if(!BT||BT.phase==='done')return;BT.phase='done';stop
   else if(win){const wasReplay=!b.ev&&typeof s==='number'&&s<=B.beat;rw=rewardFor(s,BT.diff);const team=BT.rd&&Object.keys(BT.rd.m||{}).length>1;if(team){rw.xp=Math.round(rw.xp*1.25);rw.gold=Math.round(rw.gold*1.25);if(rw.xp)rw.note='Team bonus +25%'}const today=ymd(Date.now());if(b.ev&&rw.xp){S.evWins=Object.assign({},S.evWins,{[b.key]:1});postEvent('event:'+b.key,`defeated the ${b.n} event boss and earned its badge`)}if(rw.xp){S.bonus=compactBonus((S.bonus||[]).concat([{d:today,xp:rw.xp,src:'boss'}]));S.gold=(S.gold||0)+rw.gold}
     if(!b.ev){B.byDiff=Object.assign({},B.byDiff);B.byDiff[BT.diff]=(B.byDiff[BT.diff]||0)+1;B.wins=Object.assign({},B.wins,{[s]:today});if(wasReplay&&rw.xp)B.rc=Object.assign({},B.rc,{[s]:((B.rc||{})[s]||0)+1});if(s<=B.beat+1)B.beat=Math.max(B.beat,s)}if(rw.xp||rw.gold)B.n++;postEvent('boss:'+s+':'+today,`defeated ${b.n}${BT.rd&&Object.keys(BT.rd.m).length>1?' with their team':''} on ${DIFF[BT.diff].n} ⚔️`);if(BT.diff==='legend')B.legend++;
     postGroups(`⚔️ ${first()||'A friend'} defeated ${b.n} on ${DIFF[BT.diff].n} with ${BT.reps} ${EX[BT.ex].name.toLowerCase()}!`)}
-  else{const g=Math.min(5,Math.floor(BT.reps/10));if(g){S.gold=(S.gold||0)+g;rw.gold=g}}
+  else{const g=Math.min(10,Math.floor(BT.reps/5));if(g){S.gold=(S.gold||0)+g;rw.gold=g}}
   store.saveMeta();
   const w=$('bossWrap');if(win&&w){w.classList.add('die');sfx('explode');const r=w.getBoundingClientRect();for(let i=0;i<3;i++)setTimeout(()=>burst(r.left+r.width/2+(Math.random()-.5)*80,r.top+r.height/2+(Math.random()-.5)*60,{n:40,speed:8,colors:[b.c,'#f2c230','#fff','#e5432d']}),i*220)}
   setTimeout(()=>{if(!BT)return;
@@ -3263,13 +3412,13 @@ const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
 function syncProfile(g){if(mode!=='cloud'||!user||!FB||!cloudOK)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
-  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges().map(([k,t])=>k+'|'+t),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,act:lastActive(g),ver:APP_VERSION,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges().map(([k,t])=>k+'|'+t),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
   SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf||j===SOC.pend)return;SOC.pend=j;
   // a level change goes out right away; everything else is batched for 1.5 s. Failed writes retry, and leaving the app flushes it.
   const lvCh=SOC.lastL==null||p.L!==SOC.lastL;clearTimeout(SOC.pT);SOC.pT=setTimeout(profFlush,lvCh?0:1500)}
 function profFlush(){clearTimeout(SOC.pT);const j=SOC.pend;if(!j||!user||!FB||!cloudOK)return;const p=JSON.parse(j);
   FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).then(()=>{SOC.lastProf=j;SOC.lastL=p.L;if(SOC.pend===j)SOC.pend=null}).catch(e=>{console.warn('profile',e.code);SOC.pT=setTimeout(profFlush,10000)})}
-addEventListener('visibilitychange',()=>{if(document.hidden){if(SOC.pend)profFlush()}else if(SOC.on){syncProfile(game());loadProfiles(true)}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){if(SOC.pend)profFlush()}else if(SOC.on){syncProfile(game());loadProfiles(true)}});
 addEventListener('pagehide',()=>{if(SOC.pend)profFlush()});
 function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}clearTimeout(SOC.pT);Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null,pend:null,lastL:null})}
 function socStart(){socStop();if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return;const fs=FB.fs,me=user.uid;SOC.on=true;
@@ -3346,8 +3495,8 @@ function standings(ids){const wk=weekKey(Date.now()),me=user?user.uid:'me';const
 function lastWinner(ids){const lwk=addDays(weekKey(Date.now()),-7);let best=null,n=0;for(const id of new Set(ids)){const p=SOC.profiles[id];if(!p)continue;const v=p.lwk===lwk?p.lwp||0:p.wk===lwk?p.wp||0:0;if(v>0)n++;if(v>0&&(!best||v>best.v))best={id,p,v}}return n>=2?best:null}
 function boardHTML(ids){const rows=standings([user.uid,...ids]),mx=Math.max(1,...rows.map(r=>r.pts)),w=lastWinner([user.uid,...ids]);
   return (w?`<div class="champ"><svg viewBox="0 0 24 24" width="26" height="26" fill="#f2c230" stroke="#a8730a" stroke-width="1.4" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8l-1-4H9z"/></svg><div><b>${esc(w.id===user.uid?'You':w.p.name)}</b> won last week with ${w.v} points</div></div>`:'')+
-  `<div class="board">${rows.map((r,i)=>`<div class="br${r.me?' me':''}${Date.now()-(LIVE.ch[r.id]||0)<2500?' live':''}" data-friend="${r.me?'':r.id}"><span class="pos p${i+1}">${i+1}</span><span class="gav${frameCls(r.p.frame)}">${pAv(r.p)}</span><div class="bmid"><div class="row between"><b>${esc(r.me?'You':r.p.name)} ${badgeRow(r.p.badges,'sm')}</b><b class="pts">${r.pts}</b></div><div class="bbar"><i style="--w:${(r.pts/mx*100).toFixed(1)}%"></i></div></div></div>`).join('')}</div>`}
-function ago(d){if(!d)return 'no logs yet';const n=Math.round((new Date(ymd(Date.now())+'T12:00')-new Date(d+'T12:00'))/864e5);return n<=0?'active today':n===1?'active yesterday':`active ${n} days ago`}
+  `<div class="board">${rows.map((r,i)=>`<div class="br${r.me?' me':''}${Date.now()-(LIVE.ch[r.id]||0)<2500?' live':''}" data-friend="${r.me?'':r.id}"><span class="pos p${i+1}">${i+1}</span><span class="gav${frameCls(r.p.frame)}">${pAv(r.p)}</span><div class="bmid"><div class="row between"><b>${esc(r.me?'You':r.p.name)} ${!r.me&&isLiveP(r.p)?`<span class="wLive" data-watch="${r.id}" role="button" aria-label="Watch live"><i></i>LIVE</span>`:''}${badgeRow(r.p.badges,'sm')}</b><b class="pts">${r.pts}</b></div><div class="bbar"><i style="--w:${(r.pts/mx*100).toFixed(1)}%"></i></div></div></div>`).join('')}</div>`}
+function ago(d){if(!d)return 'no activity yet';const n=Math.round((new Date(ymd(Date.now())+'T12:00')-new Date(d+'T12:00'))/864e5);return n<=0?'active today':n===1?'active yesterday':`active ${n} days ago`}
 function renderFriends(){const v=$('v-friends');if(!v)return;
   if(mode!=='cloud'||!user){$('frOff').style.display='';$('frOn').style.display='none';return}
   $('frOff').style.display='none';$('frOn').style.display='';const g=game();syncProfile(g);
@@ -3360,7 +3509,7 @@ function renderFriends(){const v=$('v-friends');if(!v)return;
   $('heroBtn').innerHTML=`<span class="gav lg2${frameCls(S.frame)}">${myAv()}</span>`;$('frMe').innerHTML=`${emblem(g.lv.L)}<div><b>${esc(S.name||'You')}</b><div class="muted sm">Lv ${g.lv.L} · ${esc(rankFor(g.lv.L).title)}</div>${badgeRow(myBadges(),'md')}</div>`;
   checkFriendStreaks();const fsort=SOC.friends.slice().sort((x,y)=>friendStreak(SOC.profiles[y.uid]).n-friendStreak(SOC.profiles[x.uid]).n);
   $('frList').innerHTML=ids.length?fsort.map(f=>{const p=SOC.profiles[f.uid];if(!p)return `<div class="fr"><span class="gav sk"></span><div class="muted sm">Loading…</div></div>`;const left=nudgeLeft(f.uid);
-    return `<div class="fr" data-friend="${f.uid}" role="button" tabindex="0"><span class="gav${frameCls(p.frame)}">${pAv(p)}</span><div class="fmid"><b>${esc(p.name)} ${fsBadge(friendStreak(p))} ${badgeRow(p.badges,'sm')}</b><div class="muted sm">${emblem(p.L||1,'tiny')} Lv ${p.L||1} · ${friendStreak(p).them?'worked out today 💪':ago(p.last)}</div></div><button class="small nudge${left?' wait':''}" data-nudge="${f.uid}" ${left?'disabled':''}>${left?`Nudged · ${hrs(left)}`:'Nudge'}</button></div>`}).join(''):`<div class="empty"><p class="muted sm" style="margin:0 0 8px">No friends yet. Send your invite link and they’ll show up here once they tap it.</p></div>`;
+    return `<div class="fr" data-friend="${f.uid}" role="button" tabindex="0"><span class="gav${frameCls(p.frame)}">${pAv(p)}</span><div class="fmid"><b>${esc(p.name)} ${isLiveP(p)?`<span class="wLive" data-watch="${f.uid}" role="button" aria-label="Watch ${esc(p.name)} live"><i></i>LIVE</span>`:''}${fsBadge(friendStreak(p))} ${badgeRow(p.badges,'sm')}</b><div class="muted sm">${emblem(p.L||1,'tiny')} Lv ${p.L||1} · ${friendStreak(p).them?'worked out today 💪':ago(p.act||p.last)}${p.ver?'':' · <span class="oldApp" title="Their level updates the next time they open PlateScan">old app</span>'}</div></div><button class="small nudge${left?' wait':''}" data-nudge="${f.uid}" ${left?'disabled':''}>${left?`Nudged · ${hrs(left)}`:'Nudge'}</button></div>`}).join(''):`<div class="empty"><p class="muted sm" style="margin:0 0 8px">No friends yet. Send your invite link and they’ll show up here once they tap it.</p></div>`;
   $('grList').innerHTML=SOC.groups.length?SOC.groups.map(gr=>`<div class="fr" data-group="${gr.id}" role="button" tabindex="0"><span class="gico">${esc((gr.name||'G')[0].toUpperCase())}</span><div class="fmid"><b>${esc(gr.name)}</b><div class="muted sm ell">${esc(gr.last&&gr.last.t?(gr.last.n?gr.last.n+': ':'')+gr.last.t:'No messages yet')}</div></div><span class="muted sm">${gr.members.length} 👥</span></div>`).join(''):`<p class="muted sm" style="margin:0">Make a group chat for your gym crew, family or coworkers. Everyone in it shares a leaderboard.</p>`;
   loadFeed();renderFeed();renderDuels();renderContacts();renderPeople();applySub('friends');if(animNext){stag($('frList'));stag($('grList'))}
 }
@@ -3372,7 +3521,7 @@ function openFriend(uid){const p=SOC.profiles[uid];if(!p)return;const wk=weekKey
    ${p.cb&&p.cb.length?`<div class="card"><h3>Special badges</h3>${cbRow(p.cb)}</div>`:''}
    <div class="fSafe"><button data-report="${uid}" data-rname="${esc(p.name||'')}" data-rctx="Profile">🚩 Report</button><button data-block="${uid}" data-bname="${esc(p.name||'')}">🚫 Block</button></div>
    <div class="g3 btInfo"><div><b>📅 ${p.streak||0}</b><span>logging streak</span></div><div><b>${p.best||0}</b><span>best streak</span></div><div><b>${p.bosses||0}</b><span>bosses beaten</span></div></div>
-   <div class="card"><div class="row between"><h3 style="margin:0">This week</h3><b>${p.wk===wk?p.wp||0:0} pts</b></div><div class="chDays">${wd.map((v,i)=>`<div class="cd"><i style="--h:${(v/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('')}</div><p class="muted sm" style="margin:6px 0 0">${esc(ago(p.last))} · boss stage ${(p.stage||0)+1}</p></div>
+   <div class="card"><div class="row between"><h3 style="margin:0">This week</h3><b>${p.wk===wk?p.wp||0:0} pts</b></div><div class="chDays">${wd.map((v,i)=>`<div class="cd"><i style="--h:${(v/mx*100).toFixed(0)}%"></i><span>${'MTWTFSS'[i]}</span></div>`).join('')}</div><p class="muted sm" style="margin:6px 0 0">${esc(ago(p.act||p.last))} · boss stage ${(p.stage||0)+1}</p></div>
    ${p.ex&&Object.keys(p.ex).length?`<div class="card"><h3>Workout stats</h3><div class="exStats">${Object.entries(EXB).filter(([k])=>p.ex[k]).map(([k,e])=>`<div>${badgeSVG(k,exTier(k,p.ex[k]))}<b>${fmtEx(k,p.ex[k])}</b><span class="muted sm">${e.n}</span></div>`).join('')}</div></div>`:''}
    <button class="wide" data-duel="${uid}" style="margin-bottom:8px;background:linear-gradient(135deg,#7d5bb0,#c063ff)">⚔️ Duel for gold</button>
    <button class="wide red${left?' wait':''}" data-nudge="${uid}" ${left?'disabled':''}>${left?`Nudged · ready again in ${hrs(left)}`:'👊 Nudge to work out'}</button>
@@ -3425,7 +3574,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22.7';
+const APP_VERSION='23';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3524,7 +3673,7 @@ function badgeSVG(k,t,cls=''){const id='bd'+(++bdN);if(k.startsWith('ev:')){cons
    <g transform="translate(15 23) scale(.75)" fill="none" stroke="${tier==='silver'||tier==='platinum'?c[2]:'#fff'}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${EXB[k].ic}</g>
    ${my?'<path d="M15 13l4 3 5-6 5 6 4-3-1 6H16z" fill="#ffe58a" stroke="#a8730a" stroke-width="1"/>':`<g fill="${c[2]}">${Array.from({length:Math.max(0,t)+1},(_,i)=>`<circle cx="${24+(i-t/2)*4.5}" cy="53" r="1.7"/>`).join('')}</g>`}</svg>`}
 function myBadges(){const all=Object.keys(EXB).map(k=>[k,exTier(k)]).filter(x=>x[1]>=0).sort((a,b)=>b[1]-a[1]);const evs=Object.keys(S.evWins||{}).map(k=>['ev:'+k+':'+(+k.slice(5)-1),9]);
-  const pick=(S.showcase||[]).map(k=>k.startsWith('ev:')?evs.find(e=>e[0]===k):all.find(a=>a[0]===k)).filter(Boolean);return (pick.length?pick:[...evs,...all]).slice(0,3)}
+  const pick=(S.showcase||[]).map(k=>k.startsWith('ev:')?evs.find(e=>e[0]===k):all.find(a=>a[0]===k)).filter(Boolean).slice(0,3);return (pick.length?pick:[...evs,...all]).slice(0,3)}
 // profiles store badges as "key|tier" text: the database can't hold lists inside lists, which silently blocked every profile update after someone earned a badge
 const bPair=x=>Array.isArray(x)?x:typeof x==='string'?[x.slice(0,x.lastIndexOf('|')),+x.slice(x.lastIndexOf('|')+1)]:[null,0];
 const badgeRow=(list,cls='')=>list&&list.length?`<span class="bRow ${cls}">${list.map(bPair).filter(x=>x[0]).map(([k,t])=>badgeSVG(k,t)).join('')}</span>`:'';
@@ -3533,11 +3682,12 @@ function checkBadges(){const key='platescan.bt.'+(user?user.uid:'guest');let st=
   const js=JSON.stringify(st);if(js!==lsGet(key))lsSet(key,js)}
 function renderBadges(){const box=$('exBadges');if(!box)return;const sc=new Set((S.showcase||[]));
   box.innerHTML=Object.entries(EXB).map(([k,e])=>{const v=exTot(k),t=exTier(k,v),nx=e.th[t+1],pct=nx?Math.min(100,(v-(t>=0?e.th[t]:0))/(nx-(t>=0?e.th[t]:0))*100):100;
-    return `<button class="exb${sc.has(k)?' show':''}${t<0?' locked':''}" data-showcase="${k}">${badgeSVG(k,t,t>=5?'glow':'')}<div class="exm"><b>${t>=0?esc(badgeTitle(k,t)):esc(e.n)}</b><span class="muted sm">${fmtEx(k,v)} ${e.u==='sec'?'held':e.u==='wins'?'wins':'reps'}${nx?` · next at ${fmtEx(k,nx)}`:' · maxed'}</span><div class="track"><i style="width:${pct}%;background:linear-gradient(90deg,${TIERS[BTIERS[Math.min(5,t+1)]][1]},${TIERS[BTIERS[Math.min(5,t+1)]][0]})"></i></div></div>${sc.has(k)?'<span class="pill">Shown</span>':''}</button>`}).join('')+
-    Object.keys(S.evWins||{}).map(m=>{const k='ev:'+m+':'+(+m.slice(5)-1),e=EVENT_BOSSES[+m.slice(5)-1];return `<button class="exb${sc.has(k)?' show':''}" data-showcase="${k}">${badgeSVG(k,9)}<div class="exm"><b>${esc(e.n)} Slayer</b><span class="muted sm">Event badge · ${new Date(m+'-15').toLocaleDateString(undefined,{month:'long',year:'numeric'})}</span></div>${sc.has(k)?'<span class="pill">Shown</span>':''}</button>`}).join('');
-  $('showcasePrev').innerHTML=badgeRow(myBadges(),'lg')||'<span class="muted sm">Earn a badge to show it here</span>'}
+    return `<button class="exb${sc.has(k)?' show':''}${t<0?' locked':''}" data-showcase="${k}">${badgeSVG(k,t,t>=5?'glow':'')}<div class="exm"><b>${t>=0?esc(badgeTitle(k,t)):esc(e.n)}</b><span class="muted sm">${fmtEx(k,v)} ${e.u==='sec'?'held':e.u==='wins'?'wins':'reps'}${nx?` · next at ${fmtEx(k,nx)}`:' · maxed'}</span><div class="track"><i style="width:${pct}%;background:linear-gradient(90deg,${TIERS[BTIERS[Math.min(5,t+1)]][1]},${TIERS[BTIERS[Math.min(5,t+1)]][0]})"></i></div></div>${t>=0?`<span class="eqBtn${sc.has(k)?' on':''}">${sc.has(k)?'✓ Equipped':'Equip'}</span>`:''}</button>`}).join('')+
+    Object.keys(S.evWins||{}).map(m=>{const k='ev:'+m+':'+(+m.slice(5)-1),e=EVENT_BOSSES[+m.slice(5)-1];return `<button class="exb${sc.has(k)?' show':''}" data-showcase="${k}">${badgeSVG(k,9)}<div class="exm"><b>${esc(e.n)} Slayer</b><span class="muted sm">Event badge · ${new Date(m+'-15').toLocaleDateString(undefined,{month:'long',year:'numeric'})}</span></div><span class="eqBtn${sc.has(k)?' on':''}">${sc.has(k)?'✓ Equipped':'Equip'}</span></button>`}).join('');
+  const eq=(S.showcase||[]).map(k=>myBadgeAll().find(b=>b[0]===k)).filter(Boolean),auto=!eq.length?myBadges():[];
+  $('showcasePrev').innerHTML=myBadgeAll().length?`<div class="eqSlots">${[0,1,2].map(i=>{const b=eq[i]||auto[i];return b?`<button class="eqSlot${eq[i]?'':' auto'}" ${eq[i]?`data-unequip="${b[0]}" aria-label="Unequip ${esc(badgeName(b[0],b[1]))}"`:'disabled'}>${badgeSVG(b[0],b[1])}${eq[i]?'<i>×</i>':''}</button>`:`<span class="eqSlot empty">+</span>`}).join('')}</div><span class="muted sm eqNote">${eq.length?`${eq.length} of 3 equipped · tap one to remove`:'Showing your best badges automatically. Tap Equip on any badge to choose.'}</span>`:'<span class="muted sm">Earn a badge to equip it here</span>'}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-showcase]');if(!b)return;const k=b.dataset.showcase;if(!k.startsWith('ev:')&&exTier(k)<0){toast(`Do ${EXB[k].th[0]} ${EXB[k].u==='sec'?'seconds of plank':EXB[k].n.toLowerCase()} in workouts or boss fights to earn this badge.`);return}
-  let sc=(S.showcase||[]).filter(x=>x!==k);if(sc.length===(S.showcase||[]).length){sc.unshift(k);sc=sc.slice(0,3)}S.showcase=sc;store.saveMeta();sfx('pop');render();toast(sc.includes(k)?'Badge shown on your profile':'Badge hidden')});
+  let sc=(S.showcase||[]).filter(x=>x!==k);if(sc.length===(S.showcase||[]).length){if(sc.length>=3){sfx('miss');toast('All 3 slots are full. Tap an equipped badge at the top to remove it first.');return}sc.push(k)}S.showcase=sc;store.saveMeta();sfx(sc.includes(k)?'chest':'pop');render();toast(sc.includes(k)?'Badge equipped: friends can see it now':'Badge unequipped')});
 
 // ================= activity feed + high-fives =================
 function postEvent(key,t){if(mode!=='cloud'||!user||!FB)return;const k='platescan.ev.'+user.uid+'.'+key;if(lsGet(k))return;lsSet(k,'1');
@@ -3756,7 +3906,7 @@ async function loadDash(){const box=$('dash');if(!box||!isAdmin)return;box.inner
 document.addEventListener('click',e=>{if(e.target.closest('#dashBtn'))loadDash()});
 
 // ================= daily login rewards =================
-const LOGIN=[{g:10},{g:15},{g:20},{g:25},{g:30},{g:40},{g:80,p:'minor'}];
+const LOGIN=[{g:20},{g:30},{g:40},{g:50},{g:60},{g:80},{g:150,p:'minor'}];
 function loginState(){const L=Object.assign({last:null,n:0,total:0},S.login),today=ymd(Date.now());if(L.last===today)return {...L,ready:false,day:L.n};
   const gap=L.last?Math.round((new Date(today+'T12:00')-new Date(L.last+'T12:00'))/864e5):99;return {...L,ready:true,day:gap<=2?(L.n%7)+1:1,reset:!!L.last&&gap>2}}
 function chestReady(){return loginState().ready}
@@ -3770,7 +3920,7 @@ function openLogin(){lsSet('platescan.loginShown',ymd(Date.now()));renderLogin()
 function closeLogin(){$('loginSheet').classList.remove('on');setTimeout(maybePrompt,2500)}
 $('lgClaim').onclick=()=>{const st=loginState();if(!st.ready)return closeLogin();const r=LOGIN[st.day-1],today=ymd(Date.now());
   S.login={last:today,n:st.day,total:(st.total||0)+1};S.gold=(S.gold||0)+r.g;
-  if(r.p){const it=SHOP[r.p];S.potions=(S.potions||[]).filter(p=>p.e>=addDays(today,-7));const same=S.potions.find(p=>p.t===r.p&&p.e>=today);if(same)same.e=addDays(same.e,it.days);else S.potions.push({t:r.p,mult:it.mult,s:today,e:addDays(today,it.days-1)})}
+  if(r.p){S.inv=Object.assign({shield:0,gloves:0},S.inv);S.inv[r.p]=(S.inv[r.p]||0)+1}
   store.saveMeta();renderLogin(true);sfx('chest');const t=$('lgDays').querySelector('.ld:nth-child('+st.day+')');if(t){t.classList.add('pop');burstAt(t,{n:30,speed:6,shape:'circle',colors:['#f2c230','#ffe58a','#a8730a']})}
   floatText($('lgClaim'),`+${r.g} gold`,'#e0a800');setTimeout(()=>{sfx('coin');render()},500)};
 $('lgLater').onclick=closeLogin;
@@ -3817,9 +3967,9 @@ const WORKOUTS=[{k:'q7',n:'Quick 7',d:'Full body in about 7 minutes',c:'#e5432d'
   {k:'cardio',n:'Cardio burner',d:'Get your heart rate up',c:'#ef7d3c',segs:[['jacks',40],['highknees',40],['burpee',8],['climbers',30],['jacks',30]]}];
 const segTxt=([ex,n])=>EX[ex].timed?`${n}s ${EX[ex].name.replace(' hold','')}`:`${n} ${EX[ex].name.toLowerCase()}`;
 function renderWorkouts(){const box=$('homeWo');if(!box)return;const done=(S.circ&&S.circ.d===ymd(Date.now()))?S.circ.done:[];
-  box.innerHTML=WORKOUTS.map(w=>`<button class="wo${done.includes(w.k)?' done':''}" data-wo="${w.k}" style="--c:${w.c}"><span class="woI">${done.includes(w.k)?'✓':'▶'}</span><span class="hm"><b>${esc(w.n)}</b><span class="muted sm">${esc(w.d)} · ${w.segs.length} moves</span></span><span class="woR">${done.includes(w.k)?'Done today':'+15 gold'}</span></button>`).join('')}
+  box.innerHTML=WORKOUTS.map(w=>`<button class="wo${done.includes(w.k)?' done':''}" data-wo="${w.k}" style="--c:${w.c}"><span class="woI">${done.includes(w.k)?'✓':'▶'}</span><span class="hm"><b>${esc(w.n)}</b><span class="muted sm">${esc(w.d)} · ${w.segs.length} moves</span></span><span class="woR">${done.includes(w.k)?'Done today':'+30 gold'}</span></button>`).join('')}
 document.addEventListener('click',e=>{const w=e.target.closest('[data-wo]');if(!w)return;const W=WORKOUTS.find(x=>x.k===w.dataset.wo);openBattle('dummy');BT.plan=W;BT.ex=W.segs[0][0];BT.b=Object.assign({},DUMMY,{n:W.n,t:W.d,dummy:true,hp:Infinity,stage:0,asc:0});renderSetup()});
-function planSetupHTML(){const W=BT.plan;return `<div class="lbl">${esc(W.n)} · ${W.segs.length} moves</div><ol class="woList">${W.segs.map((x,i)=>`<li><span>${i+1}</span>${esc(segTxt(x))}</li>`).join('')}</ol><p class="muted sm">10 seconds of rest between moves to get into position. Finish the whole circuit for 15 gold and 50 XP (once a day per workout).</p>`}
+function planSetupHTML(){const W=BT.plan;return `<div class="lbl">${esc(W.n)} · ${W.segs.length} moves</div><ol class="woList">${W.segs.map((x,i)=>`<li><span>${i+1}</span>${esc(segTxt(x))}</li>`).join('')}</ol><p class="muted sm">10 seconds of rest between moves to get into position. Finish the whole circuit for 30 gold and 50 XP (once a day per workout).</p>`}
 function segProgress(){if(!BT.plan)return;const [ex,n]=BT.plan.segs[BT.seg],v=EX[ex].timed?BT.segN*2:BT.segN;$('segBox').innerHTML=`<b>${BT.seg+1}/${BT.plan.segs.length}</b> ${esc(EX[ex].name)} <span>${v}/${n}${EX[ex].timed?'s':''}</span><i style="width:${Math.min(100,v/n*100)}%"></i>`}
 function circuitRep(){BT.segN++;segProgress();const [ex,n]=BT.plan.segs[BT.seg],v=EX[ex].timed?BT.segN*2:BT.segN;if(v<n)return;
   logReps(BT.reps-BT.logged,ex);BT.logged=BT.reps;sfx('ach');if(BT.seg+1>=BT.plan.segs.length){BT.planDone=true;return finishDummy()}
@@ -3979,7 +4129,7 @@ const autoAI=()=>!!aiKey()&&lsGet('platescan.autoai')!=='0';
 // ================= search every food (Open Food Facts) =================
 let OFF_RES=[];
 async function offSearch(q){const box=$('offRes');box.innerHTML='<div class="aiLoad"><span class="spin"></span>Searching millions of foods…</div>';
-  try{const r=await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=15&fields=product_name,brands,nutriments,serving_size`);const j=await r.json();
+  try{const r=await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=20&sort_by=unique_scans_n&tagtype_0=countries&tag_contains_0=contains&tag_0=united-states&fields=product_name,brands,nutriments,serving_size`);const j=await r.json();
     OFF_RES=(j.products||[]).map(p=>{const n=p.nutriments||{},srv=n['energy-kcal_serving']!=null,g=k=>+(srv?n[k+'_serving']:n[k+'_100g'])||0;const k=srv?+n['energy-kcal_serving']:+(n['energy-kcal_100g']||0);
       const name=((p.brands?p.brands.split(',')[0].trim()+' ':'')+(p.product_name||'')).trim().slice(0,60);return name&&k>0?[name,srv&&p.serving_size?String(p.serving_size).slice(0,30):'100 g',Math.round(k),Math.round(g('proteins')*10)/10,Math.round(g('fat')*10)/10,Math.round(g('carbohydrates')*10)/10]:null}).filter(Boolean).slice(0,12);
     box.innerHTML=OFF_RES.length?OFF_RES.map((f,i)=>`<div class="res"><div><b>${esc(f[0])}</b><div class="muted sm">${esc(f[1])} · ${f[2]} kcal · P ${f[3]}g</div></div><button class="small" data-offadd="${i}">Add</button></div>`).join('')+'<p class="muted sm" style="margin:4px 0 0">From Open Food Facts. Check the label if numbers look off.</p>':'<p class="muted sm">Nothing found online either. Try fewer words, or add it as a custom food.</p>'}
@@ -4042,12 +4192,12 @@ Object.assign(SHOP,{heart:{n:'Heart',d:'Restore 1 heart now',g:60,kind:'heart',c
 ITEMSVG.heart=ITEMSVG.heal='<svg viewBox="0 0 24 24" fill="#ff4d5e" stroke="#b8182b" stroke-width="1.4"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z"/></svg>';
 
 // ================= monthly boss: a whole month of health =================
-const MB_QUOTA={easy:10,normal:20,hard:30,legend:40};
-const MB_REW={easy:{g:150,xp:480},normal:{g:250,xp:800},hard:{g:400,xp:1280},legend:{g:600,xp:2000}};
+const MB_QUOTA={easy:10,normal:14,hard:18,legend:24};
+const MB_REW={easy:{g:150,xp:480},normal:{g:220,xp:700},hard:{g:320,xp:960},legend:{g:440,xp:1300}};
 const monthKey=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')};
 const daysLeftInMonth=()=>{const d=new Date(),end=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();return end-d.getDate()+1};
 function mbNow(){const k=monthKey();return S.mb&&S.mb.key===k?S.mb:null}
-function mbBase(diff){return Math.round(MB_QUOTA[diff]*daysLeftInMonth()*DIFF[diff].dmg)}
+function mbBase(diff){return Math.round(MB_QUOTA[diff]*daysLeftInMonth()*DIFF[diff].dmg*gHP(diff)*Math.max(.2,Math.min(5,+GCFG.mb||1)))}
 function mbStart(diff){S.mb={key:monthKey(),diff,days:daysLeftInMonth(),start:ymd(Date.now()),checked:ymd(dayOffset(1)),hp:mbBase(diff),max:mbBase(diff),reps:{},won:false,pid:null};store.saveMeta();sfx('ach');render()}
 let MBP=null,mbpUnsub=null;
 function mbPartyWatch(){if(mbpUnsub){mbpUnsub();mbpUnsub=null}const m=mbNow();if(!m||!m.pid||mode!=='cloud'||!user)return;
@@ -4083,7 +4233,7 @@ function mbRep(dmg){const m=mbNow(),d=ymd(Date.now());m.reps=Object.assign({},m.
   if(m.pid){const f=FB.fs;f.updateDoc(f.doc(FB.db,'mparty',m.pid),{hp:f.increment(-dmg),[`reps.${user.uid}.${d}`]:f.increment(1)}).catch(()=>{})}else m.hp=Math.max(0,m.hp-dmg)}
 function mbWin(silent){const m=mbNow();if(!m||m.won)return null;m.won=true;const r=MB_REW[m.diff],team=MBP&&MBP.members.length>1?1.5:1,today=ymd(Date.now()),b=eventBoss();
   const g=Math.round(r.g*team),xp=Math.round(r.xp*team*potionMult(today));S.gold=(S.gold||0)+g;S.bonus=(S.bonus||[]).concat([{d:today,xp,src:'monthly'}]);S.evWins=Object.assign({},S.evWins,{[b.key]:m.diff});
-  const it=SHOP.elixir;S.potions=(S.potions||[]).concat([{t:'elixir',mult:it.mult,s:today,e:addDays(today,it.days-1)}]);heartsAdd(HEART_MAX);S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggs.gold++;
+  S.inv=Object.assign({shield:0,gloves:0},S.inv);S.inv.elixir=(S.inv.elixir||0)+1;heartsAdd(HEART_MAX);S.eggs=Object.assign({basic:0,gym:0,gold:0},S.eggs);S.eggs.gold++;
   if(m.pid)FB.fs.updateDoc(FB.fs.doc(FB.db,'mparty',m.pid),{won:true}).catch(()=>{});postEvent('mbwin:'+b.key,`defeated the monthly boss ${b.n} on ${DIFF[m.diff].n}${team>1?' with their party':''} 🏆`);store.saveMeta();
   if(silent){enqueue({type:'ach',k:'Monthly boss defeated!',name:`Your party beat ${b.n}: +${g} gold, +${fmt(xp)} XP, Elixir of Legends and a Golden Egg`});render()}return {g,xp}}
 
@@ -4807,7 +4957,7 @@ const CHEERS=['🔥','💪','👏','😤','🏆','🚀'];
 const liveOK=()=>mode==='cloud'&&user&&FB&&FB.fs&&S.liveOn!==false&&!SBX&&!isBanned;
 const liveWatchers=()=>Object.values(LV.viewers).filter(v=>Date.now()-(v.ts||0)<45000).length;
 function liveDoc(){const b=BT&&BT.b;return {sc:1000,fi:64,ar:LV.ar||4/3,uid:user.uid,name:(S.name||'Friend').slice(0,30),on:LV.on,t0:LV.t0,ts:Date.now(),ex:BT?BT.ex:'',exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):'',boss:b&&!b.dummy?{n:b.n,hp:Math.max(0,Math.round(BT.hp||0)),max:Math.round(BT.max||1)}:null,reps:BT?BT.reps:0,mir:!!(BT&&BT.cam==='user'),fr:LV.buf.join(';'),cheers:LV.cheerN,av:myAvCfg(),build:myBuild()}}
-const liveProf=()=>LV.on?{on:true,t0:LV.t0,exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):''}:null;
+const liveProf=()=>LV.on?{on:true,t0:LV.t0,hb:Math.floor(Date.now()/60000),exn:BT&&EX[BT.ex]?(EX[BT.ex].name||EX[BT.ex].n||''):''}:null;
 function liveStart(){if(LV.on||!liveOK()||!BT)return;const fs=FB.fs,me=user.uid;LV.on=true;LV.t0=Date.now();LV.buf=[];LV.viewers={};LV.seen=new Set();LV.cheerN=0;LV.boost=[];LV.lastFlush=0;
   fs.setDoc(fs.doc(FB.db,'lives',me),liveDoc()).catch(e=>console.warn('live',e.code));syncProfile(game());
   fs.setDoc(fs.doc(FB.db,'livePings',me+'_'+LV.t0),{from:me,name:(S.name||'A friend').slice(0,30),ts:LV.t0,sent:false}).catch(()=>{});
@@ -4875,7 +5025,8 @@ document.addEventListener('click',e=>{const t=e.target;
   const w=t.closest('[data-watch]');if(w){e.preventDefault();document.querySelectorAll('.sheet.on').forEach(x=>{if(x.id!=='watchSheet')closeSheet(x.id)});openWatch(w.dataset.watch);return}
   if(t.closest('#livePopX')){$('livePop').classList.remove('on')}});
 // who's live (from friends' profiles, which update live)
-function liveFriends(){if(!SOC.on)return [];return SOC.friends.map(f=>[f.uid,SOC.profiles[f.uid]]).filter(([u,p])=>p&&p.live&&p.live.on&&Date.now()-(p.live.t0||0)<45*60000)}
+function liveFriends(){if(!SOC.on)return [];return SOC.friends.map(f=>[f.uid,SOC.profiles[f.uid]]).filter(([u,p])=>isLiveP(p))}
+function isLiveP(p){const l=p&&p.live;if(!l||!l.on)return false;if(l.hb!=null)return Date.now()/60000-l.hb<3.5;return Date.now()-(l.t0||0)<45*60000}
 function renderLiveBanner(){const lf=liveFriends();for(const id of ['v-today','v-friends']){const sec=$(id);if(!sec)continue;let b=sec.querySelector('.liveBan');if(!lf.length){if(b)b.remove();continue}
     if(!b){sec.insertAdjacentHTML('afterbegin','<div class="liveBan"></div>');b=sec.querySelector('.liveBan')}
     b.innerHTML=lf.slice(0,3).map(([u,p])=>`<button data-watch="${u}"><span class="dotL"></span><b>${esc(p.name||'Friend')}</b> is working out live${p.live.exn?` · ${esc(p.live.exn)}`:''}<em>Watch</em></button>`).join('')}}
@@ -4930,14 +5081,31 @@ function foodPic(items){const names=(items||[]).slice().sort((a,b)=>(b.k*(b.q||1
   if(!out.length)out.push(['🍽️','#e8efe9']);const [a,b]=out;return `<div class="th fp" style="background:radial-gradient(circle at 30% 25%,#fff8,transparent 60%),${a[1]}"><span class="e1">${a[0]}</span>${b?`<span class="e2">${b[0]}</span>`:''}</div>`}
 
 // ================= v20: health score + goal fit for meals =================
-const H_GOOD=/salad|broccoli|spinach|kale|vegetable|veggie|green bean|asparagus|carrot|pepper|tomato|cucumber|zucchini|cauliflower|apple|banana|berr|orange|grape|melon|pineapple|peach|mango|cherr|kiwi|\bpears?\b|\boat|quinoa|brown rice|sweet potato|lentil|bean|chickpea|hummus|tofu|tempeh|salmon|tuna|cod|tilapia|shrimp|fish|chicken breast|turkey|egg white|greek|cottage|almond|walnut|cashew|pecan|\bnuts?\b|\bseeds?\b|avocado|whole wheat|whole grain|edamame/;
-const H_BAD=/fried|fries|chips|nacho|donut|doughnut|cookie|cake|cupcake|brownie|ice cream|candy|chocolate bar|soda|cola|sprite|pepsi|frappuccino|milkshake|syrup|frosting|bacon|sausage|hot dog|pepperoni|salami|nugget|mcdonald|burger king|wendy|taco bell|kfc|popeyes|pizza|beer|wine|cocktail|margarita|pastry|croissant|churro|white bread/;
-function mealHealth(items){const T=sumItems(items);if(!T.k)return null;let s=60;const R=[];
-  const pd=T.p*4/T.k,fd=T.f*9/T.k;s+=Math.min(24,pd*80);if(pd>=.3)R.push(['💪',`High protein: ${r0(T.p)}g (${Math.round(pd*100)}% of calories)`,1]);else if(T.p<10&&T.k>250)R.push(['🥚',`Low protein: only ${r0(T.p)}g`,-1]);
-  if(fd>.45){s-=(fd-.45)*80;R.push(['🧈',`High fat: ${Math.round(fd*100)}% of calories`,-1])}
-  let good=[],bad=[],gw=0,bw=0;for(const i of items){const n=String(i.n||'').toLowerCase(),w=(i.k*(i.q||1))/T.k;if(H_GOOD.test(n)){gw+=w;good.push(i.n)}if(H_BAD.test(n)){bw+=w;bad.push(i.n)}}
-  s+=gw*18-bw*30;if(good.length)R.push(['🥦',`Whole foods: ${good.slice(0,3).join(', ')}`,1]);if(bad.length)R.push(['🍟',`Processed or sugary: ${bad.slice(0,3).join(', ')}`,-1]);
-  if(T.k>1600){s-=18;R.push(['⚠️',`Very large meal: ${fmt(T.k)} kcal`,-1])}else if(T.k>1100){s-=8;R.push(['🍽️',`Big meal: ${fmt(T.k)} kcal`,-1])}
+// health grade: whole foods help whether or not they have protein; healthy fats (fish, nuts, olive oil, avocado) aren't punished;
+// meal size is judged against YOUR daily calories; keywords match whole words so "chocolate" isn't "cola" and "jelly beans" aren't beans
+const H_GOOD=/\b(salads?|broccoli|spinach|kale|vegetables?|veggies?|green beans?|asparagus|carrots?|peppers?|tomato(es)?|cucumbers?|zucchini|cauliflower|brussels|cabbage|lettuce|celery|mushrooms?|onions?|squash|beets?|apples?|bananas?|berries|blueberr\w*|strawberr\w*|raspberr\w*|blackberr\w*|oranges?|clementines?|grapes?|melon|watermelon|pineapple|peach(es)?|mango(es)?|cherries|kiwis?|pears?|fruit|oats?|oatmeal|quinoa|brown rice|sweet potato(es)?|lentils?|beans?|chickpeas?|hummus|tofu|tempeh|edamame|salmon|tuna|cod|tilapia|trout|sardines?|shrimp|fish|chicken breast|grilled chicken|turkey breast|eggs?|egg whites?|greek yogurt|cottage cheese|almonds?|walnuts?|cashews?|pecans?|pistachios?|nuts?|seeds?|chia|flax|avocados?|olive oil|whole wheat|whole grain|lean)\b/;
+const H_NOTGOOD=/jelly beans?|pepperoni|orange chicken|orange soda|apple pie|banana bread|banana split|carrot cake|berry pie|fruit snacks?|fruit loops|fruity pebbles|fried (fish|chicken|shrimp)|fish (and|&|n) chips|sweet potato fries|honey nut|candied|chocolate covered|yogurt covered/;
+const H_BAD=/\b(fried|fries|chips|nachos?|donuts?|doughnuts?|cookies?|cakes?|cupcakes?|brownies?|ice cream|candy|candies|chocolate bars?|milk chocolate|soda|cola|coke|sprite|pepsi|mountain dew|energy drink|frappuccino|milkshakes?|shakes?|syrup|frosting|bacon|sausages?|hot ?dogs?|pepperoni|salami|bologna|nuggets?|corn dogs?|mcdonald'?s?|burger king|wendy'?s?|taco bell|kfc|popeyes|pizza|beer|wine|cocktails?|margaritas?|liquor|pastr(y|ies)|croissants?|churros?|white bread|pop ?tarts?|fruit snacks?|sweet tea|lemonade|funnel cake|cheesecake|pie|danish|cinnamon roll|mac (and|&|n) cheese|ramen noodles|hot chocolate|hot cocoa|chocolate milk|sweetened|caramel|mocha|whipped cream)\b/;
+const H_OK=/rice cakes?|kale chips|veggie chips|protein shake|protein bar|fried egg|stir.?fr(y|ied)|air.?fried|pan.?fried|thin crust veggie/;
+function hGood(n){return H_GOOD.test(n)&&!H_NOTGOOD.test(n)}
+function hBad(n){return (H_BAD.test(n)||H_NOTGOOD.test(n))&&!H_OK.test(n)}
+function mealHealth(items){const T=sumItems(items);if(!T.k)return null;let s=64;const R=[];
+  const pd=T.p*4/T.k,fd=T.f*9/T.k;
+  let good=[],bad=[],gw=0,bw=0,plants=0;for(const i of items){const n=String(i.n||'').toLowerCase(),w=(i.k*(i.q||1))/T.k;
+    if(hGood(n)){gw+=w;good.push(i.n);if(!/salmon|tuna|cod|tilapia|trout|sardine|shrimp|fish|chicken|turkey|egg|yogurt|cottage/.test(n))plants++}
+    if(hBad(n)){bw+=w;bad.push(i.n)}}
+  // protein helps, but isn't required for a healthy meal
+  s+=Math.min(14,pd*55);if(pd>=.3)R.push(['💪',`High protein: ${r0(T.p)}g (${Math.round(pd*100)}% of calories)`,1]);else if(T.p<10&&T.k>350&&plants<2)R.push(['🥚',`Low protein: only ${r0(T.p)}g`,-1]);
+  // whole foods count by calories AND by variety, so low-calorie veggies still matter
+  s+=gw*16+Math.min(12,plants*4);if(good.length)R.push(['🥦',`Whole foods: ${good.slice(0,3).join(', ')}`,1]);
+  s-=bw*34+Math.min(9,bad.length*3);if(bad.length)R.push(['🍟',`Processed or sugary: ${bad.slice(0,3).join(', ')}`,-1]);
+  // fat: only counts against you when it isn't coming from whole foods
+  if(fd>.5&&gw<.45){s-=(fd-.5)*60;R.push(['🧈',`High fat: ${Math.round(fd*100)}% of calories`,-1])}else if(fd>.4&&gw>=.45)R.push(['🥑','Mostly healthy fats',1]);
+  // size: compared with your own daily calories (a big eater's normal plate isn't penalized)
+  let dk=2000;try{const t=game().todayT;if(t&&t.kcal)dk=t.kcal}catch(e){}const share=T.k/dk,gain=(+S.profile.change||0)>0;
+  if(share>(gain?.75:.6)){s-=14;R.push(['⚠️',`Very large meal: ${fmt(T.k)} kcal (${Math.round(share*100)}% of your day)`,-1])}else if(share>(gain?.55:.45)){s-=6;R.push(['🍽️',`Big meal: ${fmt(T.k)} kcal`,-1])}
+  if(gw>=.7&&!bad.length)s=Math.max(s,86); // a plate of real food is an A
+  if(bw>=.6&&!good.length)s=Math.min(s,52); // mostly junk can't sneak above a D
   s=Math.max(5,Math.min(99,Math.round(s)));const gr=s>=85?'A':s>=70?'B':s>=55?'C':s>=40?'D':'F';return {s,gr,R,T,pd}}
 function goalFit(h){const g=game(),t=g.todayT;if(!t||!h)return null;const d=byDay()[ymd(Date.now())]||{k:0,p:0},rem=t.kcal-d.k,remP=t.pro-d.p,ch=+S.profile.change||0,T=h.T,R=[];let fit=2;
   const goal=ch<0?'lose':ch>0?'gain':'keep';
@@ -5191,6 +5359,9 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'23',d:'Nov 25, 2026',t:'LIVE tags, badge equipping, fairer grades',items:['Lots more brand-name foods built in (about 140 new, close to 800 total): Burger King, Domino’s, Pizza Hut, Panera, Jersey Mike’s, Jimmy John’s, Sonic, Arby’s, Whataburger, Culver’s, Shake Shack, Wingstop, Cava, Sweetgreen, Olive Garden, Costco and Kirkland, plus protein bars and shakes, yogurts, cereals, breads, chips, cookies, frozen meals, deli meats, sauces and drinks. If the built-in list has fewer than 4 matches, the app now searches the online food database on its own (popular US products first), so most packaged foods show up as you type. Scanning a barcode still fills in the exact label values.','Admins can change boss health for everyone: Settings → Help → Developer tools → Boss health. One slider for all bosses, one per difficulty, and one for new monthly bosses (20%–300%), with a live preview of the reps needed. Save for everyone applies it to every player within seconds. Fights already going and this month’s boss keep their health.','LIVE badge on the Friends list: a red pulsing LIVE tag shows next to a friend’s name (friends list and leaderboard) while they work out live. Tap it to watch. It goes away within about 3 minutes if their workout ends or the app closes.','Badge equipping: Quest → Badges has 3 Equipped slots at the top and an Equip button on every badge you’ve earned. Equipped badges show next to your name on the leaderboard, friends list and your profile. Tap a slot’s × to remove one. If you don’t equip any, your best 3 show automatically.','Harder difficulties need fewer reps. To beat a stage-1 boss: Normal 14 reps (was 19), Hard 20 (was 34), Legend 26 (was 63). Their rewards are adjusted to match (Normal ×1.4, Hard ×1.9, Legend ×2.5), and bosses still attack faster on harder levels. Monthly boss daily targets: Normal 14, Hard 18, Legend 24.','Fairer health grades: fruit, veggies and other whole foods score well even without protein; healthy fats like nuts, salmon, avocado and olive oil aren’t marked down; meal size is judged against your own daily calories; and food words are matched properly (chocolate no longer counts as “cola”, and jelly beans and pepperoni no longer count as healthy). An apple is now an A, almonds an A (was C), jelly beans an F (was B), and sweet drinks like hot chocolate count as sugary.','The date in the top bar is shorter (Wed, Nov 25) so it doesn’t get cut off.']});
+CHANGELOG.unshift({v:'22.9',d:'Nov 25, 2026',t:'Potion bag and more gold',items:['Potions don’t auto-use anymore: buying one (or getting one from a login reward or monthly boss) puts it in your bag. A purple Use button sits right next to Buy and shows how many you have (Use ×2). Drink it when you want the boost; using the same potion again adds more days.','Gold is easier to get. Daily chest: 30–70 plus up to 30 for your streak (was 15–35 plus 20). Login rewards are doubled (20 to 150 gold). Boss gold is about double. Workout reps pay 1 gold per 5 reps, up to 30 a day (was 1 per 10, up to 10). Guided circuits pay 30, a lost boss fight still pays up to 10, and each daily quest you finish now gives 10 gold.']});
+CHANGELOG.unshift({v:'22.8',d:'Nov 25, 2026',t:'Workouts count as activity',items:['Fixed sound glitching after you leave the app and come back: the sound engine now shuts down cleanly when you leave and starts fresh when you return, and leftover voice counting is cleared.','Working out now counts as activity on the Friends list: reps, boss fights, circuits, water and weigh-ins all update “active today”, not just food logs.','Friends still running an older version of PlateScan show an “old app” tag. Their level catches up the next time they open the app.','No more “What’s new” pop-up after updates. Patch notes are still in Settings → Help → Patch notes.']});
 CHANGELOG.unshift({v:'22.7',d:'Nov 24, 2026',t:'Live levels, mythic cutscene, sharper tracking',items:['Friends’ levels finally update: after someone earned their first badge, the database rejected every profile update they sent (badges were saved in a format it doesn’t allow), so friends saw old levels forever. Fixed, and level changes now go out instantly, retry if the signal drops, and save when you leave the app.','Mythic hatch cutscene: hatching a Mythic pet plays a cinematic. The egg glows and cracks under a rush of stars, a white flash opens a rainbow portal, your pet rises as a silhouette, MYTHIC slams in, and the pet is revealed. It has sound and vibration, and you can tap to skip.','Smarter motion tracking for every workout: a quick body check before counting ignores hands waved at the camera, tracking glitches and skeletons that jump around, and only uses joints that are actually inside the picture.','Real reps count more reliably: squats, push-ups, lunges, sit-ups, glute bridges, mountain climbers and jumping jacks accept slightly less perfect camera angles. Half reps still don’t count.','Changing the difficulty, exercise or camera before a fight no longer scrolls you back to the top.','.5× now also works on the front camera on phones with a wide selfie lens.','Fixed a crash when previewing a hatch before you own any pets.']});
 CHANGELOG.unshift({v:'22.6',d:'Nov 24, 2026',t:'Fair levels and boss rewards',items:['Friends’ levels are accurate and live: your level no longer changes when you edit your goal or weight (finished days keep the XP they earned), old boss and bonus XP is never thrown away anymore, and you get a pop-up when a friend levels up.','Boss replay cap: each boss pays rewards for 5 replays (40%, 30%, 25%, 20%, then 15%). After that it’s practice only, so beat the next boss for full rewards. Practice wins no longer count toward boss totals, eggs or unlocks.','Boss XP is about 20% lower across regular, event and monthly bosses.','Monthly boss: you can’t join a party that already beat the boss, an invite from last month, or a party when you already beat this month’s boss. Those invites are cleared automatically, and you can’t send invites after your boss is defeated.','Safety fix: if your data fails to load (bad signal), the app now retries and won’t save anything until it loads, so it can never overwrite your progress or show friends a blank profile.']});
 GUIDE.unshift(['Boss rewards','Each boss gives full rewards the first time you beat it. Replays pay less each time (40% down to 15%) for 5 replays, then it’s practice only, and you can earn from each boss once a day. Beat the next boss for full rewards.']);
@@ -5353,7 +5524,7 @@ document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList
 // quests and monthly bosses unlock gym items
 REQ_T.quests=n=>`✅ Finish ${fmt(n)} daily quests`;
 {const _rh=reqHave;reqHave=function(r){return r[0]==='quests'?(S.questN||0):_rh(r)}}
-{const _qh=questHearts;questHearts=function(g){const k='platescan.qn.'+(user?user.uid:'g')+'.'+ymd(Date.now()),done=questList(g).filter(q=>q.done).length,was=+(lsGet(k)||0);if(done>was){S.questN=(S.questN||0)+(done-was);lsSet(k,String(done))}return _qh(g)}}
+{const _qh=questHearts;questHearts=function(g){const k='platescan.qn.'+(user?user.uid:'g')+'.'+ymd(Date.now()),done=questList(g).filter(q=>q.done).length,was=+(lsGet(k)||0);if(done>was){S.questN=(S.questN||0)+(done-was);S.gold=(S.gold||0)+10*(done-was);lsSet(k,String(done));setTimeout(()=>toast(`+${10*(done-was)} gold · daily quest done`),400)}return _qh(g)}}
 {const _mw=mbWin;mbWin=function(silent){const r=_mw(silent);if(r!==null){const hk='h'+new Date().getMonth();if(GYM[hk]&&!(S.gymOwned||[]).includes(hk)){S.gymOwned=[...(S.gymOwned||[]),hk];store.saveMeta();setTimeout(()=>toast(`New gym decoration: ${GYM[hk].n} 🎉`),2500)}}return r}}
 
 // ================= v22: sheets, collapsibles, sign-in help, pop-ups, camera, sound =================
@@ -5405,6 +5576,55 @@ function gaFlow(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent)
       go:()=>{done();if(iosWeb){openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400)}else if(mode!=='cloud')showAuth('signup');else{const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}))}},skip:done})};
   next()}
 openGetApp=gaFlow;
+// ---- boss health control (admins) ----
+let gcfgUnsub=null;
+function gcfgApply(d){const c=d||{};GCFG={hp:+c.hp||1,d:Object.assign({easy:1,normal:1,hard:1,legend:1},c.d||{}),mb:+c.mb||1,by:c.by||'',ts:c.ts||0};if($('bhBox'))bhRender()}
+function gcfgStart(){if(!FB||gcfgUnsub)return;try{gcfgUnsub=FB.fs.onSnapshot(FB.fs.doc(FB.db,'config','game'),d=>gcfgApply(d.exists()?d.data():null),()=>{gcfgUnsub=null})}catch(e){}}
+{const _ou2=onUser;onUser=async function(u){const r=await _ou2.apply(this,arguments);if(u)gcfgStart();return r}}
+const pct=v=>Math.round((+v||1)*100);
+function bhHTML(){const D=['easy','normal','hard','legend'],b1={hp:100};
+  return `<div class="devBox" id="bhBox" data-cl="bh"><h3 style="margin:0 0 4px">Boss health</h3><p class="muted sm" style="margin:0 0 8px">Changes apply to every player within seconds, for new fights. Fights already going and this month’s boss keep their health.</p>
+  <label class="f"><span>All bosses</span><div class="bhRow"><input type="range" id="bhAll" min="20" max="300" step="5" value="${pct(GCFG.hp)}"><b id="bhAllV">${pct(GCFG.hp)}%</b></div></label>
+  ${D.map(k=>`<label class="f"><span>${DIFF[k].n}</span><div class="bhRow"><input type="range" data-bhd="${k}" min="20" max="300" step="5" value="${pct(GCFG.d[k])}"><b>${pct(GCFG.d[k])}%</b></div></label>`).join('')}
+  <label class="f"><span>Monthly boss (new fights)</span><div class="bhRow"><input type="range" id="bhMb" min="20" max="300" step="5" value="${pct(GCFG.mb)}"><b id="bhMbV">${pct(GCFG.mb)}%</b></div></label>
+  <div class="muted sm" id="bhPrev"></div>
+  <div class="row" style="gap:8px;margin-top:8px"><button class="small red" id="bhSave">Save for everyone</button><button class="small ghost" id="bhReset">Reset to 100%</button></div>
+  ${GCFG.ts?`<p class="muted sm" style="margin:6px 0 0">Last changed ${new Date(GCFG.ts).toLocaleString()}</p>`:''}</div>`}
+function bhRead(){const v=x=>(+x||100)/100;return {hp:v($('bhAll').value),d:Object.fromEntries([...document.querySelectorAll('[data-bhd]')].map(i=>[i.dataset.bhd,v(i.value)])),mb:v($('bhMb').value)}}
+function bhPreview(){document.querySelectorAll('#bhBox input[type=range]').forEach(bhFill);const c=bhRead();$('bhPrev').innerHTML='Reps to beat boss 1: '+['easy','normal','hard','legend'].map(k=>`${DIFF[k].n} <b>${Math.ceil(Math.round(100*DIFF[k].hpx*c.hp*c.d[k])/DIFF[k].dmg)}</b>`).join(' · ')}
+function bhRender(){const old=$('bhBox');if(!old)return;old.outerHTML=bhHTML();clOne($('bhBox'));bhPreview()}
+{const _rd2=renderDev;renderDev=function(){_rd2();const d=$('devTools');if(d&&!$('bhBox')){d.insertAdjacentHTML('afterbegin',bhHTML());clOne($('bhBox'));bhPreview()}}}
+const bhFill=i=>i.style.setProperty('--p',((i.value-i.min)/(i.max-i.min)*100)+'%');
+document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest('#bhBox')||t.type!=='range')return;t.nextElementSibling.textContent=t.value+'%';bhFill(t);bhPreview()});
+document.addEventListener('click',async e=>{const t=e.target;
+  if(t.closest('#bhReset')){document.querySelectorAll('#bhBox input[type=range]').forEach(i=>{i.value=100;i.nextElementSibling.textContent='100%'});bhPreview();return}
+  if(t.closest('#bhSave')){if(!isAdmin)return;const c=bhRead();try{await FB.fs.setDoc(FB.fs.doc(FB.db,'config','game'),{hp:c.hp,d:c.d,mb:c.mb,by:user.uid,ts:Date.now()});sfx('chest');toast('Boss health saved for everyone')}catch(er){toast('Couldn’t save: '+(er.code||'error')+'. Publish the v23 rules.')}}});
+
+// every badge you've earned, as [key, tier]
+function myBadgeAll(){const all=Object.keys(EXB).map(k=>[k,exTier(k)]).filter(x=>x[1]>=0),evs=Object.keys(S.evWins||{}).map(k=>['ev:'+k+':'+(+k.slice(5)-1),9]);return [...evs,...all]}
+const badgeName=(k,t)=>k.startsWith('ev:')?((EVENT_BOSSES[+k.split(':')[2]]||{}).n||'Event')+' Slayer':badgeTitle(k,t);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-unequip]');if(!b)return;S.showcase=(S.showcase||[]).filter(x=>x!==b.dataset.unequip);store.saveMeta();sfx('pop');render();toast('Badge unequipped')});
+
+// LIVE pill: tap opens the live view instead of the friend's profile
+document.addEventListener('click',e=>{const w=e.target.closest('.wLive[data-watch]');if(!w)return;e.stopPropagation();e.preventDefault();openWatch(w.dataset.watch)},true);
+// keep the live heartbeat fresh during a workout (one small profile update a minute), and drop stale LIVE pills
+setInterval(()=>{if(LV.on&&mode==='cloud'&&user)syncProfile(game());if(SOC.on&&view==='friends'&&document.querySelector('.wLive')&&!liveFriends().length)render()},60000);
+
+// drink a potion from your bag: it starts now (drinking the same one again adds more days)
+const fmtDay=k=>new Date(k+'T12:00').toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'});
+function usePotion(k,btn){const it=SHOP[k];S.inv=Object.assign({shield:0,gloves:0},S.inv);if(!it||!(S.inv[k]>0))return;const today=ymd(Date.now());
+  S.inv[k]--;S.potions=(S.potions||[]).filter(p=>p.e>=addDays(today,-7));const same=S.potions.find(p=>p.t===k&&p.e>=today);
+  if(same)same.e=addDays(same.e,it.days);else S.potions.push({t:k,mult:it.mult,s:today,e:addDays(today,it.days-1)});
+  store.saveMeta();sfx('chest');if(btn)burstAt(btn,{n:22,speed:5,shape:'circle',colors:[it.col,'#fff']});toast(`${it.n} active: ×${it.mult} XP until ${fmtDay(same?same.e:addDays(today,it.days-1))}`);render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-usepot]');if(b&&!b.disabled)usePotion(b.dataset.usepot,b)});
+
+// last active day: food logs, workouts (reps, bosses, circuits), water or weigh-ins
+function lastActive(g){let d=g&&g.lastLogDay||'';const up=k=>{if(k&&k>d&&k<=ymd(Date.now()))d=k};
+  for(const [k,v] of Object.entries(S.reps||{}))if(v>0)up(k);for(const v of Object.values((S.boss&&S.boss.wins)||{}))up(v);
+  for(const [k,v] of Object.entries(S.water||{}))if(v>0)up(k);for(const w of S.weights||[])up(w.d||w.date);return d||null}
+// update notes stay in Settings → Help → Patch notes; no pop-up after an update
+maybeNews=function(){lsSet('platescan.seen',APP_VERSION)};
+
 // ================= v22.7: mythic hatch cutscene =================
 // plays on top of the normal hatch; the result card is ready underneath when it fades out. Tap to skip.
 function mythSnd(){if(!sndOn())return;try{
@@ -5478,9 +5698,13 @@ document.addEventListener('click',e=>{if(e.target.closest('#btZoom')&&BT)setZoom
 // sound: keep playing with the silent switch on so screen recordings pick it up
 const recSnd=()=>lsGet('platescan.recsnd')!=='0';
 function audioKeep(){try{if(navigator.audioSession)navigator.audioSession.type=recSnd()?'playback':'auto'}catch(e){}if(AC&&AC.state!=='running'&&sndOn())AC.resume().catch(()=>{})}
-{const _ac=ac;ac=function(){const fresh=!AC;if(fresh)audioKeep();const a=_ac();if(a&&fresh){a.onstatechange=()=>{if(a.state!=='running'&&sndOn()&&!document.hidden)setTimeout(()=>a.resume().catch(()=>{}),250)}}return a}}
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&AC)audioKeep()});
-addEventListener('pageshow',()=>{if(AC)audioKeep()});
+{const _ac=ac;ac=function(){const fresh=!AC;if(fresh)audioKeep();const a=_ac();if(a&&fresh){a.onstatechange=()=>{if(a===AC&&a.state!=='running'&&a.state!=='closed'&&sndOn()&&!document.hidden)setTimeout(()=>a.resume().catch(()=>{}),250)}}return a}}
+// leaving the app: shut the sound engine down cleanly and start a fresh one when you come back.
+// iPhones can hand back a damaged audio session after the app was in the background (crackles, wrong pitch, or silence).
+function audioReset(){try{if(AC&&AC.state!=='closed'){AC.onstatechange=null;AC.close().catch(()=>{})}}catch(e){}AC=null;MG=null;try{speechSynthesis.cancel()}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)audioReset()});
+addEventListener('pagehide',audioReset);
+addEventListener('pageshow',e=>{if(e.persisted)audioReset()});
 {const _rfx=renderFxSwitches;renderFxSwitches=function(){_rfx();const r=$('recSnd');if(r)r.checked=recSnd()}}
 document.addEventListener('change',e=>{if(e.target.id==='recSnd'){lsSet('platescan.recsnd',e.target.checked?'1':'0');audioKeep();if(sndOn())sfx('pop')}});
 
