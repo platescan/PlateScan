@@ -372,6 +372,10 @@ Live workouts now send 15 frames a second with finer positions and the real came
 
 ## LIVE tags, badges, difficulty and health grades (v23)
 - **Brand foods and barcodes**: about 800 foods are built in (works offline), including ~140 new brand-name items. When fewer than 4 built-in foods match what you type, the app automatically searches Open Food Facts (free, millions of products, popular US items first) and you can add a result with one tap; it's saved to My foods. For packaged food, the barcode button on the Scan screen reads the code with the camera and fills in the label's calories, protein, carbs and fat. Built-in numbers are typical values; barcode and online results use the product's label.
+- **Camera interruptions**: a watchdog checks the camera every 0.7 s during fights. If the picture stops or the camera is taken (calls, FaceTime, Siri), the fight pauses, the camera reconnects automatically, and attacks wait 5 s after it's back.
+- **Tracking**: uses MediaPipe's `pose_landmarker_full` model, with joint smoothing (`lmSmooth`). If a phone averages over 55 ms per frame, it switches to the `lite` model from the next fight (`platescan.poseLite`).
+- **Glute bridges**: the bottom angle is learned from the player's own starting position; a rep needs the hips to rise at least 16° above it (and to at least 150°), then lower again.
+- **Leveling**: XP per level is `120 + 80×(L−1) + 4×(L−1)²` (was 150 + 100×(L−1) + 5×(L−1)²), about 20% less. Edit `need` in index.html.
 - **Pop-ups**: at most one install or notification pop-up per app open, never in the first 25 seconds. "Later" snoozes it 3, then 7, then 14 days. Settings → Get the app shows both steps anytime.
 - **Tabs**: Quest opens on **Quests** and Friends opens on **Friends** each time the app opens; your last slide is kept while the app stays open.
 - **All levels and ranks**: Quest tab, under the level card. 19 ranks up to level 100 (new tiers Ruby at 50, Obsidian at 70, Celestial at 90). Edit `RANKS` in index.html.
