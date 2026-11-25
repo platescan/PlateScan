@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22.6">
+<meta name="ps-version" content="22.7">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -1002,6 +1002,45 @@ h3.clH,b.clH{display:flex;align-items:center;gap:8px}
 .zBtn{font-size:14px!important;font-weight:900}.zBtn.on{background:#f2c230!important;color:#14201a!important}
 .feTips li{margin-bottom:6px}
 .hcSay{font-size:12px;color:var(--mute);margin-top:4px;line-height:1.3}
+/* v22.7 mythic cutscene */
+#mythOv{position:fixed;inset:0;z-index:400;background:#04020e;color:#fff;overflow:hidden;opacity:0;transition:opacity .4s;display:flex;align-items:center;justify-content:center;font-family:inherit;cursor:pointer}
+#mythOv.on{opacity:1}#mythOv.out{opacity:0;transition:opacity .5s}
+#mythC{position:absolute;inset:0;width:100%;height:100%}
+.myEgg{position:absolute;left:50%;top:43%;width:150px;height:180px;transform:translate(-50%,-50%);transition:transform .6s,filter .6s,opacity .3s}
+.myEgg svg{width:100%;height:100%}
+#mythOv.s2 .myEgg{animation:myShake .12s infinite;filter:drop-shadow(0 0 30px #ff5fd2) drop-shadow(0 0 60px #5fe0ff) brightness(1.3)}
+#mythOv.s3 .myEgg{animation:myShake .06s infinite;filter:drop-shadow(0 0 50px #fff) drop-shadow(0 0 90px #ff5fd2) brightness(1.8) saturate(1.6);transform:translate(-50%,-50%) scale(1.12)}
+#mythOv.s4 .myEgg{opacity:0;transform:translate(-50%,-50%) scale(2.2)}
+@keyframes myShake{0%{margin-left:-3px}50%{margin-left:3px;margin-top:-2px}100%{margin-left:-2px;margin-top:2px}}
+.myCrack{position:absolute;inset:-60%;opacity:0;background:conic-gradient(from 0deg,transparent 0 8deg,#fff8 9deg 11deg,transparent 12deg 52deg,#ffd6f5aa 53deg 56deg,transparent 57deg 118deg,#bff4ffaa 119deg 122deg,transparent 123deg 200deg,#fff9 201deg 204deg,transparent 205deg 290deg,#ffe58aaa 291deg 294deg,transparent 295deg);mask:radial-gradient(circle,#000 20%,transparent 70%);-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);transition:opacity .5s}
+#mythOv.s3 .myCrack{opacity:1;animation:mySpin 2s linear infinite}
+@keyframes mySpin{to{transform:rotate(360deg)}}
+.myFlash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#mythOv.s4 .myFlash{animation:myFlash 1.1s ease-out forwards}
+@keyframes myFlash{0%{opacity:0}8%{opacity:1}100%{opacity:0}}
+.myPortal{position:absolute;left:50%;top:43%;width:0;height:0}
+.myPortal i{position:absolute;left:50%;top:50%;width:260px;height:260px;margin:-130px;border-radius:50%;opacity:0;transform:scale(.2);transition:opacity .8s,transform 1.2s cubic-bezier(.2,.9,.2,1.2);
+  background:conic-gradient(#ff5fd2,#a35bff,#5fe0ff,#5fffb0,#ffe58a,#ff5fd2);mask:radial-gradient(circle,transparent 55%,#000 57%,#000 63%,transparent 65%);-webkit-mask:radial-gradient(circle,transparent 55%,#000 57%,#000 63%,transparent 65%);filter:blur(.5px) drop-shadow(0 0 12px #ff5fd2)}
+.myPortal i:nth-child(2){width:340px;height:340px;margin:-170px;animation-direction:reverse!important}
+.myPortal i:nth-child(3){width:430px;height:430px;margin:-215px}
+#mythOv.s4 .myPortal i{opacity:.9;transform:scale(1);animation:mySpin 4s linear infinite}
+#mythOv.s4 .myPortal i:nth-child(2){animation-duration:6s}#mythOv.s4 .myPortal i:nth-child(3){opacity:.5;animation-duration:9s}
+.myPet{position:absolute;left:50%;top:43%;width:190px;height:190px;transform:translate(-50%,-30%) scale(.3);opacity:0;filter:brightness(0) drop-shadow(0 0 20px #fff);transition:transform 1.2s cubic-bezier(.2,1.3,.3,1),opacity .6s,filter 1.4s .5s}
+.myPet svg{width:100%;height:100%}
+#mythOv.s4 .myPet{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#mythOv.s5 .myPet{filter:brightness(1) drop-shadow(0 0 24px #ff5fd2) drop-shadow(0 0 50px #5fe0ff);animation:myFloat 2.4s ease-in-out infinite}
+@keyframes myFloat{50%{margin-top:-10px}}
+.myTitle{position:absolute;top:13%;left:0;right:0;text-align:center;font-size:clamp(44px,14vw,84px);font-weight:900;letter-spacing:.08em}
+.myTitle span{display:inline-block;opacity:0;transform:translateY(-60px) scale(2.4);background:linear-gradient(180deg,#fff,#ffd6f5 40%,#ff5fd2 70%,#a35bff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #ff5fd2) drop-shadow(0 0 30px #5fe0ff)}
+#mythOv.s5 .myTitle span{animation:mySlam .5s cubic-bezier(.2,1.6,.4,1) forwards}
+#mythOv.s5 .myTitle span:nth-child(2){animation-delay:.08s}#mythOv.s5 .myTitle span:nth-child(3){animation-delay:.16s}#mythOv.s5 .myTitle span:nth-child(4){animation-delay:.24s}#mythOv.s5 .myTitle span:nth-child(5){animation-delay:.32s}#mythOv.s5 .myTitle span:nth-child(6){animation-delay:.4s}
+@keyframes mySlam{to{opacity:1;transform:none}}
+.myName{position:absolute;top:67%;left:0;right:0;text-align:center;font-size:26px;font-weight:900;opacity:0;transform:translateY(16px);transition:opacity .6s .9s,transform .6s .9s;text-shadow:0 0 18px #ff5fd2}
+#mythOv.s5 .myName{opacity:1;transform:none}
+.myCap{position:absolute;bottom:14%;left:0;right:0;text-align:center;font-size:17px;font-weight:700;letter-spacing:.02em;opacity:0;margin:0;padding:0 20px}
+.myCap.in{animation:myCap .5s forwards}@keyframes myCap{to{opacity:.95}}
+.mySkip{position:absolute;bottom:calc(5% + env(safe-area-inset-bottom));left:0;right:0;text-align:center;font-size:12px;opacity:.45;margin:0}
+@media (prefers-reduced-motion:reduce){#mythOv *{animation:none!important}}
 </style>
 </head>
 <body>
@@ -2834,15 +2873,35 @@ const EX={
 function makeCounter(ex,opt={}){
   const minGap=opt.minGap??600;const PU={hang:0,rise:0,peak:0,wy0:null,sy0:0,ay0:null,tLow:0,bad:'',fresh:true};let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
   const sm=v=>ema=ema==null?v:ema*0.5+v*0.5;
-  function vis(lm,ids){return ids.every(i=>lm[i]&&(lm[i].visibility??1)>=0.5)}
+  // a point only counts if the camera really sees it AND it's inside the picture (the pose model guesses hidden joints)
+  const inF=p=>p.x>-.04&&p.x<1.04&&p.y>-.04&&p.y<1.04;
+  function vis(lm,ids){return ids.every(i=>lm[i]&&(lm[i].visibility??1)>=0.45&&inF(lm[i]))}
+  // body check before counting: ignores a hand waved at the camera, tracking glitches and skeletons that jump around
+  const G={c:null,t:0,tl:[],skip:0,p:{}};
   function frame(lm,t,asp=0.75){
+    if(!lm||!lm.length){cue='Step into view';return null}
+    const ok=i=>lm[i]&&(lm[i].visibility??1)>=.45&&inF(lm[i]),pull=ex==='pullup';
+    const sh=[LM.ls,LM.rs].filter(ok),hp=[LM.lh,LM.rh].filter(ok),wr=[LM.lw,LM.rw].filter(ok);
+    if(pull?(sh.length<2||wr.length<2):(sh.length<1||hp.length<1)){G.skip++;if(G.skip>6){lostAt??=t;cue=pull?'Get both hands on the bar and your shoulders in view':'Step back so your whole body is in view'}return null}
+    const pts=pull?[...sh,...wr]:[...sh,...hp],cx=pts.reduce((a,i)=>a+lm[i].x,0)/pts.length,cy=pts.reduce((a,i)=>a+lm[i].y,0)/pts.length;
+    const mid=a=>({x:a.reduce((s,i)=>s+lm[i].x,0)/a.length,y:a.reduce((s,i)=>s+lm[i].y,0)/a.length}),S2=mid(sh),H2=pull?mid(wr):mid(hp);
+    const torso=pull?Math.abs(lm[LM.ls].x-lm[LM.rs].x)*asp+.001:Math.hypot((S2.x-H2.x)*asp,S2.y-H2.y)+.001;
+    let bad=false;
+    if(G.c&&t-G.t<250&&(Math.hypot((cx-G.c[0])*asp,cy-G.c[1])>.2||pts.some(i=>G.p[i]&&Math.hypot((lm[i].x-G.p[i][0])*asp,lm[i].y-G.p[i][1])>.16)))bad=true; // body teleported between frames
+    if(G.tl.length>=10){const med=[...G.tl].sort((a,b)=>a-b)[G.tl.length>>1],r=torso/med;if(r<.35||r>2.6)bad=true} // body suddenly a very different size (a glitch, not a person)
+    if(pull&&wr.length===2){const gap=Math.abs(lm[LM.lw].x-lm[LM.rw].x)*asp,lev=Math.abs(lm[LM.lw].y-lm[LM.rw].y);if(gap<.5*torso||lev>1.2*torso)bad=true} // hands not gripping a bar
+    if(bad){G.skip++;if(G.skip>8)cue='Hold still for a second…';if(G.skip>24){G.tl=[];G.c=null;G.p={}} /* you moved closer or farther: re-learn your size */return null}
+    G.c=[cx,cy];G.t=t;G.p={};for(const i of pts)G.p[i]=[lm[i].x,lm[i].y];
+    G.skip=0;G.tl.push(torso);if(G.tl.length>45)G.tl.shift();
+    return frame0(lm,t,asp)}
+  function frame0(lm,t,asp=0.75){
     if(!lm||!lm.length){cue='Step into view';return null}
     let ev=null;
     if(ex==='squat'){
       const [h,k,a]=side(lm,EX.squat.pts[0],EX.squat.pts[1]);
       if(!vis(lm,[h,k,a])){lostAt??=t;cue='Step back so your legs are in view';return null}lostAt=null;
       const ang=sm(angAt(lm[h],lm[k],lm[a],asp));
-      if(state==='up'){if(ang<100){state='down';ext=ang;cue='Now drive up!'}else if(ang<140){dropped=true;ext=Math.min(ext??999,ang);cue='Lower… thighs to parallel'}
+      if(state==='up'){if(ang<106){state='down';ext=ang;cue='Now drive up!'}else if(ang<140){dropped=true;ext=Math.min(ext??999,ang);cue='Lower… thighs to parallel'}
         else if(ang>160&&dropped){dropped=false;ext=null;cue='Go deeper for it to count';ev={type:'partial'}}
         else if(ang>160)cue=reps?'Great. Again!':'Squat down until your thighs are level'}
       else{ext=Math.min(ext,ang);if(ang>160){state='up';dropped=false;
@@ -2854,7 +2913,7 @@ function makeCounter(ex,opt={}){
       const ankleOk=lm[a]&&(lm[a].visibility??1)>=0.4,line=ankleOk?angAt(lm[s],lm[h],lm[a],asp):170;
       const tilt=Math.abs(Math.atan2(lm[h].y-lm[s].y,(lm[h].x-lm[s].x)*asp))*180/Math.PI,flat=Math.min(tilt,180-tilt)<50;
       if(!flat){cue='Get into a plank: body level with the floor';if(state==='down'){state='up';ext=null}return null}
-      if(state==='up'){if(elb<95){if(line<150){cue='Keep your body straight';dropped=true;ext=Math.min(ext??999,elb)}else{state='down';ext=elb;cue='Push!'}}
+      if(state==='up'){if(elb<100){if(line<145){cue='Keep your body straight';dropped=true;ext=Math.min(ext??999,elb)}else{state='down';ext=elb;cue='Push!'}}
         else if(elb<130){dropped=true;ext=Math.min(ext??999,elb);cue='Lower your chest'}
         else if(elb>155&&dropped){dropped=false;ext=null;cue='Go lower for it to count';ev={type:'partial'}}
         else if(elb>155)cue=reps?'Nice. Keep going!':'Lower until your elbows bend past 90°'}
@@ -2863,7 +2922,7 @@ function makeCounter(ex,opt={}){
     }else if(ex==='lunge'){
       if(!vis(lm,[LM.lh,LM.lk,LM.la,LM.rh,LM.rk,LM.ra])&&!vis(lm,[LM.lk,LM.rk])){lostAt??=t;cue='Step back so both legs are in view';return null}lostAt=null;
       const a1=angAt(lm[LM.lh],lm[LM.lk],lm[LM.la],asp),a2=angAt(lm[LM.rh],lm[LM.rk],lm[LM.ra],asp),ang=sm(Math.min(a1,a2));
-      if(state==='up'){if(ang<105){state='down';ext=ang;cue='Drive back up!'}else if(ang<145){dropped=true;cue='Lower… back knee toward the floor'}
+      if(state==='up'){if(ang<110){state='down';ext=ang;cue='Drive back up!'}else if(ang<145){dropped=true;cue='Lower… back knee toward the floor'}
         else if(ang>160&&dropped){dropped=false;ev={type:'partial'};cue='Go deeper for it to count'}else if(ang>160)cue=reps?'Nice. Switch legs and go!':'Step and lower until your front knee bends to 90°'}
       else{ext=Math.min(ext,ang);if(ang>160){state='up';dropped=false;if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<90,depth:ext};cue=ext<90?'Perfect lunge!':'Good rep!'}else{ev={type:'fast'};cue='Slow down, control it'}ext=null}}
     }else if(ex==='situp'){
@@ -2871,13 +2930,13 @@ function makeCounter(ex,opt={}){
       if(!vis(lm,[s,h,k])){lostAt??=t;cue='Get your shoulders, hips and knees in view';return null}lostAt=null;
       const hip=sm(angAt(lm[s],lm[h],lm[k],asp));
       if(state==='up'){ // lying down, waiting to sit up
-        if(hip<70){state='down';ext=hip;cue='Now lower back down'}else if(hip<100){dropped=true;cue='Higher… chest to knees'}
+        if(hip<76){state='down';ext=hip;cue='Now lower back down'}else if(hip<100){dropped=true;cue='Higher… chest to knees'}
         else if(hip>115&&dropped){dropped=false;ev={type:'partial'};cue='Sit all the way up for it to count'}else if(hip>115)cue=reps?'Again!':'Sit up until your chest nears your knees'}
       else{ext=Math.min(ext,hip);if(hip>115){state='up';dropped=false;if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext<55,depth:ext};cue=ext<55?'Perfect sit-up!':'Good rep!'}else{ev={type:'fast'};cue='Control the way down'}ext=null}}
     }else if(ex==='jacks'){
       if(!vis(lm,[LM.nose,LM.lw,LM.rw,LM.la,LM.ra,LM.ls,LM.rs])){lostAt??=t;cue='Step back so your hands and feet are in view';return null}lostAt=null;
       const sw=Math.abs(lm[LM.ls].x-lm[LM.rs].x)*asp||.1,feet=Math.abs(lm[LM.la].x-lm[LM.ra].x)*asp/sw,up=lm[LM.lw].y<lm[LM.nose].y&&lm[LM.rw].y<lm[LM.nose].y,down=lm[LM.lw].y>lm[LM.ls].y&&lm[LM.rw].y>lm[LM.rs].y;
-      if(state==='up'){if(up&&feet>1.5){state='down';cue='Back together!'}else if(up||feet>1.5){dropped=true;cue=up?'Feet wider!':'Arms all the way up!'}else cue=reps?'Keep jumping!':'Jump: arms overhead, feet wide'}
+      if(state==='up'){if(up&&feet>1.4){state='down';cue='Back together!'}else if(up||feet>1.4){dropped=true;cue=up?'Feet wider!':'Arms all the way up!'}else cue=reps?'Keep jumping!':'Jump: arms overhead, feet wide'}
       else if(down&&feet<1.2){state='up';dropped=false;if(t-lastRep>=Math.min(minGap,400)){lastRep=t;reps++;good++;ev={type:'rep',perfect:false}}cue='Good!'}
     }else if(ex==='plank'){
       const [s,e,h,a]=side(lm,EX.plank.pts[0],EX.plank.pts[1]);
@@ -2896,13 +2955,13 @@ function makeCounter(ex,opt={}){
       if(!vis(lm,[s,h,k])){lostAt??=t;cue='Get your whole body in view';return null}lostAt=null;
       const a1=angAt(lm[LM.ls],lm[LM.lh],lm[LM.lk],asp),a2=angAt(lm[LM.rs],lm[LM.rh],lm[LM.rk],asp),ang=sm(Math.min(a1,a2)),tilt=Math.abs(Math.atan2(lm[h].y-lm[s].y,(lm[h].x-lm[s].x)*asp))*180/Math.PI,flat=Math.min(tilt,180-tilt)<40;
       if(!flat){cue='Get into a plank first';state='up';return null}
-      if(state==='up'){if(ang<115){state='down';cue='Switch!'}else cue=reps?'Faster!':'Drive a knee toward your chest'}
+      if(state==='up'){if(ang<120){state='down';cue='Switch!'}else cue=reps?'Faster!':'Drive a knee toward your chest'}
       else if(ang>145){state='up';if(t-lastRep>=Math.min(minGap,300)){lastRep=t;reps++;good++;ev={type:'rep',perfect:false}}}
     }else if(ex==='bridge'){
       const [s,h,k]=side(lm,EX.bridge.pts[0],EX.bridge.pts[1]);
       if(!vis(lm,[s,h,k])){lostAt??=t;cue='Get your shoulders, hips and knees in view';return null}lostAt=null;
       const ang=sm(angAt(lm[s],lm[h],lm[k],asp));
-      if(state==='up'){if(ang>162){state='down';ext=ang;cue='Squeeze, then lower'}else if(ang>145){dropped=true;cue='Higher… straight line'}else if(ang<135&&dropped){dropped=false;ev={type:'partial'};cue='Push your hips all the way up'}else if(ang<135)cue=reps?'Again!':'Push your hips up'}
+      if(state==='up'){if(ang>158){state='down';ext=ang;cue='Squeeze, then lower'}else if(ang>145){dropped=true;cue='Higher… straight line'}else if(ang<135&&dropped){dropped=false;ev={type:'partial'};cue='Push your hips all the way up'}else if(ang<135)cue=reps?'Again!':'Push your hips up'}
       else{ext=Math.max(ext,ang);if(ang<135){state='up';dropped=false;if(t-lastRep>=minGap){lastRep=t;reps++;good++;ev={type:'rep',perfect:ext>172};cue='Good rep!'}else{ev={type:'fast'};cue='Slow and controlled'}}}
     }else if(ex==='wallsit'){
       const [h,k,a]=side(lm,EX.wallsit.pts[0],EX.wallsit.pts[1]);
@@ -3086,7 +3145,7 @@ function renderSetup(){const {b,s}=BT,dummy=b.dummy,inv=S.inv,rw=dummy?null:rewa
   ${dummy?'':`<div class="lbl">Fight</div><div class="seg" id="modeSeg"><button data-mode="solo" class="${BT.mode!=='team'?'on':''}">Solo</button><button data-mode="team" class="${BT.mode==='team'?'on':''}">Team (group)</button></div>
    ${BT.mode==='team'?`<label class="f"><span>Group</span><select id="raidGroup">${SOC.groups.map(g=>`<option value="${g.id}" ${g.id===BT.gid?'selected':''}>${esc(g.name)}</option>`).join('')}</select></label><p class="muted sm" style="margin:-4px 0 8px">Everyone in the lobby fights the same boss from their own phone. Each extra fighter adds 75% HP, and everyone gets 25% bonus rewards.</p>`:`<p class="muted sm" style="margin:-4px 0 8px">Solo: just you against the boss at normal HP.</p>`}`}
   <label class="row between voiceRow"><span><b>Count reps out loud</b><span class="muted sm"> so you don’t need to look</span></span><input type="checkbox" id="voiceTog" ${voiceOn()?'checked':''} style="width:22px;min-height:22px;flex:none"></label>
-  <div class="seg" id="camSeg" style="margin-top:10px"><button data-cam="user" class="${BT.cam==='user'?'on':''}">Front camera</button><button data-cam="environment" class="${BT.cam!=='user'?'on':''}">Back camera</button></div><p class="muted sm" style="margin:6px 0 0">Need to fit more of your body? With the back camera, tap <b>.5×</b> during the fight on phones with an ultra-wide lens.</p>
+  <div class="seg" id="camSeg" style="margin-top:10px"><button data-cam="user" class="${BT.cam==='user'?'on':''}">Front camera</button><button data-cam="environment" class="${BT.cam!=='user'?'on':''}">Back camera</button></div><p class="muted sm" style="margin:6px 0 0">Need to fit more of your body? Tap <b>.5×</b> during the fight. It shows up on cameras that can zoom out: the back ultra-wide on most phones, and the front camera on phones that have a wide selfie lens.</p>
   <p class="muted sm">Video stays on your phone. Rep tracking runs on-device and nothing is recorded or uploaded.</p></div>
   <div class="btFoot"><button class="wide red big" id="btGo">${dummy?'Start workout':BT.mode==='team'?'Open team lobby':'Fight!'}</button></div>`);
   if(BT.plan){const g=$('exSeg');if(g){g.previousElementSibling.remove();g.nextElementSibling.remove();g.outerHTML=planSetupHTML()}}
@@ -3204,10 +3263,15 @@ const fidOf=(a,b)=>a<b?a+'_'+b:b+'_'+a;
 const dayNo=()=>Math.floor(Date.now()/864e5),hourNo=()=>Math.floor(Date.now()/36e5),NUDGE_XP=5,NUDGE_XP_MAX=25;
 function heroId(){if(AV[S.hero])return S.hero;const ks=Object.keys(AV);return ks[Math.floor(seedRand((user&&user.uid)||'me')*ks.length)]}
 function syncProfile(g){if(mode!=='cloud'||!user||!FB||!cloudOK)return;const wk=weekKey(Date.now()),lwk=addDays(wk,-7),wd=weekPts(wk),lw=weekPts(lwk),r=rankFor(g.lv.L),B=Object.assign(bossBlank(),S.boss);
-  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges(),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
-  SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf)return;SOC.lastProf=j;
-  clearTimeout(SOC.pT);SOC.pT=setTimeout(()=>FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).catch(e=>console.warn('profile',e.code)),1500)}
-function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null})}
+  const p={name:(S.name||'Friend').slice(0,30),hero:heroId(),L:g.lv.L,title:r.title,tier:r.tier,streak:g.curStreak,best:g.best,last:g.lastLogDay||null,wk,wp:wd.reduce((a,b)=>a+b,0),wd,lwk,lwp:lw.reduce((a,b)=>a+b,0),bosses:B.n||0,stage:B.beat||0,invite:myInvite(),wo:myWoDays(),av:myAvCfg(),gym:S.gym?gymCfgPublic():null,build:myBuild(),pet:S.pet?{k:S.pet.k,name:S.pet.name,mood:(petState()||{}).mood||0,acc:S.pet.acc||null,r:(PETS[S.pet.k]||{}).r||'common'}:null,motto:(S.prof||{}).motto||'',ptitle:(S.prof||{}).title||'',banner:(S.prof||{}).banner||'',fav:(S.prof||{}).fav||'',tag:S.tag||'',fr:SOC.friends.map(f=>f.uid).slice(0,100),badges:myBadges().map(([k,t])=>k+'|'+t),frame:S.frame||null,ex:S.ex||{},created:S.created||(S.created=Date.now()),sh:sharedData(g),live:liveProf(),cb:(S.cb||[]).slice(0,6).map(({n,d,sym,sty})=>({n,d,sym,sty}))};
+  SOC.me=p;SOC.profiles[user.uid]=p;const j=JSON.stringify(p);if(j===SOC.lastProf||j===SOC.pend)return;SOC.pend=j;
+  // a level change goes out right away; everything else is batched for 1.5 s. Failed writes retry, and leaving the app flushes it.
+  const lvCh=SOC.lastL==null||p.L!==SOC.lastL;clearTimeout(SOC.pT);SOC.pT=setTimeout(profFlush,lvCh?0:1500)}
+function profFlush(){clearTimeout(SOC.pT);const j=SOC.pend;if(!j||!user||!FB||!cloudOK)return;const p=JSON.parse(j);
+  FB.fs.setDoc(FB.fs.doc(FB.db,'profiles',user.uid),{...p,updated:Date.now()}).then(()=>{SOC.lastProf=j;SOC.lastL=p.L;if(SOC.pend===j)SOC.pend=null}).catch(e=>{console.warn('profile',e.code);SOC.pT=setTimeout(profFlush,10000)})}
+addEventListener('visibilitychange',()=>{if(document.hidden){if(SOC.pend)profFlush()}else if(SOC.on){syncProfile(game());loadProfiles(true)}});
+addEventListener('pagehide',()=>{if(SOC.pend)profFlush()});
+function socStop(){const pw=window.__PW||{};for(const k of Object.keys(pw)){try{pw[k]()}catch(e){}delete pw[k]}SOC.unsubs.forEach(u=>{try{u()}catch(e){}});SOC.unsubs=[];if(SOC.msgUnsub){SOC.msgUnsub();SOC.msgUnsub=null}clearTimeout(SOC.pT);Object.assign(SOC,{on:false,friends:[],groups:[],profiles:{},inbox:[],lastProf:'',me:null,pend:null,lastL:null})}
 function socStart(){socStop();if(mode!=='cloud'||!user||!FB||!FB.fs.onSnapshot)return;const fs=FB.fs,me=user.uid;SOC.on=true;
   SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'friendships'),fs.where('members','array-contains',me)),q=>{SOC.friends=q.docs.map(d=>({id:d.id,...d.data(),uid:d.data().members.find(x=>x!==me)}));syncProfile(game());loadProfiles(true)},e=>console.warn('friends',e.code)));
   SOC.unsubs.push(fs.onSnapshot(fs.query(fs.collection(FB.db,'groups'),fs.where('members','array-contains',me)),q=>{SOC.groups=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>((b.last&&b.last.ts)||b.ts||0)-((a.last&&a.last.ts)||a.ts||0));loadProfiles(true);if(SOC.gid)renderGroup()},e=>console.warn('groups',e.code)));
@@ -3361,7 +3425,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22.6';
+const APP_VERSION='22.7';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -3461,7 +3525,9 @@ function badgeSVG(k,t,cls=''){const id='bd'+(++bdN);if(k.startsWith('ev:')){cons
    ${my?'<path d="M15 13l4 3 5-6 5 6 4-3-1 6H16z" fill="#ffe58a" stroke="#a8730a" stroke-width="1"/>':`<g fill="${c[2]}">${Array.from({length:Math.max(0,t)+1},(_,i)=>`<circle cx="${24+(i-t/2)*4.5}" cy="53" r="1.7"/>`).join('')}</g>`}</svg>`}
 function myBadges(){const all=Object.keys(EXB).map(k=>[k,exTier(k)]).filter(x=>x[1]>=0).sort((a,b)=>b[1]-a[1]);const evs=Object.keys(S.evWins||{}).map(k=>['ev:'+k+':'+(+k.slice(5)-1),9]);
   const pick=(S.showcase||[]).map(k=>k.startsWith('ev:')?evs.find(e=>e[0]===k):all.find(a=>a[0]===k)).filter(Boolean);return (pick.length?pick:[...evs,...all]).slice(0,3)}
-const badgeRow=(list,cls='')=>list&&list.length?`<span class="bRow ${cls}">${list.map(([k,t])=>badgeSVG(k,t)).join('')}</span>`:'';
+// profiles store badges as "key|tier" text: the database can't hold lists inside lists, which silently blocked every profile update after someone earned a badge
+const bPair=x=>Array.isArray(x)?x:typeof x==='string'?[x.slice(0,x.lastIndexOf('|')),+x.slice(x.lastIndexOf('|')+1)]:[null,0];
+const badgeRow=(list,cls='')=>list&&list.length?`<span class="bRow ${cls}">${list.map(bPair).filter(x=>x[0]).map(([k,t])=>badgeSVG(k,t)).join('')}</span>`:'';
 function checkBadges(){const key='platescan.bt.'+(user?user.uid:'guest');let st={};try{st=JSON.parse(lsGet(key)||'{}')}catch(e){}const first=!lsGet(key);
   for(const k in EXB){const t=exTier(k);if(t>(st[k]??-1)&&!first){enqueue({type:'ach',k:t>=5?'MYTHIC BADGE':'New badge',name:`${badgeTitle(k,t)} · ${fmtEx(k,EXB[k].th[t])} ${EXB[k].n.toLowerCase()}`});postEvent('badge:'+k+':'+t,`earned the ${badgeTitle(k,t)} badge (${fmtEx(k,EXB[k].th[t])} ${EXB[k].n.toLowerCase()})`)}st[k]=t}
   const js=JSON.stringify(st);if(js!==lsGet(key))lsSet(key,js)}
@@ -4632,9 +4698,9 @@ function showHatch(t,k,r,isNew,refund){let o=$('hatchOv');if(!o){document.body.i
   o.className='on';o.style.setProperty('--rc',RAR[r].c);o.innerHTML=`<div class="hEgg">${eggSVG(t,'wob')}</div><p class="hTxt">Hatching…</p>`;sfx('chest');
   setTimeout(()=>{o.classList.add('crack');sfx('explode')},1400);
   setTimeout(()=>{o.classList.add('done',r);burst(innerWidth/2,innerHeight/2.4,{n:r==='mythic'?160:r==='legendary'?110:60,speed:r==='mythic'?11:8,shape:'star',colors:r==='mythic'?['#ff5fd2','#5fe0ff','#ffe58a','#fff','#a35bff']:[RAR[r].c,'#fff','#ffe58a']});sfx(RORD.indexOf(r)>=3?'victory':'level');
-    const p=PETS[k],s=(S.pets[k]||{}).n||1;
+    const p=PETS[k],s=((S.pets||{})[k]||{}).n||1;
     o.innerHTML=`<div class="hRays"></div><div class="hPet">${petSVG(k,90)}</div><div class="hRar">${RAR[r].n}${isNew?' · NEW!':''}</div><h2>${esc(p.n)}</h2><p class="hD">${esc(p.d||'')}</p>${isNew?'':`<p class="hD">Duplicate: ★ ${Math.min(5,s)} and +${refund} gold back</p>`}
-     <div class="hBtns"><button data-hactive="${k}">Make active</button>${(S.eggs[t]||0)>0||(S.gold||0)>=EGGS[t].g?`<button class="ghost" data-hatch="${t}">Hatch another ${(S.eggs[t]||0)>0?`(${S.eggs[t]} free)`:`${COIN}${fmt(EGGS[t].g)}`}</button>`:''}<button class="ghost" data-hclose>Close</button></div>`;
+     <div class="hBtns"><button data-hactive="${k}">Make active</button>${((S.eggs||{})[t]||0)>0||(S.gold||0)>=EGGS[t].g?`<button class="ghost" data-hatch="${t}">Hatch another ${((S.eggs||{})[t]||0)>0?`(${(S.eggs||{})[t]} free)`:`${COIN}${fmt(EGGS[t].g)}`}</button>`:''}<button class="ghost" data-hclose>Close</button></div>`;
     renderHeroSheet();render()},2100)}
 // pet tab
 let ptab='mine';
@@ -5125,6 +5191,7 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'22.7',d:'Nov 24, 2026',t:'Live levels, mythic cutscene, sharper tracking',items:['Friends’ levels finally update: after someone earned their first badge, the database rejected every profile update they sent (badges were saved in a format it doesn’t allow), so friends saw old levels forever. Fixed, and level changes now go out instantly, retry if the signal drops, and save when you leave the app.','Mythic hatch cutscene: hatching a Mythic pet plays a cinematic. The egg glows and cracks under a rush of stars, a white flash opens a rainbow portal, your pet rises as a silhouette, MYTHIC slams in, and the pet is revealed. It has sound and vibration, and you can tap to skip.','Smarter motion tracking for every workout: a quick body check before counting ignores hands waved at the camera, tracking glitches and skeletons that jump around, and only uses joints that are actually inside the picture.','Real reps count more reliably: squats, push-ups, lunges, sit-ups, glute bridges, mountain climbers and jumping jacks accept slightly less perfect camera angles. Half reps still don’t count.','Changing the difficulty, exercise or camera before a fight no longer scrolls you back to the top.','.5× now also works on the front camera on phones with a wide selfie lens.','Fixed a crash when previewing a hatch before you own any pets.']});
 CHANGELOG.unshift({v:'22.6',d:'Nov 24, 2026',t:'Fair levels and boss rewards',items:['Friends’ levels are accurate and live: your level no longer changes when you edit your goal or weight (finished days keep the XP they earned), old boss and bonus XP is never thrown away anymore, and you get a pop-up when a friend levels up.','Boss replay cap: each boss pays rewards for 5 replays (40%, 30%, 25%, 20%, then 15%). After that it’s practice only, so beat the next boss for full rewards. Practice wins no longer count toward boss totals, eggs or unlocks.','Boss XP is about 20% lower across regular, event and monthly bosses.','Monthly boss: you can’t join a party that already beat the boss, an invite from last month, or a party when you already beat this month’s boss. Those invites are cleared automatically, and you can’t send invites after your boss is defeated.','Safety fix: if your data fails to load (bad signal), the app now retries and won’t save anything until it loads, so it can never overwrite your progress or show friends a blank profile.']});
 GUIDE.unshift(['Boss rewards','Each boss gives full rewards the first time you beat it. Replays pay less each time (40% down to 15%) for 5 replays, then it’s practice only, and you can earn from each boss once a day. Beat the next boss for full rewards.']);
 CHANGELOG.unshift({v:'22.5',d:'Nov 24, 2026',t:'Easy weight-loss goals',items:['Setting a weight-loss goal is easy now: Settings → Goal has Lose weight, Maintain and Gain weight buttons, so you just type how many pounds. No minus sign needed (the iPhone keypad doesn’t have one).','Weight changes show a plus or minus sign, like “▼ −5.0 lb” on your weight chart.']});
@@ -5338,6 +5405,46 @@ function gaFlow(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent)
       go:()=>{done();if(iosWeb){openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400)}else if(mode!=='cloud')showAuth('signup');else{const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}))}},skip:done})};
   next()}
 openGetApp=gaFlow;
+// ================= v22.7: mythic hatch cutscene =================
+// plays on top of the normal hatch; the result card is ready underneath when it fades out. Tap to skip.
+function mythSnd(){if(!sndOn())return;try{
+  [0,.55,1.0,1.35,1.62,1.82,1.98].forEach((t,i)=>{tone(62,t,.22,{type:'sine',gain:.32});tone(48,t+.09,.2,{type:'sine',gain:.22})}); // heartbeat speeding up
+  tone(140,1.2,2.0,{f2:1800,type:'sawtooth',gain:.035,attack:1.6}); // riser
+  tone(70,3.25,1.4,{f2:30,type:'sine',gain:.5});tone(2400,3.25,.6,{f2:600,type:'triangle',gain:.05}); // impact
+  [523,659,784,1047,1319,1568].forEach((f,i)=>tone(f,3.6+i*.09,1.4,{type:'triangle',gain:.07})); // choir-ish shimmer
+  [1047,1319,1568,2093].forEach((f,i)=>tone(f,4.5+i*.12,.9,{type:'sine',gain:.05}))}catch(e){}}
+function mythicCutscene(t,k,done){const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,p=PETS[k];
+  document.body.insertAdjacentHTML('beforeend',`<div id="mythOv" role="dialog" aria-label="Mythic hatch"><canvas id="mythC"></canvas><div class="myPortal"><i></i><i></i><i></i></div>
+    <div class="myEgg">${eggSVG(t,'wob')}<div class="myCrack"></div></div><div class="myFlash"></div>
+    <div class="myPet">${petSVG(k,100)}</div><div class="myTitle"><span>M</span><span>Y</span><span>T</span><span>H</span><span>I</span><span>C</span></div>
+    <div class="myName">${esc(p.n)}</div><p class="myCap">Something stirs inside the egg…</p><p class="mySkip">Tap to skip</p></div>`);
+  const o=$('mythOv'),cv=$('mythC'),cx=cv.getContext('2d');let raf=0,t0=performance.now(),over=false;
+  const W=()=>{cv.width=innerWidth*Math.min(2,devicePixelRatio||1);cv.height=innerHeight*Math.min(2,devicePixelRatio||1)};W();
+  const stars=Array.from({length:reduce?60:220},()=>({a:Math.random()*Math.PI*2,r:Math.random()*.9+.02,z:Math.random()*.8+.2,h:[320,190,50,270][Math.floor(Math.random()*4)]}));
+  function draw(now){const el=(now-t0)/1000,w=cv.width,h=cv.height,c=Math.min(w,h);cx.fillStyle=el<3.2?'rgba(4,2,14,.35)':'rgba(10,4,30,.25)';cx.fillRect(0,0,w,h);
+    const speed=el<1.2?.002:el<3.2?.002+Math.pow((el-1.2)/2,2)*.05:.006;
+    for(const s of stars){s.r+=speed*s.z*(1+s.r*3);if(s.r>1.2){s.r=.02;s.a=Math.random()*Math.PI*2}const x=w/2+Math.cos(s.a)*s.r*c*.9,y=h/2.3+Math.sin(s.a)*s.r*c*.9,len=Math.max(1,speed*900*s.r*s.z);
+      cx.strokeStyle=`hsla(${s.h+el*40},100%,${70+s.z*20}%,${Math.min(1,s.r*1.5)})`;cx.lineWidth=Math.max(1,s.z*2.2*(devicePixelRatio||1));cx.beginPath();cx.moveTo(x,y);cx.lineTo(x-Math.cos(s.a)*len,y-Math.sin(s.a)*len);cx.stroke()}
+    if(!over)raf=requestAnimationFrame(draw)}
+  raf=requestAnimationFrame(draw);mythSnd();
+  const T=[],at=(ms,f)=>T.push(setTimeout(f,reduce?ms*.4:ms));
+  const cap=s=>{const c=o.querySelector('.myCap');c.classList.remove('in');void c.offsetWidth;c.textContent=s;c.classList.add('in')};
+  requestAnimationFrame(()=>o.classList.add('on','s1'));cap('Something stirs inside the egg…');
+  const buzz=pt=>{try{navigator.vibrate&&navigator.vibrate(pt)}catch(e){}};
+  at(0,()=>buzz([60,480,60,380,60,280,60,180,60]));
+  at(1200,()=>{o.classList.add('s2');cap('The stars are moving…')});
+  at(2300,()=>{o.classList.add('s3');cap('This one is different.')});
+  at(3200,()=>{o.classList.add('s4');buzz([300]);try{burst(innerWidth/2,innerHeight/2.4,{n:180,speed:13,shape:'star',colors:['#ff5fd2','#5fe0ff','#ffe58a','#fff','#a35bff']})}catch(e){}cap('')});
+  at(4000,()=>{o.classList.add('s5');cap('You hatched a MYTHIC pet!')});
+  at(6400,()=>finish());
+  function finish(){if(over)return;over=true;T.forEach(clearTimeout);cancelAnimationFrame(raf);o.classList.add('out');setTimeout(()=>{o.remove();done&&done()},500)}
+  o.addEventListener('click',()=>{if(o.classList.contains('s5'))finish();else{T.forEach(clearTimeout);T.length=0;o.classList.add('s2','s3','s4','s5');cap('You hatched a MYTHIC pet!');setTimeout(finish,1400)}});
+  addEventListener('resize',W,{once:true})}
+{const _sh=showHatch;showHatch=function(t,k,r,isNew,refund){if(r==='mythic'){_sh(t,k,r,isNew,refund);mythicCutscene(t,k);return}_sh(t,k,r,isNew,refund)}}
+
+// keep your place when you change difficulty, exercise or camera before a fight
+{const _rs=renderSetup;renderSetup=function(){const sb=document.querySelector('#battle .btSb'),y=sb?sb.scrollTop:0,again=!!sb;_rs.apply(this,arguments);const nb=document.querySelector('#battle .btSb');if(again&&nb){nb.scrollTop=y;const st=nb.querySelector('.bossStage.intro');if(st)st.classList.remove('intro')}}}
+
 {const _oi=openMbInvite;openMbInvite=function(){const m=mbNow();if(m&&(m.won||(MBP&&(MBP.won||MBP.hp<=0)))){toast('This month’s boss is already defeated. Invites open again with next month’s boss.');return}_oi()}}
 
 async function retryCloud(){if(cloudOK||mode!=='cloud'||!user)return;try{await loadCloud();cloudOK=true;fillFields();render();socStart();toast('Your data loaded ✓')}catch(e){setTimeout(retryCloud,15000)}}
@@ -5360,7 +5467,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-gdir]');if
 // camera: .5x zoom (ultra-wide) when the phone has it
 async function camZoomSetup(){if(!BT||!BT.stream)return;const tr=BT.stream.getVideoTracks()[0];let cap={};try{cap=tr&&tr.getCapabilities?tr.getCapabilities():{}}catch(e){}
   BT.zc=cap.zoom&&cap.zoom.min<1?cap.zoom:null;BT.uw=null;BT.zoom=1;
-  if(!BT.zc&&BT.cam!=='user'){try{const ds=await navigator.mediaDevices.enumerateDevices();const u=ds.find(d=>d.kind==='videoinput'&&/ultra[ -]?wide|0[.,]5x?/i.test(d.label));if(u)BT.uw=u.deviceId}catch(e){}}
+  if(!BT.zc){try{const ds=await navigator.mediaDevices.enumerateDevices(),front=BT.cam==='user';const u=ds.find(d=>d.kind==='videoinput'&&/ultra[ -]?wide|0[.,]5x?|wide[ -]?angle/i.test(d.label)&&(front?/front|user|face/i.test(d.label):!/front|user|face/i.test(d.label)));if(u)BT.uw=u.deviceId}catch(e){}}
   const b=$('btZoom');if(!b||!BT)return;const ok=!!(BT.zc||BT.uw);b.style.display=ok?'':'none';if(ok&&lsGet('platescan.zoom')==='0.5')setZoom(.5,true)}
 async function setZoom(z,quiet){if(!BT||!BT.stream)return;const b=$('btZoom');
   try{if(BT.zc)await BT.stream.getVideoTracks()[0].applyConstraints({advanced:[{zoom:Math.max(BT.zc.min,Math.min(BT.zc.max,z))}]});

@@ -2,6 +2,15 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.7: Live levels, mythic cutscene, sharper tracking (Nov 24, 2026)
+- Friends’ levels finally update: after someone earned their first badge, the database rejected every profile update they sent (badges were saved in a format it doesn’t allow), so friends saw old levels forever. Fixed, and level changes now go out instantly, retry if the signal drops, and save when you leave the app.
+- Mythic hatch cutscene: hatching a Mythic pet plays a cinematic. The egg glows and cracks under a rush of stars, a white flash opens a rainbow portal, your pet rises as a silhouette, MYTHIC slams in, and the pet is revealed. It has sound and vibration, and you can tap to skip.
+- Smarter motion tracking for every workout: a quick body check before counting ignores hands waved at the camera, tracking glitches and skeletons that jump around, and only uses joints that are actually inside the picture.
+- Real reps count more reliably: squats, push-ups, lunges, sit-ups, glute bridges, mountain climbers and jumping jacks accept slightly less perfect camera angles. Half reps still don’t count.
+- Changing the difficulty, exercise or camera before a fight no longer scrolls you back to the top.
+- .5× now also works on the front camera on phones with a wide selfie lens.
+- Fixed a crash when previewing a hatch before you own any pets.
+
 ## v22.6: Fair levels and boss rewards (Nov 24, 2026)
 - Friends’ levels are accurate and live: your level no longer changes when you edit your goal or weight (finished days keep the XP they earned), old boss and bonus XP is never thrown away anymore, and you get a pop-up when a friend levels up.
 - Boss replay cap: each boss pays rewards for 5 replays (40%, 30%, 25%, 20%, then 15%). After that it’s practice only, so beat the next boss for full rewards. Practice wins no longer count toward boss totals, eggs or unlocks.

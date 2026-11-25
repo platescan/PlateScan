@@ -364,6 +364,11 @@ On **Sign in**: **Forgot password?** sends a reset email (tell users to check sp
 ## Live workouts: smoother playback (v22)
 Live workouts now send 15 frames a second with finer positions and the real camera shape, and viewers' phones buffer about a second and smooth between frames, so movement looks fluid instead of jumpy. Uses about the same database writes as before.
 
+## Live levels and motion tracking (v22.7)
+- **Why friends' levels were stuck**: profiles stored badges as a list inside a list, which Firestore refuses. Once a player earned a badge, every profile update they sent failed quietly, so friends kept seeing an old level and "no logs yet". Badges are now saved as text, profiles are cleaned before saving, level changes are sent right away, and failed saves retry. Friends' levels fix themselves as soon as each friend opens the updated app once.
+- **Motion tracking**: before counting a rep, the app checks that it really sees a body: shoulders and hips (or both hands and shoulders for pull-ups) inside the picture, no sudden jumps between frames, and a steady body size. Waving a hand at the camera or a tracking glitch no longer counts reps. Depth limits are slightly more forgiving so real reps from imperfect angles count. If you move much closer or farther away, it re-learns your size in about a second.
+- **Mythic cutscene**: plays automatically for Mythic hatches (about 6 seconds, tap to skip, shorter with Reduce Motion on). Admins can preview it in Developer tools → Hatch preview.
+
 ## Levels and boss rewards (v22.6)
 - **Levels stay put**: once a day is over, the XP it earned is locked. Changing your goal, weight or calorie targets no longer rewrites old days. Logging more food for a past day, or a weigh-in or water for it, still updates that day. Friends see your level update within a couple of seconds of earning it, and get a pop-up when you level up.
 - **Replay cap**: a boss pays full rewards the first time, then 40%, 30%, 25%, 20% and 15% for the next 5 replays, then nothing (practice). The once-a-day limit per boss still applies. Only rewarded wins count toward boss totals, eggs and unlocks.
