@@ -354,12 +354,16 @@ On **Sign in**: **Forgot password?** sends a reset email (tell users to check sp
 ## Camera zoom, plank and sounds (v22)
 - **.5× zoom**: during a workout with the **back camera**, a **.5×** button appears at the top if the phone has an ultra-wide lens (most iPhones since the 11, many Androids). The front camera can't zoom out. The choice is remembered.
 - **Pull-ups** count facing the camera or with your back to it (v22.3). The counter measures how much the gap between your shoulders and your hands on the bar closes: a rep counts when you pull most of the way up (chin over the bar) and then return to a straight-arm hang. Start each set hanging with straight arms so it can measure your hang.
+- **Pull-up anti-cheat** (v22.4): a rep doesn't count if the hands move down instead of the body moving up, if the shoulders rise while the feet stay on the floor (checked when the feet are in view), or if the body shoots up faster than a real pull with straight arms (jumping). The app plays the miss sound and says why. Keep your feet in the frame for the strictest checking.
 - **Planks** only count on elbows or hands with hips off the floor; lying flat says "Prop up on your elbows or hands".
 - **Hit sounds**: normal hits play a bright two-note chime; critical hits keep the big sound.
 - **Screen recordings**: Settings → Alerts → **Sound in screen recordings** (on by default) plays game sounds and voice counting even with the silent switch on, so iPhone screen recordings capture them. It can pause music from other apps; turn it off to keep music playing.
 
 ## Live workouts: smoother playback (v22)
 Live workouts now send 15 frames a second with finer positions and the real camera shape, and viewers' phones buffer about a second and smooth between frames, so movement looks fluid instead of jumpy. Uses about the same database writes as before.
+
+## Weight goals (v22.5)
+Settings (tap your avatar) → **Goal**: pick **Lose weight**, **Maintain** or **Gain weight**, then type the pounds and weeks. The app stores losses as a negative change behind the scenes, so older goals carry over unchanged. Weight changes on the chart and recaps show + or −.
 
 ## Folding cards (v22)
 Fill your bars, the suggestion box and the admin sections (suggestions inbox, owner dashboard, reports, developer tools) fold with a tap on their title and remember how you left them.

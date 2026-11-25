@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="ps-version" content="22.3">
+<meta name="ps-version" content="22.5">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://firestore.googleapis.com" crossorigin>
 <link rel="modulepreload" href="https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js" crossorigin>
@@ -1240,8 +1240,9 @@ h3.clH,b.clH{display:flex;align-items:center;gap:8px}
         <option value="1.9">Extremely active (physical job + training)</option></select></label>
     </div>
     <div data-pane="goal" style="display:none">
-      <div class="g2">
-        <label class="f"><span>Weight change (lb)</span><input id="gChange" type="text" autocomplete="off" inputmode="decimal" placeholder="+10 gain / −10 lose"></label>
+      <div class="seg" id="gDir" role="group" aria-label="Goal" style="margin-bottom:10px"><button data-gdir="-1">Lose weight</button><button data-gdir="0">Maintain</button><button data-gdir="1">Gain weight</button></div>
+      <div class="g2" id="gChangeRow">
+        <label class="f"><span id="gChangeL">Pounds to lose</span><input id="gChange" type="text" autocomplete="off" inputmode="decimal" placeholder="10"></label>
         <label class="f"><span>Time frame (weeks)</span><input id="gWeeks" type="text" autocomplete="off" inputmode="numeric" placeholder="16"></label>
       </div>
       <div id="targets"></div>
@@ -1984,7 +1985,7 @@ let wRange=90;
 function renderBody(g){const all=S.weights.slice().sort((a,b)=>a.d<b.d?-1:1),from=ymd(dayOffset(wRange-1)),ws=all.filter(w=>w.d>=from),last=all.at(-1),t=g.t;
   const goal=+S.profile.change||0;
   $('wNow').innerHTML=last?`<b>${(+last.lb).toFixed(1)}</b><span>lb</span><div class="muted sm">${last.d===ymd(Date.now())?'weighed today':'last weigh-in '+new Date(last.d+'T12:00').toLocaleDateString(undefined,{month:'short',day:'numeric'})}${t&&S.profile.w?'':''}</div>`:'<div class="muted sm">No weigh-ins yet</div>';
-  if(ws.length>=2){const d=ws.at(-1).lb-ws[0].lb,good=goal<0?d<0:goal>0?d>0:Math.abs(d)<1;$('wDelta').className='wdelta '+(Math.abs(d)<.05?'':good?'good':'bad');$('wDelta').textContent=`${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)} lb`}else{$('wDelta').className='wdelta';$('wDelta').textContent=''}
+  if(ws.length>=2){const d=ws.at(-1).lb-ws[0].lb,good=goal<0?d<0:goal>0?d>0:Math.abs(d)<1;$('wDelta').className='wdelta '+(Math.abs(d)<.05?'':good?'good':'bad');$('wDelta').textContent=`${d>=0?'▲ +':'▼ −'}${Math.abs(d).toFixed(1)} lb`}else{$('wDelta').className='wdelta';$('wDelta').textContent=''}
   $('wRange').querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.wr===wRange));drawWeight(ws);renderComp();
   renderPhotos();const tw=S.weights.find(w=>w.d===ymd(Date.now()));$('wIn').placeholder=tw?`Today: ${(+tw.lb).toFixed(1)} lb (tap to change)`:"Today's weight (lb)"}
 $('wRange').addEventListener('click',e=>{const b=e.target.closest('[data-wr]');if(b){wRange=+b.dataset.wr;sfx('tap');render()}});
@@ -2826,7 +2827,7 @@ const EX={
   burpee:{name:'Burpees',one:'burpee',mult:2,home:1,tip:'Side-on, 8 feet back. Drop to a plank, then jump back up with arms overhead.',pts:[[LM.ls,LM.lh,LM.la],[LM.rs,LM.rh,LM.ra]]}
 };
 function makeCounter(ex,opt={}){
-  const minGap=opt.minGap??600;const PU={hang:0,rise:0,peak:0};let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
+  const minGap=opt.minGap??600;const PU={hang:0,rise:0,peak:0,wy0:null,sy0:0,ay0:null,tLow:0,bad:'',fresh:true};let state='up',ema=null,lastRep=-1e9,ext=null,dropped=false,topY=null,botY=null,lostAt=null,cue='',reps=0,good=0;
   const sm=v=>ema=ema==null?v:ema*0.5+v*0.5;
   function vis(lm,ids){return ids.every(i=>lm[i]&&(lm[i].visibility??1)>=0.5)}
   function frame(lm,t,asp=0.75){
@@ -2910,28 +2911,35 @@ function makeCounter(ex,opt={}){
       const tilt=Math.abs(Math.atan2(lm[h].y-lm[s].y,(lm[h].x-lm[s].x)*asp))*180/Math.PI,vert=Math.abs(90-tilt)<30,flat=Math.min(tilt,180-tilt)<35;
       if(state==='up'){if(flat){state='down';cue='Now jump up!'}else cue=reps?'Down to the floor!':'Drop to a plank'}
       else if(vert){state='up';if(t-lastRep>=Math.max(minGap,1200)){lastRep=t;reps++;good++;const armsUp=lm[LM.lw]&&lm[LM.lw].y<lm[LM.nose].y;ev={type:'rep',perfect:!!armsUp};cue=armsUp?'Perfect burpee!':'Good! Reach up on the jump'}}
-    }else{ // pull-ups: facing the camera or from behind. Wrists stay on the bar, so "rise" is how much the shoulder-to-hand gap closes.
-      const N=lm[LM.nose],ls=lm[LM.ls],rs=lm[LM.rs],lw=lm[LM.lw],rw=lm[LM.rw],ok=i=>lm[i]&&(lm[i].visibility??1)>=.3;
+    }else{ // pull-ups: facing the camera or from behind. Hands stay on the bar, so "rise" is how much the shoulder-to-hand gap closes.
+      const ls=lm[LM.ls],rs=lm[LM.rs],lw=lm[LM.lw],rw=lm[LM.rw],ok=(i,v=.3)=>lm[i]&&(lm[i].visibility??1)>=v;
       if(!(ok(LM.ls)&&ok(LM.rs)&&(ok(LM.lw)||ok(LM.rw)))){lostAt??=t;
-        if(state==='up'&&PU.rise>=.55){state='down';ext=ext??90;PU.peak=Math.max(PU.peak,PU.rise)} // lost tracking right at the top: count the top
+        if(state==='up'&&PU.rise>=.5&&!PU.bad){state='down';ext=ext??90;PU.peak=Math.max(PU.peak,PU.rise)} // tracking blinked right at the top: keep the top
         cue='Get your hands and shoulders in view';return null}lostAt=null;
       const wy=ok(LM.lw)&&ok(LM.rw)?(lw.y+rw.y)/2:ok(LM.lw)?lw.y:rw.y,sy=sm((ls.y+rs.y)/2),sw=Math.max(.02,Math.abs(ls.x-rs.x)*asp),d=sy-wy;
       const elb=ok(LM.le)&&ok(LM.re)?Math.max(angAt(ls,lm[LM.le],lw,asp),angAt(rs,lm[LM.re],rw,asp)):null;
-      if(d<-.8*sw&&state==='up'&&PU.rise<.3){cue='Grab the bar with your hands overhead';PU.hang=0;PU.rise=0;dropped=false;return null}
-      const straight=elb==null?d>=PU.hang*.92:elb>145;
-      if(state==='up'&&straight&&d>0)PU.hang=Math.max(PU.hang*.997,d);
+      const feet=ok(LM.la,.6)&&ok(LM.ra,.6)?(lm[LM.la].y+lm[LM.ra].y)/2:null;
+      if(d<-.8*sw&&state==='up'&&PU.rise<.3){cue='Grab the bar with your hands overhead';PU.hang=0;PU.rise=0;PU.wy0=null;dropped=false;return null}
+      const straight=elb==null?d>=PU.hang*.9:elb>140;
+      if(state==='up'&&straight&&d>0)PU.hang=Math.max(PU.hang*.995,d);
       if(!(PU.hang>0)){cue='Hang with straight arms to start';return null}
-      const rise=Math.max(0,Math.min(1.3,(PU.hang-d)/PU.hang));PU.rise=rise;
-      const top=rise>=.62;
+      const H=PU.hang,rise=Math.max(0,Math.min(1.3,(H-d)/H));PU.rise=rise;
+      if(state==='up'&&rise<.15){ // at the bottom: remember where the bar, shoulders and feet are
+        PU.wy0=PU.wy0==null?wy:PU.wy0*.8+wy*.2;if(PU.fresh){PU.sy0=sy;PU.ay0=feet;PU.fresh=false}else{if(sy>=PU.sy0){PU.sy0=sy;if(feet!=null)PU.ay0=feet}}PU.tLow=t}
       if(state==='up'){
-        if(rise>=.25)dropped=true;
-        if(top){state='down';ext=elb??90;PU.peak=rise;dropped=false;cue='Now lower all the way down'}
-        else if(dropped&&rise<.12){dropped=false;ev={type:'partial'};cue='Pull higher: chin over the bar'}
+        if(rise<.15)PU.low=true;if(rise>=.3&&PU.low)dropped=true;
+        if(rise>=.58&&PU.wy0!=null){
+          // anti-cheat: the body has to go up to the bar, not the hands down to the body
+          const up=PU.sy0-sy,handsMoved=Math.abs(wy-PU.wy0)>.4*H,legs=PU.ay0!=null&&feet!=null&&up>0&&(PU.ay0-feet)<.25*up,quick=t-PU.tLow<100,armsStraight=elb!=null&&elb>135;
+          PU.bad=handsMoved||up<.35*H?'Keep your hands on the bar and pull your body up':legs?'Feet off the floor: pull with your arms, not your legs':quick||armsStraight?'No jumping: pull with your arms':'';
+          state='down';ext=elb??90;PU.peak=rise;dropped=false;PU.fresh=true;PU.low=false;cue=PU.bad||'Now lower all the way down'}
+        else if(dropped&&rise<.12){dropped=false;PU.low=true;ev={type:'partial'};cue='Pull higher: chin over the bar'}
         else cue=dropped?'Higher… chin over the bar':reps?'Pull again!':'Pull until your chin clears the bar'}
       else{if(elb!=null)ext=Math.min(ext,elb);PU.peak=Math.max(PU.peak,rise);
-        if(rise<.25&&(elb==null||elb>140)){state='up';
-          if(t-lastRep>=minGap){lastRep=t;reps++;good++;const perf=PU.peak>=.9;ev={type:'rep',perfect:perf,depth:ext};cue=perf?'Perfect pull-up!':'Good rep!'}else{ev={type:'fast'};cue='Control the way down'}ext=null}
-        else if(rise>=.25)cue='Now lower all the way down'}
+        if(rise<.3&&(elb==null||elb>130)){state='up';
+          if(PU.bad){ev={type:'partial'};cue=PU.bad;PU.bad=''}
+          else if(t-lastRep>=minGap){lastRep=t;reps++;good++;const perf=PU.peak>=.9;ev={type:'rep',perfect:perf,depth:ext};cue=perf?'Perfect pull-up!':'Good rep!'}else{ev={type:'fast'};cue='Control the way down'}ext=null}
+        else if(rise>=.3)cue=PU.bad||'Now lower all the way down'}
     }
     return ev;
   }
@@ -3347,7 +3355,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!FT_IN[
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches||!/^(obIn|pIn)$/.test(el.id))return;const v=Math.round(parseFloat(el.value)||0);if(v<12)return;const ft=$(el.id==='obIn'?'obFt':'pFt');ft.value=(+ft.value||0)+Math.floor(v/12);el.value=v%12;ft.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('input',{bubbles:true}))},true);
 
 // ================= quality of life =================
-const APP_VERSION='22.3';
+const APP_VERSION='22.5';
 // quick actions on Today
 document.addEventListener('click',e=>{const q=e.target.closest('[data-qa]');if(!q)return;const k=q.dataset.qa;sfx('tap');
   if(k==='scan')openScan();else if(k==='barcode'){openScan();setTimeout(()=>$('bcBtn').click(),350)}
@@ -5105,6 +5113,9 @@ CHANGELOG.unshift({v:'22',d:'Nov 24, 2026',t:'Your own 3D gym, avatars everywher
 GUIDE.unshift(['Your gym','Menu → Gym. Tap Edit, then a glowing spot to place equipment or wall decor. Style changes the floor, walls and lighting, and Shop shows everything. Most items cost gold; some unlock from daily quests, levels or bosses, and each month’s boss gives a holiday decoration you can only get that month. Tap ✏️ to name your gym. Friends can visit from Friends’ gyms or your profile and leave a like; more and better items earn more stars.']);
 GUIDE.unshift(['Signing in','Forgot your password? Tap Forgot password? and we email a reset link (check spam). Forgot your email? Tap Forgot email? to see the one last used on this phone, plus tips to find it.']);
 GUIDE.unshift(['Camera, zoom and sound','In a workout with the back camera, tap .5× (top of the screen) to zoom out on phones with an ultra-wide lens. Planks only count on your elbows or hands with your hips off the floor. To capture sound in a screen recording, keep Settings → Alerts → Sound in screen recordings on.']);
+CHANGELOG.unshift({v:'22.5',d:'Nov 24, 2026',t:'Easy weight-loss goals',items:['Setting a weight-loss goal is easy now: Settings → Goal has Lose weight, Maintain and Gain weight buttons, so you just type how many pounds. No minus sign needed (the iPhone keypad doesn’t have one).','Weight changes show a plus or minus sign, like “▼ −5.0 lb” on your weight chart.']});
+GUIDE.unshift(['Weight goals','Tap your avatar (top right) → Goal. Pick Lose weight, Maintain or Gain weight, type how many pounds and how many weeks. Your calories, protein, fat and carbs update right away.']);
+CHANGELOG.unshift({v:'22.4',d:'Nov 24, 2026',t:'Cheat-proof pull-ups',items:['Pull-ups can’t be cheated: lowering your hands to your shoulders, pushing up with your legs while your feet are on the floor, or jumping to the bar doesn’t count. It plays the miss sound and tells you why.','More real reps count: it no longer needs a perfect dead hang between reps, handles fast and explosive reps, works close to or far from the camera, and doesn’t play a false “pull higher” right after a good rep.']});
 CHANGELOG.unshift({v:'22.3',d:'Nov 24, 2026',t:'Pull-ups that actually count',items:['Pull-ups rebuilt: the counter now watches how far your shoulders rise toward your hands on the bar, so it works from behind, from far away and with .5× zoom. It no longer resets at the top when your shoulders reach the bar, and it still counts if your hands briefly drop out of view at the top. Half reps still don’t count.']});
 CHANGELOG.unshift({v:'22.2',d:'Nov 24, 2026',t:'Pull-ups from behind',items:['Pull-ups now count with your back to the camera too. Turn around so the camera sees your back, hands and shoulders; it checks that your head clears the bar and your arms bend, the same as facing it.']});
 CHANGELOG.unshift({v:'22.1',d:'Nov 24, 2026',t:'Party invite fix',items:['The quote of the day is back on Today. Your pet’s message now shows under it instead of replacing it.','Your avatar in the top bar is centered again, and its red notification dot is no longer cut off.','Fixed party invites for the monthly boss: inviting a friend you already invited, or after your saved party went away, no longer fails. It clears the old invite or starts a fresh party automatically.']});
@@ -5313,6 +5324,17 @@ function gaFlow(){const st=needGetApp(),and=/Android/i.test(navigator.userAgent)
       go:()=>{done();if(iosWeb){openSettings('remind');setTimeout(()=>{const c=$('calCard');if(c)c.scrollIntoView({block:'center',behavior:'smooth'})},400)}else if(mode!=='cloud')showAuth('signup');else{const sw=$('remOn');sw.checked=true;sw.dispatchEvent(new Event('change',{bubbles:true}))}},skip:done})};
   next()}
 openGetApp=gaFlow;
+// v22.5: pick Lose / Maintain / Gain instead of typing a minus sign (iPhone number pads have no minus key)
+let gSign=null;const gDirOf=()=>{if(gSign!=null)return gSign;const c=+S.profile.change||0;return c<0?-1:c>0?1:(S.profile.gdir!=null?+S.profile.gdir:0)};
+function gDirUI(){gSign=null;const d=gDirOf();gSign=d;const seg=$('gDir');if(!seg)return;seg.querySelectorAll('[data-gdir]').forEach(b=>b.classList.toggle('on',+b.dataset.gdir===d));
+  const inp=$('gChange'),c=+S.profile.change||0;if(document.activeElement!==inp)inp.value=c?String(Math.abs(c)):'';
+  $('gChangeL').textContent=d<0?'Pounds to lose':'Pounds to gain';$('gChangeRow').style.display=d===0?'none':'';requestAnimationFrame(()=>segInd(seg))}
+{const _ff=fillFields;fillFields=function(){_ff();gDirUI()}}
+$('gChange').addEventListener('input',()=>{const raw=$('gChange').value,v=Math.abs(parseFloat(raw)||0);let d=gDirOf();if(raw.trim().startsWith('-'))d=-1;if(d===0)d=-1;
+  gSign=d;S.profile.gdir=d;S.profile.change=v?String(d*v):'';$('gChange').value=v||raw.replace('-','')?String(raw).replace(/^[-+]/,''):'';store.saveMeta();renderGoal();render();gDirUI()});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-gdir]');if(!b)return;const d=+b.dataset.gdir,v=Math.abs(+S.profile.change||0)||Math.abs(parseFloat($('gChange').value)||0);
+  gSign=d;S.profile.gdir=d;S.profile.change=d===0?'':v?String(d*v):'';store.saveMeta();renderGoal();render();gDirUI();sfx('tap');if(d!==0&&!v)setTimeout(()=>$('gChange').focus(),50)});
+
 {const _ec=eggCheck;eggCheck=function(g){if($('auth')&&$('auth').classList.contains('on'))return;return _ec(g)}}
 {const _et=endTour;endTour=function(){_et();setTimeout(()=>maybeGetApp(),1200)}}
 // camera: .5x zoom (ultra-wide) when the phone has it

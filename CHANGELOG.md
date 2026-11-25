@@ -2,6 +2,14 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v22.5: Easy weight-loss goals (Nov 24, 2026)
+- Setting a weight-loss goal is easy now: Settings → Goal has Lose weight, Maintain and Gain weight buttons, so you just type how many pounds. No minus sign needed (the iPhone keypad doesn’t have one).
+- Weight changes show a plus or minus sign, like “▼ −5.0 lb” on your weight chart.
+
+## v22.4: Cheat-proof pull-ups (Nov 24, 2026)
+- Pull-ups can’t be cheated: lowering your hands to your shoulders, pushing up with your legs while your feet are on the floor, or jumping to the bar doesn’t count. It plays the miss sound and tells you why.
+- More real reps count: it no longer needs a perfect dead hang between reps, handles fast and explosive reps, works close to or far from the camera, and doesn’t play a false “pull higher” right after a good rep.
+
 ## v22.3: Pull-ups that actually count (Nov 24, 2026)
 - Pull-ups rebuilt: the counter now watches how far your shoulders rise toward your hands on the bar, so it works from behind, from far away and with .5× zoom. It no longer resets at the top when your shoulders reach the bar, and it still counts if your hands briefly drop out of view at the top. Half reps still don’t count.
 
