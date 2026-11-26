@@ -144,6 +144,29 @@ service cloud.firestore {
 
     // Suggestion box: anyone signed in can send; only you (the admin) can read them all
     // Game settings that admins tune for everyone (boss health)
+    // v23: automatic bug reports. Players can only write their own; only admins can read or clear them.
+    match /errors/{eid} {
+      allow create, update: if signedIn() && request.resource.data.uid == me()
+        && eid.matches('^' + me() + '_[a-z0-9]{1,16}$')
+        && request.resource.data.msg is string && request.resource.data.msg.size() <= 300
+        && request.resource.data.stack is string && request.resource.data.stack.size() <= 1200;
+      allow read, delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
+    }
+    // v23: monthly boss race. The first 3 players (or parties) to beat this month's boss claim a podium spot.
+    function wonThisMonth(m) {
+      let u = get(/databases/$(database)/documents/users/$(me())).data;
+      return ('mb' in u) && u.mb.key == m && u.mb.won == true && (u.mb.get('replay', 0) == 0 || u.mb.get('replay', 0) == null);
+    }
+    match /firsts/{fid} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.uid == me()
+        && fid.matches('^[0-9]{4}-[0-9]{2}_[1-3]$')
+        && request.resource.data.m == fid.split('_')[0]
+        && request.resource.data.place == int(fid.split('_')[1])
+        && request.resource.data.name is string && request.resource.data.name.size() <= 30
+        && wonThisMonth(request.resource.data.m)
+        && (request.resource.data.place == 1 || exists(/databases/$(database)/documents/firsts/$(request.resource.data.m + '_' + string(request.resource.data.place - 1))));
+    }
     match /config/{id} {
       allow read: if true;
       allow write: if signedIn() && exists(/databases/$(database)/documents/admins/$(me()));
@@ -394,6 +417,9 @@ Live workouts now send 15 frames a second with finer positions and the real came
 - **Invite rewards ladder**: exclusive items need `['ref', n]` (friends who joined with your link or code): Recruiter banner (1), VIP lounge background (3), Party time habitat (5), Legendary Ambassador banner + Golden Egg (10). Referral bonus: 250 gold + 300 XP for both (`REF_GOLD`, `REF_XP`). Friend codes entered in a player's first 3 days also count as referrals.
 - **Changing monthly difficulty**: allowed until the player's first rep on it, while no friend has joined (`mbCanChange`).
 - **Party invites**: stored in `mpInv`. The friend sees a pop-up and a bell badge. Players who already won this month can join as a replay. Phone notifications for invites, duels, nudges and pet alerts all come from the reminder job, so the friend needs notifications on, and they arrive on the job's next run. Upload `.github/workflows/reminders.yml` from this update to make that every 5 minutes; the repo's copy still runs once an hour.
+- **Monthly boss race**: the first 3 to beat each month's boss claim `firsts/{YYYY-MM}_{1-3}`. The database rules check that the player really beat this month's boss (not a replay), and that spots fill in order. Prizes are in `RACE` in index.html. Party members share their party's spot. **Publish the updated rules**, or nobody can claim a spot.
+- **Getting started checklist** (`FD` in index.html): new players only (same ones who get the simpler first week). Steps pay 50, 75, 50 and 50 gold, plus 100 gold and a Basic Egg for finishing all four. Players can hide it.
+- **Bug reports**: uncaught errors from signed-in players are saved to `errors/{uid}_{hash}` (at most 6 per app open, duplicates are counted instead of repeated). Admins see them in Developer tools → Bug reports and tap "Mark fixed" to clear one. **Publish the updated rules** (the `errors` section) or reports can't be saved.
 - **Recognizer worker**: the AI model runs in a Web Worker (`CLIPW_SRC`), so the page never freezes. If a phone can't start the worker, the app falls back to the main thread (`platescan.noWorker`).
 - **Food recognizer**: phones download only the vision model up front (`loadClip`). The food list embeddings are shared in Firestore at `config/femb` (about 550 KB). An admin's phone uploads them automatically after it has them (scan one photo as admin after each update that changes the food list). Other phones download that instead of the text model, which skips the slow "Learning the food list" step. If `config/femb` is missing or out of date, phones fall back to learning it themselves.
 - **Pop-ups on reopen**: reward and pop-up checks wait until the account data has loaded. "Already shown" markers are saved in the account (`seenK`) as well as on the phone.
