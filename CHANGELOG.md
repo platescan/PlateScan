@@ -2,6 +2,10 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v23.4: Admin reward sliders (Nov 26, 2026)
+- Admins: Rewards sliders in Developer tools (under Boss health). XP and gold 0–300% for bosses, monthly boss, event bosses, training dummy, daily login, chest, pet gifts, monthly race and referrals, with live previews. Saved to `config/game` for everyone.
+- Boss health and reward saves now merge instead of overwriting each other.
+
 ## v23.3: LIVE tags, badge equipping, fairer grades and more (Nov 26, 2026)
 - Lots more brand-name foods built in (about 140 new, close to 800 total): Burger King, Domino’s, Pizza Hut, Panera, Jersey Mike’s, Jimmy John’s, Sonic, Arby’s, Whataburger, Culver’s, Shake Shack, Wingstop, Cava, Sweetgreen, Olive Garden, Costco and Kirkland, plus protein bars and shakes, yogurts, cereals, breads, chips, cookies, frozen meals, deli meats, sauces and drinks. If the built-in list has fewer than 4 matches, the app now searches the online food database on its own (popular US products first), so most packaged foods show up as you type. Scanning a barcode still fills in the exact label values.
 - Admins can change boss health for everyone: Settings → Help → Developer tools → Boss health. One slider for all bosses, one per difficulty, and one for new monthly bosses (20%–300%), showing the real boss HP and reps for each difficulty (first and last boss) and the monthly boss HP. Save for everyone applies it to every player within seconds. Fights already going and this month’s boss keep their health.
