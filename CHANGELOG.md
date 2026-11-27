@@ -2,6 +2,10 @@
 
 The same notes are in the app under Settings → Help → Patch notes.
 
+## v23.5: Replay timer and stricter high knees (Nov 26, 2026)
+- Boss replay timer shows from your second replay. The 1-hour window starts at your first rewarded replay; when it ends the replay count resets (and you get a push if you'd hit the cap).
+- High knees must alternate quickly: each lift up and down within 0.7 s, the other knee up within 0.6 s. Slow lifts, pauses and one-leg lifts don't count; the first lift after a pause starts the chain.
+
 ## v23.4: Admin reward sliders (Nov 26, 2026)
 - Admins: Rewards sliders in Developer tools (under Boss health). XP and gold 0–300% for bosses, monthly boss, event bosses, training dummy, daily login, chest, pet gifts, monthly race and referrals, with live previews. Saved to `config/game` for everyone.
 - Boss health and reward saves now merge instead of overwriting each other.
